@@ -13,7 +13,7 @@ import { BusinessLogicError } from '@/repositories/BaseRepository';
 import Pagination from '@/common_components/PaginationComponent.vue';
 import SearchBar from '@/common_components/SearchBar.vue';
 import { debounce } from '@/utils/searchUtils';
-import OrgInviteItem from '@/views/org/manage/invite/OrgInviteItem.vue';
+import OrgInviteItem from '@/views/org/invites/invite/OrgInviteItem.vue';
 import BoxLoader from '@/common_components/BoxLoader.vue';
 import BorderCard from '@/common_components/cards/BorderCard.vue';
 import SortableTable from '@/common_components/tables/SortableTable.vue';
@@ -160,7 +160,7 @@ onMounted(() => {
                         <RouterLink
                             :to="{
                                 name: 'orgAddInvite',
-                                params: { orgId: orgId }
+                                params: { action: 'add', page: 'invites', orgId: orgId }
                             }"
                         >
                             <BorderCard :hover="true" :slim="true">

@@ -7,7 +7,6 @@ import {
 import router from '@/router';
 import { Icon } from '@iconify/vue';
 import { ref, type Ref } from 'vue';
-import { useRoute } from 'vue-router';
 import OrgHeaderItem from '@/views/org/subcomponents/OrgHeaderItem.vue';
 import { IntegrationsRepository } from '@/repositories/IntegrationsRepository';
 import { IntegrationProvider, type VCS } from '@/repositories/types/entities/Integrations';
@@ -25,38 +24,31 @@ const authStore = useAuthStore();
 
 const integrationRepo: IntegrationsRepository = new IntegrationsRepository();
 
-const orgId: Ref<string> = ref('');
 const orgInfo: Ref<Organization | undefined> = ref();
 const vcsIntegrations: Ref<VCS[]> = ref([]);
 const loading: Ref<boolean> = ref(false);
 const error: Ref<boolean> = ref(false);
 const errorCode: Ref<string | undefined> = ref();
 
+const props = defineProps<{
+    orgId: string;
+}>();
+
 function setOrgInfo(_orgInfo: Organization) {
     orgInfo.value = _orgInfo;
     if (!isMemberRoleGreaterOrEqualTo(_orgInfo.role, MemberRole.ADMIN)) {
-        router.push({ name: 'orgManage', params: { page: '', orgId: _orgInfo.id } });
+        router.push({
+            name: 'orgs',
+            params: { action: 'manage', page: 'integrations', orgId: _orgInfo.id }
+        });
     }
 }
 
 async function init() {
-    const route = useRoute();
-    const _orgId = route.params.orgId;
-
-    if (!_orgId) {
-        router.back();
-    }
-
-    if (typeof _orgId == 'string') {
-        orgId.value = _orgId;
-        await fetchVcsIntegrations();
-    } else {
-        router.back();
-    }
+    await fetchVcsIntegrations();
 }
 
 async function fetchVcsIntegrations(refresh: boolean = false) {
-    if (!orgId.value) return;
     if (!(authStore.getAuthenticated && authStore.getToken)) return;
 
     error.value = false;
@@ -65,7 +57,7 @@ async function fetchVcsIntegrations(refresh: boolean = false) {
 
     try {
         const resp = await integrationRepo.getVCS({
-            orgId: orgId.value,
+            orgId: props.orgId,
             bearerToken: authStore.getToken,
             pagination: {
                 page: 0,
@@ -207,8 +199,9 @@ init();
                             <RouterLink
                                 class="integration-box-wrapper-item"
                                 :to="{
-                                    name: 'orgManageIntegration',
-                                    params: {
+                                    name: 'orgs',
+                                    params: { action: 'edit', page: 'integrations', orgId: orgId },
+                                    query: {
                                         provider: IntegrationProvider.GITHUB,
                                         integrationId: vcs.id
                                     }
@@ -287,8 +280,9 @@ init();
                             "
                             class="integration-box-wrapper-item"
                             :to="{
-                                name: 'orgAddIntegration',
-                                params: { provider: IntegrationProvider.GITLAB }
+                                name: 'orgs',
+                                params: { action: 'add', page: 'integrations', orgId: orgId },
+                                query: { provider: IntegrationProvider.GITLAB }
                             }"
                         >
                             <BorderCard :hover="true" :integration="true">

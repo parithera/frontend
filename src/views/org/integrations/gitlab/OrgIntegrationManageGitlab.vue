@@ -1,45 +1,45 @@
 <script lang="ts" setup>
 import { BusinessLogicError } from '@/repositories/BaseRepository';
 import { IntegrationsRepository } from '@/repositories/IntegrationsRepository';
-import {
-    IntegrationProvider,
-    type GithubIntegration
-} from '@/repositories/types/entities/Integrations';
+import { IntegrationProvider, GitlabIntegration } from '@/repositories/types/entities/Integrations';
 import { APIErrors } from '@/repositories/types/errors/ApiErrors';
 import router from '@/router';
 import { useAuthStore } from '@/stores/auth';
 import { Icon } from '@iconify/vue';
 import { ref, type Ref } from 'vue';
 import { useRoute } from 'vue-router';
-import OrgIntegrationManageTokenBasedIntegration from '@/views/org/subcomponents/OrgIntegrationManageTokenBasedIntegration.vue';
+import OrgIntegrationManageTokenBasedIntegration from '@/views/org/integrations/OrgIntegrationManageTokenBasedIntegration.vue';
 import { errorToast, successToast } from '@/utils/toasts';
-import { GithubTokenType } from '@/repositories/types/postBodies/IntegrationAdd';
+import { GitlabTokenType } from '@/repositories/types/postBodies/IntegrationAdd';
 
-const integration: Ref<GithubIntegration | undefined> = ref();
+const integration: Ref<GitlabIntegration | undefined> = ref();
 
 // Repositories
 const integrationRepo: IntegrationsRepository = new IntegrationsRepository();
 
 // State
-const orgId: Ref<string | undefined> = ref();
 const integrationId: Ref<string | undefined> = ref();
 const error: Ref<boolean> = ref(false);
 const errorCode: Ref<string | undefined> = ref('');
 const loading: Ref<boolean> = ref(false);
 
+const props = defineProps<{
+    orgId: string;
+}>();
+
 // Stores
 const authStore = useAuthStore();
 
 async function fetchIntegration() {
-    if (!orgId.value || !integrationId.value) return;
+    if (!integrationId.value) return;
     if (!(authStore.getAuthenticated && authStore.getToken)) return;
 
     error.value = false;
     errorCode.value = undefined;
 
     try {
-        const _integration = await integrationRepo.getGithubIntegration({
-            orgId: orgId.value,
+        const _integration = await integrationRepo.getGitlabIntegration({
+            orgId: props.orgId,
             integrationId: integrationId.value,
             bearerToken: authStore.getToken,
             handleBusinessErrors: true
@@ -58,29 +58,23 @@ async function fetchIntegration() {
 
 async function init() {
     const route = useRoute();
-    const _orgId = route.params.orgId;
-    const _integrationId = route.params.integrationId;
+    const _integrationId = route.query.integrationId as string;
 
-    if (!_orgId || !_integrationId) {
+    if (!_integrationId) {
         router.back();
     }
 
-    if (typeof _orgId == 'string' && typeof _integrationId == 'string') {
-        orgId.value = _orgId;
-        integrationId.value = _integrationId;
-        await fetchIntegration();
-    } else {
-        router.back();
-    }
+    integrationId.value = _integrationId;
+    await fetchIntegration();
 }
 
 async function deleteIntegration() {
-    if (!orgId.value || !integrationId.value) return;
+    if (!integrationId.value) return;
     if (!(authStore.getAuthenticated && authStore.getToken)) return;
 
     try {
-        await integrationRepo.deleteGithubIntegration({
-            orgId: orgId.value,
+        await integrationRepo.deleteGitlabIntegration({
+            orgId: props.orgId,
             integrationId: integrationId.value,
             bearerToken: authStore.getToken,
             handleBusinessErrors: true
@@ -108,36 +102,32 @@ async function deleteIntegration() {
 init();
 </script>
 <template>
-    <main class="p-12">
-        <OrgIntegrationManageTokenBasedIntegration
-            v-if="!loading && integration != undefined && integration != null"
-            :error="error"
-            :error-code="errorCode"
-            :integration="integration"
-            :provider="IntegrationProvider.GITHUB"
-            :update-route="{
-                name: 'orgUpdateIntegration',
-                params: { orgId: orgId, provider: IntegrationProvider.GITHUB },
-                query: { update: integrationId }
-            }"
-            @refresh="fetchIntegration()"
-            @delete="deleteIntegration()"
-        >
-            <template #header-integration-icon>
-                <Icon icon="devicon:github" class="icon integration-icon"></Icon>
-            </template>
-            <template #header-integration-name> Github </template>
-            <template #header-integration-description>
-                Your organization is linked to Github.
-            </template>
-            <template #token-type>
-                <div v-if="integration.token_type == GithubTokenType.CLASSIC_TOKEN">
-                    Classic Token
-                </div>
-                <div v-else-if="integration.token_type == GithubTokenType.OAUTH_TOKEN">
-                    OAuth Token
-                </div>
-            </template>
-        </OrgIntegrationManageTokenBasedIntegration>
-    </main>
+    <OrgIntegrationManageTokenBasedIntegration
+        v-if="!loading && integration != undefined && integration != null"
+        :error="error"
+        :error-code="errorCode"
+        :integration="integration"
+        :provider="IntegrationProvider.GITHUB"
+        :update-route="{
+            name: 'orgs',
+            params: { action: 'manage', page: 'integrations', orgId: orgId },
+            query: { update: integrationId, provider: IntegrationProvider.GITHUB }
+        }"
+        @refresh="fetchIntegration()"
+        @delete="deleteIntegration()"
+    >
+        <template #header-integration-icon>
+            <Icon icon="devicon:gitlab" class="icon integration-icon"></Icon>
+        </template>
+        <template #header-integration-name> GitLab </template>
+        <template #header-integration-description>
+            Your organization is linked to GitLab.
+        </template>
+        <template #token-type>
+            <div v-if="integration.token_type == GitlabTokenType.PERSONAL_ACCESS_TOKEN">
+                Personal Access Token
+            </div>
+            <div v-else-if="integration.token_type == GitlabTokenType.OAUTH_TOKEN">OAuth Token</div>
+        </template>
+    </OrgIntegrationManageTokenBasedIntegration>
 </template>

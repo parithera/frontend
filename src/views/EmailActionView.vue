@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useStateStore } from '@/stores/state';
-import EmailActionJoinOrg from '@/views/org/OrgJoin.vue';
+import EmailActionJoinOrg from '@/views/org/invites/OrgJoin.vue';
 import PasswordResetForm from '@/views/login/PasswordResetForm.vue';
 import ConfirmRegistration from '@/views/login/ConfirmRegistration.vue';
 

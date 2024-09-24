@@ -18,18 +18,10 @@ import SignupView from '@/views/SignupView.vue';
 import SettingsView from '@/views/SettingsView.vue';
 import OAuthCallbackView from '@/views/OAuthCallbackView.vue';
 import PasswordResetRequestView from '@/views/PasswordResetRequestView.vue';
-import OrgsView from '@/views/OrgsView.vue';
-import OrgManageView from '@/views/OrgManageView.vue';
+import OrganizationView from '@/views/OrganizationView.vue';
 import DashboardView from '@/views/DashboardView.vue';
-import OrgIntegrationsCreateView from '@/views/OrgIntegrationsCreateView.vue';
 import HelpView from '@/views/HelpView.vue';
 import EmailActionView from '@/views/EmailActionView.vue';
-import OrgIntegrationsManageView from '@/views/OrgIntegrationsManageView.vue';
-import OrgAnalyzersCreateView from '@/views/OrgAnalyzersCreateView.vue';
-import OrgAnalyzersManageView from '@/views/OrgAnalyzersManageView.vue';
-import OrgPoliciesCreateView from '@/views/OrgPoliciesCreateView.vue';
-import OrgPoliciesManageView from '@/views/OrgPoliciesManageView.vue';
-import OrgManageInviteCreateView from '@/views/org/OrgManageInviteCreate.vue';
 import type { Organization } from '@/repositories/types/entities/Organization';
 
 const router = createRouter({
@@ -70,63 +62,9 @@ const router = createRouter({
             component: HelpView
         },
         {
-            path: '/orgs/:page?',
+            path: '/orgs/:action?/:page?/:orgId?/',
             name: 'orgs',
-            component: OrgsView,
-            props: true
-        },
-        {
-            path: '/org/manage/:orgId/:page?',
-            name: 'orgManage',
-            component: OrgManageView,
-            props: true
-        },
-        {
-            path: '/org/manage/:orgId/integrations/manage/:provider/:integrationId',
-            name: 'orgManageIntegration',
-            component: OrgIntegrationsManageView,
-            props: true
-        },
-        {
-            path: '/org/manage/:orgId/integrations/add/:provider',
-            name: 'orgAddIntegration',
-            component: OrgIntegrationsCreateView,
-            props: true
-        },
-        {
-            path: '/org/manage/:orgId/invitations/add',
-            name: 'orgAddInvite',
-            component: OrgManageInviteCreateView,
-            props: true
-        },
-        {
-            path: '/org/manage/:orgId/integrations/update/:provider',
-            name: 'orgUpdateIntegration',
-            component: OrgIntegrationsCreateView,
-            props: true
-        },
-        {
-            path: '/org/manage/:orgId/analyzer/manage',
-            name: 'orgManageAnalyzer',
-            component: OrgAnalyzersManageView,
-            props: true
-        },
-        {
-            path: '/org/manage/:orgId/analyzer/add/',
-            name: 'orgAddAnalyzer',
-            component: OrgAnalyzersCreateView,
-            props: true
-        },
-        {
-            path: '/org/manage/:orgId/policy/manage',
-            name: 'orgManagePolicy',
-            component: OrgPoliciesManageView,
-            props: true
-        },
-        {
-            path: '/org/manage/:orgId/policy/add/',
-            name: 'orgAddPolicy',
-            component: OrgPoliciesCreateView,
+            component: OrganizationView,
             props: true
         },
         {

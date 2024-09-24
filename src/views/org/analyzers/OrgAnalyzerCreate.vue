@@ -107,6 +107,10 @@ async function init() {
         router.back();
     }
 
+    if (!authStore.getToken) {
+        throw new Error('No default org selected');
+    }
+
     if (typeof _orgId == 'string') {
         orgId.value = _orgId;
     } else {
@@ -115,7 +119,7 @@ async function init() {
 
     try {
         const resp = await pluginRepo.geAllPlugins({
-            bearerToken: authStore.getToken ?? ''
+            bearerToken: authStore.getToken
         });
         plugins.value = resp.data;
         addPluginsToGraph();
@@ -134,6 +138,11 @@ function addPluginsToGraph() {
     for (let index = 0; index < plugins.value.length; index++) {
         const element = plugins.value[index];
         const title = element.name;
+
+        if (title == 'codeql' || title == 'notifier:v0.0.0') {
+            continue;
+        }
+        
 
         const new_type = createNode(title, element, graph, nodes, nodes_to_link);
 

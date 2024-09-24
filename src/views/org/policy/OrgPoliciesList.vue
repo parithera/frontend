@@ -6,7 +6,6 @@ import {
 } from '@/repositories/types/entities/Organization';
 import router from '@/router';
 import { ref, type Ref } from 'vue';
-import { useRoute } from 'vue-router';
 import { useAuthStore } from '@/stores/auth';
 import OrgHeaderItem from '@/views/org/subcomponents/OrgHeaderItem.vue';
 import BlueButton from '@/common_components/buttons/BlueButton.vue';
@@ -17,7 +16,12 @@ import { Icon } from '@iconify/vue';
 import type { LicensePolicy } from '@/repositories/types/entities/LicensePolicy';
 import BoxLoader from '@/common_components/BoxLoader.vue';
 const orgInfo: Ref<Organization | undefined> = ref();
-const orgId: Ref<string> = ref('');
+
+const props = defineProps<{
+    page: string;
+    orgId: string;
+    action?: string;
+}>();
 
 const loading: Ref<boolean> = ref(false);
 const error: Ref<boolean> = ref(false);
@@ -36,7 +40,6 @@ function setOrgInfo(_orgInfo: Organization) {
 }
 
 async function fetchPolicies(refresh: boolean = false) {
-    if (!orgId.value) return;
     if (!(authStore.getAuthenticated && authStore.getToken)) return;
 
     error.value = false;
@@ -45,7 +48,7 @@ async function fetchPolicies(refresh: boolean = false) {
 
     try {
         const resp = await licensePolicyRepository.getLicensePolicies({
-            orgId: orgId.value,
+            orgId: props.orgId,
             bearerToken: authStore.getToken,
             handleBusinessErrors: true,
             page: 0,
@@ -63,23 +66,7 @@ async function fetchPolicies(refresh: boolean = false) {
     }
 }
 
-function init() {
-    const route = useRoute();
-    const _orgId = route.params.orgId;
-
-    if (!_orgId) {
-        router.back();
-    }
-
-    if (typeof _orgId == 'string') {
-        orgId.value = _orgId;
-        fetchPolicies();
-    } else {
-        router.back();
-    }
-}
-
-init();
+fetchPolicies();
 </script>
 <template>
     <div class="flex flex-col gap-8 org-members-manage-wrapper">
@@ -145,13 +132,13 @@ init();
                             <RouterLink
                                 class="integration-box-wrapper-iteme"
                                 :to="{
-                                    name: 'orgManagePolicy',
+                                    name: 'orgs',
                                     params: {
-                                        orgId: orgId
+                                        page: 'policy',
+                                        orgId: orgId,
+                                        action: 'edit'
                                     },
-                                    query: {
-                                        policyId: licensePolicy.id
-                                    }
+                                    query: { policyId: licensePolicy.id }
                                 }"
                             >
                                 <BorderCard :hover="true" :integration="true">
@@ -176,7 +163,12 @@ init();
                         <RouterLink
                             class="integration-box-wrapper-item"
                             :to="{
-                                name: 'orgAddPolicy'
+                                name: 'orgs',
+                                params: {
+                                    page: 'policy',
+                                    orgId: orgId,
+                                    action: 'add'
+                                }
                             }"
                         >
                             <BorderCard :hover="true" :integration="true">

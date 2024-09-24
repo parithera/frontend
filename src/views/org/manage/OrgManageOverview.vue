@@ -5,8 +5,7 @@ import { MemberRole, type Organization } from '@/repositories/types/entities/Org
 import { APIErrors } from '@/repositories/types/errors/ApiErrors';
 import router from '@/router';
 import { useAuthStore } from '@/stores/auth';
-import { onMounted, ref, type Ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, type Ref } from 'vue';
 import { Icon } from '@iconify/vue';
 import OrgHeaderItem from '@/views/org/subcomponents/OrgHeaderItem.vue';
 import CenteredModal from '@/common_components/CenteredModal.vue';
@@ -21,10 +20,14 @@ const authStore = useAuthStore();
 const orgRepo: OrgRepository = new OrgRepository();
 
 const orgInfo: Ref<Organization | undefined> = ref();
-const orgId: Ref<string> = ref('');
 const orgActionModalRef: any = ref(null);
 const orgAction: Ref<string> = ref('');
 const orgActionId: Ref<string> = ref('');
+
+defineProps<{
+    page: string;
+    orgId: string;
+}>();
 
 enum OrgAction {
     DELETE = 'delete',
@@ -91,25 +94,6 @@ async function leaveOrg(orgId: string) {
     }
 }
 
-onMounted(() => {
-    init();
-});
-
-function init() {
-    const route = useRoute();
-    const _orgId = route.params.orgId;
-
-    if (!_orgId) {
-        router.back();
-    }
-
-    if (typeof _orgId == 'string') {
-        orgId.value = _orgId;
-    } else {
-        router.back();
-    }
-}
-
 function setOrgInfo(_orgInfo: Organization) {
     orgInfo.value = _orgInfo;
 }
@@ -129,8 +113,8 @@ function setOrgInfo(_orgInfo: Organization) {
                     <div class="flex flex-row gap-4 flex-wrap font-normal justify-center">
                         <RouterLink
                             :to="{
-                                name: 'orgManage',
-                                params: { orgId: orgId, page: 'integrations' }
+                                name: 'orgs',
+                                params: { action: 'manage', orgId: orgId, page: 'integrations' }
                             }"
                             class="cursor-pointer w-[calc(50%-10px)] border min-w-0 rounded-lg p-5 font-normal"
                             v-if="
@@ -141,7 +125,10 @@ function setOrgInfo(_orgInfo: Organization) {
                             Manage organization integrations
                         </RouterLink>
                         <RouterLink
-                            :to="{ name: 'orgManage', params: { orgId: orgId, page: 'policies' } }"
+                            :to="{
+                                name: 'orgs',
+                                params: { action: 'manage', orgId: orgId, page: 'policies' }
+                            }"
                             class="cursor-pointer w-[calc(50%-10px)] border min-w-0 rounded-lg p-5 font-normal"
                             title="Manage organization policies."
                         >
@@ -150,8 +137,8 @@ function setOrgInfo(_orgInfo: Organization) {
                         <template v-if="!orgInfo.personal">
                             <RouterLink
                                 :to="{
-                                    name: 'orgManage',
-                                    params: { orgId: orgId, page: 'members' }
+                                    name: 'orgs',
+                                    params: { action: 'manage', orgId: orgId, page: 'members' }
                                 }"
                                 class="cursor-pointer w-[calc(50%-10px)] border min-w-0 rounded-lg p-5 font-normal"
                                 v-if="
@@ -165,8 +152,8 @@ function setOrgInfo(_orgInfo: Organization) {
                             </RouterLink>
                             <RouterLink
                                 :to="{
-                                    name: 'orgManage',
-                                    params: { orgId: orgId, page: 'invites' }
+                                    name: 'orgs',
+                                    params: { action: 'manage', orgId: orgId, page: 'invites' }
                                 }"
                                 class="cursor-pointer w-[calc(50%-10px)] border min-w-0 rounded-lg p-5 font-normal"
                                 v-if="
@@ -180,7 +167,10 @@ function setOrgInfo(_orgInfo: Organization) {
                             </RouterLink>
                         </template>
                         <RouterLink
-                            :to="{ name: 'orgManage', params: { orgId: orgId, page: 'logs' } }"
+                            :to="{
+                                name: 'orgs',
+                                params: { action: 'manage', orgId: orgId, page: 'logs' }
+                            }"
                             class="cursor-pointer w-[calc(50%-10px)] border min-w-0 rounded-lg p-5 font-normal"
                             title="View organization audit logs."
                         >
@@ -213,8 +203,8 @@ function setOrgInfo(_orgInfo: Organization) {
                         </template>
                         <RouterLink
                             :to="{
-                                name: 'orgManage',
-                                params: { orgId: orgId, page: 'analyzers' }
+                                name: 'orgs',
+                                params: { action: 'manage', orgId: orgId, page: 'analyzers' }
                             }"
                             class="cursor-pointer w-[calc(50%-10px)] border min-w-0 rounded-lg p-5 font-normal"
                             v-if="

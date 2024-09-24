@@ -220,7 +220,14 @@ function performOrgAction() {
                     </RouterLink>
                 </template> -->
                 <RouterLink
-                    :to="{ name: 'orgManage', params: { orgId: membership.organization.id } }"
+                    :to="{
+                        name: 'orgs',
+                        params: {
+                            action: 'manage',
+                            page: 'main',
+                            orgId: membership.organization.id
+                        }
+                    }"
                     class="flex-grow text-center border-0 bg-gray-200 cursor-pointer -ml-0.5 px-3 py-1.5 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-300 hover:text-gray-900"
                 >
                     Manage organization

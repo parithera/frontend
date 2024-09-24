@@ -75,7 +75,7 @@ fetch();
             <div class="text-sm">
                 <RouterLink
                     class="py-2 px-2 rounded-md text-white cursor-pointer border-2 border-primary bg-primary flex flex-row gap-1.5 items-center justify-center"
-                    :to="{ name: 'orgs', params: { page: 'add' } }"
+                    :to="{ name: 'orgs', params: { action: 'add', page: 'main' } }"
                 >
                     <Icon icon="ion:add-sharp" />
                     <div>Create an org</div>

@@ -6,18 +6,19 @@ import {
 } from '@/repositories/types/entities/Organization';
 import router from '@/router';
 import { ref, type Ref } from 'vue';
-import { useRoute } from 'vue-router';
 import OrgHeaderItem from '@/views/org/subcomponents/OrgHeaderItem.vue';
-import OrgIntegrationManageGithub from './subcomponents/OrgIntegrationManageGithub.vue';
 import { IntegrationProvider } from '@/repositories/types/entities/Integrations';
-import OrgIntegrationManageGitlab from './subcomponents/OrgIntegrationManageGitlab.vue';
+import OrgIntegrationAddGithub from '@/views/org/integrations/github/OrgIntegrationAddGithub.vue';
+import OrgIntegrationAddGitlab from '@/views/org/integrations/gitlab/OrgIntegrationAddGitlab.vue';
+
+const provider: Ref<IntegrationProvider> = ref(IntegrationProvider.GITHUB);
 
 // Props
-const props = defineProps<{
-    provider: string;
+defineProps<{
+    orgId: string;
+    page: string;
 }>();
 
-const orgId: Ref<string> = ref('');
 const orgInfo: Ref<Organization | undefined> = ref();
 
 function setOrgInfo(_orgInfo: Organization) {
@@ -27,22 +28,10 @@ function setOrgInfo(_orgInfo: Organization) {
     }
 }
 
-async function init() {
-    const route = useRoute();
-    const _orgId = route.params.orgId;
-
-    if (!_orgId) {
-        router.back();
-    }
-
-    if (typeof _orgId == 'string') {
-        orgId.value = _orgId;
-    } else {
-        router.back();
-    }
+const providerQuery = new URLSearchParams(window.location.search).get('provider');
+if (providerQuery) {
+    provider.value = providerQuery as IntegrationProvider;
 }
-
-init();
 </script>
 <template>
     <div class="flex flex-col gap-8 org-manage-integration-create">
@@ -52,8 +41,12 @@ init();
             @on-org-info="setOrgInfo($event)"
         ></OrgHeaderItem>
         <div class="org-integrations-create-wrapper">
-            <OrgIntegrationManageGithub v-if="props.provider == IntegrationProvider.GITHUB" />
-            <OrgIntegrationManageGitlab v-if="props.provider == IntegrationProvider.GITLAB" />
+            <OrgIntegrationAddGithub
+                v-if="provider == IntegrationProvider.GITHUB"
+            ></OrgIntegrationAddGithub>
+            <OrgIntegrationAddGitlab
+                v-if="provider == IntegrationProvider.GITLAB"
+            ></OrgIntegrationAddGitlab>
         </div>
     </div>
 </template>

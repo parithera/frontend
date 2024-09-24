@@ -7,7 +7,6 @@ import {
 import router from '@/router';
 import { Icon } from '@iconify/vue';
 import { ref, type Ref } from 'vue';
-import { useRoute } from 'vue-router';
 import OrgHeaderItem from '@/views/org/subcomponents/OrgHeaderItem.vue';
 import { AnalyzerRepository } from '@/repositories/AnalyzerRepository';
 import { useAuthStore } from '@/stores/auth';
@@ -35,12 +34,17 @@ const authStore = useAuthStore();
 
 const analyzerRepo: AnalyzerRepository = new AnalyzerRepository();
 
-const orgId: Ref<string> = ref('');
 const orgInfo: Ref<Organization | undefined> = ref();
 const analyzers: Ref<Analyzer[]> = ref([]);
 const loading: Ref<boolean> = ref(false);
 const error: Ref<boolean> = ref(false);
 const errorCode: Ref<string | undefined> = ref();
+
+const props = defineProps<{
+    action?: string;
+    page?: string;
+    orgId: string;
+}>();
 
 function setOrgInfo(_orgInfo: Organization) {
     orgInfo.value = _orgInfo;
@@ -50,7 +54,6 @@ function setOrgInfo(_orgInfo: Organization) {
 }
 
 async function deleteAnalyzer(analyzerId: string) {
-    if (!orgId.value) return;
     if (!(authStore.getAuthenticated && authStore.getToken)) return;
 
     error.value = false;
@@ -59,7 +62,7 @@ async function deleteAnalyzer(analyzerId: string) {
 
     try {
         await analyzerRepo.deleteAnalyzer({
-            orgId: orgId.value,
+            orgId: props.orgId,
             analyzer_id: analyzerId,
             bearerToken: authStore.getToken,
             handleBusinessErrors: true
@@ -76,23 +79,10 @@ async function deleteAnalyzer(analyzerId: string) {
 }
 
 async function init() {
-    const route = useRoute();
-    const _orgId = route.params.orgId;
-
-    if (!_orgId) {
-        router.back();
-    }
-
-    if (typeof _orgId == 'string') {
-        orgId.value = _orgId;
-        await fetchAnalyzers();
-    } else {
-        router.back();
-    }
+    await fetchAnalyzers();
 }
 
 async function fetchAnalyzers(refresh: boolean = false) {
-    if (!orgId.value) return;
     if (!(authStore.getAuthenticated && authStore.getToken)) return;
 
     error.value = false;
@@ -101,7 +91,7 @@ async function fetchAnalyzers(refresh: boolean = false) {
 
     try {
         const resp = await analyzerRepo.getAnalyzers({
-            orgId: orgId.value,
+            orgId: props.orgId,
             bearerToken: authStore.getToken,
             handleBusinessErrors: true,
             page: 0,
@@ -190,8 +180,10 @@ init();
                                             <RouterLink
                                                 class="integration-box-wrapper-iteme"
                                                 :to="{
-                                                    name: 'orgManageAnalyzer',
+                                                    name: 'orgs',
                                                     params: {
+                                                        action: 'edit',
+                                                        page: 'analyzers',
                                                         orgId: orgId
                                                     },
                                                     query: {
@@ -236,7 +228,12 @@ init();
                             <RouterLink
                                 class="flex flex-row gap-2 items-center"
                                 :to="{
-                                    name: 'orgAddAnalyzer'
+                                    name: 'orgs',
+                                    params: {
+                                        action: 'add',
+                                        page: 'analyzers',
+                                        orgId: orgId
+                                    }
                                 }"
                             >
                                 <Icon class="text-3xl" icon="solar:add-circle-bold"></Icon> Add an
