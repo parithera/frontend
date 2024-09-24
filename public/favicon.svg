@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   width="191.778"
+   height="191.778"
+   id="svg1"
+   sodipodi:docname="favicon.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.4704518"
+     inkscape:cx="95.548862"
+     inkscape:cy="35.703311"
+     inkscape:window-width="1472"
+     inkscape:window-height="806"
+     inkscape:window-x="260"
+     inkscape:window-y="1117"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <svg
+     version="1.1"
+     id="SvgjsSvg1003"
+     width="191.77779"
+     height="71.502007"
+     viewBox="0 0 191.77779 71.502007">
+    <defs
+       id="SvgjsDefs1002" />
+    <g
+       id="SvgjsG1001"
+       transform="translate(-5.6370456,-65.32405)">
+      <path
+         style="fill:#124c5a;fill-opacity:1"
+         d="m 33.234428,196.04459 c -26.8682896,-6.33238 -36.7343253,-39.24337 -17.77419,-59.29092 13.821386,-14.61408 35.282534,-15.09422 50.922156,-1.13924 11.634549,10.38132 20.64921,13.96808 35.106116,13.96808 14.4569,0 23.47156,-3.58676 35.10611,-13.96808 7.99892,-7.13729 14.88092,-9.81146 25.39389,-9.86737 30.75072,-0.16354 46.90544,36.62949 25.99815,59.21185 -14.5338,15.69825 -35.75391,15.98621 -52.49815,0.71241 -18.30174,-16.69451 -45.847285,-17.89472 -64.33303,-2.8031 -10.555829,8.6177 -13.097393,10.21226 -19.52231,12.24818 -6.690355,2.12002 -12.169059,2.39641 -18.398742,0.92819 z M 170.84336,183.75536 c 24.43876,-10.21117 17.33442,-46.70343 -9.07273,-46.60313 -7.29521,0.0277 -12.13185,2.19823 -19.74631,8.86147 -6.65083,5.82 -19.25,12.55459 -25.44551,13.60131 -2.24967,0.38008 -4.0903,1.06194 -4.0903,1.51525 0,0.45331 1.84063,1.13518 4.0903,1.51526 6.19551,1.04672 18.79468,7.78131 25.44551,13.60131 9.7688,8.54845 19.96942,11.20613 28.81904,7.50853 z"
+         id="SvgjsPath1000" />
+    </g>
+  </svg>
+  <style
+     id="style1">@media (prefers-color-scheme: light) { :root { filter: none; } }
+</style>
+</svg>
