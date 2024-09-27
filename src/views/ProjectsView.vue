@@ -4,10 +4,6 @@ import { Button } from '@/shadcn/ui/button';
 import { useStateStore } from '@/stores/state';
 import { useAuthStore } from '@/stores/auth';
 
-import Card from '@/shadcn/ui/card/Card.vue';
-import CardHeader from '@/shadcn/ui/card/CardHeader.vue';
-import CardTitle from '@/shadcn/ui/card/CardTitle.vue';
-import CardContent from '@/shadcn/ui/card/CardContent.vue';
 import Input from '@/shadcn/ui/input/Input.vue';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import { FormField } from '@/shadcn/ui/form';
@@ -36,10 +32,6 @@ import { useUserStore } from '@/stores/user';
 import DialogClose from '@/shadcn/ui/dialog/DialogClose.vue';
 import { Project } from '@/repositories/types/entities/Project';
 import type { ProjectFile } from '@/repositories/types/entities/ProjectFile';
-import Tabs from '@/shadcn/ui/tabs/Tabs.vue';
-import TabsList from '@/shadcn/ui/tabs/TabsList.vue';
-import TabsTrigger from '@/shadcn/ui/tabs/TabsTrigger.vue';
-import TabsContent from '@/shadcn/ui/tabs/TabsContent.vue';
 import Skeleton from '@/shadcn/ui/skeleton/Skeleton.vue';
 import Switch from '@/shadcn/ui/switch/Switch.vue';
 import Avatar from '@/shadcn/ui/avatar/Avatar.vue';
@@ -144,7 +136,8 @@ const onFileSubmit = handleSubmit(async (values) => {
         bearerToken: authStore.getToken ?? '',
         data: {
             file: file,
-            type: 'DATA'
+            type: 'DATA',
+            file_name: 'data.h5'
         },
         projectId: selected_project.value.id
     });
@@ -155,9 +148,9 @@ const onFileSubmit = handleSubmit(async (values) => {
         orgId: userStore.defaultOrg?.id ?? ''
     });
 
-    console.error(project_retrieved.data.files.length);
+    console.error(project_retrieved.data.files?.length);
 
-    let files_length = project_retrieved.data.files.length;
+    let files_length = project_retrieved.data.files?.length;
 
     while (files_length == 0) {
         await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -167,7 +160,7 @@ const onFileSubmit = handleSubmit(async (values) => {
             projectId: selected_project.value.id,
             orgId: userStore.defaultOrg?.id ?? ''
         });
-        files_length = project_retrieved.data.files.length;
+        files_length = project_retrieved.data.files?.length;
     }
     console.error('done waiting');
 
@@ -440,7 +433,7 @@ onMounted(() => {
         >
             <div class="flex flex-col gap-2">
                 <div
-                    v-if="selected_project.files.length == 0"
+                    v-if="!selected_project.files"
                     class="bg-secondary rounded flex justify-evenly p-2"
                 >
                     <form class="flex flex-col gap-2 items-start" @submit="onFileSubmit">

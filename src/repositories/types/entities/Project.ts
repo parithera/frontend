@@ -43,9 +43,9 @@ export class Project {
     @IsNotEmpty()
     organization_id!: string;
 
-    @IsNotEmpty()
+    @IsOptional()
     @Type(() => Array<ProjectFile>)
-    files!: Array<ProjectFile>;
+    files?: Array<ProjectFile>;
 }
 
 export class Repository {

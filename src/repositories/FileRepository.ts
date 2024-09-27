@@ -14,6 +14,7 @@ export interface UploadRequestOptions extends RepoMethodEmptyPatchRequestOptions
 export interface UploadData {
     file: File;
     type: string;
+    file_name: string;
 }
 
 export interface DeleteFileOptions extends AuthRepoMethodEmptyDeleteRequestOptions {
