@@ -15,6 +15,7 @@ import {
     type SortableRepoMethodRequestOptions
 } from './BaseRepository';
 import type { CreateProject } from '@/repositories/types/postBodies/CreateProject';
+import type { CreateAnalysis } from './types/postBodies/CreateAnalysis';
 
 export interface GetProjectsRequestOptions
     extends AuthRepoMethodGetRequestOptions,
@@ -29,12 +30,10 @@ export interface GetProjectByIdRequestOptions extends AuthRepoMethodGetRequestOp
     projectId: string;
 }
 
-// export interface GetProjectAnalysesOptions
-//     extends GetRequestOptions<PaginatedResponse<Analysis>>,
-//         PaginatedRequestOptions {
-//     projectId: string;
-// }
-
+export interface CreateAnalysisOptions extends AuthRepoMethodPostRequestOptions<CreateAnalysis> {
+    orgId: string;
+    projectId: string;
+}
 // export interface DeleteProjectAnalysisOptions extends DeleteRequestOptions<NoDataResponse> {
 //     analysisId: string;
 // }
@@ -98,6 +97,21 @@ export class ProjectRepository extends BaseRepository {
         });
 
         return Entity.unMarshal<PaginatedResponse<Project>>(response, PaginatedResponse<Project>);
+    }
+
+    async createAnalysis(options: CreateAnalysisOptions): Promise<CreatedResponse> {
+        const RELATIVE_URL = `/org/${options.orgId}/projects/${options.projectId}/analyses`;
+
+        const response = await this.postRequest<CreatedResponse, CreateAnalysis>({
+            bearerToken: options.bearerToken,
+            data: options.data,
+            url: this.buildUrl(RELATIVE_URL),
+            handleBusinessErrors: options.handleBusinessErrors,
+            handleHTTPErrors: options.handleHTTPErrors,
+            handleOtherErrors: options.handleOtherErrors
+        });
+
+        return Entity.unMarshal<CreatedResponse>(response, CreatedResponse);
     }
 
     async getProjectById(options: GetProjectByIdRequestOptions): Promise<DataResponse<Project>> {

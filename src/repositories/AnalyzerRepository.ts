@@ -26,6 +26,11 @@ export interface GetAnalyzerRequestOptions extends AuthRepoMethodGetRequestOptio
     analyzer_id: string;
 }
 
+export interface GetAnalyzerByNameRequestOptions extends AuthRepoMethodGetRequestOptions {
+    orgId: string;
+    analyzer_name: string;
+}
+
 export interface CreateAnalyzerOptions extends AuthRepoMethodPostRequestOptions<CreateAnalyzer> {
     orgId: string;
 }
@@ -69,6 +74,25 @@ export class AnalyzerRepository extends BaseRepository {
             //     entries_per_page: options.entries_per_page,
             //     search_key: options.search_key
             // },
+            bearerToken: options.bearerToken,
+            url: this.buildUrl(RELATIVE_URL),
+            handleBusinessErrors: options.handleBusinessErrors,
+            handleHTTPErrors: options.handleHTTPErrors,
+            handleOtherErrors: options.handleOtherErrors
+        });
+
+        return Entity.unMarshal<DataResponse<Analyzer>>(response, DataResponse<Analyzer>);
+    }
+
+    async getAnalyzerByName(
+        options: GetAnalyzerByNameRequestOptions
+    ): Promise<DataResponse<Analyzer>> {
+        const RELATIVE_URL = `/org/${options.orgId}/analyzers/name`;
+
+        const response = await this.getRequest<DataResponse<Analyzer>>({
+            queryParams: {
+                analyzer_name: options.analyzer_name
+            },
             bearerToken: options.bearerToken,
             url: this.buildUrl(RELATIVE_URL),
             handleBusinessErrors: options.handleBusinessErrors,

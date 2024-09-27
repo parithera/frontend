@@ -46,6 +46,7 @@ import CollapsibleTrigger from '@/shadcn/ui/collapsible/CollapsibleTrigger.vue';
 import { ChevronsUpDown } from 'lucide-vue-next';
 import CollapsibleContent from '@/shadcn/ui/collapsible/CollapsibleContent.vue';
 import ScrollArea from '@/shadcn/ui/scroll-area/ScrollArea.vue';
+import { AnalyzerRepository } from '@/repositories/AnalyzerRepository';
 
 const state = useStateStore();
 state.$reset();
@@ -55,6 +56,7 @@ state.page = 'dashboard';
 const chatRepository: ChatRepository = new ChatRepository();
 const fileRepository: FileRepository = new FileRepository();
 const projectRepository: ProjectRepository = new ProjectRepository();
+const analyzerRepository: AnalyzerRepository = new AnalyzerRepository();
 
 // Stores
 const authStore = useAuthStore();
@@ -141,6 +143,31 @@ const onFileSubmit = handleSubmit(async (values) => {
         },
         projectId: selected_project.value.id
     });
+
+    const analyzer = await analyzerRepository.getAnalyzerByName({
+        bearerToken: authStore.getToken ?? '',
+        orgId: userStore.defaultOrg?.id ?? '',
+        analyzer_name: 'initialization'
+    });
+
+    const res = await projectRepository.createAnalysis({
+        orgId: userStore.defaultOrg?.id ?? '',
+        projectId: selected_project.value.id,
+        bearerToken: authStore.getToken ?? '',
+        handleBusinessErrors: true,
+        data: {
+            analyzer_id: analyzer.data.id,
+            config: {
+                r: {
+                    project: selected_project.value.id,
+                    user: userStore.user?.id
+                }
+            },
+            branch: ' ', // This will be removed
+            commit_hash: ' ' // This will be removed
+        }
+    });
+    console.error(res);
 
     const project_retrieved = await projectRepository.getProjectById({
         bearerToken: authStore.getToken ?? '',
