@@ -35,8 +35,6 @@ export class FileRepository extends BaseRepository {
             data: options.data
         });
 
-        console.error('response', response);
-
         return Entity.unMarshal<NoDataResponse>(response, NoDataResponse);
     }
 
