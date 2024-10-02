@@ -460,7 +460,7 @@ onMounted(() => {
         >
             <div class="flex flex-col gap-2">
                 <div
-                    v-if="!selected_project.files"
+                    v-if="!selected_project.files || selected_project.files.length == 0"
                     class="bg-secondary rounded flex justify-evenly p-2"
                 >
                     <form class="flex flex-col gap-2 items-start" @submit="onFileSubmit">
