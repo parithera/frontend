@@ -116,9 +116,34 @@ async function askGPT(request: string) {
         }
     });
 
-    console.error(result.data);
-
     chat_content.value[chat_content.value.length - 1].response = result.data.answer;
+
+    if (result.data.type == 'chat') {
+        const analyzer = await analyzerRepository.getAnalyzerByName({
+            bearerToken: authStore.getToken ?? '',
+            orgId: userStore.defaultOrg?.id ?? '',
+            analyzer_name: 'initialization'
+        });
+
+        await projectRepository.createAnalysis({
+            orgId: userStore.defaultOrg?.id ?? '',
+            projectId: selected_project.value.id,
+            bearerToken: authStore.getToken ?? '',
+            handleBusinessErrors: true,
+            data: {
+                analyzer_id: analyzer.data.id,
+                config: {
+                    r: {
+                        project: selected_project.value.id,
+                        user: userStore.user?.id,
+                        type: 'chat'
+                    }
+                },
+                branch: ' ', // This will be removed
+                commit_hash: ' ' // This will be removed
+            }
+        });
+    }
 
     // Try to fetch graph every 5 seconds
     setInterval(() => {
@@ -150,7 +175,7 @@ const onFileSubmit = handleSubmit(async (values) => {
         analyzer_name: 'initialization'
     });
 
-    const res = await projectRepository.createAnalysis({
+    await projectRepository.createAnalysis({
         orgId: userStore.defaultOrg?.id ?? '',
         projectId: selected_project.value.id,
         bearerToken: authStore.getToken ?? '',
@@ -160,14 +185,14 @@ const onFileSubmit = handleSubmit(async (values) => {
             config: {
                 r: {
                     project: selected_project.value.id,
-                    user: userStore.user?.id
+                    user: userStore.user?.id,
+                    type: 'initialization'
                 }
             },
             branch: ' ', // This will be removed
             commit_hash: ' ' // This will be removed
         }
     });
-    console.error(res);
 
     const project_retrieved = await projectRepository.getProjectById({
         bearerToken: authStore.getToken ?? '',
