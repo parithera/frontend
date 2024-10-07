@@ -646,7 +646,7 @@ onMounted(() => {
                                     innerText='VlnPlot(seurat_object, c("nCount_RNA", "nFeature_RNA", "percent.mt"), pt.size = 0.1, ncol = 3)'
                                 ></span>
                             </div>
-                            <td v-html="svg_violin"></td>
+                            <div v-html="svg_violin"></div>
                         </div>
 
                         <div v-if="svg_variable_features != ''">
@@ -682,7 +682,7 @@ onMounted(() => {
                                 ></span>
                                 <span innerText="plot_VFP + plot_LP"></span>
                             </div>
-                            <td v-html="svg_variable_features"></td>
+                            <div v-html="svg_variable_features"></div>
                         </div>
 
                         <div v-if="svg_elbow != ''">
@@ -707,7 +707,7 @@ onMounted(() => {
                                 ></span>
                                 <span innerText="ElbowPlot(final_seurat_object)"></span>
                             </div>
-                            <td v-html="svg_elbow"></td>
+                            <div v-html="svg_elbow"></div>
                         </div>
 
                         <div v-if="svg_umap != ''">
@@ -731,7 +731,7 @@ onMounted(() => {
                                     innerText='DimPlot(final_seurat_object, reduction = "umap", label = TRUE)'
                                 ></span>
                             </div>
-                            <td v-html="svg_umap"></td>
+                            <div v-html="svg_umap"></div>
                         </div>
                     </CollapsibleContent>
                 </Collapsible>
