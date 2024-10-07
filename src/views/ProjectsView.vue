@@ -62,7 +62,12 @@ const analyzerRepository: AnalyzerRepository = new AnalyzerRepository();
 const authStore = useAuthStore();
 const userStore = useUserStore();
 
-let chat_content = ref([
+type ChatContent = {
+    request: string;
+    response: string;
+};
+
+let chat_content: Ref<ChatContent[]> = ref([
     {
         request: '',
         response: 'Hi, how can I help you today?'
@@ -200,13 +205,10 @@ const onFileSubmit = handleSubmit(async (values) => {
         orgId: userStore.defaultOrg?.id ?? ''
     });
 
-    console.error(project_retrieved.data.files?.length);
-
     let files_length = project_retrieved.data.files?.length;
 
     while (files_length == 0) {
         await new Promise((resolve) => setTimeout(resolve, 5000));
-        console.error('waiting');
         const project_retrieved = await projectRepository.getProjectById({
             bearerToken: authStore.getToken ?? '',
             projectId: selected_project.value.id,
@@ -214,8 +216,6 @@ const onFileSubmit = handleSubmit(async (values) => {
         });
         files_length = project_retrieved.data.files?.length;
     }
-    console.error('done waiting');
-
     const project_retrieved_2 = await projectRepository.getProjectById({
         bearerToken: authStore.getToken ?? '',
         projectId: selected_project.value.id,
@@ -787,7 +787,6 @@ onMounted(() => {
                             placeholder="Tell ExPlore what graph you want to generate..."
                             class="resize-none rounded-full pl-2 py-7 box-border h-6 w-full"
                             v-bind="componentField"
-                            @keyup.enter="onSubmit"
                             type="text"
                         ></Input>
                         <div class="absolute right-16 flex items-center gap-2">
