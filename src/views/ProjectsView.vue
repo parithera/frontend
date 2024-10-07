@@ -620,7 +620,7 @@ onMounted(() => {
                 <Skeleton class="h-12 w-1/2 rounded-full" />
             </div>
 
-            <ScrollArea class="h-full w-full">
+            <ScrollArea class="h-full w-full mb-16">
                 <Collapsible v-model:open="isOpen" class="space-y-2 flex flex-col items-center">
                     <div class="flex items-center justify-between space-x-4 px-4 w-fit">
                         <h4 class="text-sm font-semibold6">Show preprocessed data</h4>
