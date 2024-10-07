@@ -480,7 +480,7 @@ onMounted(() => {
 
     <ResizablePanelGroup direction="horizontal" v-else>
         <ResizablePanel
-            class="flex flex-col items-center p-6 py-8 h-[calc(100vh-4rem)] bg-secondary"
+            class="flex flex-col items-center max-w-60 p-6 py-8 h-[calc(100vh-4rem)] bg-secondary"
             :default-size="20"
         >
             <div class="flex flex-col gap-2">
@@ -514,10 +514,10 @@ onMounted(() => {
                         :key="file.id"
                         class="flex w-full items-center gap-2 justify-between"
                     >
-                        <Icon class="w-1/4" icon="tabler:file"></Icon>
-                        <span class="w-1/2 text-wrap break-words"> {{ file.name }}</span
+                        <Icon class="w-1/8" icon="tabler:file"></Icon>
+                        <span class="w-6/8 text-wrap break-words"> {{ file.name }}</span
                         ><Icon
-                            class="cursor-pointer w-1/4 text-destructive"
+                            class="cursor-pointer w-1/8 text-destructive"
                             icon="iconoir:trash"
                             @click="deleteFile(file)"
                         ></Icon>
