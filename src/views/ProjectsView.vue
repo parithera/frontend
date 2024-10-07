@@ -622,15 +622,19 @@ onMounted(() => {
 
             <ScrollArea class="h-full w-full mb-16">
                 <Collapsible v-model:open="isOpen" class="space-y-2 flex flex-col items-center">
-                    <div class="flex items-center justify-between space-x-4 px-4 w-fit">
-                        <h4 class="text-sm font-semibold6">Show preprocessed data</h4>
-                        <CollapsibleTrigger as-child>
+                    <CollapsibleTrigger as-child>
+                        <div class="flex items-center justify-between space-x-4 px-4 w-fit">
+                            <h4
+                                class="text-sm font-semibold6 cursor-pointer hover:bg-muted hover:rounded-md p-2"
+                            >
+                                Show preprocessed data
+                            </h4>
                             <Button variant="ghost" size="sm" class="w-9 p-0">
                                 <ChevronsUpDown class="h-4 w-4" />
                                 <span class="sr-only">Toggle</span>
                             </Button>
-                        </CollapsibleTrigger>
-                    </div>
+                        </div>
+                    </CollapsibleTrigger>
                     <CollapsibleContent class="space-y-2">
                         <div v-if="svg_violin != ''">
                             <div class="bg-gray-100 p-2 rounded flex flex-col gap-1">
