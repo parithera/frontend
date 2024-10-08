@@ -33,45 +33,43 @@ async function updateSort(key: string | null) {
 </script>
 <template>
     <table class="stylized_table stylized_table_with_dividers w-full border-collapse">
-        <tr>
-            <th
-                v-for="(header, key, index) in props.headers"
-                :key="index"
-                class="header header-clickable"
-                :class="{
-                    'header-sortable-active': props.headers[key].key == sortKey
-                }"
-                @click="updateSort(props.headers[key].key)"
-            >
-                <div class="header-sortable">
-                    <div>
-                        {{ header.label }}
-                    </div>
-                    <div v-if="headers[key].key != null">
-                        <span
-                            :class="
-                                headers[key].key != sortKey ||
-                                (headers[key].key == sortKey && sortDirection == SortDirection.ASC)
-                                    ? 'w-full'
-                                    : 'w-10'
-                            "
-                        >
-                            <Icon class="text-2xl" icon="tabler:caret-up-filled"></Icon>
-                        </span>
-                        <span
-                            :class="
-                                headers[key].key != sortKey ||
-                                (headers[key].key == sortKey && sortDirection == SortDirection.DESC)
-                                    ? 'w-full'
-                                    : 'w-10'
-                            "
-                        >
-                            <Icon class="text-2xl" icon="tabler:caret-down-filled"></Icon>
-                        </span>
-                    </div>
+        <th
+            v-for="(header, key, index) in props.headers"
+            :key="index"
+            class="header header-clickable"
+            :class="{
+                'header-sortable-active': props.headers[key].key == sortKey
+            }"
+            @click="updateSort(props.headers[key].key)"
+        >
+            <div class="header-sortable">
+                <div>
+                    {{ header.label }}
                 </div>
-            </th>
-        </tr>
+                <div v-if="headers[key].key != null">
+                    <span
+                        :class="
+                            headers[key].key != sortKey ||
+                            (headers[key].key == sortKey && sortDirection == SortDirection.ASC)
+                                ? 'w-full'
+                                : 'w-10'
+                        "
+                    >
+                        <Icon class="text-2xl" icon="tabler:caret-up-filled"></Icon>
+                    </span>
+                    <span
+                        :class="
+                            headers[key].key != sortKey ||
+                            (headers[key].key == sortKey && sortDirection == SortDirection.DESC)
+                                ? 'w-full'
+                                : 'w-10'
+                        "
+                    >
+                        <Icon class="text-2xl" icon="tabler:caret-down-filled"></Icon>
+                    </span>
+                </div>
+            </div>
+        </th>
         <tbody>
             <slot name="data"> </slot>
         </tbody>
@@ -79,7 +77,7 @@ async function updateSort(key: string | null) {
 </template>
 
 <style scoped lang="scss">
-@import 'src/assets/colors.scss';
+@import '@/assets/colors.scss';
 
 .stylized_table :deep(tbody) > tr > td > div {
     padding-top: 5px;

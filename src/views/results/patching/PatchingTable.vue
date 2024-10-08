@@ -235,7 +235,7 @@ async function init() {
 init();
 </script>
 <style scoped lang="scss">
-@import 'src/assets/colors.scss';
+@import '@/assets/colors.scss';
 
 .patched-manifest {
     counter-reset: linecount;
