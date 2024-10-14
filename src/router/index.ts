@@ -12,7 +12,6 @@ import ResultsView from '@/views/ResultsView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
 import TrialView from '@/views/TrialView.vue';
 import TermsView from '@/views/TermsView.vue';
-import AnalysesView from '@/views/AnalysesView.vue';
 import LoginView from '@/views/LoginView.vue';
 import SignupView from '@/views/SignupView.vue';
 import SettingsView from '@/views/SettingsView.vue';
@@ -43,12 +42,6 @@ const router = createRouter({
             path: '/projects/:page?',
             name: 'projects',
             component: ProjectsView,
-            props: true
-        },
-        {
-            path: '/analyses/:page?',
-            name: 'analyses',
-            component: AnalysesView,
             props: true
         },
         {
