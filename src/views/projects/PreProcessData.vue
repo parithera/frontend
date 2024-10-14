@@ -3,6 +3,7 @@ import Button from '@/shadcn/ui/button/Button.vue';
 import Collapsible from '@/shadcn/ui/collapsible/Collapsible.vue';
 import CollapsibleContent from '@/shadcn/ui/collapsible/CollapsibleContent.vue';
 import CollapsibleTrigger from '@/shadcn/ui/collapsible/CollapsibleTrigger.vue';
+import { Icon } from '@iconify/vue/dist/iconify.js';
 import { ChevronsUpDown } from 'lucide-vue-next';
 
 const isOpen = defineModel<boolean>('isOpen', { required: true });

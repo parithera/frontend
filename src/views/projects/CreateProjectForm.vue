@@ -24,7 +24,7 @@ const new_project_description: ModelRef<string> = defineModel('new_project_descr
 const submitButton = useTemplateRef<HTMLElement>('submitButton');
 
 const submitForm = () => {
-    submitButton.value?.click();
+    submitButton.value?.click;
 };
 </script>
 
