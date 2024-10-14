@@ -188,12 +188,29 @@ async function fetchGraphs(project: Project) {
     if (!container) {
         return;
     }
+
+    const toolbarOptions = [
+        [{ header: [1, 2, 3, false] }],
+        ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+
+        [{ list: 'ordered' }, { list: 'bullet' }, { list: 'check' }],
+
+        [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+
+        ['blockquote', 'code-block'],
+        ['link', 'image'],
+
+        [{ color: [] }, { background: [] }],
+        [{ font: [] }],
+        [{ align: [] }]
+    ];
+
     const options: QuillOptions = {
         debug: 'error',
         modules: {
-            toolbar: true
+            toolbar: toolbarOptions
         },
-        placeholder: 'Compose an epic...',
+        placeholder: 'Start writing your report here...',
         theme: 'snow'
     };
     new Quill(container, options);
@@ -305,6 +322,7 @@ onMounted(() => {
                             </div>
                         </div>
                     </div>
+                    <div v-html="svg_graph"></div>
                 </div>
             </ScrollArea>
         </ResizablePanel>
@@ -312,7 +330,6 @@ onMounted(() => {
         <ResizablePanel class="m-4" :default-size="40">
             <div ref="editor">
                 <h1>Report</h1>
-                <div v-html="svg_graph"></div>
             </div>
         </ResizablePanel>
     </ResizablePanelGroup>
