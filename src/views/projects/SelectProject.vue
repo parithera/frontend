@@ -12,6 +12,10 @@ import CardDescription from '@/shadcn/ui/card/CardDescription.vue';
 import CardFooter from '@/shadcn/ui/card/CardFooter.vue';
 import Badge from '@/shadcn/ui/badge/Badge.vue';
 import Skeleton from '@/shadcn/ui/skeleton/Skeleton.vue';
+import Alert from '@/shadcn/ui/alert/Alert.vue';
+import { Terminal } from 'lucide-vue-next';
+import AlertTitle from '@/shadcn/ui/alert/AlertTitle.vue';
+import AlertDescription from '@/shadcn/ui/alert/AlertDescription.vue';
 
 defineProps<{
     selected_project: Project;
@@ -54,7 +58,13 @@ const projects: ModelRef<Array<Project>> = defineModel('projects', { required: t
         </Card>
     </div>
     <div v-else class="flex flex-col gap-6 items-center justify-center mt-20">
-        <div class="text-2xl">Please select a project from the list or create a new one</div>
+        <Alert class="w-1/2">
+            <Terminal class="h-4 w-4" />
+            <AlertTitle>Heads up!</AlertTitle>
+            <AlertDescription>
+                Please select a project from the list or create a new one.
+            </AlertDescription>
+        </Alert>
         <div class="flex flex-wrap items-strech gap-4">
             <Card class="w-72" v-for="project in projects" :key="project.id">
                 <CardHeader>
