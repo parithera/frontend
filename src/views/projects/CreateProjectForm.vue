@@ -10,7 +10,7 @@ import DialogTitle from '@/shadcn/ui/dialog/DialogTitle.vue';
 import DialogTrigger from '@/shadcn/ui/dialog/DialogTrigger.vue';
 import Input from '@/shadcn/ui/input/Input.vue';
 import Label from '@/shadcn/ui/label/Label.vue';
-import { useTemplateRef, type ModelRef } from 'vue';
+import { type ModelRef } from 'vue';
 
 defineProps<{
     newProject: () => Promise<void>;
@@ -21,10 +21,8 @@ const new_project_description: ModelRef<string> = defineModel('new_project_descr
     required: true
 });
 
-const submitButton = useTemplateRef<HTMLElement>('submitButton');
-
 const submitForm = () => {
-    submitButton.value?.click;
+    document.getElementById('submitButton')?.click();
 };
 </script>
 
@@ -69,7 +67,6 @@ const submitForm = () => {
                     <Button
                         class="rounded-full"
                         id="submitButton"
-                        ref="submitButton"
                         @click="newProject"
                         type="submit"
                     >
