@@ -5,7 +5,7 @@ import { useStateStore } from '@/stores/state';
 import { useAuthStore } from '@/stores/auth';
 
 import { Icon } from '@iconify/vue/dist/iconify.js';
-import { onMounted, ref, type Ref } from 'vue';
+import { onMounted, onUpdated, ref, type Ref } from 'vue';
 import Separator from '@/shadcn/ui/separator/Separator.vue';
 import { ProjectRepository } from '@/repositories/ProjectRepository';
 import { useUserStore } from '@/stores/user';
@@ -61,6 +61,8 @@ const svg_violin = ref('');
 const svg_graph = ref('');
 const loading = ref(false);
 const isOpen = ref(false);
+
+const quillEditor: Ref<Quill | undefined> = ref();
 
 const editor = useTemplateRef<HTMLDivElement>('editor');
 
@@ -184,10 +186,15 @@ async function fetchGraphs(project: Project) {
 
     svg_violin.value = violin.data;
     loading.value = false;
+}
+
+function initQuill() {
+    // If editor already created
+    if (quillEditor.value) return;
+
     const container = editor.value;
-    if (!container) {
-        return;
-    }
+    // If container not displayed
+    if (!container) return;
 
     const toolbarOptions = [
         [{ header: [1, 2, 3, false] }],
@@ -204,7 +211,6 @@ async function fetchGraphs(project: Project) {
         [{ font: [] }],
         [{ align: [] }]
     ];
-
     const options: QuillOptions = {
         debug: 'error',
         modules: {
@@ -213,11 +219,15 @@ async function fetchGraphs(project: Project) {
         placeholder: 'Start writing your report here...',
         theme: 'snow'
     };
-    new Quill(container, options);
+    quillEditor.value = new Quill(container, options);
 }
 
 onMounted(() => {
     getProjects();
+});
+
+onUpdated(() => {
+    initQuill();
 });
 </script>
 
