@@ -10,7 +10,6 @@ import FormControl from '@/shadcn/ui/form/FormControl.vue';
 import FormDescription from '@/shadcn/ui/form/FormDescription.vue';
 import FormItem from '@/shadcn/ui/form/FormItem.vue';
 import FormMessage from '@/shadcn/ui/form/FormMessage.vue';
-import Input from '@/shadcn/ui/input/Input.vue';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { Icon } from '@iconify/vue/dist/iconify.js';
@@ -102,7 +101,8 @@ const onFileSubmit = handleSubmit(async (values) => {
     });
 
     selected_project.value = project_retrieved_2.data;
-    props.fetchGraphs(selected_project.value);
+    await props.fetchGraphs(selected_project.value);
+    loading.value = false;
 });
 
 async function deleteFile(file: ProjectFile) {
@@ -130,7 +130,11 @@ async function deleteFile(file: ProjectFile) {
             <FormField v-slot="{ componentField }" name="file">
                 <FormItem>
                     <FormControl>
-                        <Input class="cursor-pointer" type="file" v-bind="componentField" />
+                        <input
+                            class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
+                            type="file"
+                            v-bind="componentField"
+                        />
                     </FormControl>
                     <FormDescription>Upload your gene sequencing file.</FormDescription>
                     <FormMessage />
