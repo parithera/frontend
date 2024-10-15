@@ -91,7 +91,6 @@ async function newProject() {
 
     selected_project.value =
         projects.value.find((project) => project.id === res.id) ?? new Project();
-    initQuill();
 }
 
 async function deleteProject(project: Project) {
@@ -111,7 +110,6 @@ async function deleteProject(project: Project) {
     if (selected_project.value.id === project.id) {
         selected_project.value = new Project();
     }
-    initQuill();
 }
 
 async function getProjects() {
@@ -159,13 +157,11 @@ async function selectOrUnselectProject(project: Project) {
         if (selected_project.value.files) {
             const files = selected_project.value.files;
             if (files.length == 0) {
-                initQuill();
                 return;
             }
         }
         fetchGraphs(project);
     }
-    initQuill();
 }
 
 async function fetchGraphs(project: Project) {
@@ -278,6 +274,9 @@ function initQuill() {
 
 onMounted(() => {
     getProjects();
+});
+
+onUpdated(() => {
     initQuill();
 });
 </script>
