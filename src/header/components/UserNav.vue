@@ -93,7 +93,7 @@ async function deleteAllNotifications() {
     total_notifications.value = 0;
 }
 
-fetchNotifications();
+// fetchNotifications();
 </script>
 
 <template>
