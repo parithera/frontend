@@ -26,10 +26,15 @@ import CreateProjectForm from '@/views/projects/CreateProjectForm.vue';
 import UploadFile from '@/views/projects/UploadFile.vue';
 import RequestBar from '@/views/projects/RequestBar.vue';
 import PreProcessData from '@/views/projects/PreProcessData.vue';
+import { BusinessLogicError } from '@/repositories/BaseRepository';
 
 const state = useStateStore();
 state.$reset();
 state.page = 'dashboard';
+
+defineProps<{
+    page: string;
+}>();
 
 // Repositories
 const projectRepository: ProjectRepository = new ProjectRepository();
@@ -86,18 +91,27 @@ async function newProject() {
 
     selected_project.value =
         projects.value.find((project) => project.id === res.id) ?? new Project();
+    initQuill();
 }
 
 async function deleteProject(project: Project) {
-    await projectRepository.deleteProject({
-        bearerToken: authStore.getToken ?? '',
-        projectId: project.id,
-        orgId: userStore.defaultOrg?.id ?? ''
-    });
+    try {
+        await projectRepository.deleteProject({
+            bearerToken: authStore.getToken ?? '',
+            handleBusinessErrors: true,
+            projectId: project.id,
+            orgId: userStore.defaultOrg?.id ?? ''
+        });
+    } catch (error) {
+        if (error instanceof BusinessLogicError) {
+            console.log(error);
+        }
+    }
     await getProjects();
     if (selected_project.value.id === project.id) {
         selected_project.value = new Project();
     }
+    initQuill();
 }
 
 async function getProjects() {
@@ -145,47 +159,87 @@ async function selectOrUnselectProject(project: Project) {
         if (selected_project.value.files) {
             const files = selected_project.value.files;
             if (files.length == 0) {
-                loading.value = false;
+                initQuill();
                 return;
             }
         }
         fetchGraphs(project);
     }
+    initQuill();
 }
 
 async function fetchGraphs(project: Project) {
-    const elbow = await projectRepository.getSVGElbow({
-        bearerToken: authStore.getToken ?? '',
-        projectId: project.id,
-        orgId: userStore.defaultOrg?.id ?? ''
-    });
+    while (svg_elbow.value == '') {
+        try {
+            const elbow = await projectRepository.getSVGElbow({
+                bearerToken: authStore.getToken ?? '',
+                handleBusinessErrors: true,
+                projectId: project.id,
+                orgId: userStore.defaultOrg?.id ?? ''
+            });
 
-    svg_elbow.value = elbow.data;
+            svg_elbow.value = elbow.data;
+        } catch (error) {
+            if (error instanceof BusinessLogicError) {
+                await new Promise((resolve) => setTimeout(resolve, 5000));
+            }
+            await new Promise((resolve) => setTimeout(resolve, 5000));
+        }
+    }
 
-    const umap = await projectRepository.getSVGUMAP({
-        bearerToken: authStore.getToken ?? '',
-        projectId: project.id,
-        orgId: userStore.defaultOrg?.id ?? ''
-    });
+    while (svg_umap.value == '') {
+        try {
+            const umap = await projectRepository.getSVGUMAP({
+                bearerToken: authStore.getToken ?? '',
+                handleBusinessErrors: true,
+                projectId: project.id,
+                orgId: userStore.defaultOrg?.id ?? ''
+            });
 
-    svg_umap.value = umap.data;
+            svg_umap.value = umap.data;
+        } catch (error) {
+            if (error instanceof BusinessLogicError) {
+                await new Promise((resolve) => setTimeout(resolve, 5000));
+            }
+            await new Promise((resolve) => setTimeout(resolve, 5000));
+        }
+    }
 
-    const variable_features = await projectRepository.getSVGVariableFeatures({
-        bearerToken: authStore.getToken ?? '',
-        projectId: project.id,
-        orgId: userStore.defaultOrg?.id ?? ''
-    });
+    while (svg_variable_features.value == '') {
+        try {
+            const variable_features = await projectRepository.getSVGVariableFeatures({
+                bearerToken: authStore.getToken ?? '',
+                handleBusinessErrors: true,
+                projectId: project.id,
+                orgId: userStore.defaultOrg?.id ?? ''
+            });
 
-    svg_variable_features.value = variable_features.data;
+            svg_variable_features.value = variable_features.data;
+        } catch (error) {
+            if (error instanceof BusinessLogicError) {
+                await new Promise((resolve) => setTimeout(resolve, 5000));
+            }
+            await new Promise((resolve) => setTimeout(resolve, 5000));
+        }
+    }
 
-    const violin = await projectRepository.getSVGViolin({
-        bearerToken: authStore.getToken ?? '',
-        projectId: project.id,
-        orgId: userStore.defaultOrg?.id ?? ''
-    });
+    while (svg_violin.value == '') {
+        try {
+            const violin = await projectRepository.getSVGViolin({
+                bearerToken: authStore.getToken ?? '',
+                handleBusinessErrors: true,
+                projectId: project.id,
+                orgId: userStore.defaultOrg?.id ?? ''
+            });
 
-    svg_violin.value = violin.data;
-    loading.value = false;
+            svg_violin.value = violin.data;
+        } catch (error) {
+            if (error instanceof BusinessLogicError) {
+                await new Promise((resolve) => setTimeout(resolve, 5000));
+            }
+            await new Promise((resolve) => setTimeout(resolve, 5000));
+        }
+    }
 }
 
 function initQuill() {
@@ -224,9 +278,6 @@ function initQuill() {
 
 onMounted(() => {
     getProjects();
-});
-
-onUpdated(() => {
     initQuill();
 });
 </script>
@@ -279,11 +330,11 @@ onUpdated(() => {
         </ResizablePanel>
         <ResizableHandle with-handle />
         <ResizablePanel
-            class="h-[calc(100vh-4rem)] p-8 flex flex-col items-center"
+            class="h-[calc(100vh-4rem)] p-8 flex flex-col items-center justify-center"
             :default-size="40"
         >
             <div v-if="loading" class="w-full flex flex-wrap gap-2 items-center justify-center">
-                <div class="flex items-center w-1/2 text-2xl">
+                <div class="flex items-center w-2/3 text-2xl">
                     <Icon icon="eos-icons:loading"></Icon> We are processing your data...
                 </div>
                 <Skeleton class="h-12 w-1/2 rounded-full" />
@@ -291,7 +342,7 @@ onUpdated(() => {
                 <Skeleton class="h-12 w-1/2 rounded-full" />
             </div>
 
-            <ScrollArea class="h-full w-full mb-16">
+            <ScrollArea v-else class="h-full w-full mb-16">
                 <PreProcessData
                     v-model:isOpen="isOpen"
                     v-model:svg_violin="svg_violin"
