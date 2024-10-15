@@ -27,6 +27,7 @@ import UploadFile from '@/views/projects/UploadFile.vue';
 import RequestBar from '@/views/projects/RequestBar.vue';
 import PreProcessData from '@/views/projects/PreProcessData.vue';
 import { BusinessLogicError } from '@/repositories/BaseRepository';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shadcn/ui/tooltip';
 
 const state = useStateStore();
 state.$reset();
@@ -359,43 +360,75 @@ onUpdated(() => {
                         v-for="(chat_element, index) in chat_content"
                         :key="index"
                     >
-                        <div v-if="chat_element.request != ''" class="flex flex-col">
-                            <div class="font-semibold flex gap-2 items-center">
-                                <Button variant="ghost" class="relative h-8 w-8 rounded-full">
-                                    <Avatar class="h-8 w-8">
-                                        <AvatarImage src="/avatars/01.png" alt="@shadcn" />
-                                        <AvatarFallback
-                                            >{{ userStore.getUser?.first_name.charAt(0)
-                                            }}{{
-                                                userStore.getUser?.last_name.charAt(0)
-                                            }}</AvatarFallback
+                        <div
+                            v-if="chat_element.request != ''"
+                            class="flex items-center justify-between"
+                        >
+                            <div>
+                                <div class="font-semibold flex gap-2 items-center">
+                                    <Button variant="ghost" class="relative h-8 w-8 rounded-full">
+                                        <Avatar class="h-8 w-8">
+                                            <AvatarImage src="/avatars/01.png" alt="@shadcn" />
+                                            <AvatarFallback
+                                                >{{ userStore.getUser?.first_name.charAt(0)
+                                                }}{{
+                                                    userStore.getUser?.last_name.charAt(0)
+                                                }}</AvatarFallback
+                                            >
+                                        </Avatar>
+                                    </Button>
+                                    <div>You :</div>
+                                </div>
+                                <div class="pl-4">
+                                    <span>{{ chat_element.request }}</span>
+                                </div>
+                            </div>
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger as-child>
+                                        <Button
+                                            class="flex gap-2"
+                                            variant="outline"
+                                            @click="addToReport(chat_element.request)"
                                         >
-                                    </Avatar>
-                                </Button>
-                                <div>You :</div>
-                            </div>
-                            <div class="pl-4 flex gap-2 items-center">
-                                <span>{{ chat_element.request }}</span>
-                                <Button
-                                    class="rounded-full"
-                                    @click="addToReport(chat_element.request)"
-                                    >add to report</Button
-                                >
-                            </div>
+                                            <span>Add</span>
+                                            <Icon class="text-2xl" icon="prime:copy"></Icon>
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Send to report</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                         </div>
-                        <div>
-                            <div class="font-semibold flex gap-1 items-center">
-                                <img src="@/imgs/logos/logo.svg" class="w-8 self-center" />
-                                <div>ExPlore :</div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="font-semibold flex gap-1 items-center">
+                                    <img src="@/imgs/logos/logo.svg" class="w-8 self-center" />
+                                    <div>ExPlore :</div>
+                                </div>
+                                <div class="pl-4">
+                                    <VueMarkdown :source="chat_element.response" />
+                                </div>
                             </div>
-                            <div class="pl-4 flex gap-2 items-center">
-                                <VueMarkdown :source="chat_element.response" />
-                                <Button
-                                    class="rounded-full"
-                                    @click="addToReport(chat_element.response)"
-                                    >add to report</Button
-                                >
-                            </div>
+
+                            <TooltipProvider>
+                                <Tooltip>
+                                    <TooltipTrigger as-child>
+                                        <Button
+                                            class="flex gap-2"
+                                            variant="outline"
+                                            @click="addToReport(chat_element.response)"
+                                        >
+                                            <Icon class="text-2xl" icon="prime:copy"></Icon>
+                                            <span>Add</span>
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Send to report</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                         </div>
                     </div>
                     <div v-html="svg_graph"></div>
