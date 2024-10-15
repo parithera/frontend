@@ -201,7 +201,7 @@
                         <Icon icon="line-md:loading-twotone-loop" class="animate-spin"></Icon>
                     </div>
 
-                    <SSOAuth />
+                    <!-- <SSOAuth /> -->
                 </div>
                 <p class="px-8 text-center text-sm text-muted-foreground">
                     By clicking continue, you agree to our
