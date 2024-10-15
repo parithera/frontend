@@ -194,11 +194,15 @@ const projects: ModelRef<Array<Project>> = defineModel('projects', { required: t
                     </span>
                 </CardContent>
                 <CardFooter class="flex justify-between px-6 pb-6">
-                    <Button variant="outline" @click="selectOrUnselectProject(project)">
+                    <Button
+                        class="rounded-full"
+                        variant="outline"
+                        @click="selectOrUnselectProject(project)"
+                    >
                         Open
                     </Button>
                     <Button
-                        class="flex gap-2"
+                        class="flex gap-2 rounded-full"
                         variant="destructive"
                         @click="deleteProject(project)"
                     >
