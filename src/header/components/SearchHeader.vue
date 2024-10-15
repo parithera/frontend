@@ -53,20 +53,21 @@ function handleCommandSelect() {
         } else if (highlighted.innerText === 'Settings') {
             router.push({ name: 'settings', params: { page: 'account' } });
         } else if (highlighted.innerText === 'Organizations') {
-            router.push({ name: 'orgs', params: { page: 'list' } });
+            router.push({ name: 'orgs', params: { action: 'list' } });
         } else if (highlighted.innerText === 'Create Analyzer') {
             router.push({
-                name: 'orgAddAnalyzer',
-                params: { orgId: userStore.defaultOrg?.id }
+                name: 'orgs',
+                params: { orgId: userStore.defaultOrg?.id, action: 'add', page: 'analyzers' }
             });
         } else if (highlighted.innerText === 'Import Project') {
             router.push({
                 name: 'projects',
                 params: { page: 'add', orgId: userStore.defaultOrg?.id }
             });
-        } else if (highlighted.innerText === 'Start Analysis') {
-            router.push({ name: 'analyses', params: { page: 'add' } });
         }
+        // else if (highlighted.innerText === 'Start Analysis') {
+        //     router.push({ name: 'analyses', params: { page: 'add' } });
+        // }
     }
 }
 
@@ -105,9 +106,9 @@ function handleOpenChange() {
                     <CommandItem value="import_project" class="cursor-pointer">
                         Import Project
                     </CommandItem>
-                    <CommandItem value="start_analysis" class="cursor-pointer">
+                    <!-- <CommandItem value="start_analysis" class="cursor-pointer">
                         Start Analysis
-                    </CommandItem>
+                    </CommandItem> -->
                 </CommandGroup>
             </CommandList>
         </CommandDialog>
