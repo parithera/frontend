@@ -272,6 +272,10 @@ function initQuill() {
     quillEditor.value = new Quill(container, options);
 }
 
+function addToReport(content: string) {
+    quillEditor.value?.insertText(quillEditor.value.getLength(), content);
+}
+
 onMounted(() => {
     getProjects();
 });
@@ -370,15 +374,27 @@ onUpdated(() => {
                                 </Button>
                                 <div>You :</div>
                             </div>
-                            <div class="pl-4">{{ chat_element.request }}</div>
+                            <div class="pl-4 flex gap-2 items-center">
+                                <span>{{ chat_element.request }}</span>
+                                <Button
+                                    class="rounded-full"
+                                    @click="addToReport(chat_element.request)"
+                                    >add to report</Button
+                                >
+                            </div>
                         </div>
                         <div>
                             <div class="font-semibold flex gap-1 items-center">
                                 <img src="@/imgs/logos/logo.svg" class="w-8 self-center" />
                                 <div>ExPlore :</div>
                             </div>
-                            <div class="pl-4">
+                            <div class="pl-4 flex gap-2 items-center">
                                 <VueMarkdown :source="chat_element.response" />
+                                <Button
+                                    class="rounded-full"
+                                    @click="addToReport(chat_element.response)"
+                                    >add to report</Button
+                                >
                             </div>
                         </div>
                     </div>
