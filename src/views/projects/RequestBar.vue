@@ -40,7 +40,7 @@ const { handleSubmit } = useForm({
 });
 
 const onSubmit = handleSubmit((values) => {
-    chat_content.value.push({
+    chat_content.value.splice(0, 0, {
         request: values.request,
         response: 'Loading...'
     });
@@ -57,7 +57,14 @@ async function askGPT(request: string) {
         }
     });
 
-    chat_content.value[chat_content.value.length - 1].response = result.data.answer;
+    chat_content.value.shift();
+    chat_content.value.splice(0, 0, {
+        request: request,
+        response: result.data.answer
+    });
+
+    const scroll = document.getElementById('scrollArea');
+    // scroll.childNodes[0].scrollTop = scroll.scrollHeight;
 
     if (result.data.type == 'chat') {
         const analyzer = await analyzerRepository.getAnalyzerByName({

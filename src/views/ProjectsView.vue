@@ -354,7 +354,8 @@ onUpdated(() => {
                     v-model:svg_elbow="svg_elbow"
                     v-model:svg_umap="svg_umap"
                 />
-                <div class="flex flex-col gap-4">
+                <div class="flex flex-col-reverse gap-4">
+                    <div v-html="svg_graph"></div>
                     <div
                         class="hover:bg-muted p-2 rounded"
                         v-for="(chat_element, index) in chat_content"
@@ -431,7 +432,6 @@ onUpdated(() => {
                             </TooltipProvider>
                         </div>
                     </div>
-                    <div v-html="svg_graph"></div>
                 </div>
             </ScrollArea>
         </ResizablePanel>
