@@ -43,7 +43,8 @@ const svg_umap = defineModel<string>('svg_umap', { required: true });
                         innerText='VlnPlot(seurat_object, c("nCount_RNA", "nFeature_RNA", "percent.mt"), pt.size = 0.1, ncol = 3)'
                     ></span>
                 </div>
-                <div v-html="svg_violin"></div>
+                <!-- <div v-html="svg_violin"></div> -->
+                <img :src="'data:image/png;base64,' + svg_violin" />
             </div>
 
             <div v-if="svg_variable_features != ''">
@@ -74,7 +75,8 @@ const svg_umap = defineModel<string>('svg_umap', { required: true });
                     ></span>
                     <span innerText="plot_VFP + plot_LP"></span>
                 </div>
-                <div v-html="svg_variable_features"></div>
+                <img :src="'data:image/png;base64,' + svg_variable_features" />
+                <!-- <div v-html="svg_variable_features"></div> -->
             </div>
 
             <div v-if="svg_elbow != ''">
@@ -97,7 +99,8 @@ const svg_umap = defineModel<string>('svg_umap', { required: true });
                     ></span>
                     <span innerText="ElbowPlot(final_seurat_object)"></span>
                 </div>
-                <div v-html="svg_elbow"></div>
+                <!-- <div v-html="svg_elbow"></div> -->
+                <img :src="'data:image/png;base64,' + svg_elbow" />
             </div>
 
             <div v-if="svg_umap != ''">
@@ -121,7 +124,8 @@ const svg_umap = defineModel<string>('svg_umap', { required: true });
                         innerText='DimPlot(final_seurat_object, reduction = "umap", label = TRUE)'
                     ></span>
                 </div>
-                <div v-html="svg_umap"></div>
+                <!-- <div v-html="svg_umap"></div> -->
+                <img :src="'data:image/png;base64,' + svg_umap" />
             </div>
         </CollapsibleContent>
     </Collapsible>

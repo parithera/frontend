@@ -16,6 +16,7 @@ import {
 } from './BaseRepository';
 import type { CreateProject } from '@/repositories/types/postBodies/CreateProject';
 import type { CreateAnalysis } from './types/postBodies/CreateAnalysis';
+import type { Result } from './types/entities/Result';
 
 export interface GetProjectsRequestOptions
     extends AuthRepoMethodGetRequestOptions,
@@ -28,6 +29,12 @@ export interface GetProjectsRequestOptions
 export interface GetProjectByIdRequestOptions extends AuthRepoMethodGetRequestOptions {
     orgId: string;
     projectId: string;
+}
+
+export interface GetGraphByAnalysisIdRequestOptions extends AuthRepoMethodGetRequestOptions {
+    orgId: string;
+    projectId: string;
+    analysisId: string;
 }
 
 export interface CreateAnalysisOptions extends AuthRepoMethodPostRequestOptions<CreateAnalysis> {
@@ -168,6 +175,38 @@ export class ProjectRepository extends BaseRepository {
         });
 
         return Entity.unMarshal<DataResponse<string>>(response, DataResponse<string>);
+    }
+
+    async getAnalysisGraph(
+        options: GetGraphByAnalysisIdRequestOptions
+    ): Promise<DataResponse<string>> {
+        const RELATIVE_URL = `/org/${options.orgId}/projects/${options.projectId}/png_graph/${options.analysisId}`;
+
+        const response = await this.getRequest<DataResponse<string>>({
+            bearerToken: options.bearerToken,
+            url: this.buildUrl(RELATIVE_URL),
+            handleBusinessErrors: options.handleBusinessErrors,
+            handleHTTPErrors: options.handleHTTPErrors,
+            handleOtherErrors: options.handleOtherErrors
+        });
+
+        return Entity.unMarshal<DataResponse<string>>(response, DataResponse<string>);
+    }
+
+    async getResultByAnalysisId(
+        options: GetGraphByAnalysisIdRequestOptions
+    ): Promise<DataResponse<Result>> {
+        const RELATIVE_URL = `/org/${options.orgId}/projects/${options.projectId}/result/${options.analysisId}`;
+
+        const response = await this.getRequest<DataResponse<Result>>({
+            bearerToken: options.bearerToken,
+            url: this.buildUrl(RELATIVE_URL),
+            handleBusinessErrors: options.handleBusinessErrors,
+            handleHTTPErrors: options.handleHTTPErrors,
+            handleOtherErrors: options.handleOtherErrors
+        });
+
+        return Entity.unMarshal<DataResponse<Result>>(response, DataResponse<Result>);
     }
 
     async getSVGVariableFeatures(

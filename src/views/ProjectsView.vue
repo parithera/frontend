@@ -47,12 +47,14 @@ const userStore = useUserStore();
 export type ChatContent = {
     request: string;
     response: string;
+    image: string;
 };
 
 let chat_content: Ref<ChatContent[]> = ref([
     {
         request: '',
-        response: 'Hi, how can I help you today?'
+        response: 'Hi, how can I help you today?',
+        image: ''
     }
 ]);
 
@@ -64,7 +66,6 @@ const svg_elbow = ref('');
 const svg_umap = ref('');
 const svg_variable_features = ref('');
 const svg_violin = ref('');
-const svg_graph = ref('');
 const loading = ref(false);
 const isOpen = ref(false);
 
@@ -76,7 +77,8 @@ async function newProject() {
     chat_content.value = [
         {
             request: '',
-            response: 'Hi, how can I help you today?'
+            response: 'Hi, how can I help you today?',
+            image: ''
         }
     ];
 
@@ -277,6 +279,10 @@ function addToReport(content: string) {
     quillEditor.value?.insertText(quillEditor.value.getLength(), content);
 }
 
+function addImageToReport(content: string) {
+    quillEditor.value?.insertEmbed(quillEditor.value.getLength(), 'image', content);
+}
+
 onMounted(() => {
     getProjects();
 });
@@ -355,17 +361,13 @@ onUpdated(() => {
                     v-model:svg_umap="svg_umap"
                 />
                 <div class="flex flex-col-reverse gap-4">
-                    <div v-html="svg_graph"></div>
                     <div
                         class="hover:bg-muted p-2 rounded"
                         v-for="(chat_element, index) in chat_content"
                         :key="index"
                     >
-                        <div
-                            v-if="chat_element.request != ''"
-                            class="flex items-center justify-between"
-                        >
-                            <div>
+                        <div v-if="chat_element.request != ''" class="flex flex-col">
+                            <div class="w-full flex justify-between">
                                 <div class="font-semibold flex gap-2 items-center">
                                     <Button variant="ghost" class="relative h-8 w-8 rounded-full">
                                         <Avatar class="h-8 w-8">
@@ -380,73 +382,101 @@ onUpdated(() => {
                                     </Button>
                                     <div>You :</div>
                                 </div>
-                                <div class="pl-4">
-                                    <span>{{ chat_element.request }}</span>
-                                </div>
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger as-child>
+                                            <Button
+                                                class="flex gap-2"
+                                                variant="outline"
+                                                @click="addToReport(chat_element.request)"
+                                            >
+                                                <span>Add</span>
+                                                <Icon class="text-2xl" icon="prime:copy"></Icon>
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>Send to report</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
                             </div>
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger as-child>
-                                        <Button
-                                            class="flex gap-2"
-                                            variant="outline"
-                                            @click="addToReport(chat_element.request)"
-                                        >
-                                            <span>Add</span>
-                                            <Icon class="text-2xl" icon="prime:copy"></Icon>
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>Send to report</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
+
+                            <div class="pl-4">
+                                <span>{{ chat_element.request }}</span>
+                            </div>
                         </div>
-                        <div class="flex items-center justify-between">
-                            <div>
+                        <div class="flex flex-col">
+                            <div class="w-full flex justify-between">
                                 <div class="font-semibold flex gap-1 items-center">
                                     <img src="@/imgs/logos/logo.svg" class="w-8 self-center" />
                                     <div>ExPlore :</div>
                                 </div>
-                                <div class="pl-4">
-                                    <VueMarkdown :source="chat_element.response" />
-                                </div>
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger as-child>
+                                            <Button
+                                                class="flex gap-2"
+                                                variant="outline"
+                                                @click="addToReport(chat_element.response)"
+                                            >
+                                                <span>Add</span>
+                                                <Icon class="text-2xl" icon="prime:copy"></Icon>
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>Send to report</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
                             </div>
 
-                            <TooltipProvider>
-                                <Tooltip>
-                                    <TooltipTrigger as-child>
-                                        <Button
-                                            class="flex gap-2"
-                                            variant="outline"
-                                            @click="addToReport(chat_element.response)"
-                                        >
-                                            <Icon class="text-2xl" icon="prime:copy"></Icon>
-                                            <span>Add</span>
-                                        </Button>
-                                    </TooltipTrigger>
-                                    <TooltipContent>
-                                        <p>Send to report</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
+                            <div class="pl-4 overflow-x-scroll">
+                                <VueMarkdown :source="chat_element.response" />
+                            </div>
+                            <div class="pl-4 overflow-x-scroll" v-if="chat_element.image != ''">
+                                <!-- <div v-html="svg_graph"></div> -->
+                                <TooltipProvider>
+                                    <Tooltip>
+                                        <TooltipTrigger as-child>
+                                            <Button
+                                                class="flex gap-2"
+                                                variant="outline"
+                                                @click="
+                                                    addImageToReport(
+                                                        'data:image/png;base64,' +
+                                                            chat_element.image
+                                                    )
+                                                "
+                                            >
+                                                <span>Add</span>
+                                                <Icon class="text-2xl" icon="prime:copy"></Icon>
+                                            </Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>Send to report</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                                <img :src="'data:image/png;base64,' + chat_element.image" />
+                            </div>
                         </div>
                     </div>
                 </div>
             </ScrollArea>
         </ResizablePanel>
         <ResizableHandle with-handle />
-        <ResizablePanel class="m-4" :default-size="40">
-            <div ref="editor">
-                <h1>Report</h1>
-            </div>
+        <ResizablePanel class="h-[calc(100vh-4rem)] p-2 m-4" :default-size="40">
+            <ScrollArea class="h-full">
+                <div ref="editor">
+                    <h1>Report</h1>
+                </div>
+            </ScrollArea>
         </ResizablePanel>
     </ResizablePanelGroup>
     <RequestBar
         v-if="selected_project.id"
         :selected_project="selected_project"
         v-model:chat_content="chat_content"
-        v-model:svg_graph="svg_graph"
         v-model:loading="loading"
     />
 </template>

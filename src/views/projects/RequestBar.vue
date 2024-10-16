@@ -17,13 +17,13 @@ import { Icon } from '@iconify/vue/dist/iconify.js';
 import { useForm } from 'vee-validate';
 import type { ModelRef } from 'vue';
 import type { ChatContent } from '../ProjectsView.vue';
+import { BusinessLogicError } from '@/repositories/BaseRepository';
 
 const props = defineProps<{
     selected_project: Project;
 }>();
 
 const chat_content: ModelRef<ChatContent[]> = defineModel('chat_content', { required: true });
-const svg_graph: ModelRef<string> = defineModel('svg_graph', { required: true });
 const loading: ModelRef<boolean> = defineModel('loading', { required: true });
 
 // Repositories
@@ -42,7 +42,8 @@ const { handleSubmit } = useForm({
 const onSubmit = handleSubmit((values) => {
     chat_content.value.splice(0, 0, {
         request: values.request,
-        response: 'Loading...'
+        response: 'Loading...',
+        image: ''
     });
     askGPT(values.request);
 });
@@ -60,11 +61,14 @@ async function askGPT(request: string) {
     chat_content.value.shift();
     chat_content.value.splice(0, 0, {
         request: request,
-        response: result.data.answer
+        response: result.data.answer,
+        image: ''
     });
 
     const scroll = document.getElementById('scrollArea');
     // scroll.childNodes[0].scrollTop = scroll.scrollHeight;
+
+    let analysis_id = '';
 
     if (result.data.type == 'chat') {
         const analyzer = await analyzerRepository.getAnalyzerByName({
@@ -73,7 +77,7 @@ async function askGPT(request: string) {
             analyzer_name: 'initialization'
         });
 
-        await projectRepository.createAnalysis({
+        const res = await projectRepository.createAnalysis({
             orgId: userStore.defaultOrg?.id ?? '',
             projectId: props.selected_project.id,
             bearerToken: authStore.getToken ?? '',
@@ -91,26 +95,53 @@ async function askGPT(request: string) {
                 commit_hash: ' ' // This will be removed
             }
         });
+        analysis_id = res.id;
     }
 
-    // Try to fetch graph every 5 seconds
-    setInterval(() => {
-        if (props.selected_project.id) {
-            fetchChatGraph();
-            return;
+    let result_id = '';
+
+    while (result_id == '') {
+        try {
+            const result = await projectRepository.getResultByAnalysisId({
+                bearerToken: authStore.getToken ?? '',
+                projectId: props.selected_project.id,
+                orgId: userStore.defaultOrg?.id ?? '',
+                analysisId: analysis_id,
+                handleBusinessErrors: true
+            });
+            result_id = result.data.id;
+            if (result_id != '') {
+                fetchChatGraph(result.data.image);
+            } else {
+                await new Promise((resolve) => setTimeout(resolve, 5000));
+            }
+        } catch (error) {
+            if (error instanceof BusinessLogicError) {
+                await new Promise((resolve) => setTimeout(resolve, 5000));
+            }
+            await new Promise((resolve) => setTimeout(resolve, 5000));
         }
-    }, 5000);
+    }
 }
 
-async function fetchChatGraph() {
-    const graph = await projectRepository.getSVGGraph({
-        bearerToken: authStore.getToken ?? '',
-        projectId: props.selected_project.id,
-        orgId: userStore.defaultOrg?.id ?? ''
-    });
+async function fetchChatGraph(analysis_id: string) {
+    try {
+        const graph = await projectRepository.getAnalysisGraph({
+            bearerToken: authStore.getToken ?? '',
+            projectId: props.selected_project.id,
+            orgId: userStore.defaultOrg?.id ?? '',
+            analysisId: analysis_id,
+            handleBusinessErrors: true
+        });
 
-    svg_graph.value = graph.data;
-    loading.value = false;
+        chat_content.value[0].image = graph.data;
+        loading.value = false;
+    } catch (error) {
+        if (error instanceof BusinessLogicError) {
+            console.error(error);
+        }
+        console.error(error);
+    }
 }
 </script>
 
