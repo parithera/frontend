@@ -10,6 +10,8 @@ import FormControl from '@/shadcn/ui/form/FormControl.vue';
 import FormDescription from '@/shadcn/ui/form/FormDescription.vue';
 import FormItem from '@/shadcn/ui/form/FormItem.vue';
 import FormMessage from '@/shadcn/ui/form/FormMessage.vue';
+import { useToast } from '@/shadcn/ui/toast';
+import Toaster from '@/shadcn/ui/toast/Toaster.vue';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { Icon } from '@iconify/vue/dist/iconify.js';
@@ -33,6 +35,8 @@ const userStore = useUserStore();
 const selected_project: ModelRef<Project> = defineModel('selected_project', { required: true });
 const loading: ModelRef<boolean> = defineModel('loading', { required: true });
 
+const { toast } = useToast();
+
 const { handleSubmit } = useForm({
     // validationSchema: formSchema
 });
@@ -50,6 +54,11 @@ const onFileSubmit = handleSubmit(async (values) => {
             file_name: 'data.h5'
         },
         projectId: selected_project.value.id
+    });
+
+    toast({
+        title: 'File uploaded successfully!',
+        description: 'Please wait while we preprocess the file...'
     });
 
     const analyzer = await analyzerRepository.getAnalyzerByName({
@@ -103,6 +112,10 @@ const onFileSubmit = handleSubmit(async (values) => {
     selected_project.value = project_retrieved_2.data;
     await props.fetchGraphs(selected_project.value);
     loading.value = false;
+    toast({
+        title: 'File analyzed successfully!',
+        description: 'Start chatting with ExPlore'
+    });
 });
 
 async function deleteFile(file: ProjectFile) {
@@ -161,4 +174,5 @@ async function deleteFile(file: ProjectFile) {
             ></Icon>
         </div>
     </div>
+    <Toaster />
 </template>
