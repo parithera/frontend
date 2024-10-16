@@ -122,7 +122,7 @@
                                 </FormItem>
                             </FormField>
                         </div>
-                        <FormField v-slot="{ componentField }" name="handle">
+                        <!-- <FormField v-slot="{ componentField }" name="handle">
                             <FormItem v-auto-animate>
                                 <FormLabel>Handle:</FormLabel>
                                 <FormControl>
@@ -134,7 +134,7 @@
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
-                        </FormField>
+                        </FormField> -->
                         <FormField v-slot="{ componentField }" name="plainPassword">
                             <FormItem v-auto-animate>
                                 <FormLabel>Password:</FormLabel>
@@ -248,20 +248,20 @@ import { Input } from '@/shadcn/ui/input';
 import { Checkbox } from '@/shadcn/ui/checkbox';
 import { toast } from '@/shadcn/ui/toast';
 
-import ErrorComponent from '@/common_components/ErrorComponent.vue';
-import LoadingComponent from '@/common_components/LoadingComponent.vue';
-import { defineAsyncComponent } from 'vue';
+// import ErrorComponent from '@/common_components/ErrorComponent.vue';
+// import LoadingComponent from '@/common_components/LoadingComponent.vue';
+// import { defineAsyncComponent } from 'vue';
 
-const SSOAuth = defineAsyncComponent({
-    loader: () => import('@/enterprise_components/sso/SSOAuth.vue'),
-    loadingComponent: LoadingComponent,
-    // Delay before showing the loading component. Default: 200ms.
-    delay: 200,
-    errorComponent: ErrorComponent,
-    // The error component will be displayed if a timeout is
-    // provided and exceeded. Default: Infinity.
-    timeout: 3000
-});
+// const SSOAuth = defineAsyncComponent({
+//     loader: () => import('@/enterprise_components/sso/SSOAuth.vue'),
+//     loadingComponent: LoadingComponent,
+//     // Delay before showing the loading component. Default: 200ms.
+//     delay: 200,
+//     errorComponent: ErrorComponent,
+//     // The error component will be displayed if a timeout is
+//     // provided and exceeded. Default: Infinity.
+//     timeout: 3000
+// });
 
 // Stores
 const authStore = useAuthStore();
@@ -281,7 +281,7 @@ const formSchema = toTypedSchema(
         email: z.string().email(),
         first_name: z.string().min(2).max(25),
         last_name: z.string().min(2).max(25),
-        handle: z.string().min(5).max(50),
+        // handle: z.string().min(5).max(50),
         plainPassword: z.string().min(10).max(75),
         plainPasswordConfirm: z.string().min(10).max(75),
         agreeTerms: z.boolean().default(false)
@@ -319,13 +319,19 @@ async function submit(values: any) {
     validationError.value = undefined;
     error.value = false;
 
+    const handle =
+        values.first_name +
+        values.last_name +
+        Math.floor(Math.random() * 1000000)
+            .toString()
+            .slice(0, 4);
     try {
         await authRepository.register({
             data: {
                 first_name: values.first_name,
                 last_name: values.last_name,
                 email: values.email,
-                handle: values.handle,
+                handle: handle,
                 password: values.plainPassword,
                 password_confirmation: values.plainPasswordConfirm
             },
