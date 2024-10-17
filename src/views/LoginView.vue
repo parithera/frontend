@@ -1,19 +1,9 @@
 <script setup lang="ts">
 import { cn } from '@/lib/utils';
 import { buttonVariants } from '@/shadcn/ui/button';
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious
-} from '@/shadcn/ui/carousel';
 import type { CarouselApi } from '@/shadcn/ui/carousel';
 
-import Autoplay from 'embla-carousel-autoplay';
-
 import { useStateStore } from '@/stores/state';
-import { Icon } from '@iconify/vue/dist/iconify.js';
 import { ref } from 'vue';
 import { watchOnce } from '@vueuse/core';
 import Button from '@/shadcn/ui/button/Button.vue';
@@ -41,7 +31,6 @@ state.publicPage = true;
 
 const api = ref<CarouselApi>();
 const current = ref(0);
-const show_buttons = ref(false);
 const question = ref('');
 
 var words = [
@@ -88,10 +77,6 @@ var wordflick = function () {
 };
 wordflick();
 
-function setApi(val: CarouselApi) {
-    api.value = val;
-}
-
 watchOnce(api, (api) => {
     if (!api) return;
 
@@ -104,9 +89,7 @@ watchOnce(api, (api) => {
 </script>
 
 <template>
-    <div
-        class="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0"
-    >
+    <div>
         <RouterLink
             :to="{ name: 'signup' }"
             :class="
@@ -119,96 +102,7 @@ watchOnce(api, (api) => {
             <img src="@/imgs/logos/logo.svg" class="w-8" />
             Signup
         </RouterLink>
-        <div
-            class="relative hidden h-full flex-col p-10 text-white dark:border-r lg:flex"
-            @mouseenter="show_buttons = true"
-            @mouseleave="show_buttons = false"
-        >
-            <div class="absolute inset-0 bg-primary"></div>
-            <div class="relative z-20 flex items-center text-lg font-medium">
-                <img src="@/imgs/logos/logo-white.svg" class="w-8 mr-2" />
-                Parithera
-            </div>
-            <div class="relative z-20 mt-auto flex justify-center">
-                <Carousel
-                    @init-api="setApi"
-                    class="mx-4"
-                    :opts="{
-                        align: 'start',
-                        loop: true
-                    }"
-                    :plugins="[Autoplay({ delay: 10000 })]"
-                >
-                    <CarouselContent>
-                        <CarouselItem class="flex flex-col justify-center">
-                            <div class="flex gap-4 items-center">
-                                <!-- TODO check icon license -->
-                                <Icon icon="logos:javascript" class="text-7xl flex-shrink-0"></Icon>
-                                <span class="text-4xl">
-                                    Eliminate all safety issues from your JavaScript code
-                                    automatically*
-                                </span>
-                            </div>
-                        </CarouselItem>
-                        <CarouselItem class="flex flex-col justify-evenly">
-                            <span class="text-4xl"
-                                >Perfect for software developers, who are asking themselves these
-                                questions:</span
-                            >
-                            <span class="text-4xl">How to {{ question }}</span>
-                        </CarouselItem>
-                        <CarouselItem class="flex flex-col justify-evenly items-center">
-                            <div class="grid gap-20 grid-cols-1">
-                                <div class="flex flex-col items-center col-span-1 text-8xl">
-                                    1 second
-                                    <span class="text-4xl">to fix 500 dependencies</span>
-                                </div>
-                                <div class="flex flex-col items-center col-span-1 text-8xl">
-                                    Real-time
-                                    <span class="text-4xl">vulnerability monitoring</span>
-                                </div>
-                                <div class="flex flex-col items-center col-span-1 text-8xl">
-                                    3-steps
-                                    <span class="text-4xl">to get your first report</span>
-                                </div>
-                            </div>
-                        </CarouselItem>
-                        <CarouselItem class="flex flex-col justify-center items-center">
-                            <div class="grid gap-20 grid-cols-2">
-                                <Icon icon="pajamas:github" class="text-9xl"></Icon>
-                                <Icon icon="logos:gitlab" class="text-9xl"></Icon>
-                            </div>
-                        </CarouselItem>
-                        <CarouselItem class="flex flex-col justify-center">
-                            <img src="/src/imgs/others/login-page-demo.png" />
-                        </CarouselItem>
-                        <CarouselItem class="flex flex-col justify-center">
-                            <img src="/src/imgs/others/patch.png" />
-                        </CarouselItem>
-                    </CarouselContent>
-                    <CarouselPrevious v-show="show_buttons" />
-                    <CarouselNext v-show="show_buttons" />
-                </Carousel>
-            </div>
-            <div class="relative z-20 mt-auto">
-                <blockquote v-if="current == 1" class="space-y-2">
-                    <p class="text-lg">*More languages coming soon.</p>
-                    <!-- <footer class="text-sm">
-                        CodeClarity
-                    </footer> -->
-                </blockquote>
-                <p v-else-if="current == 4" class="text-3xl text-center">
-                    Import a project from Gitlab or Github
-                </p>
-                <p v-else-if="current == 5" class="text-3xl text-center">
-                    Start an analysis and find any issue in an instant
-                </p>
-                <p v-else-if="current == 6" class="text-3xl text-center">
-                    We guide you through the fixing process
-                </p>
-            </div>
-        </div>
-        <div class="lg:p-8">
+        <div class="h-svh flex justify-center">
             <div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
                 <img src="@/imgs/logos/logo.svg" class="w-20 self-center" />
                 <div class="flex flex-col space-y-2 text-center">
