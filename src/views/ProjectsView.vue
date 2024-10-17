@@ -5,7 +5,7 @@ import { useStateStore } from '@/stores/state';
 import { useAuthStore } from '@/stores/auth';
 
 import { Icon } from '@iconify/vue/dist/iconify.js';
-import { onMounted, onUpdated, ref, type Ref } from 'vue';
+import { onMounted, onUpdated, ref, watch, type Ref } from 'vue';
 import Separator from '@/shadcn/ui/separator/Separator.vue';
 import { ProjectRepository } from '@/repositories/ProjectRepository';
 import { useUserStore } from '@/stores/user';
@@ -283,8 +283,32 @@ function addImageToReport(content: string) {
     quillEditor.value?.insertEmbed(quillEditor.value.getLength(), 'image', content);
 }
 
+async function getChatHistory(project_id: string) {
+    if (selected_project.value.files?.length == 0) return;
+    if (loading.value) return;
+    // if (svg_elbow.value == '') return;
+    try {
+        const res = await projectRepository.getChatHistory({
+            bearerToken: authStore.getToken ?? '',
+            handleBusinessErrors: true,
+            projectId: project_id,
+            orgId: userStore.defaultOrg?.id ?? ''
+        });
+        chat_content.value = res.data.messages;
+    } catch (error) {
+        if (error instanceof BusinessLogicError) {
+            await new Promise((resolve) => setTimeout(resolve, 5000));
+        }
+        await new Promise((resolve) => setTimeout(resolve, 5000));
+    }
+}
+
 onMounted(() => {
     getProjects();
+});
+
+watch(selected_project, () => {
+    getChatHistory(selected_project.value.id);
 });
 
 onUpdated(() => {

@@ -17,6 +17,7 @@ import {
 import type { CreateProject } from '@/repositories/types/postBodies/CreateProject';
 import type { CreateAnalysis } from './types/postBodies/CreateAnalysis';
 import type { Result } from './types/entities/Result';
+import type { Chat } from './types/entities/Chat';
 
 export interface GetProjectsRequestOptions
     extends AuthRepoMethodGetRequestOptions,
@@ -237,6 +238,20 @@ export class ProjectRepository extends BaseRepository {
         });
 
         return Entity.unMarshal<DataResponse<string>>(response, DataResponse<string>);
+    }
+
+    async getChatHistory(options: GetProjectByIdRequestOptions): Promise<DataResponse<Chat>> {
+        const RELATIVE_URL = `/gpt/${options.projectId}/history`;
+
+        const response = await this.getRequest<DataResponse<Chat>>({
+            bearerToken: options.bearerToken,
+            url: this.buildUrl(RELATIVE_URL),
+            handleBusinessErrors: options.handleBusinessErrors,
+            handleHTTPErrors: options.handleHTTPErrors,
+            handleOtherErrors: options.handleOtherErrors
+        });
+
+        return Entity.unMarshal<DataResponse<Chat>>(response, DataResponse<Chat>);
     }
 
     async deleteProject(options: DeleteProjectOptions): Promise<NoDataResponse> {
