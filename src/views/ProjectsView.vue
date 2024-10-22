@@ -408,7 +408,7 @@ onUpdated(() => {
                 />
                 <div class="flex flex-col-reverse gap-4">
                     <div
-                        class="hover:bg-muted p-2 rounded"
+                        class="border-l-2 hover:border-primary p-2"
                         v-for="(chat_element, index) in chat_content"
                         :key="index"
                     >
@@ -513,7 +513,7 @@ onUpdated(() => {
                                 <Dialog>
                                     <DialogTrigger asChild>
                                         <img
-                                            class="cursor-pointer w-1/2 hover:scale-105 hover:translate-y-1 transition duration-300 ease-in-out"
+                                            class="cursor-pointer w-1/2 hover:scale-105 hover:translate-y-2 transition duration-300 ease-in-out"
                                             :src="'data:image/png;base64,' + chat_element.image"
                                         />
                                     </DialogTrigger>

@@ -109,7 +109,7 @@ DimPlot(final_seurat_object, reduction = "umap", label = TRUE)
                 <Dialog>
                     <DialogTrigger asChild>
                         <img
-                            class="cursor-pointer w-1/2 hover:scale-105 hover:translate-y-1 transition duration-300 ease-in-out"
+                            class="cursor-pointer w-1/2 hover:scale-105 hover:translate-y-2 transition duration-300 ease-in-out"
                             :src="'data:image/png;base64,' + svg_violin"
                         />
                     </DialogTrigger>
@@ -135,7 +135,7 @@ DimPlot(final_seurat_object, reduction = "umap", label = TRUE)
                 <Dialog>
                     <DialogTrigger asChild>
                         <img
-                            class="cursor-pointer w-1/2 hover:scale-105 hover:translate-y-1 transition duration-300 ease-in-out"
+                            class="cursor-pointer w-1/2 hover:scale-105 hover:translate-y-2 transition duration-300 ease-in-out"
                             :src="'data:image/png;base64,' + svg_variable_features"
                         />
                     </DialogTrigger>
@@ -161,7 +161,7 @@ DimPlot(final_seurat_object, reduction = "umap", label = TRUE)
                 <Dialog>
                     <DialogTrigger asChild>
                         <img
-                            class="cursor-pointer w-1/2 hover:scale-105 hover:translate-y-1 transition duration-300 ease-in-out"
+                            class="cursor-pointer w-1/2 hover:scale-105 hover:translate-y-2 transition duration-300 ease-in-out"
                             :src="'data:image/png;base64,' + svg_elbow"
                         />
                     </DialogTrigger>
@@ -187,7 +187,7 @@ DimPlot(final_seurat_object, reduction = "umap", label = TRUE)
                 <Dialog>
                     <DialogTrigger asChild>
                         <img
-                            class="cursor-pointer w-1/2 hover:scale-105 hover:translate-y-1 transition duration-300 ease-in-out"
+                            class="cursor-pointer w-1/2 hover:scale-105 hover:translate-y-2 transition duration-300 ease-in-out"
                             :src="'data:image/png;base64,' + svg_umap"
                         />
                     </DialogTrigger>
