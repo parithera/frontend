@@ -23,8 +23,7 @@ import UserNav from './components/UserNav.vue';
         <div class="border-b">
             <div class="flex h-16 items-center px-4 gap-4">
                 <RouterLink :to="{ name: 'home' }" class="flex gap-1 items-center">
-                    <img src="@/imgs/logos/logo.svg" class="w-8 self-center" />
-                    <div class="font-semibold text-lg text-muted-foreground">Parithera</div>
+                    <img src="@/imgs/logos/logo_name.svg" class="h-5 self-center" />
                 </RouterLink>
 
                 <!-- <TeamSwitcher /> -->
