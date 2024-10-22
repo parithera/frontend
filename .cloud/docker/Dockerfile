@@ -11,7 +11,7 @@ ENTRYPOINT yarn set version stable && yarn install && yarn dev --host
 FROM node:22.8.0-alpine AS yarn_builder
 COPY --link . /app/
 WORKDIR /app
-# RUN yarn set version stable
+RUN yarn set version stable
 RUN yarn
 RUN yarn build-only
 
