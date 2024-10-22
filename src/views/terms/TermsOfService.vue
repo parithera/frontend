@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import VueMarkdown from 'vue-markdown-render';
 import router from '@/router';
 import Button from '@/shadcn/ui/button/Button.vue';
+
+import MarkdownIt from 'markdown-it';
+const markdown = new MarkdownIt().disable(['link']);
 
 const data = `
 *Last updated: March 19, 2024*
@@ -95,7 +97,8 @@ If you have a question about any of these Terms, please **[contact our Support t
     <div class="flex flex-col gap-4 p-12">
         <div class="text-3xl self-center">Terms of service</div>
 
-        <vue-markdown :source="data" :options="{ linkify: false }" />
+        <!-- <vue-markdown :source="data" :options="{ linkify: false }" /> -->
+        <div v-html="markdown.render(data)" />
 
         <Button @click="router.back()">Go back</Button>
     </div>

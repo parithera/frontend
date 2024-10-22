@@ -14,7 +14,7 @@ import Skeleton from '@/shadcn/ui/skeleton/Skeleton.vue';
 import Avatar from '@/shadcn/ui/avatar/Avatar.vue';
 import AvatarImage from '@/shadcn/ui/avatar/AvatarImage.vue';
 import AvatarFallback from '@/shadcn/ui/avatar/AvatarFallback.vue';
-import VueMarkdown from 'vue-markdown-render';
+import MarkdownIt from 'markdown-it';
 import ResizablePanelGroup from '@/shadcn/ui/resizable/ResizablePanelGroup.vue';
 import { ResizablePanel } from '@/shadcn/ui/resizable';
 import ResizableHandle from '@/shadcn/ui/resizable/ResizableHandle.vue';
@@ -43,6 +43,10 @@ const projectRepository: ProjectRepository = new ProjectRepository();
 // Stores
 const authStore = useAuthStore();
 const userStore = useUserStore();
+
+const markdown = new MarkdownIt({
+    linkify: false
+}).disable(['link']);
 
 export type ChatContent = {
     request: string;
@@ -455,7 +459,12 @@ onUpdated(() => {
                             </div>
 
                             <div class="pl-4 overflow-x-scroll">
-                                <VueMarkdown :source="chat_element.response" />
+                                <!-- <VueMarkdown
+                                    id="markdown"
+                                    :source="chat_element.response"
+                                    :options="options"
+                                /> -->
+                                <div v-html="markdown.render(chat_element.response)" />
                             </div>
                             <div class="pl-4 overflow-x-scroll" v-if="chat_element.image != ''">
                                 <!-- <div v-html="svg_graph"></div> -->
@@ -504,3 +513,10 @@ onUpdated(() => {
         v-model:loading="loading"
     />
 </template>
+
+<style lang="scss">
+#markdown a {
+    color: #00838f;
+    text-decoration: none;
+}
+</style>
