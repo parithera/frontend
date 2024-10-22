@@ -2,7 +2,6 @@
 import { RouterLink } from 'vue-router';
 import MainNav from './components/MainNav.vue';
 import SearchHeader from './components/SearchHeader.vue';
-import TeamSwitcher from './components/TeamSwitcher.vue';
 import UserNav from './components/UserNav.vue';
 </script>
 
@@ -28,7 +27,7 @@ import UserNav from './components/UserNav.vue';
                     <div class="font-semibold text-lg text-muted-foreground">Parithera</div>
                 </RouterLink>
 
-                <TeamSwitcher />
+                <!-- <TeamSwitcher /> -->
                 <MainNav class="mx-6" />
                 <div class="ml-auto flex items-center space-x-4">
                     <SearchHeader />

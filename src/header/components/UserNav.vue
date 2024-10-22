@@ -142,7 +142,7 @@ async function deleteAllNotifications() {
             </DropdownMenuItem> -->
                 <RouterLink
                     title="Manage Organizations"
-                    :to="{ name: 'orgs', params: { page: 'list' } }"
+                    :to="{ name: 'orgs', params: { action: 'list' } }"
                 >
                     <DropdownMenuItem class="cursor-pointer">
                         Manage Organizations

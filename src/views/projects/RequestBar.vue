@@ -15,7 +15,7 @@ import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import { useForm } from 'vee-validate';
-import type { ModelRef } from 'vue';
+import { useTemplateRef, type ModelRef } from 'vue';
 import type { ChatContent } from '../ProjectsView.vue';
 import { BusinessLogicError } from '@/repositories/BaseRepository';
 
@@ -35,6 +35,8 @@ const analyzerRepository: AnalyzerRepository = new AnalyzerRepository();
 const authStore = useAuthStore();
 const userStore = useUserStore();
 
+const requestInput = useTemplateRef('RequestInput');
+
 const { handleSubmit } = useForm({
     // validationSchema: formSchema
 });
@@ -46,6 +48,7 @@ const onSubmit = handleSubmit((values) => {
         image: ''
     });
     askGPT(values.request);
+    requestInput.value?.setValue('');
 });
 
 async function askGPT(request: string) {
@@ -147,7 +150,7 @@ async function fetchChatGraph(analysis_id: string) {
 
 <template>
     <form class="w-1/2 left-1/4 bottom-6 fixed" @submit="onSubmit">
-        <FormField v-slot="{ componentField }" name="request">
+        <FormField ref="RequestInput" v-slot="{ componentField }" name="request">
             <FormItem>
                 <!-- <FormLabel>Bio</FormLabel> -->
                 <FormControl>
