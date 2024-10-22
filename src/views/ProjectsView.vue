@@ -15,6 +15,7 @@ import Avatar from '@/shadcn/ui/avatar/Avatar.vue';
 import AvatarImage from '@/shadcn/ui/avatar/AvatarImage.vue';
 import AvatarFallback from '@/shadcn/ui/avatar/AvatarFallback.vue';
 import MarkdownIt from 'markdown-it';
+import hljs from 'highlight.js';
 import ResizablePanelGroup from '@/shadcn/ui/resizable/ResizablePanelGroup.vue';
 import { ResizablePanel } from '@/shadcn/ui/resizable';
 import ResizableHandle from '@/shadcn/ui/resizable/ResizableHandle.vue';
@@ -45,8 +46,21 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 
 const markdown = new MarkdownIt({
-    linkify: false
-}).disable(['link']);
+    html: true,
+    xhtmlOut: true,
+    breaks: true,
+    linkify: true,
+    typographer: true,
+    highlight: function (str, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+            try {
+                return hljs.highlight(str, { language: lang }).value;
+            } catch (__) {}
+        }
+
+        return ''; // use external default escaping
+    }
+});
 
 export type ChatContent = {
     request: string;
@@ -459,15 +473,12 @@ onUpdated(() => {
                             </div>
 
                             <div class="pl-4 overflow-x-scroll">
-                                <!-- <VueMarkdown
+                                <div
                                     id="markdown"
-                                    :source="chat_element.response"
-                                    :options="options"
-                                /> -->
-                                <div v-html="markdown.render(chat_element.response)" />
+                                    v-html="markdown.render(chat_element.response)"
+                                ></div>
                             </div>
                             <div class="pl-4 overflow-x-scroll" v-if="chat_element.image != ''">
-                                <!-- <div v-html="svg_graph"></div> -->
                                 <TooltipProvider>
                                     <Tooltip>
                                         <TooltipTrigger as-child>
@@ -490,7 +501,10 @@ onUpdated(() => {
                                         </TooltipContent>
                                     </Tooltip>
                                 </TooltipProvider>
-                                <img :src="'data:image/png;base64,' + chat_element.image" />
+                                <img
+                                    class="w-1/2 hover:w-full"
+                                    :src="'data:image/png;base64,' + chat_element.image"
+                                />
                             </div>
                         </div>
                     </div>
@@ -515,8 +529,11 @@ onUpdated(() => {
 </template>
 
 <style lang="scss">
+@import 'highlight.js/styles/atom-one-dark.css';
+
 #markdown a {
     color: #00838f;
     text-decoration: none;
+    font-weight: bold;
 }
 </style>

@@ -1673,7 +1673,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/markdown-it@npm:^14.1.2":
+"@types/markdown-it@npm:14.1.2":
   version: 14.1.2
   resolution: "@types/markdown-it@npm:14.1.2"
   dependencies:
@@ -4958,7 +4958,7 @@ __metadata:
     "@types/d3": "npm:7.4.3"
     "@types/jquery": "npm:3.5.30"
     "@types/jsdom": "npm:21.1.7"
-    "@types/markdown-it": "npm:^14.1.2"
+    "@types/markdown-it": "npm:14.1.2"
     "@types/node": "npm:22.5.5"
     "@types/validator": "npm:13.12.2"
     "@unovis/ts": "npm:1.4.4"
@@ -4985,10 +4985,11 @@ __metadata:
     eslint: "npm:8.56.0"
     eslint-plugin-cypress: "npm:3.5.0"
     eslint-plugin-vue: "npm:9.28.0"
+    highlight.js: "npm:^11.10.0"
     jsdom: "npm:25.0.1"
     litegraph.js: "npm:0.7.18"
     lucide-vue-next: "npm:0.445.0"
-    markdown-it: "npm:^14.1.0"
+    markdown-it: "npm:14.1.0"
     moment: "npm:2.30.1"
     npm-run-all: "npm:4.1.5"
     pinia: "npm:2.2.2"
@@ -5380,6 +5381,13 @@ __metadata:
   bin:
     he: bin/he
   checksum: 10/d09b2243da4e23f53336e8de3093e5c43d2c39f8d0d18817abfa32ce3e9355391b2edb4bb5edc376aea5d4b0b59d6a0482aab4c52bc02ef95751e4b818e847f1
+  languageName: node
+  linkType: hard
+
+"highlight.js@npm:^11.10.0":
+  version: 11.10.0
+  resolution: "highlight.js@npm:11.10.0"
+  checksum: 10/fc8747bcd4a491fc6a47ff80536881dcc9ea9b36cdc2a22a7be5670b89d76ca6c26df9d749017a23bbb2eb708331097a5ecbcee6330fb9064512d80cc3369d99
   languageName: node
   linkType: hard
 
@@ -6349,7 +6357,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"markdown-it@npm:^14.1.0":
+"markdown-it@npm:14.1.0":
   version: 14.1.0
   resolution: "markdown-it@npm:14.1.0"
   dependencies:
