@@ -5,7 +5,7 @@ import { useStateStore } from '@/stores/state';
 import { useAuthStore } from '@/stores/auth';
 
 import { Icon } from '@iconify/vue/dist/iconify.js';
-import { onMounted, onUpdated, ref, watch, type Ref } from 'vue';
+import { onMounted, onUpdated, ref, watch, watchEffect, type Ref } from 'vue';
 import Separator from '@/shadcn/ui/separator/Separator.vue';
 import { ProjectRepository } from '@/repositories/ProjectRepository';
 import { useUserStore } from '@/stores/user';
@@ -33,6 +33,7 @@ import Dialog from '@/shadcn/ui/dialog/Dialog.vue';
 import DialogTrigger from '@/shadcn/ui/dialog/DialogTrigger.vue';
 import DialogContent from '@/shadcn/ui/dialog/DialogContent.vue';
 import ScrollBar from '@/shadcn/ui/scroll-area/ScrollBar.vue';
+import Progress from '@/shadcn/ui/progress/Progress.vue';
 
 const state = useStateStore();
 state.$reset();
@@ -94,6 +95,13 @@ const isOpen = ref(false);
 const quillEditor: Ref<Quill | undefined> = ref();
 
 const editor = useTemplateRef<HTMLDivElement>('editor');
+
+const progress: Ref<number> = ref(10);
+
+watchEffect((cleanupFn) => {
+    let timer = setTimeout(() => (progress.value = 10), 500);
+    cleanupFn(() => clearTimeout(timer));
+});
 
 async function newProject() {
     chat_content.value = [
@@ -522,6 +530,16 @@ onUpdated(() => {
                                     </DialogContent>
                                 </Dialog>
                             </div>
+                            <div
+                                class="pl-4 flex flex-col items-center"
+                                v-if="
+                                    chat_element.response.endsWith(
+                                        'Please wait while the script is running'
+                                    ) && chat_element.image == ''
+                                "
+                            >
+                                <Progress v-model="progress" class="w-3/5"></Progress>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -541,6 +559,7 @@ onUpdated(() => {
         :selected_project="selected_project"
         v-model:chat_content="chat_content"
         v-model:loading="loading"
+        v-model:progress="progress"
     />
 </template>
 
