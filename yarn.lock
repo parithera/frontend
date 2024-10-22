@@ -4985,7 +4985,7 @@ __metadata:
     eslint: "npm:8.56.0"
     eslint-plugin-cypress: "npm:3.5.0"
     eslint-plugin-vue: "npm:9.28.0"
-    highlight.js: "npm:^11.10.0"
+    highlight.js: "npm:11.10.0"
     jsdom: "npm:25.0.1"
     litegraph.js: "npm:0.7.18"
     lucide-vue-next: "npm:0.445.0"
@@ -5384,7 +5384,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"highlight.js@npm:^11.10.0":
+"highlight.js@npm:11.10.0":
   version: 11.10.0
   resolution: "highlight.js@npm:11.10.0"
   checksum: 10/fc8747bcd4a491fc6a47ff80536881dcc9ea9b36cdc2a22a7be5670b89d76ca6c26df9d749017a23bbb2eb708331097a5ecbcee6330fb9064512d80cc3369d99
