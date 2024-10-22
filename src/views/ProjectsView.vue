@@ -5,7 +5,7 @@ import { useStateStore } from '@/stores/state';
 import { useAuthStore } from '@/stores/auth';
 
 import { Icon } from '@iconify/vue/dist/iconify.js';
-import { onMounted, onUpdated, ref, watch, watchEffect, type Ref } from 'vue';
+import { onMounted, ref, watch, watchEffect, type Ref } from 'vue';
 import Separator from '@/shadcn/ui/separator/Separator.vue';
 import { ProjectRepository } from '@/repositories/ProjectRepository';
 import { useUserStore } from '@/stores/user';
@@ -20,15 +20,15 @@ import ResizablePanelGroup from '@/shadcn/ui/resizable/ResizablePanelGroup.vue';
 import { ResizablePanel } from '@/shadcn/ui/resizable';
 import ResizableHandle from '@/shadcn/ui/resizable/ResizableHandle.vue';
 import ScrollArea from '@/shadcn/ui/scroll-area/ScrollArea.vue';
-import Quill, { type QuillOptions } from 'quill';
 import { useTemplateRef } from 'vue';
 import SelectProject from '@/views/projects/SelectProject.vue';
 import CreateProjectForm from '@/views/projects/CreateProjectForm.vue';
 import UploadFile from '@/views/projects/UploadFile.vue';
 import RequestBar from '@/views/projects/RequestBar.vue';
 import PreProcessData from '@/views/projects/PreProcessData.vue';
+import ProjectEditor from '@/views/projects/ProjectEditor.vue';
 import { BusinessLogicError } from '@/repositories/BaseRepository';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shadcn/ui/tooltip';
+// import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shadcn/ui/tooltip';
 import Dialog from '@/shadcn/ui/dialog/Dialog.vue';
 import DialogTrigger from '@/shadcn/ui/dialog/DialogTrigger.vue';
 import DialogContent from '@/shadcn/ui/dialog/DialogContent.vue';
@@ -67,6 +67,33 @@ const markdown = new MarkdownIt({
     }
 });
 
+import { initVelt } from '@veltdev/client';
+
+var client: any;
+
+const setUser = () => {
+    if (client) {
+        const user = {
+            userId: userStore.user?.id,
+            name: userStore.user?.handle,
+            email: userStore.user?.email,
+            photoUrl: '',
+            color: '#008491', // Use valid Hex code value. Used in the background color of the user's avatar.
+            textColor: '#008491', // Use valid Hex code value. Used in the text color of the user's intial when photoUrl is not present.
+            organizationId: 'organizationId123' //(optional) If you want to categorize the user into an organization
+        }; // Your user object here
+        client.identify(user);
+    }
+};
+
+const setDocument = () => {
+    if (client) {
+        client.setDocument(selected_project.value.id, {
+            documentName: selected_project.value.name
+        });
+    }
+};
+
 export type ChatContent = {
     request: string;
     response: string;
@@ -91,8 +118,6 @@ const svg_variable_features = ref('');
 const svg_violin = ref('');
 const loading = ref(false);
 const isOpen = ref(false);
-
-const quillEditor: Ref<Quill | undefined> = ref();
 
 const editor = useTemplateRef<HTMLDivElement>('editor');
 
@@ -194,6 +219,7 @@ async function selectOrUnselectProject(project: Project) {
             }
         }
         fetchGraphs(project);
+        setDocument();
     }
 }
 
@@ -271,48 +297,6 @@ async function fetchGraphs(project: Project) {
     }
 }
 
-function initQuill() {
-    // If editor already created
-    if (quillEditor.value) return;
-
-    const container = editor.value;
-    // If container not displayed
-    if (!container) return;
-
-    const toolbarOptions = [
-        [{ header: [1, 2, 3, false] }],
-        ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-
-        [{ list: 'ordered' }, { list: 'bullet' }, { list: 'check' }],
-
-        [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-
-        ['blockquote', 'code-block'],
-        ['link', 'image'],
-
-        [{ color: [] }, { background: [] }],
-        [{ font: [] }],
-        [{ align: [] }]
-    ];
-    const options: QuillOptions = {
-        debug: 'error',
-        modules: {
-            toolbar: toolbarOptions
-        },
-        placeholder: 'Start writing your report here...',
-        theme: 'snow'
-    };
-    quillEditor.value = new Quill(container, options);
-}
-
-function addToReport(content: string) {
-    quillEditor.value?.insertText(quillEditor.value.getLength(), content);
-}
-
-function addImageToReport(content: string) {
-    quillEditor.value?.insertEmbed(quillEditor.value.getLength(), 'image', content);
-}
-
 async function getChatHistory(project_id: string) {
     if (selected_project.value.files?.length == 0) return;
     if (loading.value) return;
@@ -333,16 +317,21 @@ async function getChatHistory(project_id: string) {
     }
 }
 
-onMounted(() => {
+onMounted(async () => {
     getProjects();
+    client = await initVelt('ZmXkY3lHSJaiE85JRGsz');
+    setUser();
+    setDocument();
+
+    if (client) {
+        const selectionElement = client.getSelectionElement();
+        selectionElement.enableLiveSelection();
+        selectionElement.disableLiveSelection();
+    }
 });
 
 watch(selected_project, () => {
     getChatHistory(selected_project.value.id);
-});
-
-onUpdated(() => {
-    initQuill();
 });
 </script>
 
@@ -359,201 +348,206 @@ onUpdated(() => {
         v-model:new_project_description="new_project_description"
     />
 
-    <ResizablePanelGroup direction="horizontal" v-else>
-        <ResizablePanel
-            class="flex flex-col items-center max-w-60 p-6 py-8 h-[calc(100vh-4rem)] bg-secondary"
-            :default-size="20"
+    <div class="flex" v-else>
+        <div
+            class="flex flex-col gap-2 items-center max-w-60 p-6 py-8 h-[calc(100vh-4rem)] bg-secondary"
         >
-            <div class="flex flex-col gap-2">
-                <UploadFile
-                    v-model:selected_project="selected_project"
-                    v-model:loading="loading"
-                    :fetchGraphs="fetchGraphs"
-                />
+            <UploadFile
+                v-model:selected_project="selected_project"
+                v-model:loading="loading"
+                :fetchGraphs="fetchGraphs"
+            />
 
-                <Separator class="my-4" />
-                <CreateProjectForm
-                    v-model:new_project_name="new_project_name"
-                    v-model:new_project_description="new_project_description"
-                    :newProject="newProject"
-                />
+            <Separator class="my-4" />
+            <CreateProjectForm
+                v-model:new_project_name="new_project_name"
+                v-model:new_project_description="new_project_description"
+                :newProject="newProject"
+            />
 
-                <Button
-                    class="w-full rounded-full"
-                    v-for="project in projects"
-                    :key="project.id"
-                    :variant="isSelectedProject(project)"
-                    @click="selectOrUnselectProject(project)"
-                >
-                    <div class="flex items-center justify-between w-full gap-2">
-                        {{ project.name }}
-                        <Icon @click="deleteProject(project)" icon="iconoir:trash"></Icon>
-                    </div>
-                </Button>
-            </div>
-        </ResizablePanel>
-        <ResizableHandle with-handle />
-        <ResizablePanel
-            class="h-[calc(100vh-4rem)] p-8 flex flex-col items-center justify-center"
-            :default-size="40"
-        >
-            <div v-if="loading" class="w-full flex flex-wrap gap-2 items-center justify-center">
-                <div class="flex items-center w-2/3 text-2xl">
-                    <Icon icon="eos-icons:loading"></Icon> We are processing your data...
+            <Button
+                class="w-full rounded-full"
+                v-for="project in projects"
+                :key="project.id"
+                :variant="isSelectedProject(project)"
+                @click="selectOrUnselectProject(project)"
+            >
+                <div class="flex items-center justify-between w-full gap-2">
+                    {{ project.name }}
+                    <Icon @click="deleteProject(project)" icon="iconoir:trash"></Icon>
                 </div>
-                <Skeleton class="h-12 w-1/2 rounded-full" />
-                <Skeleton class="h-12 w-1/2 rounded-full" />
-                <Skeleton class="h-12 w-1/2 rounded-full" />
-            </div>
+            </Button>
+        </div>
+        <ResizablePanelGroup direction="horizontal">
+            <ResizablePanel
+                class="h-[calc(100vh-4rem)] p-8 flex flex-col items-center justify-center"
+                :default-size="50"
+            >
+                <div v-if="loading" class="w-full flex flex-wrap gap-2 items-center justify-center">
+                    <div class="flex items-center w-2/3 text-2xl">
+                        <Icon icon="eos-icons:loading"></Icon> We are processing your data...
+                    </div>
+                    <Skeleton class="h-12 w-1/2 rounded-full" />
+                    <Skeleton class="h-12 w-1/2 rounded-full" />
+                    <Skeleton class="h-12 w-1/2 rounded-full" />
+                </div>
 
-            <ScrollArea v-else class="h-full w-full mb-16">
-                <PreProcessData
-                    v-model:isOpen="isOpen"
-                    v-model:svg_violin="svg_violin"
-                    v-model:svg_variable_features="svg_variable_features"
-                    v-model:svg_elbow="svg_elbow"
-                    v-model:svg_umap="svg_umap"
-                />
-                <div class="flex flex-col-reverse gap-4">
-                    <div
-                        class="border-l-2 hover:border-primary p-2"
-                        v-for="(chat_element, index) in chat_content"
-                        :key="index"
-                    >
-                        <div v-if="chat_element.request != ''" class="flex flex-col">
-                            <div class="w-full flex justify-between">
-                                <div class="font-semibold flex gap-2 items-center">
-                                    <Button variant="ghost" class="relative h-8 w-8 rounded-full">
-                                        <Avatar class="h-8 w-8">
-                                            <AvatarImage src="/avatars/01.png" alt="@shadcn" />
-                                            <AvatarFallback
-                                                >{{ userStore.getUser?.first_name.charAt(0)
-                                                }}{{
-                                                    userStore.getUser?.last_name.charAt(0)
-                                                }}</AvatarFallback
-                                            >
-                                        </Avatar>
-                                    </Button>
-                                    <div>You :</div>
+                <ScrollArea v-else class="h-full w-full mb-16">
+                    <PreProcessData
+                        v-model:isOpen="isOpen"
+                        v-model:svg_violin="svg_violin"
+                        v-model:svg_variable_features="svg_variable_features"
+                        v-model:svg_elbow="svg_elbow"
+                        v-model:svg_umap="svg_umap"
+                    />
+                    <div class="flex flex-col-reverse gap-4">
+                        <div
+                            class="border-l-2 hover:border-primary p-2"
+                            v-for="(chat_element, index) in chat_content"
+                            :key="index"
+                        >
+                            <div v-if="chat_element.request != ''" class="flex flex-col">
+                                <div class="w-full flex justify-between">
+                                    <div class="font-semibold flex gap-2 items-center">
+                                        <Button
+                                            variant="ghost"
+                                            class="relative h-8 w-8 rounded-full"
+                                        >
+                                            <Avatar class="h-8 w-8">
+                                                <AvatarImage src="/avatars/01.png" alt="@shadcn" />
+                                                <AvatarFallback
+                                                    >{{ userStore.getUser?.first_name.charAt(0)
+                                                    }}{{
+                                                        userStore.getUser?.last_name.charAt(0)
+                                                    }}</AvatarFallback
+                                                >
+                                            </Avatar>
+                                        </Button>
+                                        <div>You :</div>
+                                    </div>
+                                    <!-- <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger as-child>
+                                                <Button
+                                                    class="flex gap-2"
+                                                    variant="outline"
+                                                    @click="addToReport(chat_element.request)"
+                                                >
+                                                    <span>Add</span>
+                                                    <Icon class="text-2xl" icon="prime:copy"></Icon>
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                <p>Send to report</p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider> -->
                                 </div>
-                                <TooltipProvider>
-                                    <Tooltip>
-                                        <TooltipTrigger as-child>
-                                            <Button
-                                                class="flex gap-2"
-                                                variant="outline"
-                                                @click="addToReport(chat_element.request)"
-                                            >
-                                                <span>Add</span>
-                                                <Icon class="text-2xl" icon="prime:copy"></Icon>
-                                            </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>Send to report</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
-                            </div>
 
-                            <div class="pl-4">
-                                <span>{{ chat_element.request }}</span>
-                            </div>
-                        </div>
-                        <div class="flex flex-col gap-4">
-                            <div class="w-full flex justify-between">
-                                <div class="font-semibold flex gap-1 items-center">
-                                    <img src="@/imgs/logos/logo.svg" class="w-8 self-center" />
-                                    <div>ExPlore :</div>
+                                <div class="pl-4">
+                                    <span>{{ chat_element.request }}</span>
                                 </div>
-                                <TooltipProvider>
-                                    <Tooltip>
-                                        <TooltipTrigger as-child>
-                                            <Button
-                                                class="flex gap-2"
-                                                variant="outline"
-                                                @click="addToReport(chat_element.response)"
-                                            >
-                                                <span>Add</span>
-                                                <Icon class="text-2xl" icon="prime:copy"></Icon>
-                                            </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>Send to report</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
                             </div>
+                            <div class="flex flex-col gap-4">
+                                <div class="w-full flex justify-between">
+                                    <div class="font-semibold flex gap-1 items-center">
+                                        <img src="@/imgs/logos/logo.svg" class="w-8 self-center" />
+                                        <div>ExPlore :</div>
+                                    </div>
+                                    <!-- <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger as-child>
+                                                <Button
+                                                    class="flex gap-2"
+                                                    variant="outline"
+                                                    @click="addToReport(chat_element.response)"
+                                                >
+                                                    <span>Add</span>
+                                                    <Icon class="text-2xl" icon="prime:copy"></Icon>
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                <p>Send to report</p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider> -->
+                                </div>
 
-                            <ScrollArea>
+                                <ScrollArea>
+                                    <div
+                                        class="overflow-x-scroll pl-4"
+                                        id="markdown"
+                                        v-html="markdown.render(chat_element.response)"
+                                    ></div>
+                                    <ScrollBar orientation="horizontal" />
+                                </ScrollArea>
                                 <div
-                                    class="overflow-x-scroll pl-4"
-                                    id="markdown"
-                                    v-html="markdown.render(chat_element.response)"
-                                ></div>
-                                <ScrollBar orientation="horizontal" />
-                            </ScrollArea>
-                            <div
-                                class="pl-4 flex flex-col items-center"
-                                v-if="chat_element.image != ''"
-                            >
-                                <TooltipProvider>
-                                    <Tooltip>
-                                        <TooltipTrigger as-child>
-                                            <Button
-                                                class="flex gap-2"
-                                                variant="outline"
-                                                @click="
-                                                    addImageToReport(
-                                                        'data:image/png;base64,' +
-                                                            chat_element.image
-                                                    )
-                                                "
-                                            >
-                                                <span>Add</span>
-                                                <Icon class="text-2xl" icon="prime:copy"></Icon>
-                                            </Button>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>Send to report</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
-                                <Dialog>
-                                    <DialogTrigger asChild>
-                                        <img
-                                            class="cursor-pointer w-1/2 hover:scale-105 hover:translate-y-2 transition duration-300 ease-in-out"
-                                            :src="'data:image/png;base64,' + chat_element.image"
-                                        />
-                                    </DialogTrigger>
-                                    <DialogContent className="sm:max-w-md">
-                                        <img :src="'data:image/png;base64,' + chat_element.image" />
-                                    </DialogContent>
-                                </Dialog>
-                            </div>
-                            <div
-                                class="pl-4 flex flex-col items-center"
-                                v-if="
-                                    chat_element.response.endsWith(
-                                        'Please wait while the script is running'
-                                    ) && chat_element.image == ''
-                                "
-                            >
-                                <Progress v-model="progress" class="w-3/5"></Progress>
+                                    class="pl-4 flex flex-col items-center"
+                                    v-if="chat_element.image != ''"
+                                >
+                                    <!-- <TooltipProvider>
+                                        <Tooltip>
+                                            <TooltipTrigger as-child>
+                                                <Button
+                                                    class="flex gap-2"
+                                                    variant="outline"
+                                                    @click="
+                                                        addImageToReport(
+                                                            'data:image/png;base64,' +
+                                                                chat_element.image
+                                                        )
+                                                    "
+                                                >
+                                                    <span>Add</span>
+                                                    <Icon class="text-2xl" icon="prime:copy"></Icon>
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                <p>Send to report</p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider> -->
+                                    <Dialog>
+                                        <DialogTrigger asChild>
+                                            <img
+                                                class="cursor-pointer w-1/2 hover:scale-105 hover:translate-y-2 transition duration-300 ease-in-out"
+                                                :src="'data:image/png;base64,' + chat_element.image"
+                                            />
+                                        </DialogTrigger>
+                                        <DialogContent className="sm:max-w-md">
+                                            <img
+                                                :src="'data:image/png;base64,' + chat_element.image"
+                                            />
+                                        </DialogContent>
+                                    </Dialog>
+                                </div>
+                                <div
+                                    class="pl-4 flex flex-col items-center"
+                                    v-if="
+                                        chat_element.response.endsWith(
+                                            'Please wait while the script is running'
+                                        ) && chat_element.image == ''
+                                    "
+                                >
+                                    <Progress v-model="progress" class="w-3/5"></Progress>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </ScrollArea>
+            </ResizablePanel>
+            <ResizableHandle with-handle />
+            <ResizablePanel class="p-2 m-4" :default-size="50">
+                <div class="flex item-center justify-between">
+                    <span class="text-lg">Write your report here:</span>
+                    <velt-presence></velt-presence>
                 </div>
-            </ScrollArea>
-        </ResizablePanel>
-        <ResizableHandle with-handle />
-        <ResizablePanel class="h-[calc(100vh-4rem)] p-2 m-4" :default-size="40">
-            <ScrollArea class="h-full">
-                <div ref="editor">
-                    <h1>Report</h1>
-                </div>
-            </ScrollArea>
-        </ResizablePanel>
-    </ResizablePanelGroup>
+                <ScrollArea class="h-[calc(100vh-13rem)] cursor-text">
+                    <ProjectEditor />
+                </ScrollArea>
+            </ResizablePanel>
+        </ResizablePanelGroup>
+    </div>
     <RequestBar
         v-if="selected_project.id"
         :selected_project="selected_project"
