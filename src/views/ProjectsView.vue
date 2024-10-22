@@ -29,6 +29,10 @@ import RequestBar from '@/views/projects/RequestBar.vue';
 import PreProcessData from '@/views/projects/PreProcessData.vue';
 import { BusinessLogicError } from '@/repositories/BaseRepository';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shadcn/ui/tooltip';
+import Dialog from '@/shadcn/ui/dialog/Dialog.vue';
+import DialogTrigger from '@/shadcn/ui/dialog/DialogTrigger.vue';
+import DialogContent from '@/shadcn/ui/dialog/DialogContent.vue';
+import ScrollBar from '@/shadcn/ui/scroll-area/ScrollBar.vue';
 
 const state = useStateStore();
 state.$reset();
@@ -447,7 +451,7 @@ onUpdated(() => {
                                 <span>{{ chat_element.request }}</span>
                             </div>
                         </div>
-                        <div class="flex flex-col">
+                        <div class="flex flex-col gap-4">
                             <div class="w-full flex justify-between">
                                 <div class="font-semibold flex gap-1 items-center">
                                     <img src="@/imgs/logos/logo.svg" class="w-8 self-center" />
@@ -472,13 +476,18 @@ onUpdated(() => {
                                 </TooltipProvider>
                             </div>
 
-                            <div class="pl-4 overflow-x-scroll">
+                            <ScrollArea>
                                 <div
+                                    class="overflow-x-scroll pl-4"
                                     id="markdown"
                                     v-html="markdown.render(chat_element.response)"
                                 ></div>
-                            </div>
-                            <div class="pl-4 overflow-x-scroll" v-if="chat_element.image != ''">
+                                <ScrollBar orientation="horizontal" />
+                            </ScrollArea>
+                            <div
+                                class="pl-4 flex flex-col items-center"
+                                v-if="chat_element.image != ''"
+                            >
                                 <TooltipProvider>
                                     <Tooltip>
                                         <TooltipTrigger as-child>
@@ -501,10 +510,17 @@ onUpdated(() => {
                                         </TooltipContent>
                                     </Tooltip>
                                 </TooltipProvider>
-                                <img
-                                    class="w-1/2 hover:w-full"
-                                    :src="'data:image/png;base64,' + chat_element.image"
-                                />
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <img
+                                            class="cursor-pointer w-1/2 hover:scale-105 hover:translate-y-1 transition duration-300 ease-in-out"
+                                            :src="'data:image/png;base64,' + chat_element.image"
+                                        />
+                                    </DialogTrigger>
+                                    <DialogContent className="sm:max-w-md">
+                                        <img :src="'data:image/png;base64,' + chat_element.image" />
+                                    </DialogContent>
+                                </Dialog>
                             </div>
                         </div>
                     </div>
@@ -532,8 +548,8 @@ onUpdated(() => {
 @import 'highlight.js/styles/atom-one-dark.css';
 
 #markdown a {
-    color: #00838f;
-    text-decoration: none;
+    color: hsl(191, 89%, 18%);
+    text-decoration: underline;
     font-weight: bold;
 }
 </style>
