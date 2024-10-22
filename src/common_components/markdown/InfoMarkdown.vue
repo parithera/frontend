@@ -1,13 +1,10 @@
 <template>
-    <vue-markdown
-        class="short_listing_description"
-        :source="markdown"
-        :options="{ linkify: false }"
-    />
+    <div v-html="markdownit.render(markdown)" />
 </template>
 
 <script lang="ts" setup>
-import VueMarkdown from 'vue-markdown-render';
+import MarkdownIt from 'markdown-it';
+const markdownit = new MarkdownIt().disable(['link']);
 
 defineProps<{
     markdown: string;

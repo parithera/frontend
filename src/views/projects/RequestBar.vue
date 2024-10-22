@@ -25,6 +25,7 @@ const props = defineProps<{
 
 const chat_content: ModelRef<ChatContent[]> = defineModel('chat_content', { required: true });
 const loading: ModelRef<boolean> = defineModel('loading', { required: true });
+const progress: ModelRef<number> = defineModel('progress', { required: true });
 
 // Repositories
 const chatRepository: ChatRepository = new ChatRepository();
@@ -60,6 +61,17 @@ async function askGPT(request: string) {
             userId: userStore.user?.id ?? ''
         }
     });
+
+    let timer = setTimeout(() => (progress.value = 10), 500);
+    timer = setTimeout(() => (progress.value = progress.value + 10), 1000);
+    timer = setTimeout(() => (progress.value = progress.value + 10), 1500);
+    timer = setTimeout(() => (progress.value = progress.value + 10), 2000);
+    timer = setTimeout(() => (progress.value = progress.value + 10), 3000);
+    timer = setTimeout(() => (progress.value = progress.value + 10), 3700);
+    timer = setTimeout(() => (progress.value = progress.value + 10), 4000);
+    timer = setTimeout(() => (progress.value = progress.value + 10), 4100);
+    timer = setTimeout(() => (progress.value = progress.value + 10), 4500);
+    timer = setTimeout(() => (progress.value = progress.value + 10), 5000);
 
     chat_content.value.shift();
     chat_content.value.splice(0, 0, {

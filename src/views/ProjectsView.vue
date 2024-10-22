@@ -5,7 +5,7 @@ import { useStateStore } from '@/stores/state';
 import { useAuthStore } from '@/stores/auth';
 
 import { Icon } from '@iconify/vue/dist/iconify.js';
-import { onMounted, onUpdated, ref, watch, type Ref } from 'vue';
+import { onMounted, onUpdated, ref, watch, watchEffect, type Ref } from 'vue';
 import Separator from '@/shadcn/ui/separator/Separator.vue';
 import { ProjectRepository } from '@/repositories/ProjectRepository';
 import { useUserStore } from '@/stores/user';
@@ -14,7 +14,8 @@ import Skeleton from '@/shadcn/ui/skeleton/Skeleton.vue';
 import Avatar from '@/shadcn/ui/avatar/Avatar.vue';
 import AvatarImage from '@/shadcn/ui/avatar/AvatarImage.vue';
 import AvatarFallback from '@/shadcn/ui/avatar/AvatarFallback.vue';
-import VueMarkdown from 'vue-markdown-render';
+import MarkdownIt from 'markdown-it';
+import hljs from 'highlight.js';
 import ResizablePanelGroup from '@/shadcn/ui/resizable/ResizablePanelGroup.vue';
 import { ResizablePanel } from '@/shadcn/ui/resizable';
 import ResizableHandle from '@/shadcn/ui/resizable/ResizableHandle.vue';
@@ -28,6 +29,11 @@ import RequestBar from '@/views/projects/RequestBar.vue';
 import PreProcessData from '@/views/projects/PreProcessData.vue';
 import { BusinessLogicError } from '@/repositories/BaseRepository';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shadcn/ui/tooltip';
+import Dialog from '@/shadcn/ui/dialog/Dialog.vue';
+import DialogTrigger from '@/shadcn/ui/dialog/DialogTrigger.vue';
+import DialogContent from '@/shadcn/ui/dialog/DialogContent.vue';
+import ScrollBar from '@/shadcn/ui/scroll-area/ScrollBar.vue';
+import Progress from '@/shadcn/ui/progress/Progress.vue';
 
 const state = useStateStore();
 state.$reset();
@@ -43,6 +49,23 @@ const projectRepository: ProjectRepository = new ProjectRepository();
 // Stores
 const authStore = useAuthStore();
 const userStore = useUserStore();
+
+const markdown = new MarkdownIt({
+    html: true,
+    xhtmlOut: true,
+    breaks: true,
+    linkify: true,
+    typographer: true,
+    highlight: function (str, lang) {
+        if (lang && hljs.getLanguage(lang)) {
+            try {
+                return hljs.highlight(str, { language: lang }).value;
+            } catch (__) {}
+        }
+
+        return ''; // use external default escaping
+    }
+});
 
 export type ChatContent = {
     request: string;
@@ -72,6 +95,13 @@ const isOpen = ref(false);
 const quillEditor: Ref<Quill | undefined> = ref();
 
 const editor = useTemplateRef<HTMLDivElement>('editor');
+
+const progress: Ref<number> = ref(10);
+
+watchEffect((cleanupFn) => {
+    let timer = setTimeout(() => (progress.value = 10), 500);
+    cleanupFn(() => clearTimeout(timer));
+});
 
 async function newProject() {
     chat_content.value = [
@@ -386,7 +416,7 @@ onUpdated(() => {
                 />
                 <div class="flex flex-col-reverse gap-4">
                     <div
-                        class="hover:bg-muted p-2 rounded"
+                        class="border-l-2 hover:border-primary p-2"
                         v-for="(chat_element, index) in chat_content"
                         :key="index"
                     >
@@ -429,7 +459,7 @@ onUpdated(() => {
                                 <span>{{ chat_element.request }}</span>
                             </div>
                         </div>
-                        <div class="flex flex-col">
+                        <div class="flex flex-col gap-4">
                             <div class="w-full flex justify-between">
                                 <div class="font-semibold flex gap-1 items-center">
                                     <img src="@/imgs/logos/logo.svg" class="w-8 self-center" />
@@ -454,11 +484,18 @@ onUpdated(() => {
                                 </TooltipProvider>
                             </div>
 
-                            <div class="pl-4 overflow-x-scroll">
-                                <VueMarkdown :source="chat_element.response" />
-                            </div>
-                            <div class="pl-4 overflow-x-scroll" v-if="chat_element.image != ''">
-                                <!-- <div v-html="svg_graph"></div> -->
+                            <ScrollArea>
+                                <div
+                                    class="overflow-x-scroll pl-4"
+                                    id="markdown"
+                                    v-html="markdown.render(chat_element.response)"
+                                ></div>
+                                <ScrollBar orientation="horizontal" />
+                            </ScrollArea>
+                            <div
+                                class="pl-4 flex flex-col items-center"
+                                v-if="chat_element.image != ''"
+                            >
                                 <TooltipProvider>
                                     <Tooltip>
                                         <TooltipTrigger as-child>
@@ -481,7 +518,27 @@ onUpdated(() => {
                                         </TooltipContent>
                                     </Tooltip>
                                 </TooltipProvider>
-                                <img :src="'data:image/png;base64,' + chat_element.image" />
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <img
+                                            class="cursor-pointer w-1/2 hover:scale-105 hover:translate-y-2 transition duration-300 ease-in-out"
+                                            :src="'data:image/png;base64,' + chat_element.image"
+                                        />
+                                    </DialogTrigger>
+                                    <DialogContent className="sm:max-w-md">
+                                        <img :src="'data:image/png;base64,' + chat_element.image" />
+                                    </DialogContent>
+                                </Dialog>
+                            </div>
+                            <div
+                                class="pl-4 flex flex-col items-center"
+                                v-if="
+                                    chat_element.response.endsWith(
+                                        'Please wait while the script is running'
+                                    ) && chat_element.image == ''
+                                "
+                            >
+                                <Progress v-model="progress" class="w-3/5"></Progress>
                             </div>
                         </div>
                     </div>
@@ -502,5 +559,16 @@ onUpdated(() => {
         :selected_project="selected_project"
         v-model:chat_content="chat_content"
         v-model:loading="loading"
+        v-model:progress="progress"
     />
 </template>
+
+<style lang="scss">
+@import 'highlight.js/styles/atom-one-dark.css';
+
+#markdown a {
+    color: hsl(191, 89%, 18%);
+    text-decoration: underline;
+    font-weight: bold;
+}
+</style>
