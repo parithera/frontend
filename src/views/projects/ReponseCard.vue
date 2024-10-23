@@ -119,7 +119,7 @@ async function copyImage() {
             </div>
         </div>
 
-        <Dialog>
+        <Dialog v-if="image != ''">
             <DialogTrigger asChild>
                 <img
                     class="cursor-pointer w-1/2 hover:scale-105 hover:translate-y-2 transition duration-300 ease-in-out"
