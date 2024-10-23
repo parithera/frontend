@@ -47,12 +47,14 @@ function copy() {
     icon.value = 'tabler:check';
 }
 async function copyImage() {
-    const fetchedImageData = await fetch('data:image/png;base64,' + props.image);
-    const blob = await fetchedImageData.blob();
+    const makeImagePromise = async () => {
+        const fetchedImageData = await fetch('data:image/png;base64,' + props.image);
+        return await fetchedImageData.blob();
+    };
     try {
         navigator.clipboard.write([
             new ClipboardItem({
-                [blob.type]: blob
+                'image/png': makeImagePromise()
             })
         ]);
     } catch (error) {
