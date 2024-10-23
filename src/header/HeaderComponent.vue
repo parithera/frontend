@@ -21,7 +21,7 @@ import UserNav from './components/UserNav.vue';
 
     <div class="hidden flex-col md:flex">
         <div class="border-b">
-            <div class="flex h-16 items-center px-4 gap-4">
+            <div class="flex h-14 items-center px-4 gap-4">
                 <RouterLink :to="{ name: 'home' }" class="flex gap-1 items-center">
                     <img src="@/imgs/logos/logo_name.svg" class="h-5 self-center" />
                 </RouterLink>

@@ -10,6 +10,7 @@ import SimpleImage from '@editorjs/simple-image';
 import Checklist from '@editorjs/checklist';
 import Embed from '@editorjs/embed';
 import List from '@editorjs/list';
+import CodeTool from '@editorjs/code';
 import { onMounted } from 'vue';
 
 onMounted(() => {
@@ -35,7 +36,8 @@ onMounted(() => {
                 class: Checklist,
                 inlineToolbar: true
             },
-            embed: Embed
+            embed: Embed,
+            code: CodeTool
         }
         // placeholder: "Let's write an awesome report!"
     });

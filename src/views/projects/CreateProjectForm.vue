@@ -29,9 +29,9 @@ const submitForm = () => {
 <template>
     <Dialog ref="dialog">
         <DialogTrigger as-child>
-            <Button class="flex items-center gap-2 rounded-full" variant="outline"
-                >+ Create a new project</Button
-            >
+            <Button class="flex items-center gap-2 rounded-full" variant="outline">
+                + new project
+            </Button>
         </DialogTrigger>
         <DialogContent class="sm:max-w-[425px]">
             <DialogHeader>

@@ -14,13 +14,10 @@ import Skeleton from '@/shadcn/ui/skeleton/Skeleton.vue';
 import Avatar from '@/shadcn/ui/avatar/Avatar.vue';
 import AvatarImage from '@/shadcn/ui/avatar/AvatarImage.vue';
 import AvatarFallback from '@/shadcn/ui/avatar/AvatarFallback.vue';
-import MarkdownIt from 'markdown-it';
-import hljs from 'highlight.js';
 import ResizablePanelGroup from '@/shadcn/ui/resizable/ResizablePanelGroup.vue';
 import { ResizablePanel } from '@/shadcn/ui/resizable';
 import ResizableHandle from '@/shadcn/ui/resizable/ResizableHandle.vue';
 import ScrollArea from '@/shadcn/ui/scroll-area/ScrollArea.vue';
-import { useTemplateRef } from 'vue';
 import SelectProject from '@/views/projects/SelectProject.vue';
 import CreateProjectForm from '@/views/projects/CreateProjectForm.vue';
 import UploadFile from '@/views/projects/UploadFile.vue';
@@ -28,12 +25,8 @@ import RequestBar from '@/views/projects/RequestBar.vue';
 import PreProcessData from '@/views/projects/PreProcessData.vue';
 import ProjectEditor from '@/views/projects/ProjectEditor.vue';
 import { BusinessLogicError } from '@/repositories/BaseRepository';
-// import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/shadcn/ui/tooltip';
-import Dialog from '@/shadcn/ui/dialog/Dialog.vue';
-import DialogTrigger from '@/shadcn/ui/dialog/DialogTrigger.vue';
-import DialogContent from '@/shadcn/ui/dialog/DialogContent.vue';
-import ScrollBar from '@/shadcn/ui/scroll-area/ScrollBar.vue';
 import Progress from '@/shadcn/ui/progress/Progress.vue';
+import ResponseCard from '@/views/projects/ReponseCard.vue';
 
 const state = useStateStore();
 state.$reset();
@@ -49,23 +42,6 @@ const projectRepository: ProjectRepository = new ProjectRepository();
 // Stores
 const authStore = useAuthStore();
 const userStore = useUserStore();
-
-const markdown = new MarkdownIt({
-    html: true,
-    xhtmlOut: true,
-    breaks: true,
-    linkify: true,
-    typographer: true,
-    highlight: function (str, lang) {
-        if (lang && hljs.getLanguage(lang)) {
-            try {
-                return hljs.highlight(str, { language: lang }).value;
-            } catch (__) {}
-        }
-
-        return ''; // use external default escaping
-    }
-});
 
 import { initVelt } from '@veltdev/client';
 
@@ -118,8 +94,6 @@ const svg_variable_features = ref('');
 const svg_violin = ref('');
 const loading = ref(false);
 const isOpen = ref(false);
-
-const editor = useTemplateRef<HTMLDivElement>('editor');
 
 const progress: Ref<number> = ref(10);
 
@@ -380,8 +354,8 @@ watch(selected_project, () => {
         </div>
         <ResizablePanelGroup direction="horizontal">
             <ResizablePanel
-                class="h-[calc(100vh-4rem)] p-8 flex flex-col items-center justify-center"
-                :default-size="50"
+                class="h-[calc(100vh-4rem)] p-4 flex flex-col items-center justify-center"
+                :default-size="60"
             >
                 <div v-if="loading" class="w-full flex flex-wrap gap-2 items-center justify-center">
                     <div class="flex items-center w-2/3 text-2xl">
@@ -400,13 +374,13 @@ watch(selected_project, () => {
                         v-model:svg_elbow="svg_elbow"
                         v-model:svg_umap="svg_umap"
                     />
-                    <div class="flex flex-col-reverse gap-4">
+                    <div class="flex flex-col-reverse">
                         <div
-                            class="border-l-2 hover:border-primary p-2"
+                            class="border-l hover:border-primary pl-2 pt-4 flex flex-col gap-4"
                             v-for="(chat_element, index) in chat_content"
                             :key="index"
                         >
-                            <div v-if="chat_element.request != ''" class="flex flex-col">
+                            <div v-if="chat_element.request != ''" class="flex flex-col gap-2">
                                 <div class="w-full flex justify-between">
                                     <div class="font-semibold flex gap-2 items-center">
                                         <Button
@@ -425,102 +399,24 @@ watch(selected_project, () => {
                                         </Button>
                                         <div>You :</div>
                                     </div>
-                                    <!-- <TooltipProvider>
-                                        <Tooltip>
-                                            <TooltipTrigger as-child>
-                                                <Button
-                                                    class="flex gap-2"
-                                                    variant="outline"
-                                                    @click="addToReport(chat_element.request)"
-                                                >
-                                                    <span>Add</span>
-                                                    <Icon class="text-2xl" icon="prime:copy"></Icon>
-                                                </Button>
-                                            </TooltipTrigger>
-                                            <TooltipContent>
-                                                <p>Send to report</p>
-                                            </TooltipContent>
-                                        </Tooltip>
-                                    </TooltipProvider> -->
                                 </div>
 
-                                <div class="pl-4">
+                                <div class="pl-8">
                                     <span>{{ chat_element.request }}</span>
                                 </div>
                             </div>
-                            <div class="flex flex-col gap-4">
+                            <div class="flex flex-col gap-2">
                                 <div class="w-full flex justify-between">
-                                    <div class="font-semibold flex gap-1 items-center">
+                                    <div class="font-semibold flex gap-2 items-center">
                                         <img src="@/imgs/logos/logo.svg" class="w-8 self-center" />
                                         <div>ExPlore :</div>
                                     </div>
-                                    <!-- <TooltipProvider>
-                                        <Tooltip>
-                                            <TooltipTrigger as-child>
-                                                <Button
-                                                    class="flex gap-2"
-                                                    variant="outline"
-                                                    @click="addToReport(chat_element.response)"
-                                                >
-                                                    <span>Add</span>
-                                                    <Icon class="text-2xl" icon="prime:copy"></Icon>
-                                                </Button>
-                                            </TooltipTrigger>
-                                            <TooltipContent>
-                                                <p>Send to report</p>
-                                            </TooltipContent>
-                                        </Tooltip>
-                                    </TooltipProvider> -->
                                 </div>
 
-                                <ScrollArea>
-                                    <div
-                                        class="overflow-x-scroll pl-4"
-                                        id="markdown"
-                                        v-html="markdown.render(chat_element.response)"
-                                    ></div>
-                                    <ScrollBar orientation="horizontal" />
-                                </ScrollArea>
-                                <div
-                                    class="pl-4 flex flex-col items-center"
-                                    v-if="chat_element.image != ''"
-                                >
-                                    <!-- <TooltipProvider>
-                                        <Tooltip>
-                                            <TooltipTrigger as-child>
-                                                <Button
-                                                    class="flex gap-2"
-                                                    variant="outline"
-                                                    @click="
-                                                        addImageToReport(
-                                                            'data:image/png;base64,' +
-                                                                chat_element.image
-                                                        )
-                                                    "
-                                                >
-                                                    <span>Add</span>
-                                                    <Icon class="text-2xl" icon="prime:copy"></Icon>
-                                                </Button>
-                                            </TooltipTrigger>
-                                            <TooltipContent>
-                                                <p>Send to report</p>
-                                            </TooltipContent>
-                                        </Tooltip>
-                                    </TooltipProvider> -->
-                                    <Dialog>
-                                        <DialogTrigger asChild>
-                                            <img
-                                                class="cursor-pointer w-1/2 hover:scale-105 hover:translate-y-2 transition duration-300 ease-in-out"
-                                                :src="'data:image/png;base64,' + chat_element.image"
-                                            />
-                                        </DialogTrigger>
-                                        <DialogContent className="sm:max-w-md">
-                                            <img
-                                                :src="'data:image/png;base64,' + chat_element.image"
-                                            />
-                                        </DialogContent>
-                                    </Dialog>
-                                </div>
+                                <ResponseCard
+                                    :markdown_content="chat_element.response"
+                                    :image="chat_element.image"
+                                ></ResponseCard>
                                 <div
                                     class="pl-4 flex flex-col items-center"
                                     v-if="
@@ -537,7 +433,7 @@ watch(selected_project, () => {
                 </ScrollArea>
             </ResizablePanel>
             <ResizableHandle with-handle />
-            <ResizablePanel class="p-2 m-4" :default-size="50">
+            <ResizablePanel class="p-2 m-4" :default-size="40">
                 <div class="flex item-center justify-between">
                     <span class="text-lg">Write your report here:</span>
                     <velt-presence></velt-presence>

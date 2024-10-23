@@ -159,7 +159,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@codexteam/icons@npm:^0.3.0":
+"@codexteam/icons@npm:^0.3.0, @codexteam/icons@npm:^0.3.2":
   version: 0.3.2
   resolution: "@codexteam/icons@npm:0.3.2"
   checksum: 10/dee34f92968126ac480e4b39c0f01bb0fb476efd1db2d8966cacf4e269b8a13efb821be51b8db68cd3396bd4637a6cca4dbff88c4ee07b08aa43c8912816192a
@@ -215,6 +215,15 @@ __metadata:
   dependencies:
     "@codexteam/icons": "npm:^0.3.0"
   checksum: 10/09e79914b2c83aa5cf9fde34432bc4cab1296e3d40935184c9883c6045970cb1e107ba2bf1ad1135be216294a726b3217d72cd9ee7c85410a95f7e36c2ba4b04
+  languageName: node
+  linkType: hard
+
+"@editorjs/code@npm:2.9.2":
+  version: 2.9.2
+  resolution: "@editorjs/code@npm:2.9.2"
+  dependencies:
+    "@codexteam/icons": "npm:^0.3.2"
+  checksum: 10/2a89e44c415c15678d4dfa9298ac9204db1256ab3a22bab87aef84a5c16fa6a6238d7b71f068cd3707a4f568f0a5afa79016bfc1cf3ebef1247093c163c900ff
   languageName: node
   linkType: hard
 
@@ -5064,6 +5073,7 @@ __metadata:
   resolution: "frontend@workspace:."
   dependencies:
     "@editorjs/checklist": "npm:^1.6.0"
+    "@editorjs/code": "npm:2.9.2"
     "@editorjs/editorjs": "npm:^2.30.6"
     "@editorjs/embed": "npm:^2.7.6"
     "@editorjs/header": "npm:^2.8.8"

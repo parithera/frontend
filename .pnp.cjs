@@ -28,6 +28,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@editorjs/checklist", "npm:1.6.0"],\
+          ["@editorjs/code", "npm:2.9.2"],\
           ["@editorjs/editorjs", "npm:2.30.6"],\
           ["@editorjs/embed", "npm:2.7.6"],\
           ["@editorjs/header", "npm:2.8.8"],\
@@ -335,6 +336,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@editorjs-checklist-npm-1.6.0-6825e51da8-09e79914b2.zip/node_modules/@editorjs/checklist/",\
         "packageDependencies": [\
           ["@editorjs/checklist", "npm:1.6.0"],\
+          ["@codexteam/icons", "npm:0.3.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@editorjs/code", [\
+      ["npm:2.9.2", {\
+        "packageLocation": "./.yarn/cache/@editorjs-code-npm-2.9.2-f105f5ce52-2a89e44c41.zip/node_modules/@editorjs/code/",\
+        "packageDependencies": [\
+          ["@editorjs/code", "npm:2.9.2"],\
           ["@codexteam/icons", "npm:0.3.2"]\
         ],\
         "linkType": "HARD"\
@@ -6088,6 +6099,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["frontend", "workspace:."],\
           ["@editorjs/checklist", "npm:1.6.0"],\
+          ["@editorjs/code", "npm:2.9.2"],\
           ["@editorjs/editorjs", "npm:2.30.6"],\
           ["@editorjs/embed", "npm:2.7.6"],\
           ["@editorjs/header", "npm:2.8.8"],\
