@@ -147,3 +147,44 @@ async function copyImage() {
         </Dialog>
     </div>
 </template>
+
+<style lang="scss">
+#markdown {
+    h1 {
+        font-size: xx-large;
+        font-weight: 900;
+        padding-top: 20px;
+    }
+    h2 {
+        font-size: x-large;
+        font-weight: 700;
+        padding-top: 20px;
+    }
+    h3 {
+        font-size: large;
+        font-weight: 700;
+        padding-top: 20px;
+    }
+    h4 {
+        font-size: medium;
+        font-weight: 700;
+        padding-top: 20px;
+    }
+    h5 {
+        font-weight: 700;
+        padding-top: 20px;
+    }
+    h6 {
+        font-weight: 700;
+        padding-top: 20px;
+    }
+
+    ol li {
+        list-style-type: upper-roman;
+        margin-left: 2rem;
+    }
+    p {
+        padding-top: 1rem;
+    }
+}
+</style>
