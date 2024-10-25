@@ -9,6 +9,7 @@ import Pagination from '@/common_components/PaginationComponent.vue';
 import OrgListItem from '@/views/org/subcomponents/OrgListItem.vue';
 import TitleAndSubtitle from '@/common_components/headers/TitleAndSubtitle.vue';
 import type { OrganizationMembership } from '@/repositories/types/entities/OrganizationMembership';
+import Button from '@/shadcn/ui/button/Button.vue';
 
 const search = ref('');
 const placeholder = 'Search by organization name or role';
@@ -73,12 +74,11 @@ fetch();
                 </template>
             </TitleAndSubtitle>
             <div class="text-sm">
-                <RouterLink
-                    class="py-2 px-2 rounded-md text-white cursor-pointer border-2 border-primary bg-primary flex flex-row gap-1.5 items-center justify-center"
-                    :to="{ name: 'orgs', params: { action: 'add', page: 'main' } }"
-                >
-                    <Icon icon="ion:add-sharp" />
-                    <div>Create an org</div>
+                <RouterLink :to="{ name: 'orgs', params: { action: 'add', page: 'main' } }">
+                    <Button class="rounded-full">
+                        <Icon icon="ion:add-sharp" />
+                        <div>Create an org</div>
+                    </Button>
                 </RouterLink>
             </div>
         </div>
