@@ -29,5 +29,4 @@ coverage
 *.sw?
 
 # CodeClarity
-**/**/certs
 package-lock.json

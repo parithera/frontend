@@ -26,6 +26,7 @@ services:
     restart: always
     volumes:
       - ../../frontend/.cloud/docker/conf/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ../../frontend/.cloud/docker/conf/certs:/etc/caddy/certs:ro
     ports:
       # HTTP
       - target: 80

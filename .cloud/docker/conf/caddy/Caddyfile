@@ -4,28 +4,9 @@
 		reverse_proxy api:3000
 	}
 
-	log 
+	tls /etc/caddy/certs/tls.pem /etc/caddy/certs/tls.key
 
-	{$CADDY_SERVER_EXTRA_DIRECTIVES}
-
-	root * /srv/app/dist
-
-	rewrite /results* /
-	rewrite /projects* /
-	rewrite /analyses* /
-	rewrite /login* /
-	rewrite /help* /
-	rewrite /orgs* /
-	rewrite /org* /
-	rewrite /signup* /
-	rewrite /password_reset_request* /
-	rewrite /email_action* /
-	rewrite /settings* /
-	rewrite /auth* /
-	rewrite /404* /
-
-	encode zstd gzip
-	file_server
+	reverse_proxy frontend:5173
 }
 
 {$SERVER_NAME}:15672 {
