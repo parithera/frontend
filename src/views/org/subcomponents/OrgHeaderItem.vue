@@ -74,7 +74,7 @@ init();
             <BoxLoader :dimensions="{ width: '60%', height: '30px' }" />
         </div>
     </div>
-    <div v-else-if="error" class="w-full h-full flex flex-row justify-center mt-20">
+    <div v-else-if="error" class="w-full h-full flex flex-row justify-center">
         <div class="flex flex-col gap-5 w-fit text-2xl">
             <div class="flex flex-row gap-2">
                 <Icon

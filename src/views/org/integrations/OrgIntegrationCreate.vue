@@ -24,7 +24,7 @@ const orgInfo: Ref<Organization | undefined> = ref();
 function setOrgInfo(_orgInfo: Organization) {
     orgInfo.value = _orgInfo;
     if (!isMemberRoleGreaterOrEqualTo(_orgInfo.role, MemberRole.ADMIN)) {
-        router.push({ name: 'orgManage', params: { page: '', orgId: _orgInfo.id } });
+        router.push({ name: 'orgs', params: { page: '', orgId: _orgInfo.id } });
     }
 }
 

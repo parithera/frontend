@@ -60,6 +60,17 @@ const OrgManageInvites = defineAsyncComponent({
     timeout: 3000
 });
 
+const OrgManageInviteCreate = defineAsyncComponent({
+    loader: () => import('@/views/org/invites/OrgManageInviteCreate.vue'),
+    loadingComponent: LoadingComponent,
+    // Delay before showing the loading component. Default: 200ms.
+    delay: 200,
+    errorComponent: ErrorComponent,
+    // The error component will be displayed if a timeout is
+    // provided and exceeded. Default: Infinity.
+    timeout: 3000
+});
+
 const OrgManageIntegrations = defineAsyncComponent({
     loader: () => import('@/views/org/integrations/OrgIntegrations.vue'),
     loadingComponent: LoadingComponent,
@@ -108,6 +119,11 @@ const props = defineProps<{
         />
         <OrgManageMembers
             v-else-if="props.page == 'members' && props.orgId"
+            :page="props.page"
+            :orgId="props.orgId"
+        />
+        <OrgManageInviteCreate
+            v-else-if="props.page == 'invites' && props.action == 'add' && props.orgId"
             :page="props.page"
             :orgId="props.orgId"
         />

@@ -34,7 +34,7 @@ async function submit(_: any, { resetForm }: { resetForm: any }) {
 
     try {
         resp = await orgRepo.create({
-            bearerToken: authStore.token!,
+            bearerToken: authStore.getToken,
             data: {
                 name: name.value,
                 description: description.value,

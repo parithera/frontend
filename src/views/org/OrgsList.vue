@@ -63,7 +63,7 @@ watch([search, currentPage], async () => {
 fetch();
 </script>
 <template>
-    <div class="flex flex-col gap-8">
+    <div class="flex flex-col gap-8 p-12">
         <div class="flex flex-row justify-between items-center">
             <TitleAndSubtitle>
                 <template #title>Organizations</template>

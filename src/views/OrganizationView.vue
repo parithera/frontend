@@ -50,7 +50,7 @@ const props = defineProps<{
 }>();
 </script>
 <template>
-    <main class="p-12">
+    <main>
         <CreateOrg v-if="props.action == 'add' && !props.orgId" />
         <OrgsList v-else-if="props.action == 'list' && !props.orgId" />
         <OrgsManage v-else :page="props.page" :orgId="props.orgId" :action="props.action" />
