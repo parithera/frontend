@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch, type Ref } from 'vue';
 import OrgHeaderItem from '@/views/org/subcomponents/OrgHeaderItem.vue';
-import { useRoute } from 'vue-router';
 import router from '@/router';
 import type { Organization } from '@/repositories/types/entities/Organization';
 import { isMemberRoleGreaterThan, MemberRole } from '@/repositories/types/entities/Organization';
@@ -15,7 +14,6 @@ import SearchBar from '@/common_components/SearchBar.vue';
 import { debounce } from '@/utils/searchUtils';
 import OrgInviteItem from '@/views/org/invites/invite/OrgInviteItem.vue';
 import BoxLoader from '@/common_components/BoxLoader.vue';
-import BorderCard from '@/common_components/cards/BorderCard.vue';
 import SortableTable from '@/common_components/tables/SortableTable.vue';
 import Button from '@/shadcn/ui/button/Button.vue';
 

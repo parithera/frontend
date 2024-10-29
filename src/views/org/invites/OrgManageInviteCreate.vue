@@ -80,6 +80,8 @@ async function submit(values: Record<string, any>) {
                 errorToast('This user is already a member of the organization.');
             } else if (error.error_code == APIErrors.InvitationOrgAlreadyExists) {
                 errorToast('This user already has an open invitation.');
+            } else if (error.error_code == APIErrors.UserDoesNotExist) {
+                errorToast('This user does not exist.');
             } else {
                 errorToast('We encountered a problem while processing your request.');
             }
