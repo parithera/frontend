@@ -3,6 +3,7 @@ import { RouterLink } from 'vue-router';
 import MainNav from './components/MainNav.vue';
 import SearchHeader from './components/SearchHeader.vue';
 import UserNav from './components/UserNav.vue';
+import TeamSwitcher from './components/TeamSwitcher.vue';
 </script>
 
 <template>
@@ -26,7 +27,7 @@ import UserNav from './components/UserNav.vue';
                     <img src="@/imgs/logos/logo_name.svg" class="h-5 self-center" />
                 </RouterLink>
 
-                <!-- <TeamSwitcher /> -->
+                <TeamSwitcher />
                 <MainNav class="mx-6" />
                 <div class="ml-auto flex items-center space-x-4">
                     <SearchHeader />
