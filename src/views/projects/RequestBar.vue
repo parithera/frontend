@@ -58,7 +58,8 @@ async function askGPT(request: string) {
         data: {
             request: request,
             projectId: props.selected_project.id,
-            userId: userStore.user?.id ?? ''
+            userId: userStore.user?.id ?? '',
+            organizationId: userStore.getDefaultOrg?.id ?? ''
         }
     });
 
@@ -102,7 +103,7 @@ async function askGPT(request: string) {
                 config: {
                     r: {
                         project: props.selected_project.id,
-                        user: userStore.user?.id,
+                        user: props.selected_project.added_by?.id,
                         type: 'chat'
                     }
                 },

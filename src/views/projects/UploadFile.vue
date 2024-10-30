@@ -53,7 +53,8 @@ const onFileSubmit = handleSubmit(async (values) => {
             type: 'DATA',
             file_name: 'data.h5'
         },
-        projectId: selected_project.value.id
+        projectId: selected_project.value.id,
+        organizationId: userStore.getDefaultOrg?.id ?? ''
     });
 
     toast({
@@ -77,7 +78,7 @@ const onFileSubmit = handleSubmit(async (values) => {
             config: {
                 r: {
                     project: selected_project.value.id,
-                    user: userStore.user?.id,
+                    user: selected_project.value.added_by?.id,
                     type: 'initialization'
                 }
             },
@@ -122,7 +123,8 @@ async function deleteFile(file: ProjectFile) {
     await fileRepository.deleteFile({
         bearerToken: authStore.getToken ?? '',
         fileId: file.id,
-        projectId: selected_project.value.id
+        projectId: selected_project.value.id,
+        organizationId: userStore.getDefaultOrg?.id ?? ''
     });
 
     const project_retrieved = await projectRepository.getProjectById({
