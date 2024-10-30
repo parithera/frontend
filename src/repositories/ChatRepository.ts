@@ -8,6 +8,7 @@ export interface AskGPT {
     request: string;
     userId: string;
     projectId: string;
+    organizationId: string;
 }
 
 export type ChartData = {
