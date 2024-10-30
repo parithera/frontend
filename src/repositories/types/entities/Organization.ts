@@ -10,7 +10,7 @@ import {
     IsNumber,
     IsOptional
 } from 'class-validator';
-import type { IntegrationType, VCS } from './Integrations';
+import type { VCS } from './Integrations';
 import type { Project } from './Project';
 
 export class Organization {
