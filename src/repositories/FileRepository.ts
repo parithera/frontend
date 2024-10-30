@@ -9,6 +9,7 @@ import { NoDataResponse } from './types/responses/NoDataResponse';
 
 export interface UploadRequestOptions extends RepoMethodEmptyPatchRequestOptions<UploadData> {
     projectId: string;
+    organizationId: string;
 }
 
 export interface UploadData {
@@ -19,6 +20,7 @@ export interface UploadData {
 
 export interface DeleteFileOptions extends AuthRepoMethodEmptyDeleteRequestOptions {
     projectId: string;
+    organizationId: string;
     fileId: string;
 }
 
