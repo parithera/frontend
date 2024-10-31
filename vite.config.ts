@@ -18,7 +18,16 @@ export default defineConfig({
             plugins: [tailwind(), autoprefixer()]
         }
     },
-    plugins: [vue(), EnvironmentPlugin('all')],
+    plugins: [
+        vue({
+            template: {
+                compilerOptions: {
+                    isCustomElement: (tag) => tag.startsWith('velt-')
+                }
+            }
+        }),
+        EnvironmentPlugin('all')
+    ],
     resolve: {
         alias: {
             '@': fileURLToPath(new URL('./src', import.meta.url))
