@@ -43,6 +43,7 @@ const projectRepository: ProjectRepository = new ProjectRepository();
 const authStore = useAuthStore();
 const userStore = useUserStore();
 
+// Colalboration configuration
 import { initVelt } from '@veltdev/client';
 
 var client: any;
