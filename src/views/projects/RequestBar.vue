@@ -63,16 +63,16 @@ async function askGPT(request: string) {
         }
     });
 
-    let timer = setTimeout(() => (progress.value = 10), 500);
-    timer = setTimeout(() => (progress.value = progress.value + 10), 1000);
-    timer = setTimeout(() => (progress.value = progress.value + 10), 1500);
-    timer = setTimeout(() => (progress.value = progress.value + 10), 2000);
-    timer = setTimeout(() => (progress.value = progress.value + 10), 3000);
-    timer = setTimeout(() => (progress.value = progress.value + 10), 3700);
-    timer = setTimeout(() => (progress.value = progress.value + 10), 4000);
-    timer = setTimeout(() => (progress.value = progress.value + 10), 4100);
-    timer = setTimeout(() => (progress.value = progress.value + 10), 4500);
-    timer = setTimeout(() => (progress.value = progress.value + 10), 5000);
+    setTimeout(() => (progress.value = 10), 500);
+    setTimeout(() => (progress.value = progress.value + 10), 1000);
+    setTimeout(() => (progress.value = progress.value + 10), 1500);
+    setTimeout(() => (progress.value = progress.value + 10), 2000);
+    setTimeout(() => (progress.value = progress.value + 10), 3000);
+    setTimeout(() => (progress.value = progress.value + 10), 3700);
+    setTimeout(() => (progress.value = progress.value + 10), 4000);
+    setTimeout(() => (progress.value = progress.value + 10), 4100);
+    setTimeout(() => (progress.value = progress.value + 10), 4500);
+    setTimeout(() => (progress.value = progress.value + 10), 5000);
 
     chat_content.value.shift();
     chat_content.value.splice(0, 0, {
@@ -81,7 +81,7 @@ async function askGPT(request: string) {
         image: ''
     });
 
-    const scroll = document.getElementById('scrollArea');
+    // const scroll = document.getElementById('scrollArea');
     // scroll.childNodes[0].scrollTop = scroll.scrollHeight;
 
     let analysis_id = '';
