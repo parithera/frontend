@@ -270,6 +270,7 @@ async function fetchGraphs(project: Project) {
             await new Promise((resolve) => setTimeout(resolve, 5000));
         }
     }
+    loading.value = false;
 }
 
 async function getChatHistory(project_id: string) {
@@ -358,13 +359,25 @@ watch(selected_project, () => {
                 class="h-[calc(100vh-4rem)] p-4 flex flex-col items-center justify-center"
                 :default-size="60"
             >
-                <div v-if="loading" class="w-full flex flex-wrap gap-2 items-center justify-center">
-                    <div class="flex items-center w-2/3 text-2xl">
+                <div v-if="loading" class="w-full flex flex-col gap-2 items-center justify-center">
+                    <div class="flex items-center text-2xl">
                         <Icon icon="eos-icons:loading"></Icon> We are processing your data...
                     </div>
+                    <div class="flex items-center text-xl">This may take a while.</div>
                     <Skeleton class="h-12 w-1/2 rounded-full" />
                     <Skeleton class="h-12 w-1/2 rounded-full" />
                     <Skeleton class="h-12 w-1/2 rounded-full" />
+                </div>
+                <div
+                    v-else-if="svg_violin == ''"
+                    class="w-full flex flex-col gap-2 items-center justify-center"
+                >
+                    <div class="text-2xl">No Data found, please import a file</div>
+                    <UploadFile
+                        v-model:selected_project="selected_project"
+                        v-model:loading="loading"
+                        :fetchGraphs="fetchGraphs"
+                    />
                 </div>
 
                 <ScrollArea v-else class="h-full w-full mb-16">
