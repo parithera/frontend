@@ -119,7 +119,17 @@ async function copyImage() {
             </div>
         </div>
 
-        <Dialog v-if="image != ''">
+        <div
+            v-if="image != '' && image.startsWith('iVBORw0KGgoAAAA')"
+            class="flex flex-col items-center"
+        >
+            <img
+                class="cursor-pointerhover:scale-105 hover:translate-y-2 transition duration-300 ease-in-out"
+                :src="'data:image/png;base64,' + image"
+            />
+            <span class="text-2xl text-destructive">The script failed to run</span>
+        </div>
+        <Dialog v-else-if="image != ''">
             <DialogTrigger asChild>
                 <img
                     class="cursor-pointer w-1/2 hover:scale-105 hover:translate-y-2 transition duration-300 ease-in-out"
