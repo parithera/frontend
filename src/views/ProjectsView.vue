@@ -284,7 +284,10 @@ async function getChatHistory(project_id: string) {
             projectId: project_id,
             orgId: userStore.defaultOrg?.id ?? ''
         });
-        chat_content.value = res.data.messages;
+
+        chat_content.value = res.data.messages.sort((a, b) => {
+            return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+        });
     } catch (error) {
         if (error instanceof BusinessLogicError) {
             await new Promise((resolve) => setTimeout(resolve, 5000));

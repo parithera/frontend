@@ -7,4 +7,5 @@ export interface Message {
     request: string;
     response: string;
     image: string;
+    timestamp: Date;
 }
