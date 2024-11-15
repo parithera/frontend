@@ -75,13 +75,19 @@ export type ChatContent = {
     request: string;
     response: string;
     image: string;
+    data: string;
+    text: string;
+    result: string;
 };
 
 let chat_content: Ref<ChatContent[]> = ref([
     {
         request: '',
         response: 'Hi, how can I help you today?',
-        image: ''
+        image: '',
+        data: '',
+        text: '',
+        result: ''
     }
 ]);
 
@@ -108,7 +114,10 @@ async function newProject() {
         {
             request: '',
             response: 'Hi, how can I help you today?',
-            image: ''
+            image: '',
+            data: '',
+            text: '',
+            result: ''
         }
     ];
 
@@ -433,6 +442,9 @@ watch(selected_project, () => {
                                 <ResponseCard
                                     :markdown_content="chat_element.response"
                                     :image="chat_element.image"
+                                    :data="chat_element.data"
+                                    :text="chat_element.text"
+                                    :result="chat_element.result"
                                 ></ResponseCard>
                                 <div
                                     class="pl-4 flex flex-col items-center"

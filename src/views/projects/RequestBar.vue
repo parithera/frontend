@@ -46,7 +46,10 @@ const onSubmit = handleSubmit((values) => {
     chat_content.value.splice(0, 0, {
         request: values.request,
         response: 'Loading...',
-        image: ''
+        image: '',
+        data: '',
+        text: '',
+        result: ''
     });
     askGPT(values.request);
     requestInput.value?.setValue('');
@@ -78,7 +81,10 @@ async function askGPT(request: string) {
     chat_content.value.splice(0, 0, {
         request: request,
         response: result.data.answer,
-        image: ''
+        image: '',
+        data: '',
+        text: '',
+        result: ''
     });
 
     // const scroll = document.getElementById('scrollArea');
@@ -126,7 +132,7 @@ async function askGPT(request: string) {
                 handleBusinessErrors: true
             });
             result_id = result.data.id;
-            if (result_id != '') {
+            if (result.data.image != '') {
                 fetchChatGraph(result.data.image);
             } else {
                 await new Promise((resolve) => setTimeout(resolve, 5000));
