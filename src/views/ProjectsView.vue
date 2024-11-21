@@ -28,6 +28,8 @@ import { BusinessLogicError } from '@/repositories/BaseRepository';
 import Progress from '@/shadcn/ui/progress/Progress.vue';
 import ResponseCard from '@/views/projects/ReponseCard.vue';
 
+import { useConnectionStore } from '@/stores/connection';
+
 const state = useStateStore();
 state.$reset();
 state.page = 'dashboard';
@@ -303,6 +305,12 @@ onMounted(async () => {
         selectionElement.enableLiveSelection();
         selectionElement.disableLiveSelection();
     }
+    const connectionStore = useConnectionStore();
+    connectionStore.createSocket(authStore.getToken ?? '');
+    // remove any existing listeners (after a hot module replacement)
+    connectionStore.getSocket.off();
+    connectionStore.bindEvents();
+    connectionStore.connect();
 });
 
 watch(selected_project, () => {
