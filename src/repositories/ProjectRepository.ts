@@ -136,34 +136,6 @@ export class ProjectRepository extends BaseRepository {
         return Entity.unMarshal<DataResponse<Project>>(response, DataResponse<Project>);
     }
 
-    async getSVGElbow(options: GetProjectByIdRequestOptions): Promise<DataResponse<string>> {
-        const RELATIVE_URL = `/org/${options.orgId}/projects/${options.projectId}/svg_elbow`;
-
-        const response = await this.getRequest<DataResponse<string>>({
-            bearerToken: options.bearerToken,
-            url: this.buildUrl(RELATIVE_URL),
-            handleBusinessErrors: options.handleBusinessErrors,
-            handleHTTPErrors: options.handleHTTPErrors,
-            handleOtherErrors: options.handleOtherErrors
-        });
-
-        return Entity.unMarshal<DataResponse<string>>(response, DataResponse<string>);
-    }
-
-    async getSVGUMAP(options: GetProjectByIdRequestOptions): Promise<DataResponse<string>> {
-        const RELATIVE_URL = `/org/${options.orgId}/projects/${options.projectId}/svg_umap`;
-
-        const response = await this.getRequest<DataResponse<string>>({
-            bearerToken: options.bearerToken,
-            url: this.buildUrl(RELATIVE_URL),
-            handleBusinessErrors: options.handleBusinessErrors,
-            handleHTTPErrors: options.handleHTTPErrors,
-            handleOtherErrors: options.handleOtherErrors
-        });
-
-        return Entity.unMarshal<DataResponse<string>>(response, DataResponse<string>);
-    }
-
     async getSVGGraph(options: GetProjectByIdRequestOptions): Promise<DataResponse<string>> {
         const RELATIVE_URL = `/org/${options.orgId}/projects/${options.projectId}/svg_graph`;
 
@@ -208,36 +180,6 @@ export class ProjectRepository extends BaseRepository {
         });
 
         return Entity.unMarshal<DataResponse<Result>>(response, DataResponse<Result>);
-    }
-
-    async getSVGVariableFeatures(
-        options: GetProjectByIdRequestOptions
-    ): Promise<DataResponse<string>> {
-        const RELATIVE_URL = `/org/${options.orgId}/projects/${options.projectId}/svg_variable_features`;
-
-        const response = await this.getRequest<DataResponse<string>>({
-            bearerToken: options.bearerToken,
-            url: this.buildUrl(RELATIVE_URL),
-            handleBusinessErrors: options.handleBusinessErrors,
-            handleHTTPErrors: options.handleHTTPErrors,
-            handleOtherErrors: options.handleOtherErrors
-        });
-
-        return Entity.unMarshal<DataResponse<string>>(response, DataResponse<string>);
-    }
-
-    async getSVGViolin(options: GetProjectByIdRequestOptions): Promise<DataResponse<string>> {
-        const RELATIVE_URL = `/org/${options.orgId}/projects/${options.projectId}/svg_violin`;
-
-        const response = await this.getRequest<DataResponse<string>>({
-            bearerToken: options.bearerToken,
-            url: this.buildUrl(RELATIVE_URL),
-            handleBusinessErrors: options.handleBusinessErrors,
-            handleHTTPErrors: options.handleHTTPErrors,
-            handleOtherErrors: options.handleOtherErrors
-        });
-
-        return Entity.unMarshal<DataResponse<string>>(response, DataResponse<string>);
     }
 
     async getChatHistory(options: GetProjectByIdRequestOptions): Promise<DataResponse<Chat>> {

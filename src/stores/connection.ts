@@ -1,10 +1,19 @@
 import { defineStore } from 'pinia';
 import { io, Socket } from 'socket.io-client';
 
+interface Response {
+    data: string;
+    type: string;
+}
+
 export const useConnectionStore = defineStore('connection', {
     state: () => ({
         isConnected: false,
-        socket: null as Socket | null
+        socket: null as Socket | null,
+        svg_elbow: '',
+        svg_umap: '',
+        svg_variable_features: '',
+        svg_violin: ''
     }),
 
     getters: {
@@ -18,10 +27,6 @@ export const useConnectionStore = defineStore('connection', {
             this.socket?.on('connect', () => {
                 console.log('Connected');
                 this.isConnected = true;
-                this.socket?.emit('events', { test: 'test' });
-                this.socket?.emit('identity', 0, (response: number) =>
-                    console.log('Identity:', response)
-                );
             });
 
             this.socket?.on('disconnect', () => {
@@ -29,17 +34,36 @@ export const useConnectionStore = defineStore('connection', {
                 console.log('Disconnected');
             });
 
-            this.socket?.on('events', function (data) {
-                console.log('event', data);
-            });
-
             this.socket?.on('exception', function (data) {
                 console.log('exception', data);
             });
         },
 
+        fetchGraphs(data: object) {
+            this.socket?.emit('graphs', data, (response: Response) => {
+                if (response.type == 'elbow') this.svg_elbow = response.data;
+                else if (response.type == 'violin') this.svg_violin = response.data;
+                else if (response.type == 'umap') this.svg_umap = response.data;
+                else if (response.type == 'variable_features')
+                    this.svg_variable_features = response.data;
+
+                if (
+                    this.svg_elbow != '' &&
+                    this.svg_umap != '' &&
+                    this.svg_violin != '' &&
+                    this.svg_variable_features != ''
+                ) {
+                    this.socket?.disconnect();
+                }
+            });
+        },
+
         connect() {
             this.socket?.connect();
+        },
+
+        disconnect() {
+            this.socket?.disconnect();
         },
 
         createSocket(token: string) {
