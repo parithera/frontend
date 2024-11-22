@@ -13,7 +13,7 @@ import { Icon } from '@iconify/vue/dist/iconify.js';
 
 import MarkdownIt from 'markdown-it';
 import hljs from 'highlight.js';
-import { ref, type Ref } from 'vue';
+import { onMounted, onUpdated, ref, watch, type Ref } from 'vue';
 
 const props = defineProps<{
     markdown_content: string;
@@ -21,6 +21,8 @@ const props = defineProps<{
     image: string;
     text: string;
     data: string;
+    code_visible?: boolean;
+    id: number;
 }>();
 
 const markdown = new MarkdownIt({
@@ -65,6 +67,40 @@ async function copyImage() {
     }
     icon_image.value = 'tabler:check';
 }
+
+onMounted(() => {
+    addShowHideLink();
+});
+
+onUpdated(() => {
+    addShowHideLink();
+});
+function addShowHideLink() {
+    const parent = document.getElementById('markdown_' + props.id);
+    const pre_element = parent?.getElementsByTagName('pre');
+
+    if (pre_element) {
+        for (const element of pre_element) {
+            if (props.code_visible) {
+                element.classList.add('visible');
+            } else {
+                const link = document.getElementById('link' + props.id);
+                if (link) {
+                    return;
+                }
+                const show_link = document.createElement('Button');
+                show_link.id = 'link' + props.id;
+                show_link.innerHTML = 'Show/Hide code';
+                show_link.classList.add('text-primary', 'font-semibold', 'my-4');
+
+                show_link.addEventListener('click', () => {
+                    element.classList.toggle('visible');
+                });
+                element.parentElement?.insertBefore(show_link, element);
+            }
+        }
+    }
+}
 </script>
 
 <template>
@@ -72,8 +108,8 @@ async function copyImage() {
         <div class="flex flex-col w-full">
             <ScrollArea>
                 <div
-                    class="overflow-x-scroll pl-8 pb-3"
-                    id="markdown"
+                    class="overflow-x-scroll pl-8 pb-3 markdown"
+                    :id="'markdown_' + id"
                     v-html="markdown.render(markdown_content)"
                 ></div>
                 <ScrollBar orientation="horizontal" />
@@ -178,7 +214,7 @@ async function copyImage() {
 </template>
 
 <style lang="scss">
-#markdown {
+.markdown {
     h1 {
         font-size: xx-large;
         font-weight: 900;
@@ -214,6 +250,14 @@ async function copyImage() {
     }
     p {
         padding-top: 1rem;
+    }
+
+    pre {
+        display: none;
+    }
+
+    pre.visible {
+        display: block;
     }
 }
 </style>

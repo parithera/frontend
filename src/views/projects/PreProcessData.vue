@@ -63,17 +63,49 @@ DimPlot(final_seurat_object, reduction = "umap", label = TRUE)
             </Button>
         </CollapsibleTrigger>
         <CollapsibleContent class="flex flex-col gap-10 w-full">
-            <ResponseCard v-if="svg_violin != ''" :markdown_content="violin" :image="svg_violin" />
+            <ResponseCard
+                v-if="svg_violin != ''"
+                :markdown_content="violin"
+                :image="svg_violin"
+                :data="''"
+                :text="''"
+                :result="''"
+                :code_visible="true"
+                :id="1000"
+            />
 
             <ResponseCard
                 v-if="svg_variable_features != ''"
                 :markdown_content="variable_features"
                 :image="svg_variable_features"
+                :data="''"
+                :text="''"
+                :result="''"
+                :code_visible="true"
+                :id="1001"
             />
 
-            <ResponseCard v-if="svg_elbow != ''" :markdown_content="elbow" :image="svg_elbow" />
+            <ResponseCard
+                v-if="svg_elbow != ''"
+                :markdown_content="elbow"
+                :image="svg_elbow"
+                :data="''"
+                :text="''"
+                :result="''"
+                :code_visible="true"
+                :id="1002"
+            />
 
-            <ResponseCard v-if="svg_umap != ''" :markdown_content="umap" :image="svg_umap" />
+            <ResponseCard
+                v-if="svg_umap != ''"
+                :markdown_content="umap"
+                :image="svg_umap"
+                :data="''"
+                :text="''"
+                :result="''"
+                :code_visible="true"
+                :id="1003"
+            />
         </CollapsibleContent>
     </Collapsible>
 </template>

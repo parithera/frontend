@@ -394,6 +394,7 @@ watch(selected_project, () => {
                                     :data="chat_element.data"
                                     :text="chat_element.text"
                                     :result="chat_element.result"
+                                    :id="index"
                                 ></ResponseCard>
                                 <div
                                     class="pl-4 flex flex-col items-center"
