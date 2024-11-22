@@ -28,6 +28,8 @@ import { BusinessLogicError } from '@/repositories/BaseRepository';
 import Progress from '@/shadcn/ui/progress/Progress.vue';
 import ResponseCard from '@/views/projects/ReponseCard.vue';
 
+import { useConnectionStore } from '@/stores/connection';
+
 const state = useStateStore();
 state.$reset();
 state.page = 'dashboard';
@@ -42,9 +44,11 @@ const projectRepository: ProjectRepository = new ProjectRepository();
 // Stores
 const authStore = useAuthStore();
 const userStore = useUserStore();
+const connectionStore = useConnectionStore();
 
 // Colalboration configuration
 import { initVelt } from '@veltdev/client';
+import { storeToRefs } from 'pinia';
 
 var client: any;
 
@@ -95,10 +99,11 @@ const new_project_name = ref('');
 const new_project_description = ref('');
 const projects: Ref<Array<Project>> = ref(new Array<Project>());
 const selected_project: Ref<Project> = ref(new Project());
-const svg_elbow = ref('');
-const svg_umap = ref('');
-const svg_variable_features = ref('');
-const svg_violin = ref('');
+const { svg_elbow, svg_umap, svg_violin, svg_variable_features } = storeToRefs(connectionStore);
+// const svg_elbow = ref('');
+// const svg_umap = ref('');
+// const svg_variable_features = ref('');
+// const svg_violin = ref('');
 const loading = ref(false);
 const isOpen = ref(false);
 
@@ -208,76 +213,20 @@ async function selectOrUnselectProject(project: Project) {
 }
 
 async function fetchGraphs(project: Project) {
-    while (svg_elbow.value == '') {
-        try {
-            const elbow = await projectRepository.getSVGElbow({
-                bearerToken: authStore.getToken ?? '',
-                handleBusinessErrors: true,
-                projectId: project.id,
-                orgId: userStore.defaultOrg?.id ?? ''
-            });
+    connectionStore.$reset;
+    connectionStore.createSocket(authStore.getToken ?? '');
+    // remove any existing listeners (after a hot module replacement)
+    connectionStore.getSocket.off();
+    connectionStore.bindEvents();
+    connectionStore.connect();
 
-            svg_elbow.value = elbow.data;
-        } catch (error) {
-            if (error instanceof BusinessLogicError) {
-                await new Promise((resolve) => setTimeout(resolve, 5000));
-            }
-            await new Promise((resolve) => setTimeout(resolve, 5000));
-        }
-    }
-
-    while (svg_umap.value == '') {
-        try {
-            const umap = await projectRepository.getSVGUMAP({
-                bearerToken: authStore.getToken ?? '',
-                handleBusinessErrors: true,
-                projectId: project.id,
-                orgId: userStore.defaultOrg?.id ?? ''
-            });
-
-            svg_umap.value = umap.data;
-        } catch (error) {
-            if (error instanceof BusinessLogicError) {
-                await new Promise((resolve) => setTimeout(resolve, 5000));
-            }
-            await new Promise((resolve) => setTimeout(resolve, 5000));
-        }
-    }
-
-    while (svg_variable_features.value == '') {
-        try {
-            const variable_features = await projectRepository.getSVGVariableFeatures({
-                bearerToken: authStore.getToken ?? '',
-                handleBusinessErrors: true,
-                projectId: project.id,
-                orgId: userStore.defaultOrg?.id ?? ''
-            });
-
-            svg_variable_features.value = variable_features.data;
-        } catch (error) {
-            if (error instanceof BusinessLogicError) {
-                await new Promise((resolve) => setTimeout(resolve, 5000));
-            }
-            await new Promise((resolve) => setTimeout(resolve, 5000));
-        }
-    }
-
-    while (svg_violin.value == '') {
-        try {
-            const violin = await projectRepository.getSVGViolin({
-                bearerToken: authStore.getToken ?? '',
-                handleBusinessErrors: true,
-                projectId: project.id,
-                orgId: userStore.defaultOrg?.id ?? ''
-            });
-
-            svg_violin.value = violin.data;
-        } catch (error) {
-            if (error instanceof BusinessLogicError) {
-                await new Promise((resolve) => setTimeout(resolve, 5000));
-            }
-            await new Promise((resolve) => setTimeout(resolve, 5000));
-        }
+    const graphs = ['elbow', 'violin', 'umap', 'variable_features'];
+    for (const graph of graphs) {
+        connectionStore.fetchGraphs({
+            projectId: project.id,
+            orgId: userStore.defaultOrg?.id ?? '',
+            type: graph
+        });
     }
     loading.value = false;
 }
