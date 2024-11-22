@@ -112,11 +112,6 @@ const onFileSubmit = handleSubmit(async (values) => {
 
     selected_project.value = project_retrieved_2.data;
     await props.fetchGraphs(selected_project.value);
-    loading.value = false;
-    toast({
-        title: 'File analyzed successfully!',
-        description: 'Start chatting with ExPlore'
-    });
 });
 
 async function deleteFile(file: ProjectFile) {

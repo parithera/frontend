@@ -49,6 +49,7 @@ const connectionStore = useConnectionStore();
 // Colalboration configuration
 import { initVelt } from '@veltdev/client';
 import { storeToRefs } from 'pinia';
+import { toast } from '@/shadcn/ui/toast';
 
 var client: any;
 
@@ -100,12 +101,9 @@ const new_project_description = ref('');
 const projects: Ref<Array<Project>> = ref(new Array<Project>());
 const selected_project: Ref<Project> = ref(new Project());
 const { svg_elbow, svg_umap, svg_violin, svg_variable_features } = storeToRefs(connectionStore);
-// const svg_elbow = ref('');
-// const svg_umap = ref('');
-// const svg_variable_features = ref('');
-// const svg_violin = ref('');
 const loading = ref(false);
 const isOpen = ref(false);
+const progress_preprocess = ref(0);
 
 const progress: Ref<number> = ref(10);
 
@@ -228,7 +226,6 @@ async function fetchGraphs(project: Project) {
             type: graph
         });
     }
-    loading.value = false;
 }
 
 async function getChatHistory(project_id: string) {
@@ -269,6 +266,22 @@ onMounted(async () => {
 
 watch(selected_project, () => {
     getChatHistory(selected_project.value.id);
+});
+
+watch([svg_elbow, svg_umap, svg_variable_features, svg_violin], () => {
+    progress_preprocess.value += 25;
+    if (
+        svg_elbow.value != '' &&
+        svg_umap.value != '' &&
+        svg_variable_features.value != '' &&
+        svg_violin.value != ''
+    ) {
+        loading.value = false;
+        toast({
+            title: 'File analyzed successfully!',
+            description: 'Start chatting with ExPlore'
+        });
+    }
 });
 </script>
 
@@ -325,9 +338,7 @@ watch(selected_project, () => {
                         <Icon icon="eos-icons:loading"></Icon> We are processing your data...
                     </div>
                     <div class="flex items-center text-xl">This may take a while.</div>
-                    <Skeleton class="h-12 w-1/2 rounded-full" />
-                    <Skeleton class="h-12 w-1/2 rounded-full" />
-                    <Skeleton class="h-12 w-1/2 rounded-full" />
+                    <Progress class="w-1/2" v-model="progress_preprocess"></Progress>
                 </div>
                 <div
                     v-else-if="svg_violin == ''"
