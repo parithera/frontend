@@ -44,6 +44,10 @@ const { handleSubmit } = useForm({
 const onFileSubmit = handleSubmit(async (values) => {
     const file: File = values.file as File;
     // const type: string = values.type as string;
+    let file_name = file.name;
+    if (file.name.includes('.h5')) {
+        file_name = 'data.h5';
+    }
 
     loading.value = true;
     await fileRepository.upload({
@@ -51,7 +55,7 @@ const onFileSubmit = handleSubmit(async (values) => {
         data: {
             file: file,
             type: 'DATA',
-            file_name: 'data.h5'
+            file_name: file_name
         },
         projectId: selected_project.value.id,
         organizationId: userStore.getDefaultOrg?.id ?? ''
@@ -80,6 +84,10 @@ const onFileSubmit = handleSubmit(async (values) => {
                     project: selected_project.value.id,
                     user: selected_project.value.added_by?.id,
                     type: 'initialization'
+                },
+                fastqc: {
+                    project: selected_project.value.id,
+                    user: selected_project.value.added_by?.id
                 }
             },
             branch: ' ', // This will be removed

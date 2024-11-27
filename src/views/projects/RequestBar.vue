@@ -96,7 +96,7 @@ async function askGPT(request: string) {
         const analyzer = await analyzerRepository.getAnalyzerByName({
             bearerToken: authStore.getToken ?? '',
             orgId: userStore.defaultOrg?.id ?? '',
-            analyzer_name: 'initialization'
+            analyzer_name: 'execute_r_script'
         });
 
         const res = await projectRepository.createAnalysis({
