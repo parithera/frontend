@@ -42,24 +42,27 @@ const { handleSubmit } = useForm({
 });
 
 const onFileSubmit = handleSubmit(async (values) => {
-    const file: File = values.file as File;
-    // const type: string = values.type as string;
-    let file_name = file.name;
-    if (file.name.includes('.h5')) {
-        file_name = 'data.h5';
-    }
+    const files: Array<File> = values.file as Array<File>;
 
-    loading.value = true;
-    await fileRepository.upload({
-        bearerToken: authStore.getToken ?? '',
-        data: {
-            file: file,
-            type: 'DATA',
-            file_name: file_name
-        },
-        projectId: selected_project.value.id,
-        organizationId: userStore.getDefaultOrg?.id ?? ''
-    });
+    for (const file of files) {
+        // const type: string = values.type as string;
+        let file_name = file.name;
+        if (file.name.includes('.h5')) {
+            file_name = 'data.h5';
+        }
+
+        loading.value = true;
+        await fileRepository.upload({
+            bearerToken: authStore.getToken ?? '',
+            data: {
+                file: file,
+                type: 'DATA',
+                file_name: file_name
+            },
+            projectId: selected_project.value.id,
+            organizationId: userStore.getDefaultOrg?.id ?? ''
+        });
+    }
 
     toast({
         title: 'File uploaded successfully!',
@@ -151,10 +154,18 @@ async function deleteFile(file: ProjectFile) {
                         <input
                             class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
                             type="file"
+                            multiple
+                            accept=".gz, .h5"
                             v-bind="componentField"
                         />
                     </FormControl>
-                    <FormDescription>Upload your gene sequencing file.</FormDescription>
+                    <FormDescription>
+                        <span>Upload your gene sequencing file.</span>
+                        <ul class="list-disc list-inside">
+                            <li>One .h5</li>
+                            <li>Multiple .fastq.gz</li>
+                        </ul>
+                    </FormDescription>
                     <FormMessage />
                 </FormItem>
             </FormField>
