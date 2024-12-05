@@ -45,8 +45,10 @@ const onFileSubmit = handleSubmit(async (values) => {
     const file: File = values.file as File;
     // const type: string = values.type as string;
     let file_name = file.name;
+    let analyzer_name = 'fastq_initialization';
     if (file.name.includes('.h5')) {
         file_name = 'data.h5';
+        analyzer_name = 'execute_r_script';
     }
 
     loading.value = true;
@@ -69,7 +71,7 @@ const onFileSubmit = handleSubmit(async (values) => {
     const analyzer = await analyzerRepository.getAnalyzerByName({
         bearerToken: authStore.getToken ?? '',
         orgId: userStore.defaultOrg?.id ?? '',
-        analyzer_name: 'initialization'
+        analyzer_name: analyzer_name
     });
 
     await projectRepository.createAnalysis({
@@ -83,7 +85,7 @@ const onFileSubmit = handleSubmit(async (values) => {
                 r: {
                     project: selected_project.value.id,
                     user: selected_project.value.added_by?.id,
-                    type: 'initialization'
+                    type: analyzer_name
                 },
                 fastqc: {
                     project: selected_project.value.id,
