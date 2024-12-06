@@ -103,6 +103,8 @@ const onFileSubmit = handleSubmit(async (values) => {
                     platform: "10x"
                 },
                 scanpy: {
+                    project: selected_project.value.id,
+                    user: selected_project.value.added_by?.id,
                     file_type: "fastq"
                 },
                 fastp: {
