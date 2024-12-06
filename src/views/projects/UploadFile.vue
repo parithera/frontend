@@ -94,6 +94,21 @@ const onFileSubmit = handleSubmit(async (values) => {
                 fastqc: {
                     project: selected_project.value.id,
                     user: selected_project.value.added_by?.id
+                },
+                star: {
+                    project: selected_project.value.id,
+                    user: selected_project.value.added_by?.id,
+                    genome: "nih_GRCh38_human",
+                    whitelist: "10x-2016",
+                    platform: "10x"
+                },
+                scanpy: {
+                    file_type: "fastq"
+                },
+                fastp: {
+                    platform: "10x",
+                    project: selected_project.value.id,
+                    user: selected_project.value.added_by?.id
                 }
             },
             branch: ' ', // This will be removed
