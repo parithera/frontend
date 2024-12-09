@@ -9,12 +9,21 @@ import { FormField } from '@/shadcn/ui/form';
 import FormControl from '@/shadcn/ui/form/FormControl.vue';
 import FormDescription from '@/shadcn/ui/form/FormDescription.vue';
 import FormItem from '@/shadcn/ui/form/FormItem.vue';
+import FormLabel from '@/shadcn/ui/form/FormLabel.vue';
 import FormMessage from '@/shadcn/ui/form/FormMessage.vue';
+import Select from '@/shadcn/ui/select/Select.vue';
+import SelectContent from '@/shadcn/ui/select/SelectContent.vue';
+import SelectGroup from '@/shadcn/ui/select/SelectGroup.vue';
+import SelectItem from '@/shadcn/ui/select/SelectItem.vue';
+import SelectTrigger from '@/shadcn/ui/select/SelectTrigger.vue';
+import SelectValue from '@/shadcn/ui/select/SelectValue.vue';
+import Separator from '@/shadcn/ui/separator/Separator.vue';
 import { useToast } from '@/shadcn/ui/toast';
 import Toaster from '@/shadcn/ui/toast/Toaster.vue';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { Icon } from '@iconify/vue/dist/iconify.js';
+import { platform } from 'os';
 import { useForm } from 'vee-validate';
 import type { ModelRef } from 'vue';
 
@@ -43,6 +52,9 @@ const { handleSubmit } = useForm({
 
 const onFileSubmit = handleSubmit(async (values) => {
     const files: Array<File> = values.file as Array<File>;
+    const chemistry: string = values.chemistry as string;
+    const genome: string = values.genome as string;
+    const platform: string = chemistry.includes("10x") ? "10x": "hydrop";
 
     let analyzer_name = 'fastq_initialization';
     for (const file of files) {
@@ -98,9 +110,9 @@ const onFileSubmit = handleSubmit(async (values) => {
                 star: {
                     project: selected_project.value.id,
                     user: selected_project.value.added_by?.id,
-                    genome: "nih_GRCh38_human",
-                    whitelist: "10x-2016",
-                    platform: "10x"
+                    genome: genome,
+                    whitelist: chemistry,
+                    platform: platform
                 },
                 scanpy: {
                     project: selected_project.value.id,
@@ -108,7 +120,7 @@ const onFileSubmit = handleSubmit(async (values) => {
                     file_type: "fastq"
                 },
                 fastp: {
-                    platform: "10x",
+                    platform: platform,
                     project: selected_project.value.id,
                     user: selected_project.value.added_by?.id
                 }
@@ -180,15 +192,77 @@ async function deleteFile(file: ProjectFile) {
                         />
                     </FormControl>
                     <FormDescription>
-                        <span>Upload your gene sequencing file.</span>
-                        <ul class="list-disc list-inside">
-                            <li>One .h5</li>
-                            <li>Multiple .fastq.gz</li>
-                        </ul>
+                        <span>Upload your gene sequencing file (.h5, .fastq.gz).</span>
                     </FormDescription>
                     <FormMessage />
                 </FormItem>
             </FormField>
+
+            <FormField v-slot="{ componentField }" name="chemistry">
+                <FormItem>
+                    <FormLabel>Chemistry</FormLabel>
+
+                    <Select v-bind="componentField">
+                        <FormControl>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select the relevant chemistry" />
+                            </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                            <!-- https://kb.10xgenomics.com/hc/en-us/articles/115004506263-What-is-a-barcode-whitelist -->
+                            <SelectGroup>
+                                <SelectItem value="hydrop">
+                                    HyDrop
+                                </SelectItem>
+                                <Separator></Separator>
+                                <SelectItem value="10x-2014">
+                                    Single Cell 3' v1 (2014)
+                                </SelectItem>
+                                <SelectItem value="10x-2016">
+                                    Single Cell 3' v2, Single Cell 5' v1 and v2, Single Cell 5' HT v2 (2016)
+                                </SelectItem>
+                                <SelectItem value="10x-2018">
+                                    Single Cell 3' v3, Single Cell 3' v3.1, Single Cell 3' HT v3.1 (2018)
+                                </SelectItem>
+                                <SelectItem value="10x-2023">
+                                    Single Cell 5' v3 (2023)
+                                </SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                    <FormMessage />
+                </FormItem>
+            </FormField>
+
+            <FormField v-slot="{ componentField }" name="genome">
+                <FormItem>
+                    <FormLabel>Genome</FormLabel>
+
+                    <Select v-bind="componentField">
+                        <FormControl>
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select the relevant genome" />
+                            </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectItem value="gencodegenes_GRCm39_mouse">
+                                    Mouse GRCm39 GencodeGenes
+                                </SelectItem>
+                                <SelectItem value="nih_GRCm39_mouse">
+                                    Mouse GRCm39 NIH
+                                </SelectItem>
+                                <Separator></Separator>
+                                <SelectItem value="nih_GRCh38_human">
+                                    Human GRCh38 NIH (Recommended)
+                                </SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                    <FormMessage />
+                </FormItem>
+            </FormField>
+
             <Button type="submit" class="flex gap-2 items-center w-full">
                 <Icon icon="bi:cloud-upload"></Icon> Upload
             </Button>
