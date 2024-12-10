@@ -16,8 +16,8 @@ export interface UploadData {
     file: File | Blob;
     type: string;
     file_name: string;
-    chunk: Boolean;
-    last: Boolean;
+    chunk: string;
+    last: string;
 }
 
 export interface DeleteFileOptions extends AuthRepoMethodEmptyDeleteRequestOptions {

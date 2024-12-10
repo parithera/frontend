@@ -446,6 +446,8 @@ export class BaseRepository {
         formData.append('file', data.file, data.file.name);
         formData.append('type', data.type);
         formData.append('file_name', data.file_name);
+        formData.append('chunk', data.chunk);
+        formData.append('last', data.last);
 
         // Construct fetch options
         const fetchOptions: any = {

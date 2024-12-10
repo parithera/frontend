@@ -75,7 +75,7 @@ const onFileSubmit = handleSubmit(async (values) => {
         const chunkSize = 1024 * 1024 * 10; // size of each chunk (10MB)
         let start = 0;
 
-        progress_message.value = "Uploading file " + count_files + "/"+files.length
+        progress_message.value = "Uploading file " + count_files + "/" + files.length
         uploading.value = true
         while (start < file.size) {
             await fileRepository.upload({
@@ -84,8 +84,8 @@ const onFileSubmit = handleSubmit(async (values) => {
                     file: file.slice(start, start + chunkSize),
                     type: 'DATA',
                     file_name: file_name,
-                    chunk: true,
-                    last: false
+                    chunk: "true",
+                    last: "false"
                 },
                 projectId: selected_project.value.id,
                 organizationId: userStore.getDefaultOrg?.id ?? ''
@@ -96,6 +96,18 @@ const onFileSubmit = handleSubmit(async (values) => {
             });
             
         }
+        await fileRepository.upload({
+            bearerToken: authStore.getToken ?? '',
+            data: {
+                file: new Blob(),
+                type: 'DATA',
+                file_name: file_name,
+                chunk: "true",
+                last: "true"
+            },
+            projectId: selected_project.value.id,
+            organizationId: userStore.getDefaultOrg?.id ?? ''
+        })
         count_files += 1;
     }
 

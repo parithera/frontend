@@ -74,13 +74,8 @@ const projects: ModelRef<Array<Project>> = defineModel('projects', { required: t
                     </CardDescription>
                 </CardHeader>
                 <CardContent class="grow flex flex-col">
-                    <span class="flex gap-2">
-                        <Badge v-for="(file, index) in project.files" :key="file.id" class="w-fit"
-                            >Analysis n°{{ index + 1 }}</Badge
-                        >
-                        <Badge v-if="!project.files || project.files.length == 0" class="w-fit"
-                            >no analysis done yet</Badge
-                        >
+                    <span>
+                        {{ project.files?.length }} files were uploaded
                     </span>
                     <span> Patient ID : n°xyz123 </span>
                     <span> Patient Info : xyz </span>
