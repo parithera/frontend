@@ -11,6 +11,7 @@ import FormDescription from '@/shadcn/ui/form/FormDescription.vue';
 import FormItem from '@/shadcn/ui/form/FormItem.vue';
 import FormLabel from '@/shadcn/ui/form/FormLabel.vue';
 import FormMessage from '@/shadcn/ui/form/FormMessage.vue';
+import Progress from '@/shadcn/ui/progress/Progress.vue';
 import Select from '@/shadcn/ui/select/Select.vue';
 import SelectContent from '@/shadcn/ui/select/SelectContent.vue';
 import SelectGroup from '@/shadcn/ui/select/SelectGroup.vue';
@@ -23,9 +24,8 @@ import Toaster from '@/shadcn/ui/toast/Toaster.vue';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { Icon } from '@iconify/vue/dist/iconify.js';
-import { platform } from 'os';
 import { useForm } from 'vee-validate';
-import type { ModelRef } from 'vue';
+import { ref, type ModelRef, type Ref } from 'vue';
 
 const props = defineProps<{
     fetchGraphs: (project: Project) => Promise<void>;
@@ -44,6 +44,11 @@ const userStore = useUserStore();
 const selected_project: ModelRef<Project> = defineModel('selected_project', { required: true });
 const loading: ModelRef<boolean> = defineModel('loading', { required: true });
 
+// Refs
+const progress_message: Ref<string> = ref("Uploading")
+const progress_preprocess: Ref<number> = ref(0)
+const uploading: Ref<boolean> = ref(false)
+
 const { toast } = useToast();
 
 const { handleSubmit } = useForm({
@@ -57,6 +62,7 @@ const onFileSubmit = handleSubmit(async (values) => {
     const platform: string = chemistry.includes("10x") ? "10x": "hydrop";
 
     let analyzer_name = 'fastq_initialization';
+    let count_files = 0
     for (const file of files) {
         // const type: string = values.type as string;
         let file_name = file.name;
@@ -65,24 +71,40 @@ const onFileSubmit = handleSubmit(async (values) => {
             file_name = 'data.h5';
             analyzer_name = 'execute_r_script';
         }
+        
+        const chunkSize = 1024 * 1024 * 10; // size of each chunk (10MB)
+        let start = 0;
 
-        loading.value = true;
-        await fileRepository.upload({
-            bearerToken: authStore.getToken ?? '',
-            data: {
-                file: file,
-                type: 'DATA',
-                file_name: file_name
-            },
-            projectId: selected_project.value.id,
-            organizationId: userStore.getDefaultOrg?.id ?? ''
-        });
+        progress_message.value = "Uploading file " + count_files + "/"+files.length
+        uploading.value = true
+        while (start < file.size) {
+            await fileRepository.upload({
+                bearerToken: authStore.getToken ?? '',
+                data: {
+                    file: file.slice(start, start + chunkSize),
+                    type: 'DATA',
+                    file_name: file_name,
+                    chunk: true,
+                    last: false
+                },
+                projectId: selected_project.value.id,
+                organizationId: userStore.getDefaultOrg?.id ?? ''
+            }).finally(()=>{
+                progress_preprocess.value = start/file.size * 100
+                progress_message.value = "Uploading file " + count_files + "/"+files.length
+                start += chunkSize;
+            });
+            
+        }
+        count_files += 1;
     }
 
     toast({
         title: 'File uploaded successfully!',
         description: 'Please wait while we preprocess the file...'
     });
+
+    loading.value = true;
 
     const analyzer = await analyzerRepository.getAnalyzerByName({
         bearerToken: authStore.getToken ?? '',
@@ -172,11 +194,19 @@ async function deleteFile(file: ProjectFile) {
     });
     selected_project.value = project_retrieved.data;
 }
+
+function filterName(name:string) {
+    return name.replace(".fastq.gz", "")
+}
 </script>
 
 <template>
+    <div v-if="uploading">
+        <div>{{ progress_message }}</div>
+        <Progress v-model="progress_preprocess"></Progress>
+    </div>
     <div
-        v-if="!selected_project.files || selected_project.files.length == 0"
+        v-else-if="!selected_project.files || selected_project.files.length == 0"
         class="bg-secondary rounded flex justify-evenly p-2"
     >
         <form class="flex flex-col gap-2 items-start" @submit="onFileSubmit">
@@ -276,7 +306,7 @@ async function deleteFile(file: ProjectFile) {
             class="flex w-full items-center gap-2 justify-between"
         >
             <Icon class="w-1/8" icon="tabler:file"></Icon>
-            <span class="w-6/8 text-wrap break-words"> {{ file.name }}</span
+            <span class="w-6/8 text-wrap break-words"> {{ filterName(file.name) }}</span
             ><Icon
                 class="cursor-pointer w-1/8 text-destructive"
                 icon="iconoir:trash"

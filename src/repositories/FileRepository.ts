@@ -13,9 +13,11 @@ export interface UploadRequestOptions extends RepoMethodEmptyPatchRequestOptions
 }
 
 export interface UploadData {
-    file: File;
+    file: File | Blob;
     type: string;
     file_name: string;
+    chunk: Boolean;
+    last: Boolean;
 }
 
 export interface DeleteFileOptions extends AuthRepoMethodEmptyDeleteRequestOptions {

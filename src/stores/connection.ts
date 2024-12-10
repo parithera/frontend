@@ -41,10 +41,10 @@ export const useConnectionStore = defineStore('connection', {
 
         fetchGraphs(data: object) {
             this.socket?.emit('graphs', data, (response: Response) => {
-                if (response.type == 'elbow') this.svg_elbow = response.data;
+                if (response.type == 'pca_variance_ratio') this.svg_elbow = response.data;
                 else if (response.type == 'violin') this.svg_violin = response.data;
                 else if (response.type == 'umap') this.svg_umap = response.data;
-                else if (response.type == 'variable_features')
+                else if (response.type == 'filter_genes_dispersion')
                     this.svg_variable_features = response.data;
 
                 if (

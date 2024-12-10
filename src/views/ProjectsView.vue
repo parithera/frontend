@@ -218,7 +218,7 @@ async function fetchGraphs(project: Project) {
     connectionStore.bindEvents();
     connectionStore.connect();
 
-    const graphs = ['elbow', 'violin', 'umap', 'variable_features'];
+    const graphs = ['pca_variance_ratio', 'violin', 'umap', 'filter_genes_dispersion'];
     for (const graph of graphs) {
         connectionStore.fetchGraphs({
             projectId: project.id,
