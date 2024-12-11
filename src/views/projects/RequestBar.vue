@@ -96,7 +96,7 @@ async function askGPT(request: string) {
         const analyzer = await analyzerRepository.getAnalyzerByName({
             bearerToken: authStore.getToken ?? '',
             orgId: userStore.defaultOrg?.id ?? '',
-            analyzer_name: 'execute_r_script'
+            analyzer_name: 'execute_python_script'
         });
 
         const res = await projectRepository.createAnalysis({
@@ -107,7 +107,7 @@ async function askGPT(request: string) {
             data: {
                 analyzer_id: analyzer.data.id,
                 config: {
-                    r: {
+                    python: {
                         project: props.selected_project.id,
                         user: props.selected_project.added_by?.id,
                         type: 'chat'
