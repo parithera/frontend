@@ -25,7 +25,7 @@ import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import { useForm } from 'vee-validate';
-import { ref, type ModelRef, type Ref } from 'vue';
+import { ref, useTemplateRef, type ModelRef, type Ref } from 'vue';
 
 const props = defineProps<{
     fetchGraphs: (project: Project) => Promise<void>;
@@ -48,6 +48,8 @@ const loading: ModelRef<boolean> = defineModel('loading', { required: true });
 const progress_message: Ref<string> = ref("Uploading")
 const progress_preprocess: Ref<number> = ref(0)
 const uploading: Ref<boolean> = ref(false)
+const input = useTemplateRef('input')
+const selection_type: Ref<string> = ref("fastq")
 
 const { toast } = useToast();
 
@@ -57,9 +59,16 @@ const { handleSubmit } = useForm({
 
 const onFileSubmit = handleSubmit(async (values) => {
     const files: Array<File> = values.file as Array<File>;
-    const chemistry: string = values.chemistry as string;
-    const genome: string = values.genome as string;
-    const platform: string = chemistry.includes("10x") ? "10x": "hydrop";
+
+    let chemistry: string = "";
+    let genome: string = "";
+    let platform: string = "";
+        
+    if (files[0].name.includes(".fastq.gz")) {
+        chemistry = values.chemistry as string;
+        genome = values.genome as string;
+        platform = chemistry.includes("10x") ? "10x": "hydrop";
+    }
 
     let analyzer_name = 'fastq_initialization';
     let count_files = 0
@@ -212,6 +221,11 @@ async function deleteFile(file: ProjectFile) {
 function filterName(name:string) {
     return name.replace(".fastq.gz", "")
 }
+
+function setSelectionType() {
+    selection_type.value = input.value?.value.includes('fastq') ? "fastq" : "h5"
+}
+
 </script>
 
 <template>
@@ -233,6 +247,8 @@ function filterName(name:string) {
                             multiple
                             accept=".gz, .h5"
                             v-bind="componentField"
+                            ref="input"
+                            @input="setSelectionType"
                         />
                     </FormControl>
                     <FormDescription>
@@ -242,7 +258,7 @@ function filterName(name:string) {
                 </FormItem>
             </FormField>
 
-            <FormField v-slot="{ componentField }" name="chemistry">
+            <FormField v-if="selection_type == 'fastq'" v-slot="{ componentField }" name="chemistry">
                 <FormItem>
                     <FormLabel>Chemistry</FormLabel>
 
@@ -278,7 +294,7 @@ function filterName(name:string) {
                 </FormItem>
             </FormField>
 
-            <FormField v-slot="{ componentField }" name="genome">
+            <FormField v-if="selection_type == 'fastq'" v-slot="{ componentField }" name="genome">
                 <FormItem>
                     <FormLabel>Genome</FormLabel>
 
