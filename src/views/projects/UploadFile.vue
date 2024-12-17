@@ -63,13 +63,15 @@ const onFileSubmit = handleSubmit(async (values) => {
 
     let analyzer_name = 'fastq_initialization';
     let count_files = 0
+    let file_type = "fastq"
     for (const file of files) {
         // const type: string = values.type as string;
         let file_name = file.name;
 
         if (file.name.includes('.h5')) {
             file_name = 'data.h5';
-            analyzer_name = 'execute_r_script';
+            analyzer_name = 'h5_initialization';
+            file_type = "h5"
         }
         
         const chunkSize = 1024 * 1024 * 10; // size of each chunk (10MB)
@@ -151,7 +153,7 @@ const onFileSubmit = handleSubmit(async (values) => {
                 scanpy: {
                     project: selected_project.value.id,
                     user: selected_project.value.added_by?.id,
-                    file_type: "fastq"
+                    file_type: file_type
                 },
                 fastp: {
                     platform: platform,
