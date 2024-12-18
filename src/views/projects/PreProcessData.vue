@@ -54,6 +54,9 @@ DimPlot(final_seurat_object, reduction = "umap", label = TRUE)
 </script>
 
 <template>
+     <RouterLink :to="{ name: 'home' }" class="flex gap-1 items-center">
+            <img src="@/imgs/logos/logo_name.svg" class="h-5 self-center" />
+    </RouterLink>
     <Collapsible v-model:open="isOpen" class="space-y-2 flex flex-col items-center">
         <CollapsibleTrigger as-child>
             <Button variant="ghost" size="sm" class="flex gap-2 items-center rounded-full">

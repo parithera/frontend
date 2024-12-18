@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ProjectRepository } from '@/repositories/ProjectRepository';
+import router from '@/router';
 import Button from '@/shadcn/ui/button/Button.vue';
 import Dialog from '@/shadcn/ui/dialog/Dialog.vue';
 import DialogClose from '@/shadcn/ui/dialog/DialogClose.vue';
@@ -10,16 +12,31 @@ import DialogTitle from '@/shadcn/ui/dialog/DialogTitle.vue';
 import DialogTrigger from '@/shadcn/ui/dialog/DialogTrigger.vue';
 import Input from '@/shadcn/ui/input/Input.vue';
 import Label from '@/shadcn/ui/label/Label.vue';
-import { type ModelRef } from 'vue';
+import { useAuthStore } from '@/stores/auth';
+import { useUserStore } from '@/stores/user';
+import { ref, type Ref } from 'vue';
 
-defineProps<{
-    newProject: () => Promise<void>;
-}>();
 
-const new_project_name: ModelRef<string> = defineModel('new_project_name', { required: true });
-const new_project_description: ModelRef<string> = defineModel('new_project_description', {
-    required: true
-});
+const authStore = useAuthStore();
+const userStore = useUserStore();
+
+// Repositories
+const projectRepository: ProjectRepository = new ProjectRepository();
+const new_project_name: Ref<string> = ref('');
+const new_project_description: Ref<string> = ref('');
+
+async function newProject() {
+    const res = await projectRepository.createProject({
+        bearerToken: authStore.getToken ?? '',
+        data: {
+            name: new_project_name.value,
+            description: new_project_description.value
+        },
+        orgId: userStore.defaultOrg?.id ?? ''
+    });
+
+    router.push({name:'results', params:{page:'results', projectId: res.id}})
+}
 
 const submitForm = () => {
     document.getElementById('submitButton')?.click();

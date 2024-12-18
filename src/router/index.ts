@@ -33,7 +33,7 @@ const router = createRouter({
             props: true
         },
         {
-            path: '/results/:page?',
+            path: '/results/:projectId/:page?',
             name: 'results',
             component: ResultsView,
             props: true
