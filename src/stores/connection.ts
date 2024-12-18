@@ -15,7 +15,6 @@ export const useConnectionStore = defineStore('connection', {
         svg_variable_features: '',
         svg_violin: ''
     }),
-
     getters: {
         getSocket(): Socket {
             return this.socket as Socket;
@@ -23,6 +22,12 @@ export const useConnectionStore = defineStore('connection', {
     },
 
     actions: {
+        $reset(){
+            this.svg_elbow = ''
+            this.svg_umap = ''
+            this.svg_variable_features = ''
+            this.svg_violin = ''
+        },
         bindEvents() {
             this.socket?.on('connect', () => {
                 console.log('Connected');

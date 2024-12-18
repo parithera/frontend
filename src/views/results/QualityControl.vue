@@ -23,7 +23,6 @@ const userStore = useUserStore();
 const projectRepository: ProjectRepository = new ProjectRepository();
 
 const selected_project: Ref<Project> = ref(new Project());
-const isOpen = ref<boolean>(true);
 
 const { svg_elbow, svg_umap, svg_violin, svg_variable_features } = storeToRefs(connectionStore);
 
@@ -75,6 +74,8 @@ await fetchGraphs(selected_project.value)
 <template>
     <Button class="rounded-full" @click="()=> router.back()">Go back</Button>
     <div class="flex flex-col items-center">
+
+        {{ selected_project.name }}, {{ selected_project.added_on }}
         <img
             class="w-1/2"
             :src="'data:image/png;base64,' + svg_violin.trim()"

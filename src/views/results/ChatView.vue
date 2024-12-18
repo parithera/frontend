@@ -66,7 +66,6 @@ const selected_project: Ref<Project> = ref(new Project());
 const progress: Ref<number> = ref(10);
 const progress_preprocess: Ref<number> = ref(0);
 const loading = ref(false)
-const isOpen = ref(false)
 
 watchEffect((cleanupFn) => {
     let timer = setTimeout(() => (progress.value = 10), 500);
@@ -126,6 +125,9 @@ async function getChatHistory(project_id: string) {
         });
     } catch (error) {
         if (error instanceof BusinessLogicError) {
+            if (error.error_code =='EntityNotFound') {
+                console.log("No history");
+            }
             await new Promise((resolve) => setTimeout(resolve, 5000));
         }
         await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -188,7 +190,7 @@ await getChatHistory(selected_project.value.id)
 
                 <ScrollArea v-else class="h-full w-full mb-16">
                     <RouterLink :to="{name: 'results', params:{projectId: selected_project.id, page: 'qc'}}">
-                        <Button class="rounded-full">Show QC</Button>
+                        <Button class="rounded-full">🔎 Show QC</Button>
                     </RouterLink>
                     <div class="flex flex-col-reverse">
                         <div
