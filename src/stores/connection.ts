@@ -15,7 +15,6 @@ export const useConnectionStore = defineStore('connection', {
         svg_variable_features: '',
         svg_violin: ''
     }),
-
     getters: {
         getSocket(): Socket {
             return this.socket as Socket;

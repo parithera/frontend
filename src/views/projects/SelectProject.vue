@@ -1,39 +1,73 @@
 <script setup lang="ts">
 import type { Project } from '@/repositories/types/entities/Project';
 import Button from '@/shadcn/ui/button/Button.vue';
-import { type ModelRef } from 'vue';
-import CreateProjectForm from './CreateProjectForm.vue';
-import { Icon } from '@iconify/vue/dist/iconify.js';
+import { ref, type Ref } from 'vue';
 import Card from '@/shadcn/ui/card/Card.vue';
 import CardHeader from '@/shadcn/ui/card/CardHeader.vue';
 import CardContent from '@/shadcn/ui/card/CardContent.vue';
 import CardTitle from '@/shadcn/ui/card/CardTitle.vue';
 import CardDescription from '@/shadcn/ui/card/CardDescription.vue';
 import CardFooter from '@/shadcn/ui/card/CardFooter.vue';
-import Badge from '@/shadcn/ui/badge/Badge.vue';
 import Skeleton from '@/shadcn/ui/skeleton/Skeleton.vue';
 import Alert from '@/shadcn/ui/alert/Alert.vue';
 import { Terminal } from 'lucide-vue-next';
 import AlertTitle from '@/shadcn/ui/alert/AlertTitle.vue';
 import AlertDescription from '@/shadcn/ui/alert/AlertDescription.vue';
+import { useAuthStore } from '@/stores/auth';
+import { useUserStore } from '@/stores/user';
+import { ProjectRepository } from '@/repositories/ProjectRepository';
+import { BusinessLogicError } from '@/repositories/BaseRepository';
+import CreateProjectForm from './CreateProjectForm.vue';
 
-defineProps<{
-    selected_project: Project;
-    newProject: () => Promise<void>;
-    isSelectedProject: (project: Project) => 'default' | 'outline';
-    selectOrUnselectProject: (project: Project) => Promise<void>;
-    deleteProject: (project: Project) => Promise<void>;
-}>();
+const authStore = useAuthStore();
+const userStore = useUserStore();
 
-const new_project_name: ModelRef<string> = defineModel('new_project_name', { required: true });
-const new_project_description: ModelRef<string> = defineModel('new_project_description', {
-    required: true
-});
-const projects: ModelRef<Array<Project>> = defineModel('projects', { required: true });
+// Repositories
+const projectRepository: ProjectRepository = new ProjectRepository();
+
+const projects: Ref<Array<Project> | undefined> = ref()
+
+async function getProjects() {
+    const projects_retrieved = await projectRepository.getProjects({
+        bearerToken: authStore.getToken ?? '',
+        orgId: userStore.defaultOrg?.id ?? '',
+        pagination: {
+            page: 0,
+            entries_per_page: 0
+        },
+        search: {
+            searchKey: ''
+        },
+        sort: {
+            sortKey: '',
+            sortDirection: undefined
+        }
+    });
+
+    projects.value = projects_retrieved.data;
+}
+
+async function deleteProject(project: Project) {
+    try {
+        await projectRepository.deleteProject({
+            bearerToken: authStore.getToken ?? '',
+            handleBusinessErrors: true,
+            projectId: project.id,
+            orgId: userStore.defaultOrg?.id ?? ''
+        });
+    } catch (error) {
+        if (error instanceof BusinessLogicError) {
+            console.log(error);
+        }
+    }
+    await getProjects();
+}
+
+getProjects();
 </script>
 
 <template>
-    <div v-if="projects.length == 0" class="flex flex-col gap-6 items-center justify-center mt-20">
+    <div v-if="projects?.length == 0" class="flex flex-col gap-6 items-center justify-center mt-20">
         <Card class="w-72">
             <CardHeader>
                 <CardTitle>No Project found</CardTitle>
@@ -49,11 +83,7 @@ const projects: ModelRef<Array<Project>> = defineModel('projects', { required: t
                 <Skeleton class="self-center w-48 h-24"></Skeleton>
             </CardContent>
             <CardFooter class="flex gap-4 justify-center">
-                <CreateProjectForm
-                    v-model:new_project_name="new_project_name"
-                    v-model:new_project_description="new_project_description"
-                    :newProject="newProject"
-                />
+                <CreateProjectForm/>
             </CardFooter>
         </Card>
     </div>
@@ -189,13 +219,14 @@ const projects: ModelRef<Array<Project>> = defineModel('projects', { required: t
                     </span>
                 </CardContent>
                 <CardFooter class="flex justify-between px-6 pb-6">
-                    <Button
-                        class="rounded-full"
-                        variant="outline"
-                        @click="selectOrUnselectProject(project)"
-                    >
-                        Open
-                    </Button>
+                    <RouterLink :to="{name:'results', params:{page:'results', projectId: project.id}}">
+                        <Button
+                            class="rounded-full"
+                            variant="outline"
+                        >
+                            Open
+                        </Button>
+                    </RouterLink>
                     <Button
                         class="flex gap-2 rounded-full"
                         variant="destructive"
@@ -220,11 +251,7 @@ const projects: ModelRef<Array<Project>> = defineModel('projects', { required: t
                     <Skeleton class="self-center w-48 h-24"></Skeleton>
                 </CardContent>
                 <CardFooter class="flex gap-4 justify-center">
-                    <CreateProjectForm
-                        v-model:new_project_name="new_project_name"
-                        v-model:new_project_description="new_project_description"
-                        :newProject="newProject"
-                    />
+                    <CreateProjectForm/>
                 </CardFooter>
             </Card>
         </div>
