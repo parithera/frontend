@@ -22,12 +22,6 @@ export const useConnectionStore = defineStore('connection', {
     },
 
     actions: {
-        $reset(){
-            this.svg_elbow = ''
-            this.svg_umap = ''
-            this.svg_variable_features = ''
-            this.svg_violin = ''
-        },
         bindEvents() {
             this.socket?.on('connect', () => {
                 console.log('Connected');

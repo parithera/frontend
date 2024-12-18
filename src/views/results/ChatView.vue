@@ -13,7 +13,7 @@ import ResizableHandle from '@/shadcn/ui/resizable/ResizableHandle.vue';
 import ProjectEditor from '@/views/projects/ProjectEditor.vue';
 import { ProjectRepository } from '@/repositories/ProjectRepository';
 import RequestBar from '@/views/projects/RequestBar.vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import Button from '@/shadcn/ui/button/Button.vue';
 import Avatar from '@/shadcn/ui/avatar/Avatar.vue';
 import AvatarImage from '@/shadcn/ui/avatar/AvatarImage.vue';
@@ -134,6 +134,13 @@ async function getChatHistory(project_id: string) {
     }
 }
 
+const route = useRoute()
+
+onMounted(async ()=>{
+await getProject(route.params.projectId as string)
+await fetchGraphs(selected_project.value)
+await getChatHistory(selected_project.value.id)
+
 watch([svg_elbow, svg_umap, svg_variable_features, svg_violin], () => {
     progress_preprocess.value += 25;
     if (
@@ -149,13 +156,6 @@ watch([svg_elbow, svg_umap, svg_variable_features, svg_violin], () => {
         });
     }
 });
-
-const route = useRoute()
-
-onMounted(async ()=>{
-await getProject(route.params.projectId as string)
-await fetchGraphs(selected_project.value)
-await getChatHistory(selected_project.value.id)
 })
 </script>
 <template>
