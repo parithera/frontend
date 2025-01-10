@@ -23,6 +23,7 @@ import { useToast } from '@/shadcn/ui/toast';
 import Toaster from '@/shadcn/ui/toast/Toaster.vue';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
+import { computeHash } from '@/utils/crypto';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import { useForm } from 'vee-validate';
 import { ref, useTemplateRef, type ModelRef, type Ref } from 'vue';
@@ -85,27 +86,44 @@ const onFileSubmit = handleSubmit(async (values) => {
         
         const chunkSize = 1024 * 1024 * 10; // size of each chunk (10MB)
         let start = 0;
+        let id = 0;
 
         progress_message.value = "Uploading file " + count_files + "/" + files.length
         uploading.value = true
         while (start < file.size) {
+            const fileBlob = file.slice(start, start + chunkSize)
+
+            let hash = ""
+            try {
+                hash = await computeHash(fileBlob);
+                console.log('Computed Hash:', hash);
+                // Use `hash` as needed here
+            } catch (error) {
+                console.error('Error during hash computation:', error);
+            }
+
             await fileRepository.upload({
                 bearerToken: authStore.getToken ?? '',
                 data: {
-                    file: file.slice(start, start + chunkSize),
+                    file: fileBlob,
                     type: 'DATA',
                     file_name: file_name,
                     chunk: "true",
+                    id: id,
+                    hash: hash,
                     last: "false"
                 },
                 projectId: selected_project.value.id,
                 organizationId: userStore.getDefaultOrg?.id ?? ''
-            }).finally(()=>{
+            }).catch(err => {
+                console.error(err);
+            })
+            .finally(()=>{
                 progress_preprocess.value = start/file.size * 100
                 progress_message.value = "Uploading file " + count_files + "/"+files.length
                 start += chunkSize;
             });
-            
+            id ++;
         }
         await fileRepository.upload({
             bearerToken: authStore.getToken ?? '',
@@ -114,6 +132,8 @@ const onFileSubmit = handleSubmit(async (values) => {
                 type: 'DATA',
                 file_name: file_name,
                 chunk: "true",
+                id: id,
+                hash: "",
                 last: "true"
             },
             projectId: selected_project.value.id,

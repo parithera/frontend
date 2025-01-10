@@ -18,6 +18,8 @@ export interface UploadData {
     file_name: string;
     chunk: string;
     last: string;
+    id: number;
+    hash: string;
 }
 
 export interface DeleteFileOptions extends AuthRepoMethodEmptyDeleteRequestOptions {
