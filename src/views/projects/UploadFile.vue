@@ -29,7 +29,7 @@ const userStore = useUserStore();
 
 // Models
 const selected_project: ModelRef<Project> = defineModel('selected_project', { required: true });
-const loading: ModelRef<boolean> = defineModel('loading', { required: true });
+const create_groups: ModelRef<boolean> = defineModel('create_groups', { required: true });
 
 // Refs
 const progress_message: Ref<string> = ref("Uploading")
@@ -48,11 +48,11 @@ const onFileSubmit = handleSubmit(async (values) => {
     let chemistry: string = "";
     let genome: string = "";
     let platform: string = "";
-        
+
     if (files[0].name.includes(".fastq.gz")) {
         chemistry = values.chemistry as string;
         genome = values.genome as string;
-        platform = chemistry.includes("10x") ? "10x": "hydrop";
+        platform = chemistry.includes("10x") ? "10x" : "hydrop";
     }
 
     let analyzer_name = 'fastq_initialization';
@@ -67,7 +67,7 @@ const onFileSubmit = handleSubmit(async (values) => {
             analyzer_name = 'h5_initialization';
             file_type = "h5"
         }
-        
+
         const chunkSize = 1024 * 1024 * 10; // size of each chunk (10MB)
         let start = 0;
         let id = 0;
@@ -102,12 +102,12 @@ const onFileSubmit = handleSubmit(async (values) => {
             }).catch(err => {
                 console.error(err);
             })
-            .finally(()=>{
-                progress_preprocess.value = start/file.size * 100
-                progress_message.value = "Uploading file " + count_files + "/"+files.length
-                start += chunkSize;
-            });
-            id ++;
+                .finally(() => {
+                    progress_preprocess.value = start / file.size * 100
+                    progress_message.value = "Uploading file " + count_files + "/" + files.length
+                    start += chunkSize;
+                });
+            id++;
         }
         await fileRepository.upload({
             bearerToken: authStore.getToken ?? '',
@@ -131,7 +131,7 @@ const onFileSubmit = handleSubmit(async (values) => {
         description: 'Please wait while we preprocess the file...'
     });
 
-    loading.value = true;
+    // loading.value = true;
 
     const analyzer = await analyzerRepository.getAnalyzerByName({
         bearerToken: authStore.getToken ?? '',
@@ -222,32 +222,21 @@ async function deleteFile(file: ProjectFile) {
     selected_project.value = project_retrieved.data;
 }
 
-function filterName(name:string) {
+function filterName(name: string) {
     return name.replace(".fastq.gz", "")
 }
 
 </script>
 
 <template>
-    <UploadForm 
-        v-if="!selected_project.files || selected_project.files.length == 0"
-        v-model:loading="loading"
-        v-model:selected_project="selected_project"
-    ></UploadForm>
-    <div v-else class="flex flex-col gap-2 items-center">
-        <span class="font-bold">File analyzed</span>
-        <div
-            v-for="file in selected_project.files"
-            :key="file.id"
-            class="flex w-full items-center gap-2 justify-between"
-        >
+    <UploadForm v-model:selected_project="selected_project" v-model:create_groups="create_groups"></UploadForm>
+    <div class="flex flex-col gap-2 items-center">
+        <span class="font-bold">File uploaded</span>
+        <div v-for="file in selected_project.files" :key="file.id"
+            class="flex w-full items-center gap-2 justify-between">
             <Icon class="w-1/8" icon="tabler:file"></Icon>
-            <span class="w-6/8 text-wrap break-words"> {{ filterName(file.name) }}</span
-            ><Icon
-                class="cursor-pointer w-1/8 text-destructive"
-                icon="iconoir:trash"
-                @click="deleteFile(file)"
-            ></Icon>
+            <span class="w-6/8 text-wrap break-words"> {{ filterName(file.name) }}</span>
+            <Icon class="cursor-pointer w-1/8 text-destructive" icon="iconoir:trash" @click="deleteFile(file)"></Icon>
         </div>
     </div>
     <Toaster />

@@ -25,6 +25,8 @@ import PreProcessData from '@/views/projects/PreProcessData.vue';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import { useStateStore } from '@/stores/state';
 import Progress from '@/shadcn/ui/progress/Progress.vue';
+import CreateGroups from './CreateGroups.vue';
+import ConfigureAnalysis from './ConfigureAnalysis.vue';
 
 const state = useStateStore();
 state.$reset();
@@ -35,9 +37,13 @@ defineProps<{
     page?: string;
 }>();
 
+// Stores
 const connectionStore = useConnectionStore();
 const authStore = useAuthStore();
 const userStore = useUserStore();
+
+// Refs
+const groups: Ref<object> = ref({})
 
 // Repositories
 const projectRepository: ProjectRepository = new ProjectRepository();
@@ -65,7 +71,9 @@ const { svg_elbow, svg_umap, svg_violin, svg_variable_features } = storeToRefs(c
 const selected_project: Ref<Project> = ref(new Project());
 const progress: Ref<number> = ref(10);
 const progress_preprocess: Ref<number> = ref(0);
-const loading = ref(false)
+const loading: Ref<boolean> = ref(false)
+const create_groups: Ref<boolean> = ref(false)
+const configure_analysis: Ref<boolean> = ref(false)
 
 watchEffect((cleanupFn) => {
     let timer = setTimeout(() => (progress.value = 10), 500);
@@ -111,7 +119,7 @@ async function getProject(project_id: string) {
 async function getChatHistory(project_id: string) {
     if (selected_project.value.files?.length == 0) return;
     if (loading.value) return;
-    
+
     try {
         const res = await projectRepository.getChatHistory({
             bearerToken: authStore.getToken ?? '',
@@ -125,7 +133,7 @@ async function getChatHistory(project_id: string) {
         });
     } catch (error) {
         if (error instanceof BusinessLogicError) {
-            if (error.error_code =='EntityNotFound') {
+            if (error.error_code == 'EntityNotFound') {
                 console.log("No history");
             }
             await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -136,26 +144,26 @@ async function getChatHistory(project_id: string) {
 
 const route = useRoute()
 
-onMounted(async ()=>{
-await getProject(route.params.projectId as string)
-await fetchGraphs(selected_project.value)
-await getChatHistory(selected_project.value.id)
+onMounted(async () => {
+    await getProject(route.params.projectId as string)
+    await fetchGraphs(selected_project.value)
+    await getChatHistory(selected_project.value.id)
 
-watch([svg_elbow, svg_umap, svg_variable_features, svg_violin], () => {
-    progress_preprocess.value += 25;
-    if (
-        svg_elbow.value != '' &&
-        svg_umap.value != '' &&
-        svg_variable_features.value != '' &&
-        svg_violin.value != ''
-    ) {
-        loading.value = false;
-        toast({
-            title: 'File analyzed successfully!',
-            description: 'Start chatting with ExPlore'
-        });
-    }
-});
+    watch([svg_elbow, svg_umap, svg_variable_features, svg_violin], () => {
+        progress_preprocess.value += 25;
+        if (
+            svg_elbow.value != '' &&
+            svg_umap.value != '' &&
+            svg_variable_features.value != '' &&
+            svg_violin.value != ''
+        ) {
+            loading.value = false;
+            toast({
+                title: 'File analyzed successfully!',
+                description: 'Start chatting with ExPlore'
+            });
+        }
+    });
 })
 </script>
 <template>
@@ -165,10 +173,8 @@ watch([svg_elbow, svg_umap, svg_variable_features, svg_violin], () => {
             <span>{{ selected_project.added_on }}</span>
         </div>
         <ResizablePanelGroup direction="horizontal">
-            <ResizablePanel
-                class="h-[calc(100vh-4rem)] p-4 flex flex-col items-center justify-center"
-                :default-size="60"
-            >
+            <ResizablePanel class="h-[calc(100vh-4rem)] p-4 flex flex-col items-center justify-center"
+                :default-size="60">
                 <div v-if="loading" class="w-full flex flex-col gap-2 items-center justify-center">
                     <div class="flex items-center text-2xl">
                         <Icon icon="eos-icons:loading"></Icon> We are processing your data...
@@ -176,43 +182,36 @@ watch([svg_elbow, svg_umap, svg_variable_features, svg_violin], () => {
                     <div class="flex items-center text-xl">This may take a while.</div>
                     <Progress class="w-1/2" v-model="progress_preprocess"></Progress>
                 </div>
-                <div
-                    v-else-if="svg_violin == ''"
-                    class="w-full flex flex-col gap-2 items-center justify-center"
-                >
-                    <div class="text-2xl">No Data found, please import a file</div>
-                    <UploadFile
-                        v-model:selected_project="selected_project"
-                        v-model:loading="loading"
-                        :fetchGraphs="fetchGraphs"
-                    />
+                <ConfigureAnalysis v-else-if="configure_analysis" v-model:configure_analysis="configure_analysis"
+                    v-model:loading="loading"></ConfigureAnalysis>
+                <CreateGroups v-else-if="create_groups" v-model:create_groups="create_groups"
+                    v-model:configure_analysis="configure_analysis" v-model:selected_project="selected_project"
+                    v-model:groups="groups">
+                </CreateGroups>
+
+                <div v-else-if="svg_violin == ''" class="w-full flex flex-col gap-2 items-center justify-center">
+                    <div class="text-2xl">Select files to import</div>
+                    <UploadFile v-model:selected_project="selected_project" v-model:create_groups="create_groups"
+                        :fetchGraphs="fetchGraphs" />
                 </div>
 
                 <ScrollArea v-else class="h-full w-full mb-16">
-                    <RouterLink :to="{name: 'results', params:{projectId: selected_project.id, page: 'qc'}}">
+                    <RouterLink :to="{ name: 'results', params: { projectId: selected_project.id, page: 'qc' } }">
                         <Button class="rounded-full">🔎 Show QC</Button>
                     </RouterLink>
                     <div class="flex flex-col-reverse">
-                        <div
-                            class="border-l hover:border-primary pl-2 pt-4 flex flex-col gap-4"
-                            v-for="(chat_element, index) in chat_content"
-                            :key="index"
-                        >
+                        <div class="border-l hover:border-primary pl-2 pt-4 flex flex-col gap-4"
+                            v-for="(chat_element, index) in chat_content" :key="index">
                             <div v-if="chat_element.request != ''" class="flex flex-col gap-2">
                                 <div class="w-full flex justify-between">
                                     <div class="font-semibold flex gap-2 items-center">
-                                        <Button
-                                            variant="ghost"
-                                            class="relative h-8 w-8 rounded-full"
-                                        >
+                                        <Button variant="ghost" class="relative h-8 w-8 rounded-full">
                                             <Avatar class="h-8 w-8">
                                                 <AvatarImage src="/avatars/01.png" alt="@shadcn" />
-                                                <AvatarFallback
-                                                    >{{ userStore.getUser?.first_name.charAt(0)
+                                                <AvatarFallback>{{ userStore.getUser?.first_name.charAt(0)
                                                     }}{{
                                                         userStore.getUser?.last_name.charAt(0)
-                                                    }}</AvatarFallback
-                                                >
+                                                    }}</AvatarFallback>
                                             </Avatar>
                                         </Button>
                                         <div>You :</div>
@@ -231,22 +230,14 @@ watch([svg_elbow, svg_umap, svg_variable_features, svg_violin], () => {
                                     </div>
                                 </div>
 
-                                <ResponseCard
-                                    :markdown_content="chat_element.response"
-                                    :image="chat_element.image"
-                                    :data="chat_element.data"
-                                    :text="chat_element.text"
-                                    :result="chat_element.result"
-                                    :id="index"
-                                ></ResponseCard>
-                                <div
-                                    class="pl-4 flex flex-col items-center"
-                                    v-if="
-                                        chat_element.response.endsWith(
-                                            'Please wait while the script is running'
-                                        ) && chat_element.image == ''
-                                    "
-                                >
+                                <ResponseCard :markdown_content="chat_element.response" :image="chat_element.image"
+                                    :data="chat_element.data" :text="chat_element.text" :result="chat_element.result"
+                                    :id="index"></ResponseCard>
+                                <div class="pl-4 flex flex-col items-center" v-if="
+                                    chat_element.response.endsWith(
+                                        'Please wait while the script is running'
+                                    ) && chat_element.image == ''
+                                ">
                                     <Progress v-model="progress" class="w-3/5"></Progress>
                                 </div>
                             </div>
@@ -266,13 +257,8 @@ watch([svg_elbow, svg_umap, svg_variable_features, svg_violin], () => {
             </ResizablePanel>
         </ResizablePanelGroup>
     </div>
-    <RequestBar
-        v-if="selected_project.id"
-        :selected_project="selected_project"
-        v-model:chat_content="chat_content"
-        v-model:loading="loading"
-        v-model:progress="progress"
-    />
+    <RequestBar v-if="selected_project.id" :selected_project="selected_project" v-model:chat_content="chat_content"
+        v-model:loading="loading" v-model:progress="progress" />
 </template>
 
 <style lang="scss">
