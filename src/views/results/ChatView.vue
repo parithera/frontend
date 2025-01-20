@@ -27,6 +27,7 @@ import { useStateStore } from '@/stores/state';
 import Progress from '@/shadcn/ui/progress/Progress.vue';
 import CreateGroups from './CreateGroups.vue';
 import ConfigureAnalysis from './ConfigureAnalysis.vue';
+import type { ChatContent, Group } from './types';
 
 const state = useStateStore();
 state.$reset();
@@ -43,19 +44,12 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 
 // Refs
-const groups: Ref<object> = ref({})
+const groups: Ref<Array<Group>> = ref([])
+const file_type: Ref<string> = ref('')
 
 // Repositories
 const projectRepository: ProjectRepository = new ProjectRepository();
 
-export type ChatContent = {
-    request: string;
-    response: string;
-    image: string;
-    data: string;
-    text: string;
-    result: string;
-};
 let chat_content: Ref<ChatContent[]> = ref([
     {
         request: '',
@@ -182,11 +176,12 @@ onMounted(async () => {
                     <div class="flex items-center text-xl">This may take a while.</div>
                     <Progress class="w-1/2" v-model="progress_preprocess"></Progress>
                 </div>
-                <ConfigureAnalysis v-else-if="configure_analysis" v-model:configure_analysis="configure_analysis"
-                    v-model:loading="loading"></ConfigureAnalysis>
-                <CreateGroups v-else-if="create_groups" v-model:create_groups="create_groups"
-                    v-model:configure_analysis="configure_analysis" v-model:selected_project="selected_project"
-                    v-model:groups="groups">
+                <ConfigureAnalysis v-else-if="configure_analysis" v-model:selected_project="selected_project"
+                    v-model:configure_analysis="configure_analysis" v-model:loading="loading" :file_type :fetchGraphs>
+                </ConfigureAnalysis>
+                <CreateGroups v-else-if="create_groups" v-model:file_type="file_type"
+                    v-model:create_groups="create_groups" v-model:configure_analysis="configure_analysis"
+                    v-model:selected_project="selected_project" v-model:groups="groups">
                 </CreateGroups>
 
                 <div v-else-if="svg_violin == ''" class="w-full flex flex-col gap-2 items-center justify-center">
