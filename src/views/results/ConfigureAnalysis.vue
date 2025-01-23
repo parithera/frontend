@@ -20,10 +20,12 @@ import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { useForm } from 'vee-validate';
 import type { ModelRef } from 'vue';
+import type { Group } from './types';
 
 const props = defineProps<{
     file_type: string;
     fetchGraphs: (project: Project) => Promise<void>;
+    groups:Array<Group>;
 }>();
 
 // Repositories
@@ -66,12 +68,6 @@ const onFileSubmit = handleSubmit(async (values) => {
         orgId: userStore.defaultOrg?.id ?? '',
         analyzer_name: analyzer_name
     });
-    console.log({
-        bearerToken: authStore.getToken ?? '',
-        orgId: userStore.defaultOrg?.id ?? '',
-        analyzer_name: analyzer_name
-    });
-    console.log(analyzer.data.name);
 
     await projectRepository.createAnalysis({
         orgId: userStore.defaultOrg?.id ?? '',
@@ -95,7 +91,8 @@ const onFileSubmit = handleSubmit(async (values) => {
                     user: selected_project.value.added_by?.id,
                     genome: genome,
                     whitelist: chemistry,
-                    platform: platform
+                    platform: platform,
+                    groups: props.groups
                 },
                 scanpy: {
                     project: selected_project.value.id,
@@ -106,7 +103,7 @@ const onFileSubmit = handleSubmit(async (values) => {
                     platform: platform,
                     project: selected_project.value.id,
                     user: selected_project.value.added_by?.id
-                }
+                },
             },
             branch: ' ', // This will be removed
             commit_hash: ' ' // This will be removed

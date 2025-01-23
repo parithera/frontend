@@ -16,8 +16,8 @@ import { useUserStore } from '@/stores/user';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import { useForm } from 'vee-validate';
 import { useTemplateRef, type ModelRef } from 'vue';
-import type { ChatContent } from '../ProjectsView.vue';
 import { BusinessLogicError } from '@/repositories/BaseRepository';
+import type { ChatContent } from '../results/types';
 
 const props = defineProps<{
     selected_project: Project;

@@ -90,6 +90,9 @@ async function fetchGraphs(project: Project) {
             type: graph
         });
     }
+    create_groups.value = false
+    configure_analysis.value = false
+    loading.value = false
 }
 
 async function getProject(project_id: string) {
@@ -177,7 +180,7 @@ onMounted(async () => {
                     <Progress class="w-1/2" v-model="progress_preprocess"></Progress>
                 </div>
                 <ConfigureAnalysis v-else-if="configure_analysis" v-model:selected_project="selected_project"
-                    v-model:configure_analysis="configure_analysis" v-model:loading="loading" :file_type :fetchGraphs>
+                    v-model:configure_analysis="configure_analysis" v-model:loading="loading" :groups :file_type :fetchGraphs>
                 </ConfigureAnalysis>
                 <CreateGroups v-else-if="create_groups" v-model:file_type="file_type"
                     v-model:create_groups="create_groups" v-model:configure_analysis="configure_analysis"
