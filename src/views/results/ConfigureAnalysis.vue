@@ -46,11 +46,10 @@ const { handleSubmit } = useForm({
 });
 
 const onFileSubmit = handleSubmit(async (values) => {
-    const files: Array<File> = values.file as Array<File>;
-
     let chemistry: string = "";
     let genome: string = "";
     let platform: string = "";
+    loading.value = true
 
     if (props.file_type == 'fastq') {
         chemistry = values.chemistry as string;
@@ -109,8 +108,7 @@ const onFileSubmit = handleSubmit(async (values) => {
             commit_hash: ' ' // This will be removed
         }
     });
-
-    loading.value = true
+    
     const project_retrieved = await projectRepository.getProjectById({
         bearerToken: authStore.getToken ?? '',
         projectId: selected_project.value.id,
@@ -128,6 +126,7 @@ const onFileSubmit = handleSubmit(async (values) => {
         });
         files_length = project_retrieved.data.files?.length;
     }
+
     const project_retrieved_2 = await projectRepository.getProjectById({
         bearerToken: authStore.getToken ?? '',
         projectId: selected_project.value.id,
@@ -135,6 +134,7 @@ const onFileSubmit = handleSubmit(async (values) => {
     });
 
     selected_project.value = project_retrieved_2.data;
+
     await props.fetchGraphs(selected_project.value);
 });
 </script>
@@ -206,12 +206,12 @@ const onFileSubmit = handleSubmit(async (values) => {
             </FormItem>
         </FormField>
 
-        <Button type="submit" class="flex gap-2 items-center w-full">
-            <Icon icon="bi:cloud-upload"></Icon> Upload
-        </Button>
-    </form>
-    <div class="flex gap-4">
+        <div class="flex gap-4">
         <Button @click="configure_analysis = false">Previous</Button>
-        <Button @click="loading = true">Next</Button>
+        <Button type="submit" class="flex gap-2 items-center w-full">
+            <Icon icon="bi:cloud-upload"></Icon> Next
+        </Button>
     </div>
+    </form>
+    
 </template>

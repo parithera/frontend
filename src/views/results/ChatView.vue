@@ -21,7 +21,6 @@ import AvatarFallback from '@/shadcn/ui/avatar/AvatarFallback.vue';
 import { BusinessLogicError } from '@/repositories/BaseRepository';
 import ResponseCard from '@/views/projects/ReponseCard.vue';
 import { toast } from '@/shadcn/ui/toast';
-import PreProcessData from '@/views/projects/PreProcessData.vue';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import { useStateStore } from '@/stores/state';
 import Progress from '@/shadcn/ui/progress/Progress.vue';
@@ -92,7 +91,6 @@ async function fetchGraphs(project: Project) {
     }
     create_groups.value = false
     configure_analysis.value = false
-    loading.value = false
 }
 
 async function getProject(project_id: string) {
