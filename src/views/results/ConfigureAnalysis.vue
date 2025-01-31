@@ -158,18 +158,21 @@ const onFileSubmit = handleSubmit(async (values) => {
                                 HyDrop
                             </SelectItem>
                             <Separator></Separator>
-                            <SelectItem value="10x-2014">
+                            <!-- <SelectItem value="10x-2014">
                                 Single Cell 3' v1 (2014)
-                            </SelectItem>
+                            </SelectItem> -->
                             <SelectItem value="10x-2016">
                                 Single Cell 3' v2, Single Cell 5' v1 and v2, Single Cell 5' HT v2 (2016)
                             </SelectItem>
-                            <SelectItem value="10x-2018">
+                            <!-- <SelectItem value="10x-2018">
                                 Single Cell 3' v3, Single Cell 3' v3.1, Single Cell 3' HT v3.1 (2018)
-                            </SelectItem>
+                            </SelectItem> -->
                             <SelectItem value="10x-2023">
                                 Single Cell 5' v3 (2023)
                             </SelectItem>
+                            <!-- <SelectItem value="10x-2023-may">
+                                Single Cell 3' v4 (2023 May)
+                            </SelectItem> -->
                         </SelectGroup>
                     </SelectContent>
                 </Select>
@@ -196,9 +199,16 @@ const onFileSubmit = handleSubmit(async (values) => {
                                 Mouse GRCm39 NIH
                             </SelectItem>
                             <Separator></Separator>
-                            <SelectItem value="nih_GRCh38_human">
-                                Human GRCh38 NIH (Recommended)
+                            <SelectItem value="10x_GRCh38_human">
+                                Human GRCh38 10x (Recommended)
                             </SelectItem>
+                            <SelectItem value="nih_GRCh38_human">
+                                Human GRCh38 NIH
+                            </SelectItem>
+                            <SelectItem value="gencodegenes_GRCh38_human">
+                                Human GRCh38 GencodeGenes
+                            </SelectItem>
+                            
                         </SelectGroup>
                     </SelectContent>
                 </Select>

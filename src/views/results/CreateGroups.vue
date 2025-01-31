@@ -39,7 +39,7 @@ function cleanFileName(name: string): string {
 
 function addGroup() {
     const group: Group = {
-        name: "Group_" + groups.value.length,
+        name: "Sample_" + groups.value.length,
         files: []
     }
     groups.value.push(group)
