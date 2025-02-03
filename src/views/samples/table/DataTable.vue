@@ -29,7 +29,7 @@ import {
 import { Input } from '@/shadcn/ui/input'
 import { Button } from '@/shadcn/ui/button';
 import { ref } from 'vue';
-import CreateProjectForm from '../CreateProjectForm.vue'
+import CreateSampleForm from '../CreateSampleForm.vue'
 
 const props = defineProps<{
     columns: ColumnDef<TData, TValue>[]
@@ -67,7 +67,7 @@ const expanded = ref<ExpandedState>({})
 
 <template>
     <div>
-        <CreateProjectForm></CreateProjectForm>
+        <CreateSampleForm></CreateSampleForm>
         <div class="flex items-center py-4">
             <Input class="max-w-sm" placeholder="Filter names..."
                 :model-value="table.getColumn('name')?.getFilterValue() as string"
@@ -127,7 +127,7 @@ const expanded = ref<ExpandedState>({})
                 </TableBody>
             </Table>
         </div>
-        <CreateProjectForm></CreateProjectForm>
+        <CreateSampleForm></CreateSampleForm>
         <div class="flex items-center justify-end py-4 space-x-2">
             <div class="flex-1 text-sm text-muted-foreground">
                 {{ table.getFilteredSelectedRowModel().rows.length }} of
