@@ -19,7 +19,7 @@ state.page = 'dashboard';
                 <AlertTitle>Heads up!</AlertTitle>
                 <AlertDescription>
                     <span>
-                        The dashboard is coming soon! You can use the project page for now.
+                        The dashboard is coming soon! You can add samples and create a project for now.
                     </span>
                 </AlertDescription>
             </Alert>
