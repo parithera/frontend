@@ -21,6 +21,20 @@ const state = useStateStore();
             Projects
         </RouterLink>
         <RouterLink
+            :to="{ name: 'samples', params: {}, query: {} }"
+            class="text-sm font-medium transition-colors hover:text-primary"
+            :class="{ 'text-muted-foreground': state.page != 'samples' }"
+        >
+            Samples
+        </RouterLink>
+        <RouterLink
+            :to="{ name: 'databases', params: {}, query: {} }"
+            class="text-sm font-medium transition-colors hover:text-primary"
+            :class="{ 'text-muted-foreground': state.page != 'databases' }"
+        >
+            Databases
+        </RouterLink>
+        <RouterLink
             :to="{ name: 'results', params: {}, query: {} }"
             class="text-sm font-medium transition-colors hover:text-primary"
             :class="{ 'text-muted-foreground': state.page != 'results' }"
