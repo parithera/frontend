@@ -81,27 +81,7 @@ getProjects();
 </script>
 
 <template>
-    <div v-if="projects?.length == 0" class="flex flex-col gap-6 items-center justify-center mt-20">
-        <Card class="w-72">
-            <CardHeader>
-                <CardTitle>No Project found</CardTitle>
-                <CardDescription> Please create a new project </CardDescription>
-            </CardHeader>
-            <CardContent class="grow flex flex-col gap-2">
-                <span class="flex gap-2">
-                    <Skeleton class="w-12 h-6"></Skeleton>
-                    <Skeleton class="w-12 h-6"></Skeleton>
-                </span>
-                <Skeleton class="w-40 h-6"></Skeleton>
-                <Skeleton class="w-40 h-6"></Skeleton>
-                <Skeleton class="self-center w-48 h-24"></Skeleton>
-            </CardContent>
-            <CardFooter class="flex gap-4 justify-center">
-                <CreateProjectForm />
-            </CardFooter>
-        </Card>
-    </div>
-    <div v-else class="flex flex-col gap-6 items-center justify-center mt-20">
+    <div class="flex flex-col gap-6 items-center justify-center mt-20">
         <!-- <Alert class="w-1/2">
             <Terminal class="h-4 w-4" />
             <AlertTitle>Heads up!</AlertTitle>

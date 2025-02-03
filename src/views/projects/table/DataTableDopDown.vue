@@ -7,6 +7,7 @@ import { Button } from '@/shadcn/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/shadcn/ui/dropdown-menu'
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
+import { Icon } from '@iconify/vue/dist/iconify.js';
 import { MoreHorizontal } from 'lucide-vue-next'
 
 defineProps<{
@@ -48,24 +49,28 @@ async function deleteProject(project_id: string) {
 </script>
 
 <template>
-    <DropdownMenu>
-        <DropdownMenuTrigger as-child>
-            <Button variant="ghost" class="w-8 h-8 p-0">
-                <span class="sr-only">Open menu</span>
-                <MoreHorizontal class="w-4 h-4" />
-            </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem @click="goToProject(project.id)">
-                Open project
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem @click="deleteProject(project.id)">Delete project</DropdownMenuItem>
-            <DropdownMenuItem @click="$emit('expand')">
-                Expand
-            </DropdownMenuItem>
-            <!-- <DropdownMenuItem>Edit project</DropdownMenuItem> -->
-        </DropdownMenuContent>
-    </DropdownMenu>
+    <div>
+        <Button class="flex gap-2 items-center" variant="ghost" @click="goToProject(project.id)">
+            <Icon icon="tabler:folder-open"></Icon> Open
+        </Button>
+        <DropdownMenu>
+            <DropdownMenuTrigger as-child>
+                <Button class="flex gap-2 items-center" variant="ghost">
+                    <Icon icon="tabler:dots"></Icon> More
+                </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuItem @click="goToProject(project.id)">
+                    Open project
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem @click="deleteProject(project.id)">Delete project</DropdownMenuItem>
+                <DropdownMenuItem @click="$emit('expand')">
+                    Expand
+                </DropdownMenuItem>
+                <!-- <DropdownMenuItem>Edit project</DropdownMenuItem> -->
+            </DropdownMenuContent>
+        </DropdownMenu>
+    </div>
 </template>

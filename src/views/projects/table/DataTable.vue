@@ -120,7 +120,7 @@ const expanded = ref<ExpandedState>({})
                     <template v-else>
                         <TableRow>
                             <TableCell :colspan="columns.length" class="h-24 text-center">
-                                No results.
+                                No projects.
                             </TableCell>
                         </TableRow>
                     </template>
@@ -133,12 +133,12 @@ const expanded = ref<ExpandedState>({})
                 {{ table.getFilteredSelectedRowModel().rows.length }} of
                 {{ table.getFilteredRowModel().rows.length }} row(s) selected.
             </div>
-            <div>
-                <Button variant="outline" size="sm" :disabled="!table.getCanPreviousPage()"
+            <div class="flex gap-2">
+                <Button size="sm" v-if="table.getCanPreviousPage()"
                     @click="table.previousPage()">
                     Previous
                 </Button>
-                <Button variant="outline" size="sm" :disabled="!table.getCanNextPage()" @click="table.nextPage()">
+                <Button size="sm" v-if="table.getCanNextPage()" @click="table.nextPage()">
                     Next
                 </Button>
             </div>
