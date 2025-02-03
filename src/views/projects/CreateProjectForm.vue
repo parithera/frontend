@@ -46,7 +46,7 @@ const submitForm = () => {
 <template>
     <Dialog ref="dialog">
         <DialogTrigger as-child>
-            <Button class="flex items-center gap-2 rounded-full" variant="outline">
+            <Button class="flex items-center gap-2 rounded-full text-primary" variant="ghost">
                 + new project
             </Button>
         </DialogTrigger>
