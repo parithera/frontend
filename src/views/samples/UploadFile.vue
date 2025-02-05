@@ -16,9 +16,7 @@ const userStore = useUserStore();
 // Models
 const sample_id: ModelRef<string> = defineModel('sample_id', { required: true });
 const file_type: ModelRef<string> = defineModel('file_type', { required: true });
-
-// Refs
-const files_uploaded: Ref<Array<ProjectFile>> = ref([])
+const files_uploaded: ModelRef<Array<ProjectFile>> = defineModel('files_uploaded', { required: true });
 
 async function deleteFile(file: ProjectFile) {
     await fileRepository.deleteFile({

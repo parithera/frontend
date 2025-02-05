@@ -17,6 +17,7 @@ import { useUserStore } from '@/stores/user';
 import { ref, type Ref } from 'vue';
 import UploadFile from './UploadFile.vue';
 import ConfigureAlignment from './ConfigureAlignment.vue';
+import type { ProjectFile } from '@/repositories/types/entities/ProjectFile';
 
 
 const authStore = useAuthStore();
@@ -28,6 +29,8 @@ const new_sample_name: Ref<string> = ref('');
 const new_sample_comment: Ref<string> = ref('');
 const new_sample_condition: Ref<string> = ref('');
 
+// Refs
+const files_uploaded: Ref<Array<ProjectFile>> = ref([])
 const step: Ref<number> = ref(0)
 const sample_id: Ref<string> = ref('')
 const file_type: Ref<string> = ref('')
@@ -42,8 +45,8 @@ async function newSample() {
         },
         orgId: userStore.defaultOrg?.id ?? ''
     });
-    step.value++;
     sample_id.value = res.id
+    step.value++;
 }
 
 const submitForm = () => {
@@ -95,7 +98,7 @@ const submitForm = () => {
                     Import FASTQs or H5 files for this sample.
                 </DialogDescription>
             </DialogHeader>
-            <UploadFile v-model:file_type="file_type" v-model:sample_id="sample_id"></UploadFile>
+            <UploadFile v-model:file_type="file_type" v-model:sample_id="sample_id" v-model:files_uploaded="files_uploaded"></UploadFile>
             <DialogFooter>
 
                 <Button class="rounded-full" @click="step--">
@@ -119,7 +122,7 @@ const submitForm = () => {
                     Select a Genome and the chemistry.
                 </DialogDescription>
             </DialogHeader>
-            <ConfigureAlignment v-model:step="step" :sample_id="sample_id" :file_type="file_type"></ConfigureAlignment>
+            <ConfigureAlignment v-model:step="step" :sample_id="sample_id" :file_type="file_type" :files_uploaded="files_uploaded"></ConfigureAlignment>
             <DialogFooter>
                 <Button class="rounded-full" @click="step--">
                     Previous

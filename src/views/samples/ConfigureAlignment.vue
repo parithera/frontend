@@ -19,10 +19,12 @@ import { useForm } from 'vee-validate';
 import type { ModelRef } from 'vue';
 import type { Group } from './types';
 import { SampleRepository } from '@/repositories/SampleRepository';
+import type { ProjectFile } from '@/repositories/types/entities/ProjectFile';
 
 const props = defineProps<{
     file_type: string;
     sample_id: string;
+    files_uploaded: Array<ProjectFile>;
 }>();
 
 // Repositories
@@ -65,6 +67,15 @@ const onFileSubmit = handleSubmit(async (values) => {
         analyzer_name: analyzer_name
     });
 
+    let files = [];
+    for (const file of props.files_uploaded){
+        files.push(file.name)
+    }
+
+    const group:Group = {
+        name: "group",
+        files: files
+    }
     await sampleRepository.createAnalysis({
         orgId: userStore.defaultOrg?.id ?? '',
         sampleId: sample_id.value,
@@ -85,7 +96,7 @@ const onFileSubmit = handleSubmit(async (values) => {
                     genome: genome,
                     whitelist: chemistry,
                     platform: platform,
-                    groups: [{ sample_id: [] }]
+                    groups: [group]
                 },
                 scanpy: {
                     sample: sample_id.value,
