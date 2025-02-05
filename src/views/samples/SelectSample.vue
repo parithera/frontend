@@ -10,14 +10,16 @@ const userStore = useUserStore();
 
 import DataTable from './table/DataTable.vue';
 import { columns } from './table/columns';
+import { SampleRepository } from '@/repositories/SampleRepository';
+import type { Sample } from '@/repositories/types/entities/Sample';
 
 // Repositories
-const projectRepository: ProjectRepository = new ProjectRepository();
+const sampleRepository: SampleRepository = new SampleRepository();
 
-const projects: Ref<Array<Project> | undefined> = ref()
+const samples: Ref<Array<Sample> | undefined> = ref()
 
 async function getProjects() {
-    const projects_retrieved = await projectRepository.getProjects({
+    const samples_retrieved = await sampleRepository.getSamples({
         bearerToken: authStore.getToken ?? '',
         orgId: userStore.defaultOrg?.id ?? '',
         pagination: {
@@ -33,7 +35,7 @@ async function getProjects() {
         }
     });
 
-    projects.value = projects_retrieved.data;
+    samples.value = samples_retrieved.data;
 }
 
 getProjects();
@@ -41,6 +43,6 @@ getProjects();
 
 <template>
     <div class="flex flex-col gap-6 items-center justify-center mt-20">
-        <DataTable class="w-1/2" v-if="projects" :columns="columns" :data="projects" />
+        <DataTable class="w-1/2" v-if="samples" :columns="columns" :data="samples" />
     </div>
 </template>

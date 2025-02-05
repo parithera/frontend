@@ -15,18 +15,19 @@ import { useForm } from 'vee-validate';
 import Progress from '@/shadcn/ui/progress/Progress.vue';
 import { ref, useTemplateRef, type ModelRef, type Ref } from 'vue';
 import { ProjectFile } from '@/repositories/types/entities/ProjectFile';
+import { SampleRepository } from '@/repositories/SampleRepository';
 
 
 // Repositories
-const fileRepository: FileRepository = new FileRepository();
+const sampleRepository: SampleRepository = new SampleRepository();
 
 // Stores
 const authStore = useAuthStore();
 const userStore = useUserStore();
 
 // Models
-const selected_project: ModelRef<Project> = defineModel('selected_project', { required: true });
-const create_groups: ModelRef<boolean> = defineModel('create_groups', { required: true });
+const step: ModelRef<number> = defineModel('step', { required: true });
+const sample_id: ModelRef<string> = defineModel('sample_id', { required: true });
 
 // Refs
 const progress_message: Ref<string> = ref("Uploading")
@@ -75,7 +76,7 @@ const onFileSubmit = handleSubmit(async (values) => {
                 console.error('Error during hash computation:', error);
             }
 
-            await fileRepository.upload({
+            await sampleRepository.upload({
                 bearerToken: authStore.getToken ?? '',
                 data: {
                     file: fileBlob,
@@ -86,7 +87,7 @@ const onFileSubmit = handleSubmit(async (values) => {
                     hash: hash,
                     last: "false"
                 },
-                projectId: selected_project.value.id,
+                projectId: sample_id.value,
                 organizationId: userStore.getDefaultOrg?.id ?? ''
             }).catch(err => {
                 console.error(err);
@@ -98,7 +99,7 @@ const onFileSubmit = handleSubmit(async (values) => {
             });
             id ++;
         }
-        await fileRepository.upload({
+        await sampleRepository.upload({
             bearerToken: authStore.getToken ?? '',
             data: {
                 file: new Blob(),
@@ -109,7 +110,7 @@ const onFileSubmit = handleSubmit(async (values) => {
                 hash: "",
                 last: "true"
             },
-            projectId: selected_project.value.id,
+            projectId: sample_id.value,
             organizationId: userStore.getDefaultOrg?.id ?? ''
         })
         count_files += 1;
@@ -119,7 +120,7 @@ const onFileSubmit = handleSubmit(async (values) => {
         createdfile.name = file_name;
         createdfile.type = "DATA"
         createdfile.added_on = new Date();
-        selected_project.value.files?.push(createdfile);
+        // sample_id.value.files?.push(createdfile);
     }
 
     toast({
@@ -162,6 +163,6 @@ const onFileSubmit = handleSubmit(async (values) => {
                 <Icon icon="bi:cloud-upload"></Icon> Upload
             </Button>
         </form>
-        <Button class="self-end" @click="create_groups = true">Next</Button>
+        <Button class="self-end" @click="step++">Next</Button>
     </div>
 </template>

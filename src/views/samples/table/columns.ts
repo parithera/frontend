@@ -7,10 +7,11 @@ import Button from '@/shadcn/ui/button/Button.vue';
 import { Checkbox } from '@/shadcn/ui/checkbox'
 import type { AuthenticatedUser } from '@/repositories/types/entities/AuthenticatedUser';
 import moment from 'moment';
+import type { Sample } from '@/repositories/types/entities/Sample';
 
 
 
-export const columns: ColumnDef<Project>[] = [
+export const columns: ColumnDef<Sample>[] = [
     {
         id: 'select',
         header: ({ table }) => h(Checkbox, {
@@ -46,7 +47,7 @@ export const columns: ColumnDef<Project>[] = [
             return h(Button, {
                 variant: 'ghost',
                 onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
-            }, () => ['Description', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
+            }, () => ['Comment', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
         },
         cell: ({ row }) => {
             const description = row.getValue('description') as string;
@@ -65,20 +66,6 @@ export const columns: ColumnDef<Project>[] = [
             const date = new Date(row.getValue('added_on'))
             // const formatted = new Intl.DateTimeFormat(['en-US', 'fr-FR'], {}).format(date)
             const formatted = moment(date).format('LL') 
-            return h('div', { class: 'text-right font-medium' }, formatted)
-        },
-    },
-    {
-        accessorKey: 'added_by',
-        header: ({ column }) => {
-            return h(Button, {
-                variant: 'ghost',
-                onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
-            }, () => ['Added By', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
-        },
-        cell: ({ row }) => {
-            const user:AuthenticatedUser = row.getValue('added_by')
-            const formatted = user.handle
             return h('div', { class: 'text-right font-medium' }, formatted)
         },
     },

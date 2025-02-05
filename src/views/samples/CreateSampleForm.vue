@@ -15,6 +15,7 @@ import Label from '@/shadcn/ui/label/Label.vue';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { ref, type Ref } from 'vue';
+import UploadFile from './UploadFile.vue';
 
 
 const authStore = useAuthStore();
@@ -26,6 +27,9 @@ const new_sample_name: Ref<string> = ref('');
 const new_sample_comment: Ref<string> = ref('');
 const new_sample_condition: Ref<string> = ref('');
 
+const step:Ref<number> = ref(0)
+const sample_id:Ref<string> = ref('')
+
 async function newSample() {
     const res = await sampleRepository.createSample({
         bearerToken: authStore.getToken ?? '',
@@ -36,6 +40,8 @@ async function newSample() {
         },
         orgId: userStore.defaultOrg?.id ?? ''
     });
+    step.value++;
+    sample_id.value = res.id
 }
 
 const submitForm = () => {
@@ -50,7 +56,7 @@ const submitForm = () => {
                 + new sample
             </Button>
         </DialogTrigger>
-        <DialogContent class="sm:max-w-[425px]">
+        <DialogContent v-if="step==0" class="sm:max-w-[425px]">
             <DialogHeader>
                 <DialogTitle>Add a new sample</DialogTitle>
                 <DialogDescription>
@@ -90,7 +96,7 @@ const submitForm = () => {
                 </div>
             </div>
             <DialogFooter>
-                <DialogClose as-child>
+
                     <Button
                         class="rounded-full"
                         id="submitButton"
@@ -99,7 +105,28 @@ const submitForm = () => {
                     >
                         Create
                     </Button>
-                </DialogClose>
+
+            </DialogFooter>
+        </DialogContent>
+        <DialogContent v-else-if="step==1" class="sm:max-w-[425px]">
+            <DialogHeader>
+                <DialogTitle>Upload your files</DialogTitle>
+                <DialogDescription>
+                    Name your sample and give it an optional comment.
+                </DialogDescription>
+            </DialogHeader>
+            <UploadFile :step="step" :sample_id="sample_id"></UploadFile>
+            <DialogFooter>
+
+                    <Button
+                        class="rounded-full"
+                        id="submitButton"
+                        @click="newSample"
+                        type="submit"
+                    >
+                        Create
+                    </Button>
+
             </DialogFooter>
         </DialogContent>
     </Dialog>
