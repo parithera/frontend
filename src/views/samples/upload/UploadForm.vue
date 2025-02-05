@@ -26,8 +26,9 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 
 // Models
-const step: ModelRef<number> = defineModel('step', { required: true });
 const sample_id: ModelRef<string> = defineModel('sample_id', { required: true });
+const file_type: ModelRef<string> = defineModel('file_type', { required: true });
+const files_uploaded: ModelRef<Array<ProjectFile>> = defineModel('files_uploaded', { required: true });
 
 // Refs
 const progress_message: Ref<string> = ref("Uploading")
@@ -48,14 +49,14 @@ const { handleSubmit } = useForm({
 const onFileSubmit = handleSubmit(async (values) => {
     const files: Array<File> = values.file as Array<File>;
     let count_files = 0
-    let file_type = "fastq"
+    file_type.value = "fastq"
     for (const file of files) {
         // const type: string = values.type as string;
         let file_name = file.name;
 
         if (file.name.includes('.h5')) {
             file_name = 'data.h5';
-            file_type = "h5"
+            file_type.value = "h5"
         }
         
         const chunkSize = 1024 * 1024 * 10; // size of each chunk (10MB)
@@ -120,7 +121,7 @@ const onFileSubmit = handleSubmit(async (values) => {
         createdfile.name = file_name;
         createdfile.type = "DATA"
         createdfile.added_on = new Date();
-        // sample_id.value.files?.push(createdfile);
+        files_uploaded.value.push(createdfile);
     }
 
     toast({
@@ -163,6 +164,5 @@ const onFileSubmit = handleSubmit(async (values) => {
                 <Icon icon="bi:cloud-upload"></Icon> Upload
             </Button>
         </form>
-        <Button class="self-end" @click="step++">Next</Button>
     </div>
 </template>

@@ -13,6 +13,7 @@ import { PaginatedResponse } from './types/responses/PaginatedResponse';
 import type { Sample } from './types/entities/Sample';
 import type { UploadData, UploadRequestOptions } from './FileRepository';
 import { NoDataResponse } from './types/responses/NoDataResponse';
+import type { CreateAnalysis } from './types/postBodies/CreateAnalysis';
 
 export interface GetSamplesRequestOptions
     extends AuthRepoMethodGetRequestOptions,
@@ -25,6 +26,11 @@ export interface GetSamplesRequestOptions
 
 export interface CreateSampleOptions extends AuthRepoMethodPostRequestOptions<CreateSample> {
     orgId: string;
+}
+
+export interface CreateAnalysisOptions extends AuthRepoMethodPostRequestOptions<CreateAnalysis> {
+    orgId: string;
+    sampleId: string;
 }
 
 export class SampleRepository extends BaseRepository {
@@ -77,5 +83,20 @@ export class SampleRepository extends BaseRepository {
         });
 
         return Entity.unMarshal<NoDataResponse>(response, NoDataResponse);
+    }
+
+    async createAnalysis(options: CreateAnalysisOptions): Promise<CreatedResponse> {
+        const RELATIVE_URL = `/org/${options.orgId}/samples/${options.sampleId}/analyses`;
+
+        const response = await this.postRequest<CreatedResponse, CreateAnalysis>({
+            bearerToken: options.bearerToken,
+            data: options.data,
+            url: this.buildUrl(RELATIVE_URL),
+            handleBusinessErrors: options.handleBusinessErrors,
+            handleHTTPErrors: options.handleHTTPErrors,
+            handleOtherErrors: options.handleOtherErrors
+        });
+
+        return Entity.unMarshal<CreatedResponse>(response, CreatedResponse);
     }
 }

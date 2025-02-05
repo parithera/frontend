@@ -16,6 +16,7 @@ import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { ref, type Ref } from 'vue';
 import UploadFile from './UploadFile.vue';
+import ConfigureAlignment from './ConfigureAlignment.vue';
 
 
 const authStore = useAuthStore();
@@ -27,8 +28,9 @@ const new_sample_name: Ref<string> = ref('');
 const new_sample_comment: Ref<string> = ref('');
 const new_sample_condition: Ref<string> = ref('');
 
-const step:Ref<number> = ref(0)
-const sample_id:Ref<string> = ref('')
+const step: Ref<number> = ref(0)
+const sample_id: Ref<string> = ref('')
+const file_type: Ref<string> = ref('')
 
 async function newSample() {
     const res = await sampleRepository.createSample({
@@ -56,7 +58,7 @@ const submitForm = () => {
                 + new sample
             </Button>
         </DialogTrigger>
-        <DialogContent v-if="step==0" class="sm:max-w-[425px]">
+        <DialogContent v-if="step == 0" class="sm:max-w-[425px]">
             <DialogHeader>
                 <DialogTitle>Add a new sample</DialogTitle>
                 <DialogDescription>
@@ -66,67 +68,67 @@ const submitForm = () => {
             <div class="grid gap-4 py-4">
                 <div class="grid grid-cols-4 items-center gap-4">
                     <Label for="name" class="text-right"> Name </Label>
-                    <Input
-                        id="name"
-                        placeholder="Sample XYZ"
-                        class="col-span-3"
-                        v-model="new_sample_name"
-                        @keyup.enter="submitForm"
-                    />
+                    <Input id="name" placeholder="Sample XYZ" class="col-span-3" v-model="new_sample_name"
+                        @keyup.enter="submitForm" />
                 </div>
                 <div class="grid grid-cols-4 items-center gap-4">
                     <Label for="description" class="text-right"> Comment </Label>
-                    <Input
-                        id="description"
-                        placeholder="Your comment."
-                        class="col-span-3"
-                        v-model="new_sample_comment"
-                        @keyup.enter="submitForm"
-                    />
+                    <Input id="description" placeholder="Your comment." class="col-span-3" v-model="new_sample_comment"
+                        @keyup.enter="submitForm" />
                 </div>
                 <div class="grid grid-cols-4 items-center gap-4">
                     <Label for="condition" class="text-right"> Condition </Label>
-                    <Input
-                        id="condition"
-                        placeholder="Drug XYZ."
-                        class="col-span-3"
-                        v-model="new_sample_condition"
-                        @keyup.enter="submitForm"
-                    />
+                    <Input id="condition" placeholder="Drug XYZ." class="col-span-3" v-model="new_sample_condition"
+                        @keyup.enter="submitForm" />
                 </div>
             </div>
             <DialogFooter>
-
-                    <Button
-                        class="rounded-full"
-                        id="submitButton"
-                        @click="newSample"
-                        type="submit"
-                    >
-                        Create
-                    </Button>
-
+                <Button class="rounded-full" id="submitButton" @click="newSample" type="submit">
+                    Create
+                </Button>
             </DialogFooter>
         </DialogContent>
-        <DialogContent v-else-if="step==1" class="sm:max-w-[425px]">
+        <DialogContent v-else-if="step == 1" class="sm:max-w-[425px]">
             <DialogHeader>
                 <DialogTitle>Upload your files</DialogTitle>
                 <DialogDescription>
-                    Name your sample and give it an optional comment.
+                    Import FASTQs or H5 files for this sample.
                 </DialogDescription>
             </DialogHeader>
-            <UploadFile :step="step" :sample_id="sample_id"></UploadFile>
+            <UploadFile v-model:file_type="file_type" v-model:sample_id="sample_id"></UploadFile>
             <DialogFooter>
 
-                    <Button
-                        class="rounded-full"
-                        id="submitButton"
-                        @click="newSample"
-                        type="submit"
-                    >
-                        Create
+                <Button class="rounded-full" @click="step--">
+                    Previous
+                </Button>
+                <Button v-if="file_type = 'fastq'" class="rounded-full" @click="step++">
+                    Next
+                </Button>
+                <DialogClose v-else as-child>
+                    <Button class="rounded-full">
+                        Finish
                     </Button>
+                </DialogClose>
 
+            </DialogFooter>
+        </DialogContent>
+        <DialogContent v-else-if="step == 2 && file_type == 'fastq'" class="sm:max-w-[425px]">
+            <DialogHeader>
+                <DialogTitle>Configure the alignment</DialogTitle>
+                <DialogDescription>
+                    Select a Genome and the chemistry.
+                </DialogDescription>
+            </DialogHeader>
+            <ConfigureAlignment v-model:step="step" :sample_id="sample_id" :file_type="file_type"></ConfigureAlignment>
+            <DialogFooter>
+                <Button class="rounded-full" @click="step--">
+                    Previous
+                </Button>
+                <DialogClose as-child>
+                    <Button class="rounded-full" type="submit" form="alignmentForm">
+                        Align
+                    </Button>
+                </DialogClose>
             </DialogFooter>
         </DialogContent>
     </Dialog>
