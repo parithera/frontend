@@ -17,7 +17,8 @@ import { Icon } from '@iconify/vue/dist/iconify.js';
 import { useForm } from 'vee-validate';
 import { useTemplateRef, type ModelRef } from 'vue';
 import { BusinessLogicError } from '@/repositories/BaseRepository';
-import type { ChatContent } from '../results/types';
+import type { ChatContent, Group } from '../results/types';
+import { SampleRepository } from '@/repositories/SampleRepository';
 
 const props = defineProps<{
     selected_project: Project;
@@ -31,6 +32,7 @@ const progress: ModelRef<number> = defineModel('progress', { required: true });
 const chatRepository: ChatRepository = new ChatRepository();
 const projectRepository: ProjectRepository = new ProjectRepository();
 const analyzerRepository: AnalyzerRepository = new AnalyzerRepository();
+const sampleRepository: SampleRepository = new SampleRepository();
 
 // Stores
 const authStore = useAuthStore();
@@ -99,6 +101,32 @@ async function askGPT(request: string) {
             analyzer_name: 'execute_python_script'
         });
 
+        const samples = await sampleRepository.getSamplesByProjectId({
+            bearerToken: authStore.getToken ?? '',
+            orgId: userStore.defaultOrg?.id ?? '',
+            projectId: props.selected_project.id,
+            pagination: {
+                page: 0,
+                entries_per_page: 0
+            },
+            search: {
+                searchKey: ''
+            },
+            sort: {
+                sortKey: '',
+                sortDirection: undefined
+            }
+        });
+
+        const groups = []
+        for (const sample of samples.data){
+            const group: Group = {
+                name: sample.name,
+                files: [sample.id]
+            }
+            groups.push(group)
+        }
+
         const res = await projectRepository.createAnalysis({
             orgId: userStore.defaultOrg?.id ?? '',
             projectId: props.selected_project.id,
@@ -110,6 +138,7 @@ async function askGPT(request: string) {
                     python: {
                         project: props.selected_project.id,
                         user: props.selected_project.added_by?.id,
+                        groups: groups,
                         type: 'chat'
                     }
                 },

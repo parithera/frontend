@@ -183,7 +183,7 @@ export class ProjectRepository extends BaseRepository {
     }
 
     async getChatHistory(options: GetProjectByIdRequestOptions): Promise<DataResponse<Chat>> {
-        const RELATIVE_URL = `/gpt/${options.projectId}/history`;
+        const RELATIVE_URL = `/gpt/${options.projectId}/history/${options.orgId}`;
 
         const response = await this.getRequest<DataResponse<Chat>>({
             bearerToken: options.bearerToken,

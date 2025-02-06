@@ -84,7 +84,7 @@ async function getProject(project_id: string) {
 }
 
 async function getChatHistory(project_id: string) {
-    if (selected_project.value.files?.length == 0) return;
+    if (samples.value.length == 0) return;
     if (loading.value) return;
 
     try {
@@ -134,7 +134,7 @@ const route = useRoute()
 
 onMounted(async () => {
     await getProject(route.params.projectId as string)
-    await getSamplesByProject(route.params.projectId as string)
+    await getSamplesByProject(selected_project.value.id)
     await getChatHistory(selected_project.value.id)
 })
 </script>
@@ -146,7 +146,7 @@ onMounted(async () => {
                 <span> {{ moment(selected_project.added_on).format('LL') }}</span>
             </div>
             <div class="flex flex-col gap-2 items-center">
-                <span>Samples:</span>
+                <span>Samples linked to this project:</span>
                 <SampleMenu v-for="sample in samples" :key="sample.id" :sample="sample"></SampleMenu>
             </div>
         </div>
