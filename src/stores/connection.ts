@@ -38,7 +38,7 @@ export const useConnectionStore = defineStore('connection', {
             });
         },
 
-        fetchGraphs(data: object) {
+        fetchGraphs(data: object) {            
             this.socket?.emit('graphs', data, (response: Response) => {
                 if (response.type == 'pca_variance_ratio') this.svg_elbow = response.data;
                 else if (response.type == 'violin') this.svg_violin = response.data;

@@ -74,10 +74,10 @@ export const columns: ColumnDef<Sample>[] = [
         enableHiding: false,
         header: () => h('div', { class: 'text-right' }, 'Actions'),
         cell: ({ row }) => {
-            const project = row.original
+            const sample = row.original
 
             return h('div', { class: 'relative' }, h(DataTableDopDown, {
-                project,
+                sample,
                 onExpand: row.toggleExpanded,
             }))
         },

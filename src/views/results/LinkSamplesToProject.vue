@@ -4,9 +4,12 @@ import type { Sample } from '@/repositories/types/entities/Sample';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { onMounted, ref, type ModelRef, type Ref } from 'vue';
-import { useRoute } from 'vue-router';
 import DataTable from './table/DataTable.vue';
 import { columns } from './table/columns';
+
+defineProps<{
+    project_id: string
+}>();
 
 // Stores
 const authStore = useAuthStore();
@@ -20,8 +23,6 @@ const samples: ModelRef<Array<Sample>> = defineModel('samples', { required: true
 
 // Repositories
 const sampleRepository: SampleRepository = new SampleRepository();
-
-const route = useRoute()
 
 onMounted(async () => {
     const res = await sampleRepository.getSamples({
@@ -46,6 +47,5 @@ onMounted(async () => {
 </script>
 
 <template>
-    {{ samples }}
-    <DataTable :columns="columns" :data="samples_available" v-model:samples="samples" />
+    <DataTable :columns="columns" :data="samples_available" v-model:samples="samples" :project_id="project_id" />
 </template>

@@ -1,11 +1,8 @@
 <script lang="ts" setup>
 import { Project } from '@/repositories/types/entities/Project';
 import { useAuthStore } from '@/stores/auth';
-import { useConnectionStore } from '@/stores/connection';
 import { useUserStore } from '@/stores/user';
-import { storeToRefs } from 'pinia';
-import { onMounted, ref, watch, watchEffect, type Ref } from 'vue';
-import UploadFile from '@/views/projects/UploadFile.vue';
+import { onMounted, ref, watchEffect, type Ref } from 'vue';
 import ResizablePanelGroup from '@/shadcn/ui/resizable/ResizablePanelGroup.vue';
 import { ResizablePanel } from '@/shadcn/ui/resizable';
 import ScrollArea from '@/shadcn/ui/scroll-area/ScrollArea.vue';
@@ -13,21 +10,21 @@ import ResizableHandle from '@/shadcn/ui/resizable/ResizableHandle.vue';
 import ProjectEditor from '@/views/projects/ProjectEditor.vue';
 import { ProjectRepository } from '@/repositories/ProjectRepository';
 import RequestBar from '@/views/projects/RequestBar.vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import Button from '@/shadcn/ui/button/Button.vue';
 import Avatar from '@/shadcn/ui/avatar/Avatar.vue';
 import AvatarImage from '@/shadcn/ui/avatar/AvatarImage.vue';
 import AvatarFallback from '@/shadcn/ui/avatar/AvatarFallback.vue';
 import { BusinessLogicError } from '@/repositories/BaseRepository';
 import ResponseCard from '@/views/projects/ReponseCard.vue';
-import { toast } from '@/shadcn/ui/toast';
-import { Icon } from '@iconify/vue/dist/iconify.js';
 import { useStateStore } from '@/stores/state';
 import Progress from '@/shadcn/ui/progress/Progress.vue';
-import type { ChatContent, Group } from './types';
+import type { ChatContent } from './types';
 import type { Sample } from '@/repositories/types/entities/Sample';
 import { SampleRepository } from '@/repositories/SampleRepository';
 import LinkSamplesToProject from './LinkSamplesToProject.vue';
+import SampleMenu from './SampleMenu.vue';
+import moment from 'moment';
 
 const state = useStateStore();
 state.$reset();
@@ -39,13 +36,10 @@ defineProps<{
 }>();
 
 // Stores
-const connectionStore = useConnectionStore();
 const authStore = useAuthStore();
 const userStore = useUserStore();
 
 // Refs
-const groups: Ref<Array<Group>> = ref([])
-const file_type: Ref<string> = ref('')
 const samples: Ref<Array<Sample>> = ref([])
 
 // Repositories
@@ -62,40 +56,15 @@ let chat_content: Ref<ChatContent[]> = ref([
         result: ''
     }
 ]);
-const { svg_elbow, svg_umap, svg_violin, svg_variable_features } = storeToRefs(connectionStore);
 
 const selected_project: Ref<Project> = ref(new Project());
 const progress: Ref<number> = ref(10);
-const progress_preprocess: Ref<number> = ref(0);
 const loading: Ref<boolean> = ref(false)
-const create_groups: Ref<boolean> = ref(false)
-const configure_analysis: Ref<boolean> = ref(false)
 
 watchEffect((cleanupFn) => {
     let timer = setTimeout(() => (progress.value = 10), 500);
     cleanupFn(() => clearTimeout(timer));
 });
-
-async function fetchGraphs(project: Project) {
-    connectionStore.$reset;
-    connectionStore.createSocket(authStore.getToken ?? '');
-    // remove any existing listeners (after a hot module replacement)
-    connectionStore.getSocket.off();
-    connectionStore.bindEvents();
-    connectionStore.connect();
-
-    const graphs = ['pca_variance_ratio', 'violin', 'umap', 'filter_genes_dispersion'];
-    for (const graph of graphs) {
-        connectionStore.fetchGraphs({
-            projectId: project.id,
-            orgId: userStore.defaultOrg?.id ?? '',
-            type: graph
-        });
-    }
-    create_groups.value = false
-    configure_analysis.value = false
-}
-
 async function getProject(project_id: string) {
     try {
         const res = await projectRepository.getProjectById({
@@ -140,7 +109,7 @@ async function getChatHistory(project_id: string) {
     }
 }
 
-async function getSamplesByProject(project_id:string) {
+async function getSamplesByProject(project_id: string) {
     const res = await sampleRepository.getSamplesByProjectId({
         bearerToken: authStore.getToken ?? '',
         orgId: userStore.defaultOrg?.id ?? '',
@@ -166,45 +135,30 @@ const route = useRoute()
 onMounted(async () => {
     await getProject(route.params.projectId as string)
     await getSamplesByProject(route.params.projectId as string)
-    await fetchGraphs(selected_project.value)
     await getChatHistory(selected_project.value.id)
-
-    watch([svg_elbow, svg_umap, svg_variable_features, svg_violin], () => {
-        progress_preprocess.value += 25;
-        if (
-            svg_elbow.value != '' &&
-            svg_umap.value != '' &&
-            svg_variable_features.value != '' &&
-            svg_violin.value != ''
-        ) {
-            loading.value = false;
-            toast({
-                title: 'File analyzed successfully!',
-                description: 'Start chatting with ExPlore'
-            });
-        }
-    });
 })
 </script>
 <template>
     <div class="flex">
-        <div class="flex flex-col gap-2 items-center max-w-60 p-6 py-8 h-[calc(100vh-4rem)] bg-secondary">
-            <span>{{ selected_project.name }}</span>
-            <span>{{ selected_project.added_on }}</span>
-            <span>{{ samples }}</span>
+        <div class="flex flex-col gap-8 items-center max-w-60 p-6 py-8 h-[calc(100vh-4rem)] bg-secondary">
+            <div class="flex flex-col gap-2 items-center">
+                <span class="text-primary">{{ selected_project.name }}</span>
+                <span> {{ moment(selected_project.added_on).format('LL') }}</span>
+            </div>
+            <div class="flex flex-col gap-2 items-center">
+                <span>Samples:</span>
+                <SampleMenu v-for="sample in samples" :key="sample.id" :sample="sample"></SampleMenu>
+            </div>
         </div>
         <ResizablePanelGroup direction="horizontal">
             <ResizablePanel class="h-[calc(100vh-4rem)] p-4 flex flex-col items-center justify-center"
                 :default-size="60">
-                <div v-if="samples.length==0" class="w-full flex flex-col gap-2 items-center justify-center">
-                    <div class="text-2xl">Select samples to use</div>
-                    <LinkSamplesToProject v-model:samples="samples"/>
+                <div v-if="samples.length == 0" class="w-full flex flex-col gap-2 items-center justify-center">
+                    <div class="text-2xl">Select samples to use in this project</div>
+                    <LinkSamplesToProject v-model:samples="samples" :project_id="selected_project.id" />
                 </div>
 
                 <ScrollArea v-else class="h-full w-full mb-16">
-                    <RouterLink :to="{ name: 'results', params: { projectId: selected_project.id, page: 'qc' } }">
-                        <Button class="rounded-full">🔎 Show QC</Button>
-                    </RouterLink>
                     <div class="flex flex-col-reverse">
                         <div class="border-l hover:border-primary pl-2 pt-4 flex flex-col gap-4"
                             v-for="(chat_element, index) in chat_content" :key="index">

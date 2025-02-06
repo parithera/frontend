@@ -30,10 +30,15 @@ import { Input } from '@/shadcn/ui/input'
 import { Button } from '@/shadcn/ui/button';
 import { ref, type ModelRef } from 'vue';
 import type { Sample } from '@/repositories/types/entities/Sample'
+import { useRoute } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+import { useAuthStore } from '@/stores/auth'
+import { SampleRepository } from '@/repositories/SampleRepository'
 
 const props = defineProps<{
     columns: ColumnDef<TData, TValue>[]
-    data: TData[]
+    data: TData[],
+    project_id: string
 }>()
 
 const table = useVueTable({
@@ -64,13 +69,34 @@ const columnVisibility = ref<VisibilityState>({})
 const rowSelection = ref({})
 const expanded = ref<ExpandedState>({})
 
+// Stores
+const authStore = useAuthStore();
+const userStore = useUserStore();
+
 // Models
 const samples: ModelRef<Array<Sample>> = defineModel('samples', { required: true });
 
-function importSamplesToProject(selected_rows:Row<TData>[]) {
+
+// Repositories
+const sampleRepository: SampleRepository = new SampleRepository();
+
+async function importSamplesToProject(selected_rows:Row<TData>[]) {
+    const ids_to_link: Array<string> = []
     for (const row of selected_rows) {
-        samples.value.push(row.original as Sample)
+        const sample = row.original as Sample
+        samples.value.push(sample)
+        ids_to_link.push(sample.id)
     }
+
+    const res = await sampleRepository.associateProjectToSamples({
+        orgId: userStore.defaultOrg?.id ?? '',
+        data: {
+            samples: ids_to_link,
+            projectId: props.project_id
+        },
+        bearerToken: authStore.getToken ?? '',
+        handleBusinessErrors: true
+    });
 }
 </script>
 

@@ -11,7 +11,7 @@ import { Icon } from '@iconify/vue/dist/iconify.js';
 import { MoreHorizontal } from 'lucide-vue-next'
 
 defineProps<{
-    project: {
+    sample: {
         id: string
     }
 }>()
@@ -28,7 +28,7 @@ defineEmits<{
 }>()
 
 function goToProject(project_id: string) {
-    router.push({ name: 'results', params: { page: 'results', projectId: project_id } })
+    router.push({ name: 'sample', params: { page: 'results', projectId: project_id } })
 }
 
 async function deleteProject(project_id: string) {
@@ -50,8 +50,10 @@ async function deleteProject(project_id: string) {
 
 <template>
     <div>
-        <Button class="flex gap-2 items-center" variant="ghost" @click="goToProject(project.id)">
-            <Icon icon="tabler:folder-open"></Icon> Open
+        <Button class="flex gap-2 items-center" variant="ghost" @click="goToProject(sample.id)">
+            <RouterLink :to="{ name: 'samples', params: { page: 'qc' }, query: { sampleId: sample.id } }">
+                🔎 Show QC
+            </RouterLink>
         </Button>
         <DropdownMenu>
             <DropdownMenuTrigger as-child>
@@ -61,14 +63,14 @@ async function deleteProject(project_id: string) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem @click="goToProject(project.id)">
-                    Open project
+                <DropdownMenuItem>
+                    Edit
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem @click="deleteProject(project.id)">Delete project</DropdownMenuItem>
-                <DropdownMenuItem @click="$emit('expand')">
+                <DropdownMenuItem @click="deleteProject(sample.id)">Delete project</DropdownMenuItem>
+                <!-- <DropdownMenuItem @click="$emit('expand')">
                     Expand
-                </DropdownMenuItem>
+                </DropdownMenuItem> -->
                 <!-- <DropdownMenuItem>Edit project</DropdownMenuItem> -->
             </DropdownMenuContent>
         </DropdownMenu>

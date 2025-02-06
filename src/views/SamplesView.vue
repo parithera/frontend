@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { useStateStore } from '@/stores/state';
 import SelectSample from '@/views/samples/SelectSample.vue';
+import QualityControl from './samples/QualityControl.vue';
 
 const state = useStateStore();
 state.$reset();
@@ -13,5 +14,6 @@ defineProps<{
 </script>
 
 <template>
-    <SelectSample/>
+    <QualityControl v-if="page =='qc'"></QualityControl>
+    <SelectSample v-else/>
 </template>

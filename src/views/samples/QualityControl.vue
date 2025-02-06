@@ -26,7 +26,7 @@ const selected_project: Ref<Project> = ref(new Project());
 
 const { svg_elbow, svg_umap, svg_violin, svg_variable_features } = storeToRefs(connectionStore);
 
-async function fetchGraphs(project: Project) {
+async function fetchGraphs() {
     connectionStore.$reset;
     connectionStore.createSocket(authStore.getToken ?? '');
     // remove any existing listeners (after a hot module replacement)
@@ -34,31 +34,15 @@ async function fetchGraphs(project: Project) {
     connectionStore.bindEvents();
     connectionStore.connect();
 
+    const route = useRoute()
+    
     const graphs = ['pca_variance_ratio', 'violin', 'umap', 'filter_genes_dispersion'];
     for (const graph of graphs) {
         connectionStore.fetchGraphs({
-            projectId: project.id,
+            sampleId: route.query.sampleId,
             orgId: userStore.defaultOrg?.id ?? '',
             type: graph
         });
-    }
-}
-
-async function getProject(project_id: string) {
-    try {
-        const res = await projectRepository.getProjectById({
-            bearerToken: authStore.getToken ?? '',
-            handleBusinessErrors: true,
-            projectId: project_id,
-            orgId: userStore.defaultOrg?.id ?? ''
-        });
-
-        selected_project.value = res.data
-    } catch (error) {
-        if (error instanceof BusinessLogicError) {
-            await new Promise((resolve) => setTimeout(resolve, 5000));
-        }
-        await new Promise((resolve) => setTimeout(resolve, 5000));
     }
 }
 
@@ -66,8 +50,7 @@ const route = useRoute()
 const router = useRouter()
 
 onMounted(async ()=>{
-await getProject(route.params.projectId as string)
-await fetchGraphs(selected_project.value)
+await fetchGraphs()
 })
 </script>
 

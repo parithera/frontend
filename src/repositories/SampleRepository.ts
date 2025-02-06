@@ -3,6 +3,7 @@ import { CreatedResponse } from '@/repositories/types/responses/CreatedResponse'
 import {
     BaseRepository,
     type AuthRepoMethodGetRequestOptions,
+    type AuthRepoMethodPatchRequestOptions,
     type AuthRepoMethodPostRequestOptions,
     type PaginatedRepoMethodRequestOptions,
     type SearchableRepoMethodRequestOptions,
@@ -14,6 +15,7 @@ import type { Sample } from './types/entities/Sample';
 import type { UploadData, UploadRequestOptions } from './FileRepository';
 import { NoDataResponse } from './types/responses/NoDataResponse';
 import type { CreateAnalysis } from './types/postBodies/CreateAnalysis';
+import type { AssociateProjectToSamples } from './types/postBodies/AssociateProjectToSamples';
 
 export interface GetSamplesRequestOptions
     extends AuthRepoMethodGetRequestOptions,
@@ -40,6 +42,11 @@ export interface CreateSampleOptions extends AuthRepoMethodPostRequestOptions<Cr
 export interface CreateAnalysisOptions extends AuthRepoMethodPostRequestOptions<CreateAnalysis> {
     orgId: string;
     sampleId: string;
+}
+
+export interface PatchProjectSampleAssociation
+    extends AuthRepoMethodPatchRequestOptions<AssociateProjectToSamples> {
+    orgId: string;
 }
 
 export class SampleRepository extends BaseRepository {
@@ -128,5 +135,20 @@ export class SampleRepository extends BaseRepository {
         });
 
         return Entity.unMarshal<CreatedResponse>(response, CreatedResponse);
+    }
+
+    async associateProjectToSamples(options: PatchProjectSampleAssociation): Promise<NoDataResponse> {
+        const RELATIVE_URL = `/org/${options.orgId}/samples/linktoproject`;
+
+        const response = await this.patchRequest<NoDataResponse, AssociateProjectToSamples>({
+            bearerToken: options.bearerToken,
+            data: options.data,
+            url: this.buildUrl(RELATIVE_URL),
+            handleBusinessErrors: options.handleBusinessErrors,
+            handleHTTPErrors: options.handleHTTPErrors,
+            handleOtherErrors: options.handleOtherErrors
+        });
+
+        return Entity.unMarshal<NoDataResponse>(response, NoDataResponse);
     }
 }

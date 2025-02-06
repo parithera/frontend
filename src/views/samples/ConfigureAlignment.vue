@@ -47,8 +47,6 @@ const onFileSubmit = handleSubmit(async (values) => {
     let chemistry: string = "";
     let genome: string = "";
     let platform: string = "";
-
-    console.log(values);
     
     if (props.file_type == 'fastq') {
         chemistry = values.chemistry as string;
