@@ -23,6 +23,15 @@ export interface GetSamplesRequestOptions
     orgId: string;
 }
 
+export interface GetSamplesByProjectRequestOptions
+    extends AuthRepoMethodGetRequestOptions,
+    PaginatedRepoMethodRequestOptions,
+    SearchableRepoMethodRequestOptions,
+    SortableRepoMethodRequestOptions {
+    orgId: string;
+    projectId: string;
+}
+
 
 export interface CreateSampleOptions extends AuthRepoMethodPostRequestOptions<CreateSample> {
     orgId: string;
@@ -36,6 +45,27 @@ export interface CreateAnalysisOptions extends AuthRepoMethodPostRequestOptions<
 export class SampleRepository extends BaseRepository {
     async getSamples(options: GetSamplesRequestOptions): Promise<PaginatedResponse<Sample>> {
         const RELATIVE_URL = `/org/${options.orgId}/samples`;
+
+        const response = await this.getRequest<PaginatedResponse<Sample>>({
+            queryParams: {
+                page: options.pagination.page,
+                entries_per_page: options.pagination.entries_per_page,
+                search_key: options.search.searchKey,
+                sort_key: options.sort.sortKey,
+                sort_direction: options.sort.sortDirection
+            },
+            bearerToken: options.bearerToken,
+            url: this.buildUrl(RELATIVE_URL),
+            handleBusinessErrors: options.handleBusinessErrors,
+            handleHTTPErrors: options.handleHTTPErrors,
+            handleOtherErrors: options.handleOtherErrors
+        });
+
+        return Entity.unMarshal<PaginatedResponse<Sample>>(response, PaginatedResponse<Sample>);
+    }
+
+    async getSamplesByProjectId(options: GetSamplesByProjectRequestOptions): Promise<PaginatedResponse<Sample>> {
+        const RELATIVE_URL = `/org/${options.orgId}/samples/byproject/${options.projectId}`;
 
         const response = await this.getRequest<PaginatedResponse<Sample>>({
             queryParams: {

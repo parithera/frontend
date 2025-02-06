@@ -24,9 +24,10 @@ import { toast } from '@/shadcn/ui/toast';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import { useStateStore } from '@/stores/state';
 import Progress from '@/shadcn/ui/progress/Progress.vue';
-import CreateGroups from './CreateGroups.vue';
-import ConfigureAnalysis from './ConfigureAnalysis.vue';
 import type { ChatContent, Group } from './types';
+import type { Sample } from '@/repositories/types/entities/Sample';
+import { SampleRepository } from '@/repositories/SampleRepository';
+import LinkSamplesToProject from './LinkSamplesToProject.vue';
 
 const state = useStateStore();
 state.$reset();
@@ -45,9 +46,11 @@ const userStore = useUserStore();
 // Refs
 const groups: Ref<Array<Group>> = ref([])
 const file_type: Ref<string> = ref('')
+const samples: Ref<Array<Sample>> = ref([])
 
 // Repositories
 const projectRepository: ProjectRepository = new ProjectRepository();
+const sampleRepository: SampleRepository = new SampleRepository();
 
 let chat_content: Ref<ChatContent[]> = ref([
     {
@@ -137,10 +140,32 @@ async function getChatHistory(project_id: string) {
     }
 }
 
+async function getSamplesByProject(project_id:string) {
+    const res = await sampleRepository.getSamplesByProjectId({
+        bearerToken: authStore.getToken ?? '',
+        orgId: userStore.defaultOrg?.id ?? '',
+        projectId: route.params.projectId as string,
+        pagination: {
+            page: 0,
+            entries_per_page: 0
+        },
+        search: {
+            searchKey: ''
+        },
+        sort: {
+            sortKey: '',
+            sortDirection: undefined
+        }
+    });
+
+    samples.value = res.data;
+}
+
 const route = useRoute()
 
 onMounted(async () => {
     await getProject(route.params.projectId as string)
+    await getSamplesByProject(route.params.projectId as string)
     await fetchGraphs(selected_project.value)
     await getChatHistory(selected_project.value.id)
 
@@ -166,29 +191,14 @@ onMounted(async () => {
         <div class="flex flex-col gap-2 items-center max-w-60 p-6 py-8 h-[calc(100vh-4rem)] bg-secondary">
             <span>{{ selected_project.name }}</span>
             <span>{{ selected_project.added_on }}</span>
+            <span>{{ samples }}</span>
         </div>
         <ResizablePanelGroup direction="horizontal">
             <ResizablePanel class="h-[calc(100vh-4rem)] p-4 flex flex-col items-center justify-center"
                 :default-size="60">
-                <div v-if="loading" class="w-full flex flex-col gap-2 items-center justify-center">
-                    <div class="flex items-center text-2xl">
-                        <Icon icon="eos-icons:loading"></Icon> We are processing your data...
-                    </div>
-                    <div class="flex items-center text-xl">This may take a while.</div>
-                    <Progress class="w-1/2" v-model="progress_preprocess"></Progress>
-                </div>
-                <ConfigureAnalysis v-else-if="configure_analysis" v-model:selected_project="selected_project"
-                    v-model:configure_analysis="configure_analysis" v-model:loading="loading" :groups :file_type :fetchGraphs>
-                </ConfigureAnalysis>
-                <CreateGroups v-else-if="create_groups" v-model:file_type="file_type"
-                    v-model:create_groups="create_groups" v-model:configure_analysis="configure_analysis"
-                    v-model:selected_project="selected_project" v-model:groups="groups">
-                </CreateGroups>
-
-                <div v-else-if="svg_violin == ''" class="w-full flex flex-col gap-2 items-center justify-center">
-                    <div class="text-2xl">Select files to import</div>
-                    <UploadFile v-model:selected_project="selected_project" v-model:create_groups="create_groups"
-                        :fetchGraphs="fetchGraphs" />
+                <div v-if="samples.length==0" class="w-full flex flex-col gap-2 items-center justify-center">
+                    <div class="text-2xl">Select samples to use</div>
+                    <LinkSamplesToProject v-model:samples="samples"/>
                 </div>
 
                 <ScrollArea v-else class="h-full w-full mb-16">
