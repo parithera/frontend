@@ -49,7 +49,7 @@ async function deleteProject(project_id: string) {
 </script>
 
 <template>
-    <div>
+    <div class="flex flex-col items-end">
         <Button class="flex gap-2 items-center" variant="ghost" @click="goToProject(project.id)">
             <Icon icon="tabler:folder-open"></Icon> Open
         </Button>

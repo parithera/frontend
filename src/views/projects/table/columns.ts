@@ -37,7 +37,7 @@ export const columns: ColumnDef<Project>[] = [
         },
         cell: ({ row }) => {
             const name = row.getValue('name') as string;
-            return h('div', { class: 'text-right font-medium' }, name)
+            return h('div', { class: 'text-left pl-4' }, name)
         },
     },
     {
@@ -50,7 +50,7 @@ export const columns: ColumnDef<Project>[] = [
         },
         cell: ({ row }) => {
             const description = row.getValue('description') as string;
-            return h('div', { class: 'text-right font-medium' }, description,)
+            return h('div', { class: 'text-left pl-4' }, description,)
         },
     }, 
     {
@@ -65,7 +65,7 @@ export const columns: ColumnDef<Project>[] = [
             const date = new Date(row.getValue('added_on'))
             // const formatted = new Intl.DateTimeFormat(['en-US', 'fr-FR'], {}).format(date)
             const formatted = moment(date).format('LL') 
-            return h('div', { class: 'text-right font-medium' }, formatted)
+            return h('div', { class: 'text-left pl-4' }, formatted)
         },
     },
     {
@@ -79,7 +79,7 @@ export const columns: ColumnDef<Project>[] = [
         cell: ({ row }) => {
             const user:AuthenticatedUser = row.getValue('added_by')
             const formatted = user.handle
-            return h('div', { class: 'text-right font-medium' }, formatted)
+            return h('div', { class: 'text-left pl-4' }, formatted)
         },
     },
     {
