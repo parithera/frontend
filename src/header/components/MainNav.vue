@@ -32,7 +32,7 @@ const state = useStateStore();
             class="text-sm font-medium transition-colors hover:text-primary"
             :class="{ 'text-muted-foreground': state.page != 'databases' }"
         >
-            Databases
+            Public Datasets
         </RouterLink>
         <RouterLink
             :to="{ name: 'results', params: {}, query: {} }"
