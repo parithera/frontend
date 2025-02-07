@@ -61,22 +61,6 @@ async function getProjects() {
     projects.value = projects_retrieved.data;
 }
 
-async function deleteProject(project: Project) {
-    try {
-        await projectRepository.deleteProject({
-            bearerToken: authStore.getToken ?? '',
-            handleBusinessErrors: true,
-            projectId: project.id,
-            orgId: userStore.defaultOrg?.id ?? ''
-        });
-    } catch (error) {
-        if (error instanceof BusinessLogicError) {
-            console.log(error);
-        }
-    }
-    await getProjects();
-}
-
 getProjects();
 </script>
 

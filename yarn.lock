@@ -2191,6 +2191,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/pako@npm:2":
+  version: 2.0.3
+  resolution: "@types/pako@npm:2.0.3"
+  checksum: 10/afa618a0a05a931216703a30f4cba6902ce5cd4db8170a480f95bc8e268afebb3bb8deea4444e8292aba86348e400e068af1b5f4c75b9185b3a7efd1999fb78e
+  languageName: node
+  linkType: hard
+
 "@types/parse-json@npm:^4.0.0":
   version: 4.0.2
   resolution: "@types/parse-json@npm:4.0.2"
@@ -5625,6 +5632,7 @@ __metadata:
     "@types/jsdom": "npm:21.1.7"
     "@types/markdown-it": "npm:14.1.2"
     "@types/node": "npm:22.10.1"
+    "@types/pako": "npm:2"
     "@types/validator": "npm:13.12.2"
     "@unovis/ts": "npm:1.5.0"
     "@unovis/vue": "npm:1.5.0"
@@ -5659,6 +5667,7 @@ __metadata:
     markdown-it: "npm:14.1.0"
     moment: "npm:2.30.1"
     npm-run-all: "npm:4.1.5"
+    pako: "npm:2.1.0"
     pinia: "npm:2.3.0"
     postcss: "npm:8.4.49"
     prettier: "npm:3.4.2"
@@ -7707,6 +7716,13 @@ __metadata:
   version: 1.0.1
   resolution: "package-json-from-dist@npm:1.0.1"
   checksum: 10/58ee9538f2f762988433da00e26acc788036914d57c71c246bf0be1b60cdbd77dd60b6a3e1a30465f0b248aeb80079e0b34cb6050b1dfa18c06953bb1cbc7602
+  languageName: node
+  linkType: hard
+
+"pako@npm:2.1.0":
+  version: 2.1.0
+  resolution: "pako@npm:2.1.0"
+  checksum: 10/38a04991d0ec4f4b92794a68b8c92bf7340692c5d980255c92148da96eb3e550df7a86a7128b5ac0c65ecddfe5ef3bbe9c6dab13e1bc315086e759b18f7c1401
   languageName: node
   linkType: hard
 

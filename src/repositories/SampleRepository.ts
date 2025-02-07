@@ -18,6 +18,7 @@ import type { UploadData, UploadRequestOptions } from './FileRepository';
 import { NoDataResponse } from './types/responses/NoDataResponse';
 import type { CreateAnalysis } from './types/postBodies/CreateAnalysis';
 import type { AssociateProjectToSamples } from './types/postBodies/AssociateProjectToSamples';
+import { DataResponse } from './types/responses/DataResponse';
 
 export interface GetSamplesRequestOptions
     extends AuthRepoMethodGetRequestOptions,
@@ -25,6 +26,12 @@ export interface GetSamplesRequestOptions
     SearchableRepoMethodRequestOptions,
     SortableRepoMethodRequestOptions {
     orgId: string;
+}
+
+export interface GetQCRequestOptions
+    extends AuthRepoMethodGetRequestOptions {
+    orgId: string;
+    sampleId: string;
 }
 
 export interface GetSamplesByProjectRequestOptions
@@ -96,6 +103,20 @@ export class SampleRepository extends BaseRepository {
         });
 
         return Entity.unMarshal<PaginatedResponse<Sample>>(response, PaginatedResponse<Sample>);
+    }
+
+    async getQC(options: GetQCRequestOptions): Promise<DataResponse<string>> {
+        const RELATIVE_URL = `/org/${options.orgId}/samples/${options.sampleId}/qc`;
+
+        const response = await this.getRequest<DataResponse<string>>({
+            bearerToken: options.bearerToken,
+            url: this.buildUrl(RELATIVE_URL),
+            handleBusinessErrors: options.handleBusinessErrors,
+            handleHTTPErrors: options.handleHTTPErrors,
+            handleOtherErrors: options.handleOtherErrors
+        });
+
+        return Entity.unMarshal<DataResponse<string>>(response, DataResponse<string>);
     }
 
     async createSample(options: CreateSampleOptions): Promise<CreatedResponse> {

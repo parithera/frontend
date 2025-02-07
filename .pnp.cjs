@@ -48,6 +48,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jsdom", "npm:21.1.7"],\
           ["@types/markdown-it", "npm:14.1.2"],\
           ["@types/node", "npm:22.10.1"],\
+          ["@types/pako", "npm:2.0.3"],\
           ["@types/validator", "npm:13.12.2"],\
           ["@unovis/ts", "npm:1.5.0"],\
           ["@unovis/vue", "virtual:d9650954c7f1725ea712d2e40695de9ea5d1c0fa9b89379134c62909d440d91b03d6c37e2823804a3404472b90a5bec73c82193190dd3c4db4c9e9edd75db91e#npm:1.5.0"],\
@@ -82,6 +83,7 @@ const RAW_RUNTIME_STATE =
           ["markdown-it", "npm:14.1.0"],\
           ["moment", "npm:2.30.1"],\
           ["npm-run-all", "npm:4.1.5"],\
+          ["pako", "npm:2.1.0"],\
           ["pinia", "virtual:d9650954c7f1725ea712d2e40695de9ea5d1c0fa9b89379134c62909d440d91b03d6c37e2823804a3404472b90a5bec73c82193190dd3c4db4c9e9edd75db91e#npm:2.3.0"],\
           ["postcss", "npm:8.4.49"],\
           ["prettier", "npm:3.4.2"],\
@@ -2793,6 +2795,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@types/node", "npm:22.10.2"],\
           ["undici-types", "npm:6.20.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@types/pako", [\
+      ["npm:2.0.3", {\
+        "packageLocation": "../root/.yarn/berry/cache/@types-pako-npm-2.0.3-94a7224daf-10.zip/node_modules/@types/pako/",\
+        "packageDependencies": [\
+          ["@types/pako", "npm:2.0.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -6841,6 +6852,7 @@ const RAW_RUNTIME_STATE =
           ["@types/jsdom", "npm:21.1.7"],\
           ["@types/markdown-it", "npm:14.1.2"],\
           ["@types/node", "npm:22.10.1"],\
+          ["@types/pako", "npm:2.0.3"],\
           ["@types/validator", "npm:13.12.2"],\
           ["@unovis/ts", "npm:1.5.0"],\
           ["@unovis/vue", "virtual:d9650954c7f1725ea712d2e40695de9ea5d1c0fa9b89379134c62909d440d91b03d6c37e2823804a3404472b90a5bec73c82193190dd3c4db4c9e9edd75db91e#npm:1.5.0"],\
@@ -6875,6 +6887,7 @@ const RAW_RUNTIME_STATE =
           ["markdown-it", "npm:14.1.0"],\
           ["moment", "npm:2.30.1"],\
           ["npm-run-all", "npm:4.1.5"],\
+          ["pako", "npm:2.1.0"],\
           ["pinia", "virtual:d9650954c7f1725ea712d2e40695de9ea5d1c0fa9b89379134c62909d440d91b03d6c37e2823804a3404472b90a5bec73c82193190dd3c4db4c9e9edd75db91e#npm:2.3.0"],\
           ["postcss", "npm:8.4.49"],\
           ["prettier", "npm:3.4.2"],\
@@ -9189,6 +9202,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../root/.yarn/berry/cache/package-json-from-dist-npm-1.0.1-4631a88465-10.zip/node_modules/package-json-from-dist/",\
         "packageDependencies": [\
           ["package-json-from-dist", "npm:1.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["pako", [\
+      ["npm:2.1.0", {\
+        "packageLocation": "../root/.yarn/berry/cache/pako-npm-2.1.0-78df11948c-10.zip/node_modules/pako/",\
+        "packageDependencies": [\
+          ["pako", "npm:2.1.0"]\
         ],\
         "linkType": "HARD"\
       }]\
