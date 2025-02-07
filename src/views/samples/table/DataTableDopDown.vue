@@ -50,7 +50,7 @@ async function deleteProject(project_id: string) {
 </script>
 
 <template>
-    <div>
+    <div class="flex flex-col items-end">
         <Button class="flex gap-2 items-center" variant="ghost" @click="goToProject(sample.id)">
             <RouterLink :to="{ name: 'samples', params: { page: 'qc' }, query: { sampleId: sample.id } }">
                 🔎 Show QC
