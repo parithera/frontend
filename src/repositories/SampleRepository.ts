@@ -2,9 +2,11 @@ import { Entity } from './types/entities/Entity';
 import { CreatedResponse } from '@/repositories/types/responses/CreatedResponse';
 import {
     BaseRepository,
+    type AuthRepoMethodEmptyDeleteRequestOptions,
     type AuthRepoMethodGetRequestOptions,
     type AuthRepoMethodPatchRequestOptions,
     type AuthRepoMethodPostRequestOptions,
+    type EmptyPostData,
     type PaginatedRepoMethodRequestOptions,
     type SearchableRepoMethodRequestOptions,
     type SortableRepoMethodRequestOptions,
@@ -34,6 +36,10 @@ export interface GetSamplesByProjectRequestOptions
     projectId: string;
 }
 
+export interface DeleteSampleOptions extends AuthRepoMethodEmptyDeleteRequestOptions {
+    orgId: string;
+    sampleId: string;
+}
 
 export interface CreateSampleOptions extends AuthRepoMethodPostRequestOptions<CreateSample> {
     orgId: string;
@@ -151,4 +157,19 @@ export class SampleRepository extends BaseRepository {
 
         return Entity.unMarshal<NoDataResponse>(response, NoDataResponse);
     }
+    
+        async deleteSample(options: DeleteSampleOptions): Promise<NoDataResponse> {
+            const RELATIVE_URL = `/org/${options.orgId}/samples/${options.sampleId}`;
+    
+            const response = await this.deleteRequest<NoDataResponse, EmptyPostData>({
+                bearerToken: options.bearerToken,
+                url: this.buildUrl(RELATIVE_URL),
+                handleBusinessErrors: options.handleBusinessErrors,
+                handleHTTPErrors: options.handleHTTPErrors,
+                handleOtherErrors: options.handleOtherErrors,
+                data: {}
+            });
+    
+            return Entity.unMarshal<NoDataResponse>(response, NoDataResponse);
+        }
 }

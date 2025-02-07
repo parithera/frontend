@@ -20,6 +20,7 @@ import type { ModelRef } from 'vue';
 import type { Group } from './types';
 import { SampleRepository } from '@/repositories/SampleRepository';
 import type { ProjectFile } from '@/repositories/types/entities/ProjectFile';
+import router from '@/router';
 
 const props = defineProps<{
     file_type: string;
@@ -109,6 +110,8 @@ const onFileSubmit = handleSubmit(async (values) => {
             commit_hash: ' ' // This will be removed
         }
     });
+
+    router.go(0)
 });
 </script>
 <template>
