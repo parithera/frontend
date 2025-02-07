@@ -89,6 +89,6 @@ getProjects();
                 Please select a project from the list or create a new one.
             </AlertDescription>
         </Alert> -->
-        <DataTable class="w-1/2" v-if="projects" :columns="columns" :data="projects" />
+        <DataTable class="w-3/4" v-if="projects" :columns="columns" :data="projects" />
     </div>
 </template>

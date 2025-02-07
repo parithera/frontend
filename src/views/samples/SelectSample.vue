@@ -43,6 +43,6 @@ getProjects();
 
 <template>
     <div class="flex flex-col gap-6 items-center justify-center mt-20">
-        <DataTable class="w-1/2" v-if="samples" :columns="columns" :data="samples" />
+        <DataTable class="w-3/4" v-if="samples" :columns="columns" :data="samples" />
     </div>
 </template>
