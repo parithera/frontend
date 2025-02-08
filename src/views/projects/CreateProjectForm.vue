@@ -47,7 +47,7 @@ const submitForm = () => {
     <Dialog ref="dialog">
         <DialogTrigger as-child>
             <Button class="flex items-center gap-2 rounded-full text-primary" variant="ghost">
-                + new project
+                + New project
             </Button>
         </DialogTrigger>
         <DialogContent class="sm:max-w-[425px]">

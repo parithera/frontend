@@ -66,13 +66,6 @@ getProjects();
 
 <template>
     <div class="flex flex-col gap-6 items-center justify-center mt-20">
-        <!-- <Alert class="w-1/2">
-            <Terminal class="h-4 w-4" />
-            <AlertTitle>Heads up!</AlertTitle>
-            <AlertDescription>
-                Please select a project from the list or create a new one.
-            </AlertDescription>
-        </Alert> -->
         <DataTable class="w-3/4" v-if="projects" :columns="columns" :data="projects" />
     </div>
 </template>

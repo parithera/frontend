@@ -58,7 +58,7 @@ const submitForm = () => {
     <Dialog ref="dialog">
         <DialogTrigger as-child>
             <Button class="flex items-center gap-2 rounded-full text-primary" variant="ghost">
-                + new sample
+                + New sample
             </Button>
         </DialogTrigger>
         <DialogContent v-if="step == 0" class="sm:max-w-[425px]">
