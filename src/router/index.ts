@@ -23,7 +23,7 @@ import HelpView from '@/views/HelpView.vue';
 import EmailActionView from '@/views/EmailActionView.vue';
 import type { Organization } from '@/repositories/types/entities/Organization';
 import SamplesView from '@/views/SamplesView.vue';
-import DatabasesView from '@/views/DatabasesView.vue';
+import DatasetsView from '@/views/DatasetsView.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,9 +47,9 @@ const router = createRouter({
             props: true
         },
         {
-            path: '/databases/:page?',
-            name: 'databases',
-            component: DatabasesView,
+            path: '/datasets/:page?',
+            name: 'datasets',
+            component: DatasetsView,
             props: true
         },
         {

@@ -28,9 +28,9 @@ const state = useStateStore();
             Projects
         </RouterLink>
         <RouterLink
-            :to="{ name: 'databases', params: {}, query: {} }"
+            :to="{ name: 'datasets', params: {}, query: {} }"
             class="text-sm font-medium transition-colors hover:text-primary"
-            :class="{ 'text-muted-foreground': state.page != 'databases' }"
+            :class="{ 'text-muted-foreground': state.page != 'datasets' }"
         >
             Public Datasets
         </RouterLink>
