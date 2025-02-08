@@ -50,9 +50,9 @@ async function deleteProject(project_id: string) {
 
 <template>
     <div class="flex flex-col items-end">
-        <Button class="flex gap-2 items-center" variant="ghost" @click="goToProject(project.id)">
+        <!-- <Button class="flex gap-2 items-center" variant="ghost" @click="goToProject(project.id)">
             <Icon icon="tabler:folder-open"></Icon> Open
-        </Button>
+        </Button> -->
         <DropdownMenu>
             <DropdownMenuTrigger as-child>
                 <Button class="flex gap-2 items-center" variant="ghost">

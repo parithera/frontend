@@ -49,11 +49,11 @@ async function deleteProject(project_id: string) {
 
 <template>
     <div class="flex flex-col items-end">
-        <Button class="flex gap-2 items-center" variant="ghost" @click="goToProject(sample.id)">
+        <!-- <Button class="flex gap-2 items-center" variant="ghost" @click="goToProject(sample.id)">
             <RouterLink :to="{ name: 'samples', params: { page: 'qc' }, query: { sampleId: sample.id } }">
                 🔎 Show QC
             </RouterLink>
-        </Button>
+        </Button> -->
         <DropdownMenu>
             <DropdownMenuTrigger as-child>
                 <Button class="flex gap-2 items-center" variant="ghost">

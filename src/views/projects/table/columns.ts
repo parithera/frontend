@@ -2,11 +2,13 @@ import type { Project } from '@/repositories/types/entities/Project'
 import type { ColumnDef } from '@tanstack/vue-table'
 import { h } from 'vue'
 import DataTableDopDown from './DataTableDopDown.vue';
-import { ArrowUpDown, ChevronDown } from 'lucide-vue-next'
+import { ArrowUpDown } from 'lucide-vue-next'
 import Button from '@/shadcn/ui/button/Button.vue';
 import { Checkbox } from '@/shadcn/ui/checkbox'
 import type { AuthenticatedUser } from '@/repositories/types/entities/AuthenticatedUser';
 import moment from 'moment';
+import { Icon } from '@iconify/vue/dist/iconify.js';
+import router from '@/router';
 
 
 
@@ -28,7 +30,7 @@ export const columns: ColumnDef<Project>[] = [
     },
     {
         accessorKey: 'name',
-        
+
         header: ({ column }) => {
             return h(Button, {
                 variant: 'ghost',
@@ -52,7 +54,7 @@ export const columns: ColumnDef<Project>[] = [
             const description = row.getValue('description') as string;
             return h('div', { class: 'text-left pl-4' }, description,)
         },
-    }, 
+    },
     {
         accessorKey: 'added_on',
         header: ({ column }) => {
@@ -64,7 +66,7 @@ export const columns: ColumnDef<Project>[] = [
         cell: ({ row }) => {
             const date = new Date(row.getValue('added_on'))
             // const formatted = new Intl.DateTimeFormat(['en-US', 'fr-FR'], {}).format(date)
-            const formatted = moment(date).format('LL') 
+            const formatted = moment(date).format('LL')
             return h('div', { class: 'text-left pl-4' }, formatted)
         },
     },
@@ -77,9 +79,30 @@ export const columns: ColumnDef<Project>[] = [
             }, () => ['Added By', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
         },
         cell: ({ row }) => {
-            const user:AuthenticatedUser = row.getValue('added_by')
+            const user: AuthenticatedUser = row.getValue('added_by')
             const formatted = user.handle
             return h('div', { class: 'text-left pl-4' }, formatted)
+        },
+    },
+    {
+        accessorKey: 'ac',
+        header: ({ column }) => {
+            return h(Button, {
+                variant: 'ghost',
+                onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
+            }, () => ['Quality Control', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
+        },
+        cell: ({ row }) => {
+            return h(
+                'div',
+                { class: 'flex gap-2 items-center pl-4 cursor-pointer text-primary' },
+                [h(Icon, { icon: "tabler:folder-open" }),
+                h('div', {
+                    onClick: () => {
+                        router.push({ name: 'results', params: { page: 'results', projectId: row.original.id } })
+                    }
+                }, 'Open')]
+            )
         },
     },
     {
