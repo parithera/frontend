@@ -73,8 +73,8 @@ function saveMultiQCReport() {
 </script>
 
 <template>
-    <div class="flex">
-        <Icon class="cursor-pointer m-2" icon="line-md:menu-to-close-transition" @click="() => router.back()" />
+    <div class="flex justify-end">
+        <Icon class="cursor-pointer m-4" width="1.5rem" icon="line-md:menu-to-close-transition" @click="() => router.back()" />
     </div>
     
     <a href="#" @click.prevent="saveMultiQCReport" class="mt-4 text-blue-500 underline">Save MultiQC Report</a>
