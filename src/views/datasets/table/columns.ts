@@ -38,20 +38,6 @@ export const columns: ColumnDef<Dataset>[] = [
         },
     },
     {
-        accessorKey: 'tissue',
-        
-        header: ({ column }) => {
-            return h(Button, {
-                variant: 'ghost',
-                onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
-            }, () => ['Tissue', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
-        },
-        cell: ({ row }) => {
-            const tissue = row.getValue('tissue') as string;
-            return h('div', { class: 'text-left pl-4' }, tissue)
-        },
-    },
-    {
         accessorKey: 'disease',
         
         header: ({ column }) => {
@@ -66,17 +52,17 @@ export const columns: ColumnDef<Dataset>[] = [
         },
     },
     {
-        accessorKey: 'assay',
+        accessorKey: 'platform',
         
         header: ({ column }) => {
             return h(Button, {
                 variant: 'ghost',
                 onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
-            }, () => ['Assay', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
+            }, () => ['Platform', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
         },
         cell: ({ row }) => {
-            const assay = row.getValue('assay') as string;
-            return h('div', { class: 'text-left pl-4' }, assay)
+            const platform = row.getValue('platform') as string;
+            return h('div', { class: 'text-left pl-4' }, platform)
         },
     },
     {
@@ -94,33 +80,29 @@ export const columns: ColumnDef<Dataset>[] = [
         },
     },
     {
-        accessorKey: 'cells',
+        accessorKey: 'reads',
         
         header: ({ column }) => {
             return h(Button, {
                 variant: 'ghost',
                 onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
-            }, () => ['Cells', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
+            }, () => ['Reads', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
         },
         cell: ({ row }) => {
-            const cells = row.getValue('cells') as string;
-            return h('div', { class: 'text-left pl-4' }, cells)
+            const reads = row.getValue('reads') as string;
+            return h('div', { class: 'text-left pl-4' }, reads)
         },
     },
     {
-        accessorKey: 'publication',
+        accessorKey: 'study',
         
-        header: ({ column }) => "Publication",
-        cell: ({ row }) => "BioRxiv",
+        header: ({ column }) => "Study",
+        cell: ({ row }) => h('a',{class:"text-primary cursor-pointer", href: row.getValue('study') as string}, "NIH"),
     },
     {
-        id: 'actions',
-        enableHiding: false,
-        header: () => h('div', { class: 'text-right' }, 'Actions'),
-        cell: ({ row }) => {
-            const project = row.original
-
-            return h('a', { href:"google.fr",class: 'relative' }, "Explore")
-        },
+        accessorKey: 'explore',
+        
+        header: ({ column }) => "Explore",
+        cell: ({ row }) => h('a',{class:"text-primary cursor-pointer", href: row.getValue('explore') as string}, "NIH"),
     },
 ]

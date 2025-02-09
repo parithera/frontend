@@ -3,30 +3,33 @@ import DataTable from './table/DataTable.vue';
 import { columns } from './table/columns';
 
 export interface Dataset {
-  name: string;
-  tissue: string;
-  disease: string;
-  assay: string;
-  organism: string;
-  cells: string;
+    name: string;
+    disease: string;
+    platform: string;
+    organism: string;
+    reads: string;
+    study: string;
+    explore: string;
 }
 
 const datasets: Dataset[] = [{
-    name: "Frozen samples (single nucleus)",
-    tissue: "7 tissues",
-    disease: "breast cancer",
-    assay: "10x 3' v2",
+    name: "Breast Cancer RNA-Seq (SRR24415332)",
+    disease: "Breast Cancer",
+    platform: "Illumina",
     organism: "Homo sapiens",
-    cells: "394,534",
+    reads: "29,956,708",
+    study: "https://trace.ncbi.nlm.nih.gov/Traces/?view=study&acc=SRP435680",
+    explore: "https://trace.ncbi.nlm.nih.gov/Traces/?view=run_browser&page_size=10&acc=SRR24415332&display=metadata"
 },
 {
-    name: "Frozen samples (single nucleus)",
-    tissue: "7 tissues",
-    disease: "breast cancer",
-    assay: "10x 3' v2",
-    organism: "Homo sapiens",
-    cells: "394,534",
-}] 
+    name: "RNA-Seq of mus musculus: tumor (SRR32254714)",
+    disease: "Lung Cancer",
+    platform: "Illumina",
+    organism: "Mus Musculus",
+    reads: "24,059,741",
+    study: "https://trace.ncbi.nlm.nih.gov/Traces/?view=study&acc=SRP561972",
+    explore: "https://trace.ncbi.nlm.nih.gov/Traces/?view=run_browser&acc=SRR32254714&display=metadata"
+}]
 
 </script>
 
