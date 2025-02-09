@@ -93,16 +93,12 @@ export const columns: ColumnDef<Project>[] = [
             }, () => ['Quality Control', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
         },
         cell: ({ row }) => {
-            return h(
-                'div',
-                { class: 'flex gap-2 items-center pl-4 cursor-pointer text-primary' },
-                [h(Icon, { icon: "tabler:folder-open" }),
-                h('div', {
-                    onClick: () => {
-                        router.push({ name: 'results', params: { page: 'results', projectId: row.original.id } })
-                    }
-                }, 'Open')]
-            )
+            return h('div', {
+                class: "pl-4 text-primary cursor-pointer flex gap-2 items-center",
+                onClick: () => {
+                    router.push({ name: 'results', params: { page: 'results', projectId: row.original.id } })
+                }
+            }, [h(Icon, { icon: "tabler:folder-open" }), 'Open'])
         },
     },
     {
