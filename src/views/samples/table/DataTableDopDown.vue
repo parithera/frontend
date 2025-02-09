@@ -30,7 +30,7 @@ function goToProject(project_id: string) {
     router.push({ name: 'sample', params: { page: 'results', projectId: project_id } })
 }
 
-async function deleteProject(project_id: string) {
+async function deleteSample(project_id: string) {
     try {
         await sampleRepository.deleteSample({
             bearerToken: authStore.getToken ?? '',
@@ -66,7 +66,7 @@ async function deleteProject(project_id: string) {
                     Edit
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem @click="deleteProject(sample.id)">Delete project</DropdownMenuItem>
+                <DropdownMenuItem @click="deleteSample(sample.id)">Delete sample</DropdownMenuItem>
                 <!-- <DropdownMenuItem @click="$emit('expand')">
                     Expand
                 </DropdownMenuItem> -->
