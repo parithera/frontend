@@ -1,5 +1,5 @@
 import type { ColumnDef } from '@tanstack/vue-table'
-import { h } from 'vue'
+import { h, type VNode } from 'vue'
 import DataTableDopDown from './DataTableDopDown.vue';
 import { ArrowUpDown } from 'lucide-vue-next'
 import Button from '@/shadcn/ui/button/Button.vue';
@@ -7,6 +7,7 @@ import { Checkbox } from '@/shadcn/ui/checkbox'
 import moment from 'moment';
 import type { Sample } from '@/repositories/types/entities/Sample';
 import { RouterLink } from 'vue-router';
+import Badge from '@/shadcn/ui/badge/Badge.vue';
 
 
 
@@ -47,6 +48,27 @@ export const columns: ColumnDef<Sample>[] = [
         },
         cell: ({ row }) =>
             h('div', {class: 'text-left pl-4'}, row.getValue('description') as string)
+    },
+    {
+        accessorKey: 'tags',
+        header: ({ column }) => {
+            return h(Button, {
+                variant: 'ghost',
+                onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
+            }, () => ['Tags', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
+        },
+        cell: ({ row }) => {
+            const tags: string[] = row.getValue('tags')
+            const badges: VNode[] = []
+
+            for (const tag of tags) {
+                badges.push(
+                    h(Badge, tag)
+                )
+            }
+
+            return h('div',{class: 'text-left pl-4 flex gap-2 flex-wrap'}, badges)
+        },
     },
     {
         accessorKey: 'added_on',

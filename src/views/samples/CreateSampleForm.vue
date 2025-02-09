@@ -27,7 +27,7 @@ const userStore = useUserStore();
 const sampleRepository: SampleRepository = new SampleRepository();
 const new_sample_name: Ref<string> = ref('');
 const new_sample_comment: Ref<string> = ref('');
-const new_sample_condition: Ref<string> = ref('');
+const new_sample_tags: Ref<string> = ref('');
 
 // Refs
 const files_uploaded: Ref<Array<ProjectFile>> = ref([])
@@ -41,7 +41,7 @@ async function newSample() {
         data: {
             name: new_sample_name.value,
             description: new_sample_comment.value,
-            condition: new_sample_condition.value
+            tags: new_sample_tags.value.replace(" ","").split(',')
         },
         orgId: userStore.defaultOrg?.id ?? ''
     });
@@ -80,8 +80,8 @@ const submitForm = () => {
                         @keyup.enter="submitForm" />
                 </div>
                 <div class="grid grid-cols-4 items-center gap-4">
-                    <Label for="condition" class="text-right"> Condition </Label>
-                    <Input id="condition" placeholder="Drug XYZ." class="col-span-3" v-model="new_sample_condition"
+                    <Label for="tags" class="text-right"> Tags </Label>
+                    <Input id="tags" placeholder="Comma, separated, tags" class="col-span-3" v-model="new_sample_tags"
                         @keyup.enter="submitForm" />
                 </div>
             </div>

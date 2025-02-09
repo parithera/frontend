@@ -13,6 +13,9 @@ export class Sample {
     @IsNotEmpty()
     description!: string;
 
+    @IsNotEmpty()
+    tags!: string[];
+
     @IsOptional()
     @Type(() => Array<ProjectFile>)
     files?: Array<ProjectFile>;

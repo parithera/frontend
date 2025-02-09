@@ -28,12 +28,16 @@ import {
 } from '@/shadcn/ui/dropdown-menu'
 import { Input } from '@/shadcn/ui/input'
 import { Button } from '@/shadcn/ui/button';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import CreateSampleForm from '../CreateSampleForm.vue'
+import DataTableFacetedFilter, { type FilterOption } from './DataTableFacetedFilter.vue'
+import { ChevronDown } from 'lucide-vue-next'
+import { Icon } from '@iconify/vue/dist/iconify.js'
 
 const props = defineProps<{
     columns: ColumnDef<TData, TValue>[]
-    data: TData[]
+    data: TData[],
+    tags: Array<FilterOption>
 }>()
 
 const table = useVueTable({
@@ -58,20 +62,39 @@ const table = useVueTable({
     },
 })
 
+console.log(table.getAllColumns());
+
 const sorting = ref<SortingState>([])
 const columnFilters = ref<ColumnFiltersState>([])
 const columnVisibility = ref<VisibilityState>({})
 const rowSelection = ref({})
 const expanded = ref<ExpandedState>({})
+
+const isFiltered = computed(() => table.getState().columnFilters.length > 0)
 </script>
 
 <template>
     <div>
         <CreateSampleForm></CreateSampleForm>
-        <div class="flex items-center py-4">
+        <div class="flex items-center py-4 gap-2">
             <Input class="max-w-sm" placeholder="Filter names..."
                 :model-value="table.getColumn('name')?.getFilterValue() as string"
                 @update:model-value=" table.getColumn('name')?.setFilterValue($event)" />
+            <DataTableFacetedFilter
+                v-if="table.getColumn('tags')"
+                :column="table.getColumn('tags')"
+                title="Tags"
+                :options="props.tags"
+            />
+            <Button
+                v-if="isFiltered"
+                variant="ghost"
+                class="h-8 px-2 lg:px-3"
+                @click="table.resetColumnFilters()"
+            >
+                Reset
+                <Icon icon="ic:baseline-close"></Icon>
+            </Button>
             <DropdownMenu>
                 <DropdownMenuTrigger as-child>
                     <Button variant="outline" class="ml-auto">
