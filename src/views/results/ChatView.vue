@@ -192,7 +192,8 @@ onMounted(async () => {
 
                                 <ResponseCard :markdown_content="chat_element.response" :image="chat_element.image"
                                     :data="chat_element.data" :text="chat_element.text" :result="chat_element.result"
-                                    :id="index"></ResponseCard>
+                                    :id="index">
+                                </ResponseCard>
                                 <div class="pl-4 flex flex-col items-center" v-if="
                                     chat_element.response.endsWith(
                                         'Please wait while the script is running'

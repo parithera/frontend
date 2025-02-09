@@ -110,7 +110,7 @@ function addShowHideLink() {
                 <div
                     class="overflow-x-scroll pl-8 pb-3 markdown"
                     :id="'markdown_' + id"
-                    v-html="markdown.render(markdown_content)"
+                    v-html="markdown.render(markdown_content.replace('Please wait while the script is running',''))"
                 ></div>
                 <ScrollBar orientation="horizontal" />
             </ScrollArea>
