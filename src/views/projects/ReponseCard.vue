@@ -259,5 +259,10 @@ function addShowHideLink() {
     pre.visible {
         display: block;
     }
+
+    a {
+        color: hsl(var(--primary));
+        font-weight: bolder;
+    }
 }
 </style>
