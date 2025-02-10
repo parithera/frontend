@@ -25,7 +25,7 @@ export const columns: ColumnDef<Dataset>[] = [
     },
     {
         accessorKey: 'name',
-        
+
         header: ({ column }) => {
             return h(Button, {
                 variant: 'ghost',
@@ -39,7 +39,7 @@ export const columns: ColumnDef<Dataset>[] = [
     },
     {
         accessorKey: 'disease',
-        
+
         header: ({ column }) => {
             return h(Button, {
                 variant: 'ghost',
@@ -53,7 +53,7 @@ export const columns: ColumnDef<Dataset>[] = [
     },
     {
         accessorKey: 'platform',
-        
+
         header: ({ column }) => {
             return h(Button, {
                 variant: 'ghost',
@@ -67,7 +67,7 @@ export const columns: ColumnDef<Dataset>[] = [
     },
     {
         accessorKey: 'organism',
-        
+
         header: ({ column }) => {
             return h(Button, {
                 variant: 'ghost',
@@ -81,7 +81,7 @@ export const columns: ColumnDef<Dataset>[] = [
     },
     {
         accessorKey: 'reads',
-        
+
         header: ({ column }) => {
             return h(Button, {
                 variant: 'ghost',
@@ -95,14 +95,13 @@ export const columns: ColumnDef<Dataset>[] = [
     },
     {
         accessorKey: 'study',
-        
+
         header: ({ column }) => "Publication",
         cell: ({ row }) => h('a',{class:"text-primary cursor-pointer", href: row.getValue('study') as string}, "NIH"),
     },
-    {
-        accessorKey: 'explore',
-        
-        header: ({ column }) => "Explore",
-        cell: ({ row }) => h('a',{class:"text-primary cursor-pointer", href: row.getValue('explore') as string}, "NIH"),
-    },
+    // {
+    //     accessorKey: 'explore',
+    //     header: ({ column }) => "Explore",
+    //     cell: ({ row }) => h('a',{class:"text-primary cursor-pointer", href: row.getValue('explore') as string}, "NIH"),
+    // },
 ]

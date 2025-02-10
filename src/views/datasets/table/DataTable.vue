@@ -29,6 +29,8 @@ import {
 import { Input } from '@/shadcn/ui/input'
 import { Button } from '@/shadcn/ui/button';
 import { ref } from 'vue';
+import router from '@/router'
+import type { Dataset } from '../SelectDataset.vue'
 
 const props = defineProps<{
     columns: ColumnDef<TData, TValue>[]
@@ -62,6 +64,10 @@ const columnFilters = ref<ColumnFiltersState>([])
 const columnVisibility = ref<VisibilityState>({})
 const rowSelection = ref({})
 const expanded = ref<ExpandedState>({})
+
+function goToURL(data:TData) {
+    window.open((data as Dataset).explore)
+}
 </script>
 
 <template>
@@ -102,7 +108,7 @@ const expanded = ref<ExpandedState>({})
                 <TableBody>
                     <template v-if="table.getRowModel().rows?.length">
                         <template v-for="row in table.getRowModel().rows" :key="row.id">
-                            <TableRow :data-state="row.getIsSelected() ? 'selected' : undefined">
+                            <TableRow class="cursor-pointer" @click="goToURL(row.original)" :data-state="row.getIsSelected() ? 'selected' : undefined">
                                 <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
                                     <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
                                 </TableCell>
