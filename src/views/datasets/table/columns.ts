@@ -96,7 +96,7 @@ export const columns: ColumnDef<Dataset>[] = [
     {
         accessorKey: 'study',
         
-        header: ({ column }) => "Study",
+        header: ({ column }) => "Publication",
         cell: ({ row }) => h('a',{class:"text-primary cursor-pointer", href: row.getValue('study') as string}, "NIH"),
     },
     {

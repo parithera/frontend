@@ -15,7 +15,7 @@ export interface Dataset {
 const datasets: Dataset[] = [{
     name: "Breast Cancer RNA-Seq (SRR24415332)",
     disease: "Breast Cancer",
-    platform: "Illumina",
+    platform: "10x Genomics 3' v3",
     organism: "Homo sapiens",
     reads: "29,956,708",
     study: "https://trace.ncbi.nlm.nih.gov/Traces/?view=study&acc=SRP435680",
@@ -24,7 +24,7 @@ const datasets: Dataset[] = [{
 {
     name: "RNA-Seq of mus musculus: tumor (SRR32254714)",
     disease: "Lung Cancer",
-    platform: "Illumina",
+    platform: "10x Genomics 3' v3",
     organism: "Mus Musculus",
     reads: "24,059,741",
     study: "https://trace.ncbi.nlm.nih.gov/Traces/?view=study&acc=SRP561972",
