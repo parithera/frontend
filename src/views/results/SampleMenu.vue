@@ -14,7 +14,7 @@ defineProps<{
             <Icon width="0.5rem" icon="tabler:circle-filled"></Icon>
             {{ sample.name }}
             <RouterLink :to="{ name: 'samples', params: { page: 'qc' }, query: { sampleId: sample.id } }">
-                <Button class="text-primary" variant="ghost">🔎 Show QC</Button>
+                <Button class="text-primary" variant="ghost">Show QC</Button>
             </RouterLink>
         
     </div>
