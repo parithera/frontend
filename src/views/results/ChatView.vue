@@ -174,7 +174,7 @@ onMounted(async () => {
                                                     }}</AvatarFallback>
                                             </Avatar>
                                         </Button>
-                                        <div>You :</div>
+                                        <div>You</div>
                                     </div>
                                 </div>
 
@@ -186,7 +186,7 @@ onMounted(async () => {
                                 <div class="w-full flex justify-between">
                                     <div class="font-semibold flex gap-2 items-center">
                                         <img src="@/imgs/logos/logo.svg" class="w-8 self-center" />
-                                        <div>ExPlore :</div>
+                                        <div>Ada</div>
                                     </div>
                                 </div>
 
