@@ -108,7 +108,7 @@ function addShowHideLink() {
         <div class="flex flex-col w-full">
             <ScrollArea>
                 <div
-                    class="overflow-x-scroll pl-8 pb-3 markdown"
+                    class="overflow-x-scroll pl-10 pb-3 markdown"
                     :id="'markdown_' + id"
                     v-html="markdown.render(markdown_content.replace('Please wait while the script is running',''))"
                 ></div>
