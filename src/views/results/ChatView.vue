@@ -178,7 +178,7 @@ onMounted(async () => {
                                     </div>
                                 </div>
 
-                                <div class="pl-8">
+                                <div class="pl-10">
                                     <span>{{ chat_element.request }}</span>
                                 </div>
                             </div>
