@@ -190,7 +190,7 @@ function addShowHideLink() {
                 />
                 <div>{{ text }}</div>
                 <div>{{ data }}</div>
-                <div class="flex items-center gap-2">
+                <div v-if="image != '' || data != '' || text != ''" class="flex items-center gap-2">
                     <Button @click="copyImage" class="rounded-full" variant="ghost" size="sm">
                         <TooltipProvider>
                             <Tooltip>
