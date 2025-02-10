@@ -207,7 +207,7 @@ async function fetchChatGraph(analysis_id: string) {
                 <FormControl>
                     <div class="relative flex items-center">
                         <Input
-                            placeholder="Tell ExPlore what graph you want to generate..."
+                            placeholder="Ask Ada anything..."
                             class="resize-none rounded-full pl-2 py-7 box-border h-6 w-full"
                             v-bind="componentField"
                             type="text"
