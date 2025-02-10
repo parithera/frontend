@@ -80,17 +80,17 @@ export const columns: ColumnDef<Project>[] = [
         },
         cell: ({ row }) => {
             const user: AuthenticatedUser = row.getValue('added_by')
-            const formatted = user.handle
+            const formatted = user.first_name + " " + user.last_name
             return h('div', { class: 'text-left pl-4' }, formatted)
         },
     },
     {
-        accessorKey: 'ac',
+        accessorKey: 'chat',
         header: ({ column }) => {
             return h(Button, {
                 variant: 'ghost',
                 onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
-            }, () => ['Quality Control', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
+            }, () => ['Chat', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
         },
         cell: ({ row }) => {
             return h('div', {
@@ -98,7 +98,7 @@ export const columns: ColumnDef<Project>[] = [
                 onClick: () => {
                     router.push({ name: 'results', params: { page: 'results', projectId: row.original.id } })
                 }
-            }, [h(Icon, { icon: "tabler:folder-open" }), 'Open'])
+            }, 'Open')
         },
     },
     {

@@ -57,6 +57,6 @@ getProjects();
 
 <template>
     <div class="flex flex-col gap-6 items-center justify-center mt-20">
-        <DataTable class="w-3/4" v-if="samples" :columns="columns" :data="samples" :tags="tags"/>
+        <DataTable class="w-3/4" v-if="samples" :columns="columns" :data="samples" :tags="Array.from(new Set(tags.map(tag => JSON.stringify(tag)))).map(str => JSON.parse(str))"/>
     </div>
 </template>
