@@ -63,7 +63,7 @@ export const columns: ColumnDef<Sample>[] = [
 
             for (const tag of tags) {
                 badges.push(
-                    h(Badge, tag)
+                    h(Badge, {variant: "secondary"}, tag)
                 )
             }
 
