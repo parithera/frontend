@@ -6,6 +6,7 @@ export type ChatContent = {
     JSON: object;
     image: string;
     error: string;
+    status: string,
     agent: string;
 };
 

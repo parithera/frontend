@@ -58,10 +58,11 @@ watch(response, () => {
         request: chatStore.request,
         code: response.value?.data.code ?? '',
         followup: response.value?.data.followup ?? [],
-        text: response.value?.data.text ?? 'Loading...',
+        text: response.value?.data.text ?? '',
         JSON: response.value?.data.JSON ?? {},
         image: response.value?.data.image ?? '',
         error: response.value?.data.error ?? '',
+        status: response.value?.data.status ?? 'starting',
         agent: response.value?.data.agent ?? '',
     });
 })
@@ -75,6 +76,7 @@ const onSubmit = handleSubmit((values) => {
         JSON: response.value?.data.JSON ?? {},
         image: response.value?.data.image ?? '',
         error: response.value?.data.error ?? '',
+        status: response.value?.data.status ?? 'starting',
         agent: response.value?.data.agent ?? '',
     });
     askChat(values.request);

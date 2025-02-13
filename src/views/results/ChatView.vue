@@ -56,6 +56,7 @@ let chat_content: Ref<ChatContent[]> = ref([
         JSON: {},
         image: '',
         error: '',
+        status: '',
         agent: '',
     }
 ]);

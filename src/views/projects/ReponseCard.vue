@@ -12,10 +12,11 @@ import Button from '@/shadcn/ui/button/Button.vue';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import MarkdownIt from 'markdown-it';
 import hljs from 'highlight.js';
-import { ref, type Ref } from 'vue';
+import { computed, ref, type Ref } from 'vue';
 import type { ChatContent } from '../results/types';
 import FailedCard from './FailedCard.vue';
 import Separator from '@/shadcn/ui/separator/Separator.vue';
+import { Progress } from '@/shadcn/ui/progress';
 
 const props = defineProps<{
     response: ChatContent
@@ -70,11 +71,32 @@ function askFollowup(followup: string) {
     (document.getElementById('chat_bar') as HTMLInputElement).value = followup;
     // (document.getElementById('chat_submit') as HTMLButtonElement).click()
 }
+
+const progress = computed(()=>{
+    switch (props.response.status) {
+        case 'starting':
+            return 10
+        case 'agent_chosen':
+            return 20
+        case 'llm_answer_received':
+            return 45
+        case 'code_ready':
+            return 50
+        case 'script_started':
+            return 60
+        case 'script_executed':
+            return 90
+        default:
+            return 0
+    }
+})
 </script>
 
 <template>
-    <div class="flex flex-col items-center gap-2">
-
+    <div v-if="['starting', 'agent_chosen', 'llm_answer_received'].includes(response.status) && !response.text.includes('Hi, how can I help you today?')">
+        <Progress v-model="progress"></Progress>
+    </div>
+    <div v-else class="flex flex-col items-center gap-2">
         <!-- ERROR -->
         <template v-if="response.error.length != 0">
             <FailedCard></FailedCard>
@@ -131,6 +153,9 @@ function askFollowup(followup: string) {
                     </div>
                 </div>
             </div>
+
+            <!-- PROGRESS -->
+            <Progress v-if="response.status != 'done' || !response.text.includes('Hi, how can I help you today?')" v-model="progress"></Progress>
 
             <!-- IMAGE -->
             <Dialog v-if="response.image != ''">

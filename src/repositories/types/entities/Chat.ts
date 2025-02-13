@@ -12,5 +12,6 @@ export interface Message {
     image: string;
     agent: string;
     error: string;
+    status: string;
     timestamp: Date;
 }
