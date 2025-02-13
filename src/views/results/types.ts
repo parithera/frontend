@@ -1,10 +1,12 @@
 export type ChatContent = {
     request: string;
-    response: string;
-    image: string;
-    data: string;
+    code: string;
+    followup: Array<string>;
     text: string;
-    result: string;
+    JSON: object;
+    image: string;
+    error: string;
+    agent: string;
 };
 
 export type Group = {

@@ -25,6 +25,7 @@ import { SampleRepository } from '@/repositories/SampleRepository';
 import LinkSamplesToProject from './LinkSamplesToProject.vue';
 import SampleMenu from './SampleMenu.vue';
 import moment from 'moment';
+import { error } from 'console';
 
 const state = useStateStore();
 state.$reset();
@@ -49,11 +50,13 @@ const sampleRepository: SampleRepository = new SampleRepository();
 let chat_content: Ref<ChatContent[]> = ref([
     {
         request: '',
-        response: 'Hi, how can I help you today?',
+        text: 'Hi, how can I help you today?',
+        code: '',
+        followup: [],
+        JSON: {},
         image: '',
-        data: '',
-        text: '',
-        result: ''
+        error: '',
+        agent: '',
     }
 ]);
 
@@ -190,12 +193,9 @@ onMounted(async () => {
                                     </div>
                                 </div>
 
-                                <ResponseCard :markdown_content="chat_element.response" :image="chat_element.image"
-                                    :data="chat_element.data" :text="chat_element.text" :result="chat_element.result"
-                                    :id="index">
-                                </ResponseCard>
+                                <ResponseCard :response="chat_element" :id="index"></ResponseCard>
                                 <div class="pl-4 flex flex-col items-center" v-if="
-                                    chat_element.response.endsWith(
+                                    chat_element.text.endsWith(
                                         'Please wait while the script is running'
                                     ) && chat_element.image == ''
                                 ">

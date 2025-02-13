@@ -1,19 +1,41 @@
 import { defineStore } from 'pinia';
 import { io, Socket } from 'socket.io-client';
 
-interface Response {
-    data: string;
-    type: string;
+
+enum ResponseType {
+    INFO = 'info',
+    ERROR = 'error',
+    SUCCESS = 'success'
 }
 
-export const useConnectionStore = defineStore('connection', {
+interface ResponseData {
+    code: string;
+    followup: Array<string>;
+    text: string;
+    JSON: object;
+    image: string;
+    error: string;
+    agent: string;
+}
+
+interface Response {
+    data: ResponseData;
+    type: ResponseType;
+}
+
+interface Request {
+    request: string;
+    projectId: string;
+    userId: string;
+    organizationId: string;
+}
+
+export const useChatStore = defineStore('chat', {
     state: () => ({
         isConnected: false,
         socket: null as Socket | null,
-        svg_elbow: '',
-        svg_umap: '',
-        svg_variable_features: '',
-        svg_violin: ''
+        response: null as Response | null,
+        request: ''
     }),
     getters: {
         getSocket(): Socket {
@@ -38,22 +60,18 @@ export const useConnectionStore = defineStore('connection', {
             });
         },
 
-        fetchGraphs(data: object) {            
-            this.socket?.emit('graphs', data, (response: Response) => {
-                if (response.type == 'pca_variance_ratio') this.svg_elbow = response.data;
-                else if (response.type == 'violin') this.svg_violin = response.data;
-                else if (response.type == 'umap') this.svg_umap = response.data;
-                else if (response.type == 'filter_genes_dispersion')
-                    this.svg_variable_features = response.data;
-
-                if (
-                    this.svg_elbow != '' &&
-                    this.svg_umap != '' &&
-                    this.svg_violin != '' &&
-                    this.svg_variable_features != ''
-                ) {
+        askChat(data: Request) {            
+            this.request = data.request
+            this.socket?.emit('chat', data, (response: Response) => {
+                if (response.type == ResponseType.INFO) {
+                    this.response = response;
                     this.socket?.disconnect();
                 }
+                else if (response.type == ResponseType.SUCCESS) {
+                    this.socket?.disconnect();
+                    this.response = response;
+                }
+                else if (response.type == ResponseType.ERROR) this.socket?.disconnect();
             });
         },
 

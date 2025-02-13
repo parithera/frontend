@@ -5,10 +5,12 @@ export interface Chat {
 
 export interface Message {
     request: string;
-    response: string;
-    image: string;
-    data: string;
+    code: string;
+    followup: string[]
     text: string;
-    result: string;
+    JSON: object;
+    image: string;
+    agent: string;
+    error: string;
     timestamp: Date;
 }

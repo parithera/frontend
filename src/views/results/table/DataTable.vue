@@ -34,6 +34,7 @@ import { useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useAuthStore } from '@/stores/auth'
 import { SampleRepository } from '@/repositories/SampleRepository'
+import { ChevronDown } from 'lucide-vue-next'
 
 const props = defineProps<{
     columns: ColumnDef<TData, TValue>[]
