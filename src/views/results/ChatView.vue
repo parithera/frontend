@@ -16,7 +16,7 @@ import Avatar from '@/shadcn/ui/avatar/Avatar.vue';
 import AvatarImage from '@/shadcn/ui/avatar/AvatarImage.vue';
 import AvatarFallback from '@/shadcn/ui/avatar/AvatarFallback.vue';
 import { BusinessLogicError } from '@/repositories/BaseRepository';
-import ResponseCard from '@/views/projects/ReponseCard.vue';
+import ResponseCard from '@/views/results/ReponseCard.vue';
 import { useStateStore } from '@/stores/state';
 import Progress from '@/shadcn/ui/progress/Progress.vue';
 import type { ChatContent } from './types';
@@ -25,7 +25,6 @@ import { SampleRepository } from '@/repositories/SampleRepository';
 import LinkSamplesToProject from './LinkSamplesToProject.vue';
 import SampleMenu from './SampleMenu.vue';
 import moment from 'moment';
-import { error } from 'console';
 
 const state = useStateStore();
 state.$reset();
@@ -158,12 +157,11 @@ onMounted(async () => {
             <ResizablePanel class="h-[calc(100vh-4rem)] p-4 flex flex-col items-center justify-center"
                 :default-size="60">
                 <div v-if="samples.length == 0" class="w-full flex flex-col gap-2 items-center justify-center">
-                    <div class="text-2xl">Select samples to use in this project</div>
                     <LinkSamplesToProject v-model:samples="samples" :project_id="selected_project.id" />
                 </div>
 
                 <ScrollArea v-else class="h-full w-full mb-16">
-                    <div class="flex flex-col-reverse">
+                    <div class="flex flex-col-reverse pb-20">
                         <div class="border-l hover:border-primary pl-2 pt-4 flex flex-col gap-4"
                             v-for="(chat_element, index) in chat_content" :key="index">
                             <div v-if="chat_element.request != ''" class="flex flex-col gap-2">

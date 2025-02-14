@@ -30,14 +30,14 @@ import { Input } from '@/shadcn/ui/input'
 import { Button } from '@/shadcn/ui/button';
 import { ref, watch, type ModelRef, type Ref } from 'vue';
 import type { Sample } from '@/repositories/types/entities/Sample'
-import { useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useAuthStore } from '@/stores/auth'
-import { SampleRepository } from '@/repositories/SampleRepository'
 import { ChevronDown } from 'lucide-vue-next'
 import { useLinkSamplesStore } from '@/sockets/link_samples'
 import { storeToRefs } from 'pinia'
 import type { Group } from '../types'
+import Progress from '@/shadcn/ui/progress/Progress.vue'
+import { Icon } from '@iconify/vue/dist/iconify.js'
 
 const props = defineProps<{
     columns: ColumnDef<TData, TValue>[]
@@ -82,11 +82,14 @@ const samples: ModelRef<Array<Sample>> = defineModel('samples', { required: true
 
 // Refs
 const selected_samples: Ref<Array<Sample>> = ref([])
+const loading: Ref<boolean> = ref(false)
+const progress: Ref<number> = ref (0)
 
 const linkSamplesStore = useLinkSamplesStore();
 const { response } = storeToRefs(linkSamplesStore);
 
-async function importSamplesToProject(selected_rows:Row<TData>[]) {
+async function importSamplesToProject(selected_rows: Row<TData>[]) {
+    loading.value = true
     linkSamplesStore.$reset();
     linkSamplesStore.createSocket(authStore.getToken ?? '');
     // remove any existing listeners (after a hot module replacement)
@@ -112,15 +115,40 @@ async function importSamplesToProject(selected_rows:Row<TData>[]) {
     });
 }
 
-watch(response, ()=>{
+watch(response, () => {
     if (response.value?.data.status == 'done') {
         samples.value = selected_samples.value
+    }
+})
+
+
+watch(loading, ()=>{
+    if (loading.value) {
+        let currentProgress = 0;
+        const interval = setInterval(() => {
+            currentProgress += 1;
+            progress.value = Math.min(currentProgress, 100);
+            if (progress.value >= 100) {
+                clearInterval(interval);
+            }
+        }, 600); // Increment progress every 600ms to reach 100 in about 1 minute
+    } else {
+        progress.value = 0; // Reset progress when loading is false
     }
 })
 </script>
 
 <template>
-    <div class="flex flex-col gap-4">
+    <div v-if="loading" class="flex flex-col items-center space-y-3">
+        <div class="text-2xl flex gap-2 items-center">
+            <Icon class="animate-spin" icon="tabler:loader-2"></Icon> 
+            <span>Linking samples to project</span>
+        </div>
+        <div>Please wait</div>
+        <Progress v-model="progress"></Progress>
+    </div>
+    <div v-else class="flex flex-col gap-4">
+        <div class="text-2xl">Select samples to use in this project</div>
         <div class="flex items-center gap-2">
             <Input class="max-w-sm" placeholder="Filter names..."
                 :model-value="table.getColumn('name')?.getFilterValue() as string"
@@ -180,6 +208,6 @@ watch(response, ()=>{
                 </TableBody>
             </Table>
         </div>
-        <Button @click="importSamplesToProject(table.getSelectedRowModel().flatRows)" >Import</Button>
+        <Button @click="importSamplesToProject(table.getSelectedRowModel().flatRows)">Import</Button>
     </div>
 </template>

@@ -13,7 +13,7 @@ import { Icon } from '@iconify/vue/dist/iconify.js';
 import MarkdownIt from 'markdown-it';
 import hljs from 'highlight.js';
 import { computed, ref, type Ref } from 'vue';
-import type { ChatContent } from '../results/types';
+import type { ChatContent } from './types';
 import FailedCard from './FailedCard.vue';
 import Separator from '@/shadcn/ui/separator/Separator.vue';
 import { Progress } from '@/shadcn/ui/progress';
@@ -93,8 +93,8 @@ const progress = computed(()=>{
 </script>
 
 <template>
-    <div v-if="['starting', 'agent_chosen', 'llm_answer_received'].includes(response.status) && !response.text.includes('Hi, how can I help you today?')">
-        <Progress v-model="progress"></Progress>
+    <div class="flex flex-col items-center" v-if="['starting', 'agent_chosen', 'llm_answer_received'].includes(response.status) && !response.text.includes('Hi, how can I help you today?')">
+        <Progress class="w-1/2 pt-4" v-model="progress"></Progress>
     </div>
     <div v-else class="flex flex-col items-center gap-2">
         <!-- ERROR -->
