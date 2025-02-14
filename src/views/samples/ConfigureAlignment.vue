@@ -130,10 +130,10 @@ const onFileSubmit = handleSubmit(async (values) => {
                     <SelectContent>
                         <!-- https://kb.10xgenomics.com/hc/en-us/articles/115004506263-What-is-a-barcode-whitelist -->
                         <SelectGroup>
-                            <SelectItem value="hydrop">
+                            <!-- <SelectItem value="hydrop">
                                 HyDrop
                             </SelectItem>
-                            <Separator></Separator>
+                            <Separator></Separator> -->
                             <!-- <SelectItem value="10x-2014">
                                 Single Cell 3' v1 (2014)
                             </SelectItem> -->
