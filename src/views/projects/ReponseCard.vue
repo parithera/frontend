@@ -155,7 +155,10 @@ const progress = computed(()=>{
             </div>
 
             <!-- PROGRESS -->
-            <Progress v-if="response.status != 'done' || !response.text.includes('Hi, how can I help you today?')" v-model="progress"></Progress>
+             <div v-if="response.status != 'done' && !response.text.includes('Hi, how can I help you today?')" class="flex flex-col gpa-2 items-center w-1/2">
+                <span class="flex gap-2 items-center"><Icon class="animate-spin" icon="tabler:loader-2"></Icon> Executing your script</span>
+                <Progress v-model="progress"></Progress>
+             </div>
 
             <!-- IMAGE -->
             <Dialog v-if="response.image != ''">

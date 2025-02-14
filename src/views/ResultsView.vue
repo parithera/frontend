@@ -1,10 +1,6 @@
 <script lang="ts" setup>
 import { useStateStore } from '@/stores/state';
 import ChatView from './results/ChatView.vue';
-import { useConnectionStore } from '@/stores/connection';
-
-const connectionStore = useConnectionStore();
-connectionStore.$reset();
 
 const state = useStateStore();
 state.$reset();

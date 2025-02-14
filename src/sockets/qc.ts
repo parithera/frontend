@@ -6,7 +6,7 @@ interface Response {
     type: string;
 }
 
-export const useConnectionStore = defineStore('connection', {
+export const useQCStore = defineStore('connection', {
     state: () => ({
         isConnected: false,
         socket: null as Socket | null,

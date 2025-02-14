@@ -57,11 +57,6 @@ export interface CreateAnalysisOptions extends AuthRepoMethodPostRequestOptions<
     sampleId: string;
 }
 
-export interface PatchProjectSampleAssociation
-    extends AuthRepoMethodPatchRequestOptions<AssociateProjectToSamples> {
-    orgId: string;
-}
-
 export class SampleRepository extends BaseRepository {
     async getSamples(options: GetSamplesRequestOptions): Promise<PaginatedResponse<Sample>> {
         const RELATIVE_URL = `/org/${options.orgId}/samples`;
@@ -164,33 +159,18 @@ export class SampleRepository extends BaseRepository {
         return Entity.unMarshal<CreatedResponse>(response, CreatedResponse);
     }
 
-    async associateProjectToSamples(options: PatchProjectSampleAssociation): Promise<NoDataResponse> {
-        const RELATIVE_URL = `/org/${options.orgId}/samples/linktoproject`;
+    async deleteSample(options: DeleteSampleOptions): Promise<NoDataResponse> {
+        const RELATIVE_URL = `/org/${options.orgId}/samples/${options.sampleId}`;
 
-        const response = await this.patchRequest<NoDataResponse, AssociateProjectToSamples>({
+        const response = await this.deleteRequest<NoDataResponse, EmptyPostData>({
             bearerToken: options.bearerToken,
-            data: options.data,
             url: this.buildUrl(RELATIVE_URL),
             handleBusinessErrors: options.handleBusinessErrors,
             handleHTTPErrors: options.handleHTTPErrors,
-            handleOtherErrors: options.handleOtherErrors
+            handleOtherErrors: options.handleOtherErrors,
+            data: {}
         });
 
         return Entity.unMarshal<NoDataResponse>(response, NoDataResponse);
     }
-    
-        async deleteSample(options: DeleteSampleOptions): Promise<NoDataResponse> {
-            const RELATIVE_URL = `/org/${options.orgId}/samples/${options.sampleId}`;
-    
-            const response = await this.deleteRequest<NoDataResponse, EmptyPostData>({
-                bearerToken: options.bearerToken,
-                url: this.buildUrl(RELATIVE_URL),
-                handleBusinessErrors: options.handleBusinessErrors,
-                handleHTTPErrors: options.handleHTTPErrors,
-                handleOtherErrors: options.handleOtherErrors,
-                data: {}
-            });
-    
-            return Entity.unMarshal<NoDataResponse>(response, NoDataResponse);
-        }
 }

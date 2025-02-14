@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
-import { useConnectionStore } from '@/stores/connection';
+import { useQCStore } from '@/sockets/qc';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { useRoute, useRouter } from 'vue-router';
@@ -10,7 +10,7 @@ import { Icon } from '@iconify/vue/dist/iconify.js';
 import pako from 'pako';
 import Button from '@/shadcn/ui/button/Button.vue';
 
-const connectionStore = useConnectionStore();
+const qcStore = useQCStore();
 const authStore = useAuthStore();
 const userStore = useUserStore();
 
@@ -20,21 +20,21 @@ const sampleRepository: SampleRepository = new SampleRepository();
 // Refs
 const multiqc: Ref<string> = ref('');
 
-const { svg_elbow, svg_umap, svg_violin, svg_variable_features } = storeToRefs(connectionStore);
+const { svg_elbow, svg_umap, svg_violin, svg_variable_features } = storeToRefs(qcStore);
 
 async function fetchGraphs() {
-    connectionStore.$reset();
-    connectionStore.createSocket(authStore.getToken ?? '');
+    qcStore.$reset();
+    qcStore.createSocket(authStore.getToken ?? '');
     // remove any existing listeners (after a hot module replacement)
-    connectionStore.getSocket.off();
-    connectionStore.bindEvents();
-    connectionStore.connect();
+    qcStore.getSocket.off();
+    qcStore.bindEvents();
+    qcStore.connect();
 
     const route = useRoute();
 
     const graphs = ['pca_variance_ratio', 'violin', 'umap', 'filter_genes_dispersion'];
     for (const graph of graphs) {
-        connectionStore.fetchGraphs({
+        qcStore.fetchGraphs({
             sampleId: route.query.sampleId,
             orgId: userStore.defaultOrg?.id ?? '',
             type: graph

@@ -14,3 +14,8 @@ export type Group = {
     name: string;
     files: Array<string>
 };
+
+export type SampleElement = {
+    name: string;
+    id: string
+}

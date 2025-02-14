@@ -28,13 +28,16 @@ import {
 } from '@/shadcn/ui/dropdown-menu'
 import { Input } from '@/shadcn/ui/input'
 import { Button } from '@/shadcn/ui/button';
-import { ref, type ModelRef } from 'vue';
+import { ref, watch, type ModelRef, type Ref } from 'vue';
 import type { Sample } from '@/repositories/types/entities/Sample'
 import { useRoute } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useAuthStore } from '@/stores/auth'
 import { SampleRepository } from '@/repositories/SampleRepository'
 import { ChevronDown } from 'lucide-vue-next'
+import { useLinkSamplesStore } from '@/sockets/link_samples'
+import { storeToRefs } from 'pinia'
+import type { Group } from '../types'
 
 const props = defineProps<{
     columns: ColumnDef<TData, TValue>[]
@@ -77,33 +80,48 @@ const userStore = useUserStore();
 // Models
 const samples: ModelRef<Array<Sample>> = defineModel('samples', { required: true });
 
+// Refs
+const selected_samples: Ref<Array<Sample>> = ref([])
 
-// Repositories
-const sampleRepository: SampleRepository = new SampleRepository();
+const linkSamplesStore = useLinkSamplesStore();
+const { response } = storeToRefs(linkSamplesStore);
 
 async function importSamplesToProject(selected_rows:Row<TData>[]) {
-    const ids_to_link: Array<string> = []
+    linkSamplesStore.$reset();
+    linkSamplesStore.createSocket(authStore.getToken ?? '');
+    // remove any existing listeners (after a hot module replacement)
+    linkSamplesStore.getSocket.off();
+    linkSamplesStore.bindEvents();
+    linkSamplesStore.connect();
+
+    const groups: Array<Group> = []
     for (const row of selected_rows) {
         const sample = row.original as Sample
-        samples.value.push(sample)
-        ids_to_link.push(sample.id)
+        selected_samples.value.push(sample)
+        groups.push({
+            name: sample.name,
+            files: [sample.id]
+        })
     }
 
-    const res = await sampleRepository.associateProjectToSamples({
-        orgId: userStore.defaultOrg?.id ?? '',
-        data: {
-            samples: ids_to_link,
-            projectId: props.project_id
-        },
-        bearerToken: authStore.getToken ?? '',
-        handleBusinessErrors: true
+    linkSamplesStore.askChat({
+        groups: groups,
+        projectId: props.project_id,
+        userId: userStore.user?.id ?? '',
+        organizationId: userStore.getDefaultOrg?.id ?? ''
     });
 }
+
+watch(response, ()=>{
+    if (response.value?.data.status == 'done') {
+        samples.value = selected_samples.value
+    }
+})
 </script>
 
 <template>
-    <div>
-        <div class="flex items-center py-4">
+    <div class="flex flex-col gap-4">
+        <div class="flex items-center gap-2">
             <Input class="max-w-sm" placeholder="Filter names..."
                 :model-value="table.getColumn('name')?.getFilterValue() as string"
                 @update:model-value=" table.getColumn('name')?.setFilterValue($event)" />

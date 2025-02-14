@@ -14,7 +14,7 @@ import { Icon } from '@iconify/vue/dist/iconify.js';
 import { useForm } from 'vee-validate';
 import { useTemplateRef, watch, type ModelRef } from 'vue';
 import type { ChatContent } from '../results/types';
-import { useChatStore } from '@/stores/chat';
+import { useChatStore } from '@/sockets/chat';
 import { storeToRefs } from 'pinia';
 
 const props = defineProps<{
