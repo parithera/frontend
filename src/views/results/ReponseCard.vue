@@ -192,8 +192,8 @@ const progress = computed(()=>{
             </Dialog>
 
             <!-- DATA -->
-            <div v-if="Object.keys(response.JSON).length !== 0">
-                {{ response.JSON }}
+            <div v-if="response.json && Object.keys(response.json).length !== 0">
+                {{ response.json }}
             </div>
 
             <!-- CODE -->

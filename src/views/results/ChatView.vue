@@ -52,7 +52,7 @@ let chat_content: Ref<ChatContent[]> = ref([
         text: 'Hi, how can I help you today?',
         code: '',
         followup: [],
-        JSON: {},
+        json: {},
         image: '',
         error: '',
         status: '',

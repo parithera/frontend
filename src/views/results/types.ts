@@ -3,7 +3,7 @@ export type ChatContent = {
     code: string;
     followup: Array<string>;
     text: string;
-    JSON: object;
+    json: object;
     image: string;
     error: string;
     status: string,

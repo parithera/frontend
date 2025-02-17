@@ -8,7 +8,7 @@ export interface Message {
     code: string;
     followup: string[]
     text: string;
-    JSON: object;
+    json: object;
     image: string;
     agent: string;
     error: string;
