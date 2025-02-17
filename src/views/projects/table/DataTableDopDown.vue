@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { BusinessLogicError } from '@/repositories/BaseRepository';
 import { ProjectRepository } from '@/repositories/ProjectRepository';
+import { SampleRepository } from '@/repositories/SampleRepository';
 import type { Project } from '@/repositories/types/entities/Project';
 import router from '@/router';
 import { Button } from '@/shadcn/ui/button'
@@ -21,7 +22,7 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 
 // Repositories
-const projectRepository: ProjectRepository = new ProjectRepository();
+const sampleRepository: SampleRepository = new SampleRepository();
 
 defineEmits<{
     (e: 'expand'): void
@@ -33,7 +34,7 @@ function goToProject(project_id: string) {
 
 async function deleteProject(project_id: string) {
     try {
-        await projectRepository.deleteProject({
+        await sampleRepository.deleteProject({
             bearerToken: authStore.getToken ?? '',
             handleBusinessErrors: true,
             projectId: project_id,

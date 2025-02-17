@@ -48,6 +48,11 @@ export interface DeleteSampleOptions extends AuthRepoMethodEmptyDeleteRequestOpt
     sampleId: string;
 }
 
+export interface DeleteProjectOptions extends AuthRepoMethodEmptyDeleteRequestOptions {
+    orgId: string;
+    projectId: string;
+}
+
 export interface CreateSampleOptions extends AuthRepoMethodPostRequestOptions<CreateSample> {
     orgId: string;
 }
@@ -161,6 +166,21 @@ export class SampleRepository extends BaseRepository {
 
     async deleteSample(options: DeleteSampleOptions): Promise<NoDataResponse> {
         const RELATIVE_URL = `/org/${options.orgId}/samples/${options.sampleId}`;
+
+        const response = await this.deleteRequest<NoDataResponse, EmptyPostData>({
+            bearerToken: options.bearerToken,
+            url: this.buildUrl(RELATIVE_URL),
+            handleBusinessErrors: options.handleBusinessErrors,
+            handleHTTPErrors: options.handleHTTPErrors,
+            handleOtherErrors: options.handleOtherErrors,
+            data: {}
+        });
+
+        return Entity.unMarshal<NoDataResponse>(response, NoDataResponse);
+    }
+
+    async deleteProject(options: DeleteProjectOptions): Promise<NoDataResponse> {
+        const RELATIVE_URL = `/org/${options.orgId}/samples/project/${options.projectId}`;
 
         const response = await this.deleteRequest<NoDataResponse, EmptyPostData>({
             bearerToken: options.bearerToken,
