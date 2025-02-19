@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { FileRepository } from '@/repositories/FileRepository';
-import type { Project } from '@/repositories/types/entities/Project';
 import Button from '@/shadcn/ui/button/Button.vue';
 import { FormField } from '@/shadcn/ui/form';
 import FormControl from '@/shadcn/ui/form/FormControl.vue';
@@ -16,7 +14,12 @@ import Progress from '@/shadcn/ui/progress/Progress.vue';
 import { ref, useTemplateRef, type ModelRef, type Ref } from 'vue';
 import { ProjectFile } from '@/repositories/types/entities/ProjectFile';
 import { SampleRepository } from '@/repositories/SampleRepository';
+import Switch from '@/shadcn/ui/switch/Switch.vue';
 
+const props = defineProps<{
+    sample_id: string;
+    align: Function
+}>();
 
 // Repositories
 const sampleRepository: SampleRepository = new SampleRepository();
@@ -26,8 +29,6 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 
 // Models
-const sample_id: ModelRef<string> = defineModel('sample_id', { required: true });
-const file_type: ModelRef<string> = defineModel('file_type', { required: true });
 const files_uploaded: ModelRef<Array<ProjectFile>> = defineModel('files_uploaded', { required: true });
 
 // Refs
@@ -49,16 +50,14 @@ const { handleSubmit } = useForm({
 const onFileSubmit = handleSubmit(async (values) => {
     const files: Array<File> = values.file as Array<File>;
     let count_files = 0
-    file_type.value = "fastq"
     for (const file of files) {
         // const type: string = values.type as string;
         let file_name = file.name;
 
         if (file.name.includes('.h5')) {
             file_name = 'data.h5';
-            file_type.value = "h5"
         }
-        
+
         const chunkSize = 1024 * 1024 * 10; // size of each chunk (10MB)
         let start = 0;
         let id = 0;
@@ -88,17 +87,17 @@ const onFileSubmit = handleSubmit(async (values) => {
                     hash: hash,
                     last: "false"
                 },
-                projectId: sample_id.value,
+                projectId: props.sample_id,
                 organizationId: userStore.getDefaultOrg?.id ?? ''
             }).catch(err => {
                 console.error(err);
             })
-            .finally(()=>{
-                progress_preprocess.value = start/file.size * 100
-                progress_message.value = "Uploading file " + count_files + "/"+files.length
-                start += chunkSize;
-            });
-            id ++;
+                .finally(() => {
+                    progress_preprocess.value = start / file.size * 100
+                    progress_message.value = "Uploading file " + count_files + "/" + files.length
+                    start += chunkSize;
+                });
+            id++;
         }
         await sampleRepository.upload({
             bearerToken: authStore.getToken ?? '',
@@ -111,7 +110,7 @@ const onFileSubmit = handleSubmit(async (values) => {
                 hash: "",
                 last: "true"
             },
-            projectId: sample_id.value,
+            projectId: props.sample_id,
             organizationId: userStore.getDefaultOrg?.id ?? ''
         })
         count_files += 1;
@@ -124,12 +123,16 @@ const onFileSubmit = handleSubmit(async (values) => {
         files_uploaded.value.push(createdfile);
     }
 
-    toast({
-        title: 'File uploaded successfully!',
-        description: 'Please wait while we preprocess the file...'
-    });
-
     uploading.value = false;
+
+    if (values.align) {
+        toast({
+            title: 'File uploaded successfully!',
+            description: 'Please wait while we preprocess the file...'
+        });
+        props.align()
+    }
+
 });
 </script>
 
@@ -139,24 +142,30 @@ const onFileSubmit = handleSubmit(async (values) => {
         <Progress v-model="progress_preprocess"></Progress>
     </div>
     <div v-else class="bg-secondary rounded flex flex-col gap-2 items-center justify-evenly p-2">
-        <form class="flex flex-col gap-2 items-start" @submit="onFileSubmit">
+        <form class="flex flex-col gap-4 items-start" @submit="onFileSubmit">
             <FormField v-slot="{ componentField }" name="file">
                 <FormItem>
                     <FormControl>
                         <input
                             class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
-                            type="file"
-                            multiple
-                            accept=".gz, .h5"
-                            v-bind="componentField"
-                            ref="input"
-                            @input="setSelectionType"
-                        />
+                            type="file" multiple accept=".gz, .h5" v-bind="componentField" ref="input"
+                            @input="setSelectionType" />
                     </FormControl>
                     <FormDescription>
                         <span>Upload your gene sequencing file (.h5, .fastq.gz).</span>
                     </FormDescription>
                     <FormMessage />
+                </FormItem>
+            </FormField>
+
+            <FormField v-slot="{ value, handleChange }" name="align">
+                <FormItem class="grid grid-cols-4 items-center gap-4">
+                    <FormDescription class="col-span-3">
+                        Automatically align once file upload is complete
+                    </FormDescription>
+                    <FormControl>
+                        <Switch :checked="value" @update:checked="handleChange" />
+                    </FormControl>
                 </FormItem>
             </FormField>
 

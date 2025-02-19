@@ -62,8 +62,6 @@ const table = useVueTable({
     },
 })
 
-console.log(table.getAllColumns());
-
 const sorting = ref<SortingState>([])
 const columnFilters = ref<ColumnFiltersState>([])
 const columnVisibility = ref<VisibilityState>({})
