@@ -94,7 +94,7 @@ const progress = computed(()=>{
 
 <template>
     <div class="flex flex-col items-center" v-if="['starting', 'agent_chosen', 'llm_answer_received'].includes(response.status) && !response.text.includes('Hi, how can I help you today?')">
-        <Progress class="w-1/2 pt-4" v-model="progress"></Progress>
+        <Progress class="w-1/2" v-model="progress"></Progress>
     </div>
     <div v-else class="flex flex-col items-center gap-2">
         <!-- ERROR -->
