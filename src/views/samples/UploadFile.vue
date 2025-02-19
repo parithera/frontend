@@ -3,8 +3,13 @@ import { FileRepository } from '@/repositories/FileRepository';
 import type { ProjectFile } from '@/repositories/types/entities/ProjectFile';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
-import { ref, type ModelRef, type Ref } from 'vue';
+import { type ModelRef } from 'vue';
 import UploadForm from './upload/UploadForm.vue';
+
+const props = defineProps<{
+    sample_id: string;
+    align: Function;
+}>();
 
 // Repositories
 const fileRepository: FileRepository = new FileRepository();
@@ -14,28 +19,28 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 
 // Models
-const sample_id: ModelRef<string> = defineModel('sample_id', { required: true });
-const file_type: ModelRef<string> = defineModel('file_type', { required: true });
 const files_uploaded: ModelRef<Array<ProjectFile>> = defineModel('files_uploaded', { required: true });
 
 async function deleteFile(file: ProjectFile) {
     await fileRepository.deleteFile({
         bearerToken: authStore.getToken ?? '',
         fileId: file.id,
-        projectId: sample_id.value,
+        projectId: props.sample_id,
         organizationId: userStore.getDefaultOrg?.id ?? ''
     });
 }
 
 function filterName(name: string) {
-    return name.replace(".fastq.gz", "")
+    const first = name.substring(0, 15);
+    const end = name.replace('.fastq.gz','').slice(-15);
+    return first+"..."+end;
 }
 
 </script>
 
 <template>
-    <UploadForm v-model:sample_id="sample_id" v-model:file_type="file_type" v-model:files_uploaded="files_uploaded"></UploadForm>
-    <div class="flex flex-col gap-2 items-center">
+    <UploadForm :sample_id="sample_id" v-model:files_uploaded="files_uploaded" :align="align"></UploadForm>
+    <div v-if="files_uploaded.length > 0" class="flex flex-col gap-2 items-center">
         <span class="font-bold">File uploaded</span>
         <div v-for="file in files_uploaded" :key="file.id"
             class="flex w-full items-center gap-2 justify-between">
