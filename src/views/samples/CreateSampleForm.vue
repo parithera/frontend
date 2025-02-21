@@ -175,14 +175,17 @@ async function align() {
                         <SelectContent>
                             <!-- https://kb.10xgenomics.com/hc/en-us/articles/115004506263-What-is-a-barcode-whitelist -->
                             <SelectGroup>
-                                <SelectItem value="10x-2014">
+                                <SelectItem value="10x-3p-v1">
                                     Single Cell 3' v1 (2014)
                                 </SelectItem>
-                                <SelectItem value="10x-2016">
-                                    Single Cell 3' v2, Single Cell 5' v1 and v2, Single Cell 5' HT v2 (2016)
+                                <SelectItem value="10x-3p-v2">
+                                    Single Cell 3' v2 (2016)
                                 </SelectItem>
-                                <SelectItem value="10x-2018">
-                                    Single Cell 3' v3, Single Cell 3' v3.1, Single Cell 3' HT v3.1 (2018)
+                                <SelectItem value="10x-3p-v3">
+                                    Single Cell 3' v3, Single Cell 3' v3.1 (2018)
+                                </SelectItem>
+                                <SelectItem value="10x-5p">
+                                    Single Cell 5' v1 and v2 (2016)
                                 </SelectItem>
                             </SelectGroup>
                         </SelectContent>
