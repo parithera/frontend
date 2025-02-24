@@ -31,9 +31,11 @@ async function deleteFile(file: ProjectFile) {
 }
 
 function filterName(name: string) {
-    const first = name.substring(0, 15);
-    const end = name.replace('.fastq.gz','').slice(-15);
-    return first+"..."+end;
+    name = name.replace('.fastq.gz','')
+    if (name.length > 15) {
+        return name.substring(0, 12) + '...';
+    }
+    return name
 }
 
 </script>

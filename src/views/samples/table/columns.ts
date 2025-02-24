@@ -92,19 +92,26 @@ export const columns: ColumnDef<Sample>[] = [
             }, () => ['Quality Control', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
         },
         cell: ({ row }) => {
-            return h(
-                RouterLink,
-                {
-                    class: 'pl-4 text-primary',
-                    to:{
-                        name: 'samples',
-                        params: { page: 'qc' },
-                        query: { 
-                            sampleId: row.original.id 
+            if (row.original.show == '') {
+                return h(
+                    RouterLink,
+                    {
+                        class: 'pl-4 text-primary',
+                        to:{
+                            name: 'samples',
+                            params: { page: 'qc' },
+                            query: { 
+                                sampleId: row.original.id 
+                            }
                         }
-                    }
-                },
-                'Show QC')
+                    },
+                    'Show QC')
+            } else {
+                return h('a', {
+                    class: 'pl-4 text-primary cursor-pointer',
+                    href: row.original.show
+                }, 'Explore')
+            }
         },
     },
     {

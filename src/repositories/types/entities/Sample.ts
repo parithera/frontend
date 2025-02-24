@@ -15,6 +15,19 @@ export class Sample {
 
     @IsNotEmpty()
     tags!: string[];
+    
+    @IsNotEmpty()
+    public!: boolean;
+
+    organism!: string;
+    
+    assay!: string;
+
+    cells!: number;
+
+    show!: string;
+
+    download!: string;
 
     @IsOptional()
     @Type(() => Array<ProjectFile>)

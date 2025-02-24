@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import { SampleRepository } from '@/repositories/SampleRepository';
 import DataTable from './table/DataTable.vue';
 import { columns } from './table/columns';
+import { ref, type Ref } from 'vue';
+import type { Sample } from '@/repositories/types/entities/Sample';
+import { useAuthStore } from '@/stores/auth';
+import { useUserStore } from '@/stores/user';
 
 export interface Dataset {
     name: string;
@@ -12,29 +17,40 @@ export interface Dataset {
     explore: string;
 }
 
-const datasets: Dataset[] = [{
-    name: "Breast Cancer RNA-Seq (SRR24415332)",
-    disease: "Breast Cancer",
-    platform: "10x Genomics 3' v3",
-    organism: "Homo sapiens",
-    reads: "29,956,708",
-    study: "https://trace.ncbi.nlm.nih.gov/Traces/?view=study&acc=SRP435680",
-    explore: "https://trace.ncbi.nlm.nih.gov/Traces/?view=run_browser&page_size=10&acc=SRR24415332&display=metadata"
-},
-{
-    name: "RNA-Seq of mus musculus: tumor (SRR32254714)",
-    disease: "Lung Cancer",
-    platform: "10x Genomics 3' v3",
-    organism: "Mus Musculus",
-    reads: "24,059,741",
-    study: "https://trace.ncbi.nlm.nih.gov/Traces/?view=study&acc=SRP561972",
-    explore: "https://trace.ncbi.nlm.nih.gov/Traces/?view=run_browser&acc=SRR32254714&display=metadata"
-}]
+const authStore = useAuthStore();
+const userStore = useUserStore();
+
+// Repositories
+const sampleRepository: SampleRepository = new SampleRepository();
+
+const samples: Ref<Array<Sample>> = ref([])
+
+async function getSamples() {
+    const samples_retrieved = await sampleRepository.getPublicSamples({
+        bearerToken: authStore.getToken ?? '',
+        orgId: userStore.defaultOrg?.id ?? '',
+        pagination: {
+            page: 0,
+            entries_per_page: 0
+        },
+        search: {
+            searchKey: ''
+        },
+        sort: {
+            sortKey: '',
+            sortDirection: undefined
+        }
+    });
+
+    samples.value = samples_retrieved.data;
+}
+
+getSamples();
 
 </script>
 
 <template>
     <div class="flex flex-col gap-6 items-center justify-center mt-20">
-        <DataTable class="w-3/4" :columns="columns" :data="datasets" />
+        <DataTable class="w-3/4" :columns="columns" :data="samples" />
     </div>
 </template>
