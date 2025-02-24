@@ -26,6 +26,7 @@ import router from '@/router';
 import type { Group } from './types';
 import type { ProjectFile } from '@/repositories/types/entities/ProjectFile';
 import { AnalyzerRepository } from '@/repositories/AnalyzerRepository';
+import Separator from '@/shadcn/ui/separator/Separator.vue';
 
 const authStore = useAuthStore();
 const userStore = useUserStore();
@@ -175,6 +176,10 @@ async function align() {
                         <SelectContent>
                             <!-- https://kb.10xgenomics.com/hc/en-us/articles/115004506263-What-is-a-barcode-whitelist -->
                             <SelectGroup>
+                                <SelectItem value="hydrop">
+                                    HyDrop
+                                </SelectItem>
+                                <Separator></Separator>
                                 <SelectItem value="10x-3p-v1">
                                     Single Cell 3' v1 (2014)
                                 </SelectItem>
