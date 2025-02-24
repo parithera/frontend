@@ -29,8 +29,17 @@ import {
 import { Input } from '@/shadcn/ui/input'
 import { Button } from '@/shadcn/ui/button';
 import { ref } from 'vue';
-import router from '@/router'
-import type { Dataset } from '../SelectDataset.vue'
+import type { Sample } from '@/repositories/types/entities/Sample'
+import { useAuthStore } from '@/stores/auth'
+import { useUserStore } from '@/stores/user'
+import { SampleRepository } from '@/repositories/SampleRepository'
+import { toast } from '@/shadcn/ui/toast'
+
+const authStore = useAuthStore();
+const userStore = useUserStore();
+
+// Repositories
+const sampleRepository: SampleRepository = new SampleRepository();
 
 const props = defineProps<{
     columns: ColumnDef<TData, TValue>[]
@@ -65,8 +74,17 @@ const columnVisibility = ref<VisibilityState>({})
 const rowSelection = ref({})
 const expanded = ref<ExpandedState>({})
 
-function goToURL(data:TData) {
-    window.open((data as Dataset).explore)
+async function importPublicSample(data: TData) {
+    const sample = data as Sample;
+    await sampleRepository.importPublicSample({
+        bearerToken: authStore.getToken ?? '',
+        orgId: userStore.defaultOrg?.id ?? '',
+        sampleId: sample.id,
+    });
+
+    toast({
+        title: 'Sample successfully imported'
+    })
 }
 </script>
 
@@ -108,9 +126,14 @@ function goToURL(data:TData) {
                 <TableBody>
                     <template v-if="table.getRowModel().rows?.length">
                         <template v-for="row in table.getRowModel().rows" :key="row.id">
-                            <TableRow class="cursor-pointer" @click="goToURL(row.original)" :data-state="row.getIsSelected() ? 'selected' : undefined">
+                            <TableRow :data-state="row.getIsSelected() ? 'selected' : undefined">
                                 <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
-                                    <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+                                    <div v-if="cell.column.id == 'import'" @click="importPublicSample(row.original)">
+                                        <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+                                    </div>
+                                    <div v-else>
+                                        <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+                                    </div>
                                 </TableCell>
                             </TableRow>
                             <TableRow v-if="row.getIsExpanded()">
@@ -137,8 +160,7 @@ function goToURL(data:TData) {
                 {{ table.getFilteredRowModel().rows.length }} row(s) selected.
             </div>
             <div class="flex gap-2">
-                <Button size="sm" v-if="table.getCanPreviousPage()"
-                    @click="table.previousPage()">
+                <Button size="sm" v-if="table.getCanPreviousPage()" @click="table.previousPage()">
                     Previous
                 </Button>
                 <Button size="sm" v-if="table.getCanNextPage()" @click="table.nextPage()">

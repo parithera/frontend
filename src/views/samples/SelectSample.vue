@@ -20,7 +20,7 @@ const sampleRepository: SampleRepository = new SampleRepository();
 const samples: Ref<Array<Sample> | undefined> = ref()
 const tags:Ref<Array<FilterOption>> = ref([])
 
-async function getProjects() {
+async function getSamples() {
     const samples_retrieved = await sampleRepository.getSamples({
         bearerToken: authStore.getToken ?? '',
         orgId: userStore.defaultOrg?.id ?? '',
@@ -52,7 +52,7 @@ async function getProjects() {
     }
 }
 
-getProjects();
+getSamples();
 </script>
 
 <template>

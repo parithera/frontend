@@ -2,27 +2,9 @@ import type { ColumnDef } from '@tanstack/vue-table'
 import { h } from 'vue'
 import { ArrowUpDown } from 'lucide-vue-next'
 import Button from '@/shadcn/ui/button/Button.vue';
-import { Checkbox } from '@/shadcn/ui/checkbox'
-import type { Dataset } from '../SelectDataset.vue';
+import type { Sample } from '@/repositories/types/entities/Sample';
 
-
-
-export const columns: ColumnDef<Dataset>[] = [
-    {
-        id: 'select',
-        header: ({ table }) => h(Checkbox, {
-            'checked': table.getIsAllPageRowsSelected(),
-            'onUpdate:checked': (value: boolean) => table.toggleAllPageRowsSelected(!!value),
-            'ariaLabel': 'Select all',
-        }),
-        cell: ({ row }) => h(Checkbox, {
-            'checked': row.getIsSelected(),
-            'onUpdate:checked': (value: boolean) => row.toggleSelected(!!value),
-            'ariaLabel': 'Select row',
-        }),
-        enableSorting: false,
-        enableHiding: false,
-    },
+export const columns: ColumnDef<Sample>[] = [
     {
         accessorKey: 'name',
 
@@ -38,34 +20,6 @@ export const columns: ColumnDef<Dataset>[] = [
         },
     },
     {
-        accessorKey: 'disease',
-
-        header: ({ column }) => {
-            return h(Button, {
-                variant: 'ghost',
-                onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
-            }, () => ['Disease', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
-        },
-        cell: ({ row }) => {
-            const disease = row.getValue('disease') as string;
-            return h('div', { class: 'text-left pl-4' }, disease)
-        },
-    },
-    {
-        accessorKey: 'platform',
-
-        header: ({ column }) => {
-            return h(Button, {
-                variant: 'ghost',
-                onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
-            }, () => ['Platform', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
-        },
-        cell: ({ row }) => {
-            const platform = row.getValue('platform') as string;
-            return h('div', { class: 'text-left pl-4' }, platform)
-        },
-    },
-    {
         accessorKey: 'organism',
 
         header: ({ column }) => {
@@ -75,33 +29,49 @@ export const columns: ColumnDef<Dataset>[] = [
             }, () => ['Organism', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
         },
         cell: ({ row }) => {
-            const organism = row.getValue('organism') as string;
-            return h('div', { class: 'text-left pl-4' }, organism)
+            const name = row.getValue('organism') as string;
+            return h('div', { class: 'text-left pl-4' }, name)
         },
     },
     {
-        accessorKey: 'reads',
+        accessorKey: 'assay',
 
         header: ({ column }) => {
             return h(Button, {
                 variant: 'ghost',
                 onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
-            }, () => ['Reads', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
+            }, () => ['Assay', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
         },
         cell: ({ row }) => {
-            const reads = row.getValue('reads') as string;
-            return h('div', { class: 'text-left pl-4' }, reads)
+            const name = row.getValue('assay') as string;
+            return h('div', { class: 'text-left pl-4' }, name)
         },
     },
     {
-        accessorKey: 'study',
+        accessorKey: 'cells',
 
-        header: ({ column }) => "Publication",
-        cell: ({ row }) => h('a',{class:"text-primary cursor-pointer", href: row.getValue('study') as string}, "NIH"),
+        header: ({ column }) => {
+            return h(Button, {
+                variant: 'ghost',
+                onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
+            }, () => ['Cells', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
+        },
+        cell: ({ row }) => {
+            const cells = row.getValue('cells') as number;
+            const formattedCells = new Intl.NumberFormat().format(cells);
+            return h('div', { class: 'text-left pl-4' }, formattedCells)
+        },
     },
-    // {
-    //     accessorKey: 'explore',
-    //     header: ({ column }) => "Explore",
-    //     cell: ({ row }) => h('a',{class:"text-primary cursor-pointer", href: row.getValue('explore') as string}, "NIH"),
-    // },
+    {
+        accessorKey: 'import',
+
+        header: ({ column }) => "",
+        cell: ({ row }) => h("span", {class: 'cursor-pointer text-primary'}, "Import"),
+    },
+    {
+        accessorKey: 'show',
+
+        header: ({ column }) => "",
+        cell: ({ row }) => h('a',{class:"text-primary cursor-pointer", href: row.getValue('show') as string}, "Explore"),
+    },
 ]
