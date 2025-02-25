@@ -17,6 +17,7 @@ import type { ChatContent } from './types';
 import FailedCard from './FailedCard.vue';
 import Separator from '@/shadcn/ui/separator/Separator.vue';
 import { Progress } from '@/shadcn/ui/progress';
+import ScatterChart from '@/common_components/charts/ScatterChart.vue';
 
 const props = defineProps<{
     response: ChatContent
@@ -160,8 +161,15 @@ const progress = computed(()=>{
                 <Progress v-model="progress"></Progress>
              </div>
 
+            <!-- DATA -->
+            <div v-if="response.json && Object.keys(response.json).length !== 0">
+                <!-- {{ response.json }} -->
+                  <ScatterChart v-if="response.json['type'] == 'umap'" :chart_id="props.id" :umap_data="response.json['cells']" :color_by="'sample'"></ScatterChart>
+                  <ScatterChart v-else-if="response.json['type'] == 'tsne'" :chart_id="props.id" :umap_data="response.json['cells']" :color_by="'sample'"></ScatterChart>
+                  <ScatterChart v-else-if="response.json['type'] == 'cluster' || response.json['type'] == 'leiden'" :chart_id="props.id" :umap_data="response.json['cells']" :color_by="'cluster'"></ScatterChart>
+            </div>
             <!-- IMAGE -->
-            <Dialog v-if="response.image != ''">
+            <Dialog v-else-if="response.image != ''">
                 <DialogTrigger asChild>
                     <FailedCard v-if="
                         response.image ==
@@ -190,11 +198,6 @@ const progress = computed(()=>{
                     <img :src="'data:image/png;base64,' + response.image" />
                 </DialogContent>
             </Dialog>
-
-            <!-- DATA -->
-            <div v-if="response.json && Object.keys(response.json).length !== 0">
-                {{ response.json }}
-            </div>
 
             <!-- CODE -->
             <Button v-if="response.code != ''" @click="code_visible = !code_visible" variant="link">{{ code_visible ?
