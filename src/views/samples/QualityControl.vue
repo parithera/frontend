@@ -9,6 +9,8 @@ import { SampleRepository } from '@/repositories/SampleRepository';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import pako from 'pako';
 import Button from '@/shadcn/ui/button/Button.vue';
+import PCAChart from '@/common_components/charts/PCAChart .vue';
+import ViolinChart from '@/common_components/charts/ViolinChart.vue';
 
 const qcStore = useQCStore();
 const authStore = useAuthStore();
@@ -20,7 +22,7 @@ const sampleRepository: SampleRepository = new SampleRepository();
 // Refs
 const multiqc: Ref<string> = ref('');
 
-const { svg_elbow, svg_umap, svg_violin, svg_variable_features } = storeToRefs(qcStore);
+const { pca_variance_ratio, violin_and_scatter_plot_data } = storeToRefs(qcStore);
 
 async function fetchGraphs() {
     qcStore.$reset();
@@ -32,14 +34,10 @@ async function fetchGraphs() {
 
     const route = useRoute();
 
-    const graphs = ['pca_variance_ratio', 'violin', 'umap', 'filter_genes_dispersion'];
-    for (const graph of graphs) {
-        qcStore.fetchGraphs({
-            sampleId: route.query.sampleId,
-            orgId: userStore.defaultOrg?.id ?? '',
-            type: graph
-        });
-    }
+    qcStore.fetchData({
+        sampleId: route.query.sampleId,
+        orgId: userStore.defaultOrg?.id ?? ''
+    });
 }
 
 const route = useRoute();
@@ -85,41 +83,22 @@ function saveMultiQCReport() {
         </Button>
     </div>
 
-    <div class="grid grid-cols-4 gap-y-12 mx-8 py-20">
-        <div class="flex flex-col items-center">
-            <img :src="'data:image/png;base64,' + svg_violin.trim()" style="width: 320px; height: 20em; object-fit: cover; object-position: 0 0;" />
-            <div class="font-bolder">Number of Genes</div>
-            <span class="text-sm text-center">The number of genes with at least 1 count in a cell. Calculated for all cells.</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <img :src="'data:image/png;base64,' + svg_violin.trim()" style="width: 300px; height: 20em; object-fit: cover; object-position: 47.8% 0;" />
-            <div class="font-bolder">Total Counts</div>
-            <span class="text-sm text-center">Total number of counts for a cell.</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <img :src="'data:image/png;base64,' + svg_violin.trim()" style="width: 300px; height: 20em; object-fit: cover; object-position: 95% 0;" />
-            <div class="font-bolder">Pct Counts MT</div>
-            <span class="text-sm text-center">Proportion of total counts for a cell which are mitochondrial.</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <img :src="'data:image/png;base64,' + svg_variable_features.trim()" style="width: 375px; height: 20em; object-fit: cover; object-position: 0 0;" />
-            <div class="font-bolder">Feature Selection (Normalized)</div>
-            <span class="text-sm text-center">Dimensionality reduction of the dataset and only include the most informative genes.</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <img :src="'data:image/png;base64,' + svg_variable_features.trim()" style="width: 375px; height: 20em; object-fit: cover; object-position: 100% 0;" />
-            <div class="font-bolder">Feature Selection (Not Normalized)</div>
-            <span class="text-sm text-center">Dimensionality reduction of the dataset and only include the most informative genes.</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <img :src="'data:image/png;base64,' + svg_elbow.trim()" style="width: 375px; height: 20em;"/>
-            <div class="font-bolder">Principal Component Analysis (PCA)</div>
-            <span class="text-sm text-center">Contribution of single PCs to the total variance in the data.</span>
-        </div>
-        <div class="flex flex-col items-center">
-            <img :src="'data:image/png;base64,' + svg_umap.trim()" style="width: 375px; height: 20em;"/>
-            <div class="font-bolder">Uniform Manifold Approximation and Projection (UMAP)</div>
-            <span class="text-sm text-center">Dimensionality reduction in two dimensions for visualiztion with UMAP.</span>
-        </div>
+    <div class="flex gap-4 mx-20">
+        <PCAChart v-if="pca_variance_ratio && Object.keys(pca_variance_ratio).length > 0"
+            :umap_data="pca_variance_ratio['pca_variance_ratio']" :chart_id="1" x_title="Ranking 50"
+            y_title="Variance ratio"></PCAChart>
+
+        <ViolinChart v-if="violin_and_scatter_plot_data && Object.keys(violin_and_scatter_plot_data).length > 0"
+            :umap_data="violin_and_scatter_plot_data['n_genes_by_counts']" :chart_id="1" x_title="Ranking 50"
+            y_title="Variance ratio"></ViolinChart>
+
+        <ViolinChart v-if="violin_and_scatter_plot_data && Object.keys(violin_and_scatter_plot_data).length > 0"
+            :umap_data="violin_and_scatter_plot_data['total_counts']" :chart_id="1" x_title="Ranking 50"
+            y_title="Variance ratio"></ViolinChart>
+
+        <ViolinChart v-if="violin_and_scatter_plot_data && Object.keys(violin_and_scatter_plot_data).length > 0"
+            :umap_data="violin_and_scatter_plot_data['pct_counts_mt']" :chart_id="1" x_title="Ranking 50"
+            y_title="Variance ratio"></ViolinChart>
+
     </div>
 </template>
