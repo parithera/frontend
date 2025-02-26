@@ -1,19 +1,32 @@
+import type { VariableChartData } from '@/common_components/charts/VariableGenesChart.vue';
 import { defineStore } from 'pinia';
 import { io, Socket } from 'socket.io-client';
 
+enum ResponseType {
+    INFO = 'info',
+    ERROR = 'error',
+    SUCCESS = 'success'
+}
+
+interface ResponseData {
+    content: object;
+    status: string;
+    error: string;
+}
+
 interface Response {
-    data: string;
-    type: string;
+    data: ResponseData;
+    type: ResponseType;
 }
 
 export const useQCStore = defineStore('connection', {
     state: () => ({
         isConnected: false,
         socket: null as Socket | null,
-        svg_elbow: '',
-        svg_umap: '',
-        svg_variable_features: '',
-        svg_violin: ''
+        pca_variance_ratio: {},
+        violin_and_scatter_plot_data: {},
+        highly_variable_genes_data: {},
+        umap_data: {}
     }),
     getters: {
         getSocket(): Socket {
@@ -36,21 +49,26 @@ export const useQCStore = defineStore('connection', {
             this.socket?.on('exception', function (data) {
                 console.log('exception', data);
             });
+
+            this.socket?.on('qc:status',  (response: Response) => {
+                if (response.type == ResponseType.INFO) {
+                    if (response.data.status == 'pca_variance_ratio') {
+                        this.pca_variance_ratio = response.data.content
+                    } else if (response.data.status == 'violin_and_scatter_plot_data') {
+                        this.violin_and_scatter_plot_data = response.data.content
+                    } else if(response.data.status == 'highly_variable_genes_data') {
+                        this.highly_variable_genes_data = response.data.content as VariableChartData
+                    } else if (response.data.status == 'umap_data') {
+                        this.umap_data = response.data.content
+                    }
+                }
+            });
         },
 
-        fetchGraphs(data: object) {            
-            this.socket?.emit('graphs', data, (response: Response) => {
-                if (response.type == 'pca_variance_ratio') this.svg_elbow = response.data;
-                else if (response.type == 'violin') this.svg_violin = response.data;
-                else if (response.type == 'umap') this.svg_umap = response.data;
-                else if (response.type == 'filter_genes_dispersion')
-                    this.svg_variable_features = response.data;
-
+        fetchData(data: object) {            
+            this.socket?.emit('data', data, (response: Response) => {
                 if (
-                    this.svg_elbow != '' &&
-                    this.svg_umap != '' &&
-                    this.svg_violin != '' &&
-                    this.svg_variable_features != ''
+                    response.type == ResponseType.SUCCESS
                 ) {
                     this.socket?.disconnect();
                 }

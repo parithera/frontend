@@ -123,7 +123,7 @@ function drawChart() {
                 if (d.sample == i || d.cluster == i) {
                     return "100%"
                 } else {
-                    return "25%"
+                    return "10%"
                 }
             });
         })
@@ -147,5 +147,5 @@ onMounted(() => {
 </script>
 
 <template>
-    <div id="scatterChart" :class="'chart_' + chart_id"></div>
+    <div :class="'chart_' + chart_id"></div>
 </template>
