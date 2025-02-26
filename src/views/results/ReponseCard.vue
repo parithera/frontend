@@ -164,9 +164,9 @@ const progress = computed(()=>{
             <!-- DATA -->
             <div v-if="response.json && Object.keys(response.json).length !== 0">
                 <!-- {{ response.json }} -->
-                  <ScatterChart v-if="response.json['type'] == 'umap'" :chart_id="props.id" :umap_data="response.json['cells']" :color_by="'sample'"></ScatterChart>
-                  <ScatterChart v-else-if="response.json['type'] == 'tsne'" :chart_id="props.id" :umap_data="response.json['cells']" :color_by="'sample'"></ScatterChart>
-                  <ScatterChart v-else-if="response.json['type'] == 'cluster' || response.json['type'] == 'leiden'" :chart_id="props.id" :umap_data="response.json['cells']" :color_by="'cluster'"></ScatterChart>
+                  <ScatterChart v-if="response.json['type'] == 'umap'" :chart_id="props.id" :umap_data="response.json['cells']" :color_by="'sample'" x_title="UMAP1" y_title="UMAP2"></ScatterChart>
+                  <ScatterChart v-else-if="response.json['type'] == 'tsne'" :chart_id="props.id" :umap_data="response.json['cells']" :color_by="'sample'" x_title="tSNE1" y_title="tSNE2"></ScatterChart>
+                  <ScatterChart v-else-if="response.json['type'] == 'cluster' || response.json['type'] == 'leiden'" :chart_id="props.id" :umap_data="response.json['cells']" :color_by="'cluster'" x_title="UMAP1" y_title="UMAP2"></ScatterChart>
             </div>
             <!-- IMAGE -->
             <Dialog v-else-if="response.image != ''">

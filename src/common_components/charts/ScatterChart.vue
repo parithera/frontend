@@ -12,14 +12,18 @@ interface UMAPData {
 const props = defineProps<{
     umap_data: Array<UMAPData>,
     chart_id: number,
-    color_by: string
+    color_by: string,
+    x_title: string,
+    y_title: string
 }>();
 
 function drawChart() {
     // set the dimensions and margins of the graph
-    const margin = { top: 10, right: 100, bottom: 30, left: 60 },
+    const margin = { top: 10, right: 100, bottom: 30, left: 30 },
         width = 460 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
+
+    const axis_margin = 10
 
     // append the svg object to the body of the page
     const svg = d3
@@ -38,25 +42,41 @@ function drawChart() {
 
     // Add X axis
     const x = d3.scaleLinear().domain([min_x_value, max_x_value]).range([0, width]);
-    // svg.append('g').attr('transform', `translate(0, ${height})`).call(d3.axisBottom(x));
-    // svg.append("text")
-    // .attr("class", "x label")
-    // .attr("text-anchor", "end")
-    // .attr("x", width)
-    // .attr("y", height + 20)
-    // .text("UMAP1");
+    
+    svg.append("line")
+    .attr('x1', -axis_margin)
+    .attr('y1', 0)
+    .attr('x2', -axis_margin)
+    .attr('y2', height + axis_margin)
+    .style("stroke", 'hsl(var(--primary))')
+    .style('stroke-width', 1)
+
+    svg.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "middle")
+    .attr("x", width/2)
+    .attr("y", height + 30)
+    .text(props.x_title);
 
     // Add Y axis
     const y = d3.scaleLinear().domain([min_y_value, max_y_value]).range([height, 0]);
-    // svg.append('g').call(d3.axisLeft(y));
-    // svg.append("text")
-    // .attr("class", "y label")
-    // .attr("text-anchor", "end")
-    // .attr("y", 6)
-    // .attr("x", -20)
-    // .attr("dy", ".75em")
-    // .attr("transform", "rotate(-90)")
-    // .text("UMAP2");
+    
+    svg.append("line")
+    .attr('x1', -axis_margin)
+    .attr('y1', height + axis_margin)
+    .attr('x2', width)
+    .attr('y2', height + axis_margin)
+    .style("stroke", 'hsl(var(--primary))')
+    .style('stroke-width', 1)
+
+    svg.append("text")
+    .attr("class", "y label")
+    .attr("text-anchor", "middle")
+    .attr("y", -30)
+    .attr("x", -height/2)
+    .attr("dy", ".75em")
+    .attr("transform", "rotate(-90)")
+    .text(props.y_title);
 
     let colors: Array<string> = []
     if (props.color_by == 'sample') {
@@ -66,29 +86,8 @@ function drawChart() {
     }
     const color = d3.scaleOrdinal().domain(colors).range(d3.schemeTableau10);
 
-    // Add legend
-    svg.
-        selectAll("text")
-        .data(colors)
-        .enter()
-        .append("text")
-        .attr("class", "x label")
-        .attr("text-anchor", "start")
-        .attr("x", width + 50)
-        .attr("y", (d, i) => { return 15 + i * 20 })
-        .text((d) => d);
-
-    svg.append('g')
-        .selectAll('dot')
-        .data(colors)
-        .join('circle')
-        .attr("cx", width + 40)
-        .attr("cy", (d, i) => { return 9 + i * 20 })
-        .attr('r', 4)
-        .style('fill', (d) => color(d));
-
     // Add dots
-    svg.append('g')
+    const dots = svg.append('g')
         .selectAll('dot')
         .data(props.umap_data)
         .join('circle')
@@ -99,10 +98,47 @@ function drawChart() {
             return y(d.y);
         })
         .attr('r', 2.5)
+        .attr('class', (d) => {
+            if (props.color_by == 'sample') return "group_"+d.sample;
+           return  "group_"+d.cluster;
+        })
         .style('fill', (d) => {
             if (props.color_by == 'sample') return color(d.sample)
            return  color(d.cluster)
         });
+
+     // Add legend
+     svg.
+        selectAll("legend")
+        .data(colors)
+        .enter()
+        .append("text")
+        .attr("class", "cursor-pointer")
+        .attr("text-anchor", "start")
+        .attr("x", width + 50)
+        .attr("y", (d, i) => { return 15 + i * 20 })
+        .text((d) => d)
+        .on("mouseover", function(d, i) {
+            dots.style("opacity", (d) => {
+                if (d.sample == i || d.cluster == i) {
+                    return "100%"
+                } else {
+                    return "25%"
+                }
+            });
+        })
+        .on("mouseout", function(d, i) {
+            dots.style("opacity", "100%");
+        });
+
+    svg.append('g')
+        .selectAll('dot')
+        .data(colors)
+        .join('circle')
+        .attr("cx", width + 40)
+        .attr("cy", (d, i) => { return 9 + i * 20 })
+        .attr('r', 4)
+        .style('fill', (d) => color(d));
 }
 
 onMounted(() => {
