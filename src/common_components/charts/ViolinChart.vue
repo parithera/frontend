@@ -26,7 +26,7 @@ function drawChart() {
 
     const x = d3.scalePoint()
         .range([0, width])
-        .domain(["Violin"]);
+        .domain([props.x_title]);
 
     // Updated: Use d3.bin instead of d3.histogram
     const bin = d3.bin()
@@ -51,11 +51,11 @@ function drawChart() {
 
     svg.append("path")
         .datum(bins)
-        .attr("fill", "#69b3a2")
-        .attr("stroke", "#000")
+        .attr("fill", "hsl(var(--secondary))")
+        .attr("stroke", "hsl(var(--primary))")
         .attr("stroke-width", 1)
         .attr("d", area)
-        .attr("transform", `translate(${x("Violin")},0)`);
+        .attr("transform", `translate(${x(props.x_title)},0)`);
 
     svg.append("g")
         .call(d3.axisLeft(y));

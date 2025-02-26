@@ -1,3 +1,4 @@
+import type { VariableChartData } from '@/common_components/charts/VariableGenesChart.vue';
 import { defineStore } from 'pinia';
 import { io, Socket } from 'socket.io-client';
 
@@ -23,7 +24,9 @@ export const useQCStore = defineStore('connection', {
         isConnected: false,
         socket: null as Socket | null,
         pca_variance_ratio: {},
-        violin_and_scatter_plot_data: {}
+        violin_and_scatter_plot_data: {},
+        highly_variable_genes_data: {},
+        umap_data: {}
     }),
     getters: {
         getSocket(): Socket {
@@ -53,6 +56,10 @@ export const useQCStore = defineStore('connection', {
                         this.pca_variance_ratio = response.data.content
                     } else if (response.data.status == 'violin_and_scatter_plot_data') {
                         this.violin_and_scatter_plot_data = response.data.content
+                    } else if(response.data.status == 'highly_variable_genes_data') {
+                        this.highly_variable_genes_data = response.data.content as VariableChartData
+                    } else if (response.data.status == 'umap_data') {
+                        this.umap_data = response.data.content
                     }
                 }
             });
