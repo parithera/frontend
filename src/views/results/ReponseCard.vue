@@ -164,9 +164,15 @@ const progress = computed(()=>{
             <!-- DATA -->
             <div v-if="response.json && Object.keys(response.json).length !== 0">
                 <!-- {{ response.json }} -->
-                  <ScatterChart v-if="response.json['type'] == 'umap'" :chart_id="props.id" :umap_data="response.json['data']" :color_by="'sample'" x_title="UMAP1" y_title="UMAP2"></ScatterChart>
-                  <ScatterChart v-else-if="response.json['type'] == 'tsne'" :chart_id="props.id" :umap_data="response.json['data']" :color_by="'sample'" x_title="tSNE1" y_title="tSNE2"></ScatterChart>
-                  <ScatterChart v-else-if="response.json['type'] == 'cluster' || response.json['type'] == 'leiden'" :chart_id="props.id" :umap_data="response.json['data']" :color_by="'cluster'" x_title="UMAP1" y_title="UMAP2"></ScatterChart>
+                  <ScatterChart v-if="response.json['type'] == 'umap'" :chart_id="props.id.toString()" :umap_data="response.json['data']" :color_by="'sample'" x_title="UMAP1" y_title="UMAP2"></ScatterChart>
+                  <ScatterChart v-else-if="response.json['type'] == 'tsne'" :chart_id="props.id.toString()" :umap_data="response.json['data']" :color_by="'sample'" x_title="tSNE1" y_title="tSNE2"></ScatterChart>
+                  <ScatterChart v-else-if="response.json['type'] == 'cluster' || response.json['type'] == 'leiden'" :chart_id="props.id.toString()" :umap_data="response.json['data']" :color_by="'cluster'" x_title="UMAP1" y_title="UMAP2"></ScatterChart>
+                  <div v-else-if="response.json['type'] == 'marker'" class="grid grid-cols-2 gap-y-10">
+                    <div v-for="gene in Object.keys(response.json['data']['umaps'])" class="flex flex-col items-center gap-2">
+                        <span>Expression level for : {{ gene }}</span>
+                        <ScatterChart :chart_id="props.id+gene" :umap_data="response.json['data']['umaps'][gene]" :color_by="'marker_expression'" x_title="UMAP1" y_title="UMAP2"></ScatterChart>
+                    </div>
+                </div>
             </div>
             <!-- IMAGE -->
             <Dialog v-else-if="response.image != ''">
