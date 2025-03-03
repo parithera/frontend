@@ -117,7 +117,7 @@ function saveMultiQCReport() {
         </div>
         <div class="flex flex-col items-center">
             <ScatterChart v-if="umap_data && Object.keys(umap_data).length > 0"
-                :chart_id="6" :umap_data="umap_data['cells']" :color_by="'cluster'" x_title="UMAP1" y_title="UMAP2"></ScatterChart>
+                :chart_id="6" :umap_data="umap_data['data']" :color_by="'cluster'" x_title="UMAP1" y_title="UMAP2"></ScatterChart>
             <div class="font-bolder">Uniform Manifold Approximation and Projection (UMAP)</div>
             <span class="text-sm text-center">Dimensionality reduction in two dimensions for visualiztion with
                 UMAP.</span>
