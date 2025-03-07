@@ -176,7 +176,7 @@ init();
                                 </CardHeader>
                                 <CardContent>
                                     <div class="grid grid-cols-2 gap-2">
-                                        <Button>
+                                        <!-- <Button>
                                             <RouterLink
                                                 class="integration-box-wrapper-iteme"
                                                 :to="{
@@ -193,7 +193,7 @@ init();
                                             >
                                                 Modify
                                             </RouterLink>
-                                        </Button>
+                                        </Button> -->
 
                                         <Dialog>
                                             <DialogTrigger>
