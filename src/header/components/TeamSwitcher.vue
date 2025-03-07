@@ -221,7 +221,7 @@ fetch();
                     <CommandSeparator />
                     <CommandList>
                         <CommandGroup
-                            @click="router.push({ name: 'orgs', params: { page: 'add' } })"
+                            @click="router.push({ name: 'orgs', params: { action: 'add' } })"
                         >
                             <DialogTrigger as-child>
                                 <CommandItem
