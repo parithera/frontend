@@ -100,25 +100,6 @@ watch([search], async () => {
     }, 250);
 });
 
-async function updateSort(key: any) {
-    if (key == undefined) return;
-    if (key != undefined)
-        if (key == sortKey.value) {
-            // If we select the same column then we reverse the direction
-            sortDirection.value =
-                sortDirection.value == SortDirection.ASC ? SortDirection.DESC : SortDirection.ASC;
-        } else {
-            // Default direction
-            sortDirection.value = SortDirection.DESC;
-        }
-    sortKey.value = key;
-    await fetchInvitations(true);
-}
-
-async function onRefetch() {
-    await fetchInvitations(true);
-}
-
 onMounted(() => {
     fetchInvitations();
 });
