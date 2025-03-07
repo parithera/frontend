@@ -21,7 +21,6 @@ import { debounce } from '@/utils/searchUtils';
 import OrgMemberItem from './members/OrgMemberItem.vue';
 import { SortDirection } from '@/repositories/types/PaginatedRequestOptions';
 import BorderCard from '@/common_components/cards/BorderCard.vue';
-import SortableTable from '@/common_components/tables/SortableTable.vue';
 import Button from '@/shadcn/ui/button/Button.vue';
 
 const orgRepo = new OrgRepository();
@@ -210,23 +209,6 @@ async function onRefetch() {
                                 >
                                     No members
                                 </div>
-                                <SortableTable
-                                    :headers="headers"
-                                    :sort-key="sortKey"
-                                    :sort-direction="sortDirection"
-                                    @on-sort-change="updateSort"
-                                >
-                                    <template #data>
-                                        <OrgMemberItem
-                                            v-for="member in orgMembers"
-                                            :key="member.id"
-                                            :member="member"
-                                            :org-info="orgInfo"
-                                            @refetch="onRefetch()"
-                                        >
-                                        </OrgMemberItem>
-                                    </template>
-                                </SortableTable>
                             </template>
                         </Pagination>
                     </div>

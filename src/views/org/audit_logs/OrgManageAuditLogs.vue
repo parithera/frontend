@@ -19,7 +19,6 @@ import { Icon } from '@iconify/vue';
 import { SortDirection } from '@/repositories/types/PaginatedRequestOptions';
 import BoxLoader from '@/common_components/BoxLoader.vue';
 import BorderCard from '@/common_components/cards/BorderCard.vue';
-import type { TableHeader } from '@/common_components/tables/SortableTable.vue';
 import AuditLogsTable from '@/enterprise_components/activity_logs/AuditLogsTable.vue';
 import Button from '@/shadcn/ui/button/Button.vue';
 
@@ -41,14 +40,6 @@ const totalPages = ref(0);
 
 const sortDirection: Ref<SortDirection> = ref(SortDirection.DESC);
 const sortKey: Ref<string> = ref('created_on');
-const headers: TableHeader[] = [
-    { label: 'Severity', key: 'action_severity' },
-    { label: 'Log Class', key: 'action_class' },
-    { label: 'Log Type', key: 'action' },
-    { label: 'Description', key: 'description' },
-    { label: 'Blame', key: 'blame_on_email' },
-    { label: 'Date', key: 'created_on' }
-];
 
 function setOrgInfo(_orgInfo: Organization) {
     orgInfo.value = _orgInfo;
@@ -194,7 +185,6 @@ init();
                     <div class="flex flex-col gap-5 org-members-list-wrapper" v-if="!error">
                         <AuditLogsTable
                             :placeholder="placeholder"
-                            :headers="headers"
                             :sortKey="sortKey"
                             :sortDirection="sortDirection"
                             :updateSort="updateSort"

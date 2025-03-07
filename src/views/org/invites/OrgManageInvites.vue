@@ -12,9 +12,7 @@ import { BusinessLogicError } from '@/repositories/BaseRepository';
 import Pagination from '@/common_components/PaginationComponent.vue';
 import SearchBar from '@/common_components/SearchBar.vue';
 import { debounce } from '@/utils/searchUtils';
-import OrgInviteItem from '@/views/org/invites/invite/OrgInviteItem.vue';
 import BoxLoader from '@/common_components/BoxLoader.vue';
-import SortableTable from '@/common_components/tables/SortableTable.vue';
 import Button from '@/shadcn/ui/button/Button.vue';
 
 const placeholder = 'Search by invitee email, inviter email, or inviter handle';
@@ -195,24 +193,6 @@ onMounted(() => {
                                 >
                                     No open invites
                                 </div>
-                                <SortableTable
-                                    v-if="totalEntries > 0"
-                                    :headers="headers"
-                                    :sort-key="sortKey"
-                                    :sort-direction="sortDirection"
-                                    @on-sort-change="updateSort"
-                                >
-                                    <template #data>
-                                        <OrgInviteItem
-                                            v-for="invitation in invitations"
-                                            :key="invitation.id"
-                                            :org-id="orgId"
-                                            :org-info="orgInfo"
-                                            :invitation="invitation"
-                                            @refetch="onRefetch()"
-                                        ></OrgInviteItem>
-                                    </template>
-                                </SortableTable>
                             </template>
                         </Pagination>
                     </div>
