@@ -149,7 +149,10 @@ init();
                                 <div v-if="orgInfo.created_by">
                                     @{{ orgInfo.created_by.handle }}
                                 </div>
-                                <div v-if="!orgInfo.created_by">Deleted user</div>
+                                <div v-else>
+                                    {{  orgInfo }}
+                                    Deleted user
+                                </div>
                             </div>
                             <div class="user-avatar-wrapper">
                                 <div v-if="orgInfo.created_by">

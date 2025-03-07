@@ -1,5 +1,5 @@
 import { IsDateString, IsNotEmpty } from 'class-validator';
-import type { Organization } from './Organization';
+import type { MemberRole, Organization, TeamMember } from './Organization';
 
 export class OrganizationMembership {
     @IsDateString()
@@ -7,4 +7,7 @@ export class OrganizationMembership {
 
     @IsNotEmpty()
     organization!: Organization;
+
+    user!: TeamMember;
+    role!: MemberRole
 }

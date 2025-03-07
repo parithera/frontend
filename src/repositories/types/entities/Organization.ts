@@ -11,6 +11,7 @@ import {
     IsOptional
 } from 'class-validator';
 import type { Project } from './Project';
+import type { OrganizationMembership } from './OrganizationMembership';
 
 export class Organization {
     @IsNotEmpty()
@@ -46,6 +47,8 @@ export class Organization {
     @IsDefined()
     @IsNumber()
     number_of_members!: number;
+
+    organizationMemberships!: OrganizationMembership[];
 
     @IsDateString()
     joined_on!: Date;

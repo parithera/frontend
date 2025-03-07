@@ -180,10 +180,10 @@ export class OrgRepository extends BaseRepository {
 
     async getOrgMembers(
         options: GetOrgMembersRequestOptions
-    ): Promise<PaginatedResponse<TeamMember>> {
+    ): Promise<PaginatedResponse<OrganizationMembership>> {
         const RELATIVE_URL = `/org/${options.orgId}/members`;
 
-        const response = await this.getRequest<PaginatedResponse<TeamMember>>({
+        const response = await this.getRequest<PaginatedResponse<OrganizationMembership>>({
             queryParams: {
                 page: options.pagination.page,
                 entries_per_page: options.pagination.entries_per_page,
@@ -198,11 +198,11 @@ export class OrgRepository extends BaseRepository {
             handleOtherErrors: options.handleOtherErrors
         });
 
-        const paginatedResp = Entity.unMarshal<PaginatedResponse<TeamMember>>(
+        const paginatedResp = Entity.unMarshal<PaginatedResponse<OrganizationMembership>>(
             response,
-            PaginatedResponse<TeamMember>
+            PaginatedResponse<OrganizationMembership>
         );
-        paginatedResp.data = Entity.unMarshalMany<TeamMember>(paginatedResp.data, TeamMember);
+        paginatedResp.data = Entity.unMarshalMany<OrganizationMembership>(paginatedResp.data, OrganizationMembership);
         return paginatedResp;
     }
 

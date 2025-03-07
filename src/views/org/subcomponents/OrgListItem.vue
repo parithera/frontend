@@ -205,7 +205,7 @@ function performOrgAction() {
                             border-radius: 15px;
                             font-size: 0.8em;
                         "
-                        >{{ membership.organization.number_of_members }}</span
+                        >{{ membership.organization.organizationMemberships.length }}</span
                     >
                 </div>
                 <div>

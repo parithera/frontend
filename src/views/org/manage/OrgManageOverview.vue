@@ -314,15 +314,11 @@ function setOrgInfo(_orgInfo: Organization) {
                     orgActionModalRef.toggle();
                 "
             >
-                <template v-if="orgAction == OrgAction.DELETE" #icon>
-                    <Icon class="icon" icon="solar:trash-bin-trash-bold"></Icon>
-                </template>
-                <template v-else-if="orgAction == OrgAction.LEAVE" #icon>
-                    <Icon class="icon" icon="mingcute:exit-door-line"></Icon>
-                </template>
-
-                <template v-if="orgAction == OrgAction.DELETE" #text> Delete </template>
-                <template v-else-if="orgAction == OrgAction.LEAVE" #text> Leave </template>
+                
+                <Icon v-if="orgAction == OrgAction.DELETE" class="icon" icon="solar:trash-bin-trash-bold"></Icon>
+                <Icon v-else-if="orgAction == OrgAction.LEAVE" class="icon" icon="mingcute:exit-door-line"></Icon>
+                <span v-if="orgAction == OrgAction.DELETE"> Delete </span>
+                <span v-else-if="orgAction == OrgAction.LEAVE"> Leave </span>
             </Button>
             <Button
                 @click="
@@ -330,7 +326,7 @@ function setOrgInfo(_orgInfo: Organization) {
                     orgActionModalRef.toggle();
                 "
             >
-                <template #text> Cancel </template>
+                Cancel
             </Button>
         </template>
     </CenteredModal>
