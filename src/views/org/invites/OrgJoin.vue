@@ -10,7 +10,6 @@ import { Icon } from '@iconify/vue';
 import FaqBox from '@/common_components/FaqBox.vue';
 import { APIErrors } from '@/repositories/types/errors/ApiErrors';
 import { successToast } from '@/utils/toasts';
-import BlueButton from '@/common_components/buttons/BlueButton.vue';
 import Button from '@/shadcn/ui/button/Button.vue';
 
 const inviteToken: Ref<string | undefined> = ref();
@@ -130,7 +129,7 @@ async function joinOrg() {
                                 </div>
                             </div>
                             <div class="flex flex-row gap-2 items-center flex-wrap">
-                                <BlueButton
+                                <Button
                                     v-if="
                                         joinErrorCode != APIErrors.NotAuthorized &&
                                         joinErrorCode != APIErrors.EntityNotFound
@@ -138,10 +137,10 @@ async function joinOrg() {
                                     @click="joinOrg"
                                 >
                                     <template #text> Try again </template>
-                                </BlueButton>
-                                <BlueButton @click="router.back">
+                                </Button>
+                                <Button @click="router.back">
                                     <template #text> Go back </template>
-                                </BlueButton>
+                                </Button>
                             </div>
                         </div>
                     </div>
@@ -180,7 +179,7 @@ async function joinOrg() {
                                         </div>
                                     </div>
                                     <div class="flex flex-row gap-2 items-center flex-wrap">
-                                        <BlueButton
+                                        <Button
                                             v-if="
                                                 joinErrorCode != APIErrors.NotAuthorized &&
                                                 joinErrorCode != APIErrors.EntityNotFound
@@ -188,10 +187,10 @@ async function joinOrg() {
                                             @click="fetchOrgInfo"
                                         >
                                             <template #text> Try again </template>
-                                        </BlueButton>
-                                        <BlueButton @click="router.back">
+                                        </Button>
+                                        <Button @click="router.back">
                                             <template #text> Go back </template>
-                                        </BlueButton>
+                                        </Button>
                                     </div>
                                 </div>
                             </div>

@@ -4,7 +4,7 @@ import { Button } from '@/shadcn/ui/button'
 import { Calendar } from '@/shadcn/ui/calendar'
 import { FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/shadcn/ui/form'
 import { Popover, PopoverContent, PopoverTrigger } from '@/shadcn/ui/popover'
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/shadcn'
 
 import { DateFormatter, getLocalTimeZone } from '@internationalized/date'
 import { CalendarIcon } from 'lucide-vue-next'

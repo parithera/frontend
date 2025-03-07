@@ -1,11 +1,15 @@
 <template>
     <!-- Header -->
-    <TitleAndSubtitle>
-        <template #title>Settings</template>
-        <template #subtitle>Account</template>
-        <template #description>Update your personal information, update your password or delete your
-            account.</template>
-    </TitleAndSubtitle>
+    <div class="flex gap-10 items-center">
+        <div class="text-2xl flex flex-row gap-2 items-center">
+            <span>Settings</span>
+            <span>Account</span>
+        </div>
+        <div class="text-gray-500 font-medium">
+            Update your personal information, update your password or delete your
+            account.
+        </div>
+    </div>
 
     <div class="grid grid-cols-3 gap-8 mt-10">
         <!-- Personal information -->
@@ -56,7 +60,6 @@
 </template>
 <script lang="ts" setup>
 import { useStateStore } from '@/stores/state';
-import TitleAndSubtitle from '@/common_components/headers/TitleAndSubtitle.vue';
 
 import InfoBoxRed from '@/common_components/info_box/InfoBoxRed.vue';
 import { useUserStore } from '@/stores/user';

@@ -7,7 +7,6 @@ import { Icon } from '@iconify/vue';
 import SearchBar from '@/common_components/SearchBar.vue';
 import Pagination from '@/common_components/PaginationComponent.vue';
 import OrgListItem from '@/views/org/subcomponents/OrgListItem.vue';
-import TitleAndSubtitle from '@/common_components/headers/TitleAndSubtitle.vue';
 import type { OrganizationMembership } from '@/repositories/types/entities/OrganizationMembership';
 import Button from '@/shadcn/ui/button/Button.vue';
 
@@ -65,14 +64,16 @@ fetch();
 <template>
     <div class="flex flex-col gap-8 p-12">
         <div class="flex flex-row justify-between items-center">
-            <TitleAndSubtitle>
-                <template #title>Organizations</template>
-                <template #subtitle>Manage your organizations</template>
-                <template #description>
+            <div class="flex gap-10 items-center">
+                <div class="text-2xl flex flex-row gap-2 items-center">
+                    <span>Organizations</span>
+                    <span>Manage your organizations</span>
+                </div>
+                <div class="text-gray-500 font-medium">
                     Within this page you can find a list of all your organizations. You can create a
                     new organization, or manage your existing ones.
-                </template>
-            </TitleAndSubtitle>
+                </div>
+            </div>
             <div class="text-sm">
                 <RouterLink :to="{ name: 'orgs', params: { action: 'add', page: 'main' } }">
                     <Button class="rounded-full">

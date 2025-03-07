@@ -9,7 +9,6 @@ import { APIErrors } from '@/repositories/types/errors/ApiErrors';
 import ProjectsView from '@/views/ProjectsView.vue';
 import ResultsView from '@/views/ResultsView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
-import TrialView from '@/views/TrialView.vue';
 import TermsView from '@/views/TermsView.vue';
 import LoginView from '@/views/LoginView.vue';
 import SignupView from '@/views/SignupView.vue';
@@ -88,11 +87,6 @@ const router = createRouter({
             name: 'settings',
             component: SettingsView,
             props: true
-        },
-        {
-            path: '/trial',
-            name: 'trial',
-            component: TrialView
         },
         {
             path: '/404',

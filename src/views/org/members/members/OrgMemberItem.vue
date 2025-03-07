@@ -12,8 +12,7 @@ import CenteredModal from '@/common_components/CenteredModal.vue';
 import { ref, type Ref } from 'vue';
 import { Icon } from '@iconify/vue';
 import { errorToast, successToast } from '@/utils/toasts';
-import AlertButton from '@/common_components/buttons/AlertButton.vue';
-import NormalButton from '@/common_components/buttons/NormalButton.vue';
+import Button from '@/shadcn/ui/button/Button.vue';
 
 const props = defineProps<{
     member: TeamMember;
@@ -159,7 +158,8 @@ const emit = defineEmits<{
                         <div>View Audit logs</div>
                     </div>
                 </RouterLink>
-                <AlertButton
+                <Button
+                    variant="destructive"
                     @click="openModalAction(ModalAction.Kick)"
                     v-if="
                         member.id != userStore.getUser!.id &&
@@ -171,7 +171,7 @@ const emit = defineEmits<{
                         <Icon icon="mingcute:user-remove-fill"></Icon>
                     </template>
                     <template #text> Revoke access </template>
-                </AlertButton>
+                </Button>
             </div>
         </td>
     </tr>
@@ -206,26 +206,26 @@ const emit = defineEmits<{
             </div>
         </template>
         <template #buttons>
-            <AlertButton @click="performModalAction()">
+            <Button variant="destructive" @click="performModalAction()">
                 <template v-if="centeredModalAction == ModalAction.Kick" #icon>
                     <Icon icon="mingcute:user-remove-fill"></Icon>
                 </template>
                 <template v-if="centeredModalAction == ModalAction.Kick" #text> Cancel </template>
-            </AlertButton>
-            <NormalButton
+            </Button>
+            <Button
                 @click="
                     centeredModalActionId = undefined;
                     centeredModalRef.toggle();
                 "
             >
                 <template #text>Cancel</template>
-            </NormalButton>
+        </Button>
         </template>
     </CenteredModal>
 </template>
 
 <style scoped lang="scss">
-@import '@/assets/colors.scss';
+@use '@/assets/colors.scss';
 .org-membership {
     border-radius: 15px;
     padding: 3px;

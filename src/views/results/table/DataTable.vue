@@ -19,7 +19,7 @@ import {
     useVueTable,
 
 } from '@tanstack/vue-table'
-import { valueUpdater } from '@/lib/utils'
+import { valueUpdater } from '@/utils/shadcn'
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,

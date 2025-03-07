@@ -3,7 +3,7 @@ import { ref, type Ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/shadcn';
 
 import { Icon } from '@iconify/vue';
 import type { Token } from '@/repositories/types/entities/Token';
@@ -11,8 +11,6 @@ import { AuthRepository } from '@/repositories/AuthRepository';
 import type { AuthenticatedUser } from '@/repositories/types/entities/AuthenticatedUser';
 import router from '@/router';
 import { BusinessLogicError, ValidationError } from '@/repositories/BaseRepository';
-import { APIErrors } from '@/repositories/types/errors/ApiErrors';
-import ErrorCard from '@/common_components/errors/ErrorCard.vue';
 
 import { Button } from '@/shadcn/ui/button';
 
@@ -23,20 +21,6 @@ import { vAutoAnimate } from '@formkit/auto-animate/vue';
 
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shadcn/ui/form';
 import { Input } from '@/shadcn/ui/input';
-import ErrorComponent from '@/common_components/ErrorComponent.vue';
-import LoadingComponent from '@/common_components/LoadingComponent.vue';
-import { defineAsyncComponent } from 'vue';
-
-const SSOAuth = defineAsyncComponent({
-    loader: () => import('@/enterprise_components/sso/SSOAuth.vue'),
-    loadingComponent: LoadingComponent,
-    // Delay before showing the loading component. Default: 200ms.
-    delay: 200,
-    errorComponent: ErrorComponent,
-    // The error component will be displayed if a timeout is
-    // provided and exceeded. Default: Infinity.
-    timeout: 3000
-});
 
 // Repositories
 const authRepository: AuthRepository = new AuthRepository();
@@ -117,39 +101,6 @@ async function submit(values: any) {
 </script>
 
 <template>
-    <!-- Errors -->
-    <ErrorCard v-if="error">
-        <template #content>
-            <Icon icon="material-symbols:error-outline" />
-            <div v-if="errorCode">
-                <div v-if="errorCode == APIErrors.InternalError">
-                    An error occured during the processing of the request.
-                </div>
-                <div v-else-if="errorCode == APIErrors.WrongCredentials">Wrong credentials.</div>
-                <div v-else-if="errorCode == APIErrors.RegistrationNotVerified">
-                    You have not yet verified your registration. Please go to your email inbox and
-                    follow the instructions therein.
-                </div>
-                <div v-else-if="errorCode == APIErrors.CannotPerformActionOnSocialAccount">
-                    To connected using your Social account, click on the respective Social button
-                    below.
-                </div>
-                <div v-else-if="errorCode == APIErrors.EntityNotFound">
-                    This should not have happened. Please try again.
-                    <!-- Race condition -->
-                </div>
-                <div
-                    v-else-if="errorCode == APIErrors.ValidationFailed"
-                    class="whitespace-break-spaces"
-                >
-                    <!-- Note: this should never happen unless our client and server side validation are out of sync -->
-                    {{ validationError!.toMessage('Invalid form:') }}
-                </div>
-                <div v-else>An error occured during the processing of the request.</div>
-            </div>
-            <div v-else>An error occured during the processing of the request.</div>
-        </template>
-    </ErrorCard>
     <div :class="cn('grid gap-6', $attrs.class ?? '')">
         <form
             class="flex flex-col gap-4"
@@ -163,9 +114,6 @@ async function submit(values: any) {
                     <FormControl>
                         <Input type="text" placeholder="Enter your email" v-bind="componentField" />
                     </FormControl>
-                    <!-- <FormDescription>
-                    This is your public display name.
-                    </FormDescription> -->
                     <FormMessage />
                 </FormItem>
             </FormField>
@@ -187,7 +135,5 @@ async function submit(values: any) {
         <div class="flex flex-col items-center" v-else>
             Connecting <Icon icon="line-md:loading-twotone-loop" class="animate-spin"></Icon>
         </div>
-
-        <!-- <SSOAuth /> -->
     </div>
 </template>
