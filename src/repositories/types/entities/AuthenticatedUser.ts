@@ -1,6 +1,5 @@
 import { Type } from 'class-transformer';
 import { IsBoolean, IsDate, IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
-import { SocialProvider } from './Integrations';
 import { Organization } from './Organization';
 
 export class AuthenticatedUser {
@@ -31,10 +30,6 @@ export class AuthenticatedUser {
 
     @IsBoolean()
     social!: boolean;
-
-    @IsOptional()
-    @IsEnum(SocialProvider)
-    social_register_type?: SocialProvider;
 
     @IsBoolean()
     setup_done!: boolean;

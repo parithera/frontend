@@ -111,29 +111,6 @@ function setOrgInfo(_orgInfo: Organization) {
                 <div>
                     <h2 class="text-2xl mb-2">Actions</h2>
                     <div class="flex flex-row gap-4 flex-wrap font-normal justify-center">
-                        <RouterLink
-                            :to="{
-                                name: 'orgs',
-                                params: { action: 'manage', orgId: orgId, page: 'integrations' }
-                            }"
-                            class="cursor-pointer w-[calc(50%-10px)] border min-w-0 rounded-lg p-5 font-normal"
-                            v-if="
-                                orgInfo.role == MemberRole.OWNER || orgInfo.role == MemberRole.ADMIN
-                            "
-                            title="Manage organization integrations."
-                        >
-                            Manage organization integrations
-                        </RouterLink>
-                        <RouterLink
-                            :to="{
-                                name: 'orgs',
-                                params: { action: 'manage', orgId: orgId, page: 'policies' }
-                            }"
-                            class="cursor-pointer w-[calc(50%-10px)] border min-w-0 rounded-lg p-5 font-normal"
-                            title="Manage organization policies."
-                        >
-                            Manage organization policies
-                        </RouterLink>
                         <template v-if="!orgInfo.personal">
                             <RouterLink
                                 :to="{
@@ -227,21 +204,6 @@ function setOrgInfo(_orgInfo: Organization) {
                             automatically for you upon registration. This organization is private,
                             and you cannot invite other users to this organization. You also cannot
                             leave or delete this organization.</template
-                        >
-                    </FaqBox>
-                    <FaqBox>
-                        <template #question>What are integrations?</template>
-                        <template #answer
-                            >An integration is a 'connection' to one of our offered external
-                            services. For now, you can add integrations with Gitlab and Github to
-                            easily analyze your repositories.</template
-                        >
-                    </FaqBox>
-                    <FaqBox>
-                        <template #question>What are policies?</template>
-                        <template #answer
-                            >A policy is a 'document' in which you can define certain behaviours of
-                            our analyzers.</template
                         >
                     </FaqBox>
                     <FaqBox>

@@ -15,7 +15,6 @@ import { NoDataResponse } from './types/responses/NoDataResponse';
 
 export interface GetAnalyzersRequestOptions extends AuthRepoMethodGetRequestOptions {
     orgId: string;
-    // integrationId: string;
     page: number;
     entries_per_page: number;
     search_key: string;

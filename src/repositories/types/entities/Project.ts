@@ -1,5 +1,4 @@
-import { IsBoolean, IsDate, IsDefined, IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
-import { IntegrationProvider } from './Integrations';
+import { IsBoolean, IsDate, IsNotEmpty, IsOptional } from 'class-validator';
 import { Analysis } from './Analysis';
 import { Type } from 'class-transformer';
 import { TeamMember } from './Organization';
@@ -14,13 +13,6 @@ export class Project {
 
     @IsNotEmpty()
     description!: string;
-
-    @IsNotEmpty()
-    integration_id!: string;
-
-    @IsDefined()
-    @IsEnum(IntegrationProvider)
-    type!: IntegrationProvider;
 
     @IsNotEmpty()
     url!: string;
@@ -73,7 +65,4 @@ export class Repository {
 
     @IsBoolean()
     imported_already!: boolean;
-
-    @IsNotEmpty()
-    integration_id!: string;
 }

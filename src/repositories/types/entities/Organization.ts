@@ -10,7 +10,6 @@ import {
     IsNumber,
     IsOptional
 } from 'class-validator';
-import type { VCS } from './Integrations';
 import type { Project } from './Project';
 
 export class Organization {
@@ -60,19 +59,7 @@ export class OrganizationMetaData {
     created_on!: Date;
 
     @IsArray()
-    integrations!: VCS[];
-
-    @IsArray()
     projects!: Project[];
-
-    // @IsBoolean()
-    // vcs_integrations_added!: boolean;
-    // @IsBoolean()
-    // integrations_added!: boolean;
-    // @IsBoolean()
-    // projects_added!: boolean;
-    // @IsBoolean()
-    // analyses_started!: boolean;
 }
 
 export enum MemberRole {
