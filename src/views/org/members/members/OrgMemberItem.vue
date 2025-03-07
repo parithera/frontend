@@ -12,7 +12,6 @@ import CenteredModal from '@/common_components/CenteredModal.vue';
 import { ref, type Ref } from 'vue';
 import { Icon } from '@iconify/vue';
 import { errorToast, successToast } from '@/utils/toasts';
-import NormalButton from '@/common_components/buttons/NormalButton.vue';
 import Button from '@/shadcn/ui/button/Button.vue';
 
 const props = defineProps<{
@@ -213,14 +212,14 @@ const emit = defineEmits<{
                 </template>
                 <template v-if="centeredModalAction == ModalAction.Kick" #text> Cancel </template>
             </Button>
-            <NormalButton
+            <Button
                 @click="
                     centeredModalActionId = undefined;
                     centeredModalRef.toggle();
                 "
             >
                 <template #text>Cancel</template>
-            </NormalButton>
+        </Button>
         </template>
     </CenteredModal>
 </template>

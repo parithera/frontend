@@ -20,9 +20,9 @@ import Pagination from '@/common_components/PaginationComponent.vue';
 import { debounce } from '@/utils/searchUtils';
 import OrgMemberItem from './members/OrgMemberItem.vue';
 import { SortDirection } from '@/repositories/types/PaginatedRequestOptions';
-import BlueButton from '@/common_components/buttons/BlueButton.vue';
 import BorderCard from '@/common_components/cards/BorderCard.vue';
 import SortableTable from '@/common_components/tables/SortableTable.vue';
+import Button from '@/shadcn/ui/button/Button.vue';
 
 const orgRepo = new OrgRepository();
 const authStore = useAuthStore();
@@ -258,15 +258,15 @@ async function onRefetch() {
                                         </div>
                                     </div>
                                     <div class="flex flex-row gap-2 items-center flex-wrap">
-                                        <BlueButton
+                                        <Button
                                             v-if="errorCodeMembers != APIErrors.NotAuthorized"
                                             @click="fetchOrganizationMembers"
                                         >
                                             <template #text> Try again </template>
-                                        </BlueButton>
-                                        <BlueButton @click="router.push({ name: 'orgs' })">
+                                        </Button>
+                                        <Button @click="router.push({ name: 'orgs' })">
                                             <template #text> Go back </template>
-                                        </BlueButton>
+                                        </Button>
                                     </div>
                                 </div>
                             </div>

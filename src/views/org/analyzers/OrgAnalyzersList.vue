@@ -13,7 +13,6 @@ import { useAuthStore } from '@/stores/auth';
 import { BusinessLogicError } from '@/repositories/BaseRepository';
 import BoxLoader from '@/common_components/BoxLoader.vue';
 import type { Analyzer } from '@/repositories/types/entities/Analyzer';
-import BlueButton from '@/common_components/buttons/BlueButton.vue';
 import Card from '@/shadcn/ui/card/Card.vue';
 import CardHeader from '@/shadcn/ui/card/CardHeader.vue';
 import CardTitle from '@/shadcn/ui/card/CardTitle.vue';
@@ -153,12 +152,12 @@ init();
                                     </div>
                                 </div>
                                 <div class="flex flex-row gap-2 items-center flex-wrap">
-                                    <BlueButton @click="fetchAnalyzers">
+                                    <Button @click="fetchAnalyzers">
                                         <template #text> Try again </template>
-                                    </BlueButton>
-                                    <BlueButton @click="router.back">
+                                    </Button>
+                                    <Button @click="router.back">
                                         <template #text> Go back </template>
-                                    </BlueButton>
+                                    </Button>
                                 </div>
                             </div>
                         </div>

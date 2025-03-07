@@ -18,10 +18,10 @@ import { Icon } from '@iconify/vue';
 
 import { SortDirection } from '@/repositories/types/PaginatedRequestOptions';
 import BoxLoader from '@/common_components/BoxLoader.vue';
-import BlueButton from '@/common_components/buttons/BlueButton.vue';
 import BorderCard from '@/common_components/cards/BorderCard.vue';
 import type { TableHeader } from '@/common_components/tables/SortableTable.vue';
 import AuditLogsTable from '@/enterprise_components/activity_logs/AuditLogsTable.vue';
+import Button from '@/shadcn/ui/button/Button.vue';
 
 const orgRepo = new OrgRepository();
 const authStore = useAuthStore();
@@ -236,15 +236,15 @@ init();
                                         </div>
                                     </div>
                                     <div class="flex flex-row gap-2 items-center flex-wrap">
-                                        <BlueButton
+                                        <Button
                                             v-if="errorCode != APIErrors.NotAuthorized"
                                             @click="fetchOrgAuditLogs()"
                                         >
                                             <template #text> Try again </template>
-                                        </BlueButton>
-                                        <BlueButton @click="router.push({ name: 'orgs' })">
+                                        </Button>
+                                        <Button @click="router.push({ name: 'orgs' })">
                                             <template #text> Go to orgs </template>
-                                        </BlueButton>
+                                        </Button>
                                     </div>
                                 </div>
                             </div>

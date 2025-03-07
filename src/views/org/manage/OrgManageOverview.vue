@@ -11,7 +11,6 @@ import OrgHeaderItem from '@/views/org/subcomponents/OrgHeaderItem.vue';
 import CenteredModal from '@/common_components/CenteredModal.vue';
 import FaqBox from '@/common_components/FaqBox.vue';
 import { errorToast, successToast } from '@/utils/toasts';
-import NormalButton from '@/common_components/buttons/NormalButton.vue';
 import InfoBoxRed from '@/common_components/info_box/InfoBoxRed.vue';
 import Button from '@/shadcn/ui/button/Button.vue';
 
@@ -325,14 +324,14 @@ function setOrgInfo(_orgInfo: Organization) {
                 <template v-if="orgAction == OrgAction.DELETE" #text> Delete </template>
                 <template v-else-if="orgAction == OrgAction.LEAVE" #text> Leave </template>
             </Button>
-            <NormalButton
+            <Button
                 @click="
                     orgActionId = '';
                     orgActionModalRef.toggle();
                 "
             >
                 <template #text> Cancel </template>
-            </NormalButton>
+            </Button>
         </template>
     </CenteredModal>
 </template>

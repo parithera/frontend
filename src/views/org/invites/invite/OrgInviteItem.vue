@@ -16,7 +16,6 @@ import CenteredModal from '@/common_components/CenteredModal.vue';
 import { APIErrors } from '@/repositories/types/errors/ApiErrors';
 import LoadingButton from '@/common_components/LoadingButton.vue';
 import { errorToast, successToast } from '@/utils/toasts';
-import NormalButton from '@/common_components/buttons/NormalButton.vue';
 import Button from '@/shadcn/ui/button/Button.vue';
 
 enum ModalAction {
@@ -291,9 +290,9 @@ const emit = defineEmits<{
                     Revoke invitation
                 </template>
             </Button>
-            <NormalButton @click="centeredModalRef.toggle()">
+            <Button @click="centeredModalRef.toggle()">
                 <template #text> Cancel </template>
-            </NormalButton>
+            </Button>
         </template>
     </CenteredModal>
 </template>
