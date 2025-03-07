@@ -11,8 +11,6 @@ import { AuthRepository } from '@/repositories/AuthRepository';
 import type { AuthenticatedUser } from '@/repositories/types/entities/AuthenticatedUser';
 import router from '@/router';
 import { BusinessLogicError, ValidationError } from '@/repositories/BaseRepository';
-import { APIErrors } from '@/repositories/types/errors/ApiErrors';
-import ErrorCard from '@/common_components/errors/ErrorCard.vue';
 
 import { Button } from '@/shadcn/ui/button';
 
@@ -103,39 +101,6 @@ async function submit(values: any) {
 </script>
 
 <template>
-    <!-- Errors -->
-    <ErrorCard v-if="error">
-        <template #content>
-            <Icon icon="material-symbols:error-outline" />
-            <div v-if="errorCode">
-                <div v-if="errorCode == APIErrors.InternalError">
-                    An error occured during the processing of the request.
-                </div>
-                <div v-else-if="errorCode == APIErrors.WrongCredentials">Wrong credentials.</div>
-                <div v-else-if="errorCode == APIErrors.RegistrationNotVerified">
-                    You have not yet verified your registration. Please go to your email inbox and
-                    follow the instructions therein.
-                </div>
-                <div v-else-if="errorCode == APIErrors.CannotPerformActionOnSocialAccount">
-                    To connected using your Social account, click on the respective Social button
-                    below.
-                </div>
-                <div v-else-if="errorCode == APIErrors.EntityNotFound">
-                    This should not have happened. Please try again.
-                    <!-- Race condition -->
-                </div>
-                <div
-                    v-else-if="errorCode == APIErrors.ValidationFailed"
-                    class="whitespace-break-spaces"
-                >
-                    <!-- Note: this should never happen unless our client and server side validation are out of sync -->
-                    {{ validationError!.toMessage('Invalid form:') }}
-                </div>
-                <div v-else>An error occured during the processing of the request.</div>
-            </div>
-            <div v-else>An error occured during the processing of the request.</div>
-        </template>
-    </ErrorCard>
     <div :class="cn('grid gap-6', $attrs.class ?? '')">
         <form
             class="flex flex-col gap-4"

@@ -21,35 +21,6 @@
                         Welcome, please fill out the below information.
                     </p>
                 </div>
-                <!-- Errors -->
-                <ErrorCard v-if="error">
-                    <template #content>
-                        <Icon icon="material-symbols:error-outline" />
-                        <div v-if="errorCode">
-                            <div v-if="errorCode == APIErrors.InternalError">
-                                An error occured during the processing of the request.
-                            </div>
-                            <div v-else-if="errorCode == APIErrors.PasswordsDoNotMatch">
-                                Passwords do not match.
-                            </div>
-                            <div v-else-if="errorCode == APIErrors.EmailAlreadyExists">
-                                A user with that email already exists.
-                            </div>
-                            <div v-else-if="errorCode == APIErrors.HandleAlreadyExists">
-                                A user with that handle already exists, choose a different handle.
-                            </div>
-                            <div
-                                v-else-if="errorCode == APIErrors.ValidationFailed"
-                                style="white-space: break-spaces"
-                            >
-                                <!-- Note: this should never happen unless our client and server side validation are out of sync -->
-                                {{ validationError!.toMessage('Invalid form:') }}
-                            </div>
-                            <div v-else>An error occured during the processing of the request.</div>
-                        </div>
-                        <div v-else>An error occured during the processing of the request.</div>
-                    </template>
-                </ErrorCard>
                 <div :class="cn('grid gap-6', $attrs.class ?? '')">
                     <!-- Content -->
                     <Form
@@ -195,7 +166,6 @@ import { Icon } from '@iconify/vue';
 import { AuthRepository } from '@/repositories/AuthRepository';
 import { BusinessLogicError, ValidationError } from '@/repositories/BaseRepository';
 import { APIErrors } from '@/repositories/types/errors/ApiErrors';
-import ErrorCard from '@/common_components/errors/ErrorCard.vue';
 import { cn } from '@/lib/utils';
 import { Button, buttonVariants } from '@/shadcn/ui/button';
 import { useAuthStore } from '@/stores/auth';
@@ -215,21 +185,6 @@ import {
 import { Input } from '@/shadcn/ui/input';
 import { Checkbox } from '@/shadcn/ui/checkbox';
 import { toast } from '@/shadcn/ui/toast';
-
-// import ErrorComponent from '@/common_components/ErrorComponent.vue';
-// import LoadingComponent from '@/common_components/LoadingComponent.vue';
-// import { defineAsyncComponent } from 'vue';
-
-// const SSOAuth = defineAsyncComponent({
-//     loader: () => import('@/enterprise_components/sso/SSOAuth.vue'),
-//     loadingComponent: LoadingComponent,
-//     // Delay before showing the loading component. Default: 200ms.
-//     delay: 200,
-//     errorComponent: ErrorComponent,
-//     // The error component will be displayed if a timeout is
-//     // provided and exceeded. Default: Infinity.
-//     timeout: 3000
-// });
 
 // Stores
 const authStore = useAuthStore();

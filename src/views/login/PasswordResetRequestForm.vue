@@ -2,10 +2,14 @@
     <div class="flex flex-col justify-center items-center my-20">
         <div class="max-w-lg w-full flex flex-col" v-if="!success">
             <!-- Header -->
-            <TitleAndSubtitle>
-                <template #title>Password Reset</template>
-                <template #description>To reset your password, enter your email below</template>
-            </TitleAndSubtitle>
+            <div class="flex gap-10 items-center">
+                <div class="text-2xl flex flex-row gap-2 items-center">
+                    Password Reset
+                </div>
+                <div class="text-gray-500 font-medium">
+                    To reset your password, enter your email below
+                </div>
+            </div>
 
             <div class="flex flex-col gap-8">
                 <div v-if="error">
@@ -86,7 +90,6 @@ import LoadingSubmitButton from '@/common_components/LoadingSubmitButton.vue';
 import { BusinessLogicError, ValidationError } from '@/repositories/BaseRepository';
 import { AuthRepository } from '@/repositories/AuthRepository';
 import { Icon } from '@iconify/vue';
-import TitleAndSubtitle from '@/common_components/headers/TitleAndSubtitle.vue';
 import FormTextField from '@/common_components/forms/FormTextField.vue';
 
 // Repositories
