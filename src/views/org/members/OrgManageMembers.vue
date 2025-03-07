@@ -12,16 +12,14 @@ import { useAuthStore } from '@/stores/auth';
 import { onMounted, ref, watch, type Ref } from 'vue';
 import { useRoute } from 'vue-router';
 import OrgHeaderItem from '@/views/org/subcomponents/OrgHeaderItem.vue';
-import BoxLoader from '@/common_components/BoxLoader.vue';
 import { APIErrors } from '@/repositories/types/errors/ApiErrors';
 import SearchBar from '@/common_components/SearchBar.vue';
 import { Icon } from '@iconify/vue';
 import Pagination from '@/common_components/PaginationComponent.vue';
 import { debounce } from '@/utils/searchUtils';
-import OrgMemberItem from './members/OrgMemberItem.vue';
 import { SortDirection } from '@/repositories/types/PaginatedRequestOptions';
-import BorderCard from '@/common_components/cards/BorderCard.vue';
 import Button from '@/shadcn/ui/button/Button.vue';
+import type { OrganizationMembership } from '@/repositories/types/entities/OrganizationMembership';
 
 const orgRepo = new OrgRepository();
 const authStore = useAuthStore();
@@ -33,25 +31,13 @@ const orgInfo: Ref<Organization | undefined> = ref();
 const errorCodeMembers: Ref<string> = ref('');
 const errorMembers: Ref<boolean> = ref(false);
 const orgId: Ref<string> = ref('');
-const orgMembers: Ref<TeamMember[]> = ref([]);
+const orgMembers: Ref<OrganizationMembership[]> = ref([]);
 const totalEntries: Ref<number> = ref(0);
 const totalPages: Ref<number> = ref(0);
 const currentPage: Ref<number> = ref(0);
 const entriesPerPage: Ref<number> = ref(10);
 const sortDirection: Ref<SortDirection> = ref(SortDirection.DESC);
 const sortKey: Ref<string> = ref('role');
-
-const headers = [
-    { label: 'User', key: 'handle' },
-    { label: 'Email', key: 'email' },
-    { label: 'Role', key: 'role' },
-    { label: 'Joined', key: 'joined_on' },
-    { label: 'Actions', key: null }
-];
-
-watch([currentPage, entriesPerPage], async () => {
-    await fetchOrganizationMembers(true);
-});
 
 async function fetchOrganizationMembers(refresh: boolean = false) {
     if (!orgId.value) return;
@@ -90,29 +76,8 @@ async function fetchOrganizationMembers(refresh: boolean = false) {
     }
 }
 
-async function updateSort(key: any) {
-    if (key == undefined) return;
-    if (key != undefined)
-        if (key == sortKey.value) {
-            // If we select the same column then we reverse the direction
-            sortDirection.value =
-                sortDirection.value == SortDirection.ASC ? SortDirection.DESC : SortDirection.ASC;
-        } else {
-            // Default direction
-            sortDirection.value = SortDirection.DESC;
-        }
-    sortKey.value = key;
-    await fetchOrganizationMembers(true);
-}
-
 onMounted(() => {
     init();
-});
-
-watch([search], async () => {
-    debounce(async () => {
-        await fetchOrganizationMembers(true);
-    }, 250);
 });
 
 function init() {
@@ -137,124 +102,73 @@ function setOrgInfo(_orgInfo: Organization) {
         router.push({ name: 'orgManage', params: { page: '', orgId: _orgInfo.id } });
     }
 }
-
-async function onRefetch() {
-    await fetchOrganizationMembers(true);
-}
 </script>
 <template>
     <div class="flex flex-col gap-8 org-members-manage-wrapper">
-        <OrgHeaderItem
-            v-if="orgId"
-            :org-id="orgId"
-            @on-org-info="setOrgInfo($event)"
-        ></OrgHeaderItem>
+        <OrgHeaderItem v-if="orgId" :org-id="orgId" @on-org-info="setOrgInfo($event)"></OrgHeaderItem>
         <div v-if="orgInfo" class="flex flex-col gap-8 p-12">
-            <div
-                v-if="
-                    (!orgInfo.personal && orgInfo.role == MemberRole.OWNER) ||
-                    orgInfo.role == MemberRole.ADMIN ||
-                    orgInfo.role == MemberRole.MODERATOR
-                "
-            >
+            <div v-if="
+                (!orgInfo.personal && orgInfo.role == MemberRole.OWNER) ||
+                orgInfo.role == MemberRole.ADMIN ||
+                orgInfo.role == MemberRole.MODERATOR
+            ">
                 <h2 class="text-2xl font-semibold mb-4">Related Actions</h2>
                 <div class="flex flex-row gap-4 flex-wrap items-stretch org-manage-items">
-                    <RouterLink :to="{ name: 'orgAddInvite', params: { orgId: orgId } }">
-                        <BorderCard :hover="true" :slim="true">
-                            <template #title> Invite another User </template>
-                        </BorderCard>
+                    <RouterLink :to="{ name: 'orgs', params: { orgId: orgId, page:'invites', action: 'add'  } }">
+                        <Button>
+                            Invite another User
+                        </Button>
                     </RouterLink>
-                    <RouterLink
-                        :to="{ name: 'orgManage', params: { orgId: orgId, page: 'invites' } }"
-                    >
-                        <BorderCard :hover="true" :slim="true">
-                            <template #title> Manage organization invites </template>
-                        </BorderCard>
+                    <RouterLink :to="{ name: 'orgs', params: { orgId: orgId, page: 'invites', action: 'manage' } }">
+                        <Button>
+                            Manage organization invites
+                        </Button>
                     </RouterLink>
                 </div>
             </div>
             <div>
                 <h2 class="text-2xl font-semibold mb-4">Member Management</h2>
-                <div v-if="loadingMembers">
-                    <div class="flex flex-col gap-2 justify-between" style="padding: 5px">
-                        <BoxLoader
-                            :dimensions="{ width: '100%', height: '50px' }"
-                            v-for="i in 10"
-                            :key="i"
-                        />
+                <div class="flex flex-col gap-5 org-members-list-wrapper" v-if="!errorMembers">
+                    <div v-for="member of orgMembers">
+                        {{ member.user.first_name }} {{ member.user.last_name }}
                     </div>
                 </div>
                 <div v-else>
-                    <div class="flex flex-col gap-5 org-members-list-wrapper" v-if="!errorMembers">
-                        <SearchBar v-model:searchKey="search" :placeholder="placeholder" />
-
-                        <Pagination
-                            v-model:page="currentPage"
-                            v-model:nmbEntriesShowing="entriesPerPage"
-                            v-model:nmbEntriesTotal="totalEntries"
-                            v-model:totalPages="totalPages"
-                        >
-                            <template #content>
-                                <div
-                                    v-if="totalEntries == 0 && search != ''"
-                                    class="flex flex-row gap-4 justify-center"
-                                    style="margin-top: 10px"
-                                >
-                                    No members match your search
-                                </div>
-                                <div
-                                    v-if="totalEntries == 0 && search == ''"
-                                    class="flex flex-row gap-4 justify-center"
-                                    style="margin-top: 10px"
-                                >
-                                    No members
-                                </div>
-                            </template>
-                        </Pagination>
-                    </div>
-                    <div v-else>
-                        <div class="flex flex-row gap-2" style="font-size: 1.2em">
-                            <Icon
-                                class="icon user-icon"
-                                icon="solar:confounded-square-outline"
-                                style="font-size: 2.5rem; height: fit-content"
-                            ></Icon>
-                            <div>
-                                <div class="flex flex-col gap-5">
-                                    <div class="flex flex-col gap-2">
-                                        <div>We failed to retrieve the organization's members</div>
-                                        <div style="font-size: 0.7em">
-                                            <div
-                                                v-if="errorCodeMembers == APIErrors.EntityNotFound"
-                                            >
-                                                This organization does not exist.
-                                            </div>
-                                            <div v-if="errorCodeMembers == APIErrors.NotAuthorized">
-                                                You do not have permission to access the
-                                                organization's members..
-                                            </div>
-                                            <div v-else>
-                                                You can try again, and if the error persits, then
-                                                please contact the webmaster.
-                                            </div>
+                    <div class="flex flex-row gap-2" style="font-size: 1.2em">
+                        <Icon class="icon user-icon" icon="solar:confounded-square-outline"
+                            style="font-size: 2.5rem; height: fit-content"></Icon>
+                        <div>
+                            <div class="flex flex-col gap-5">
+                                <div class="flex flex-col gap-2">
+                                    <div>We failed to retrieve the organization's members</div>
+                                    <div style="font-size: 0.7em">
+                                        <div v-if="errorCodeMembers == APIErrors.EntityNotFound">
+                                            This organization does not exist.
+                                        </div>
+                                        <div v-if="errorCodeMembers == APIErrors.NotAuthorized">
+                                            You do not have permission to access the
+                                            organization's members..
+                                        </div>
+                                        <div v-else>
+                                            You can try again, and if the error persits, then
+                                            please contact the webmaster.
                                         </div>
                                     </div>
-                                    <div class="flex flex-row gap-2 items-center flex-wrap">
-                                        <Button
-                                            v-if="errorCodeMembers != APIErrors.NotAuthorized"
-                                            @click="fetchOrganizationMembers"
-                                        >
-                                            <template #text> Try again </template>
-                                        </Button>
-                                        <Button @click="router.push({ name: 'orgs' })">
-                                            <template #text> Go back </template>
-                                        </Button>
-                                    </div>
+                                </div>
+                                <div class="flex flex-row gap-2 items-center flex-wrap">
+                                    <Button v-if="errorCodeMembers != APIErrors.NotAuthorized"
+                                        @click="fetchOrganizationMembers">
+                                        Try again
+                                    </Button>
+                                    <Button @click="router.push({ name: 'orgs' })">
+                                        Go back
+                                    </Button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

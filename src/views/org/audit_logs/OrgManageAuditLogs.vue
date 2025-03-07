@@ -7,25 +7,19 @@ import {
 import router from '@/router';
 import { ref, watch, type Ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { APIErrors } from '@/repositories/types/errors/ApiErrors';
 import { debounce } from '@/utils/searchUtils';
 import type { AuditLog } from '@/repositories/types/entities/AuditLog';
 import { OrgRepository } from '@/repositories/OrganizationRepository';
 import { useAuthStore } from '@/stores/auth';
 import { BusinessLogicError } from '@/repositories/BaseRepository';
 import OrgHeaderItem from '@/views/org/subcomponents/OrgHeaderItem.vue';
-import { Icon } from '@iconify/vue';
 
 import { SortDirection } from '@/repositories/types/PaginatedRequestOptions';
-import BoxLoader from '@/common_components/BoxLoader.vue';
-import BorderCard from '@/common_components/cards/BorderCard.vue';
-import AuditLogsTable from '@/enterprise_components/activity_logs/AuditLogsTable.vue';
 import Button from '@/shadcn/ui/button/Button.vue';
 
 const orgRepo = new OrgRepository();
 const authStore = useAuthStore();
 
-const placeholder = 'Search by user email, log class, log type or log text';
 const loading: Ref<boolean> = ref(false);
 const error: Ref<boolean> = ref(false);
 const errorCode: Ref<string | undefined> = ref();
@@ -60,27 +54,6 @@ watch([currentPage, entriesPerPage], async () => {
 
 async function changePage(_page: number) {
     currentPage.value = _page;
-    await fetchOrgAuditLogs(true);
-}
-
-async function updateSort(_sortKey: string, _sortDirection: SortDirection) {
-    // if (key == undefined) return;
-    // if (key != undefined)
-    //     if (key == sortKey.value) {
-    //         // If we select the same column then we reverse the direction
-    //         sortDirection.value =
-    //             sortDirection.value == SortDirection.ASC ? SortDirection.DESC : SortDirection.ASC;
-    //     } else {
-    //         // Default direction
-    //         sortDirection.value = SortDirection.DESC;
-    //     }
-    // sortKey.value = key;
-    sortKey.value = _sortKey;
-    sortDirection.value = _sortDirection;
-    await fetchOrgAuditLogs(true);
-}
-
-async function onRefetch() {
     await fetchOrgAuditLogs(true);
 }
 
@@ -146,100 +119,24 @@ init();
 </script>
 <template>
     <div class="flex flex-col gap-8 org-audit-log-wrapper">
-        <OrgHeaderItem
-            v-if="orgId"
-            :org-id="orgId"
-            @on-org-info="setOrgInfo($event)"
-        ></OrgHeaderItem>
+        <OrgHeaderItem v-if="orgId" :org-id="orgId" @on-org-info="setOrgInfo($event)"></OrgHeaderItem>
         <div v-if="orgInfo" class="flex flex-col gap-8 p-12">
-            <div
-                v-if="
-                    (!orgInfo.personal && orgInfo.role == MemberRole.OWNER) ||
-                    orgInfo.role == MemberRole.ADMIN ||
-                    orgInfo.role == MemberRole.MODERATOR
-                "
-            >
+            <div v-if="
+                (!orgInfo.personal && orgInfo.role == MemberRole.OWNER) ||
+                orgInfo.role == MemberRole.ADMIN ||
+                orgInfo.role == MemberRole.MODERATOR
+            ">
                 <h2 class="text-2xl font-semibold">Related Actions</h2>
                 <div class="flex flex-row gap-4 flex-wrap items-stretch org-manage-items">
-                    <RouterLink
-                        :to="{ name: 'orgManage', params: { orgId: orgId, page: 'members' } }"
-                    >
-                        <BorderCard :hover="true" :slim="true">
-                            <template #title> Manage organization members </template>
-                        </BorderCard>
+                    <RouterLink :to="{ name: 'orgs', params: { orgId: orgId, page: 'members', action: 'manage' } }">
+                        <Button>Manage organization members </Button>
                     </RouterLink>
                 </div>
             </div>
             <div>
                 <h2 class="text-2xl font-semibold">Audit logs</h2>
-                <div v-if="loading">
-                    <div class="flex flex-col gap-2 justify-center" style="padding: 5px">
-                        <BoxLoader
-                            :dimensions="{ width: '100%', height: '50px' }"
-                            :key="i"
-                            v-for="i in 10"
-                        />
-                    </div>
-                </div>
-                <div v-else>
-                    <div class="flex flex-col gap-5 org-members-list-wrapper" v-if="!error">
-                        <AuditLogsTable
-                            :placeholder="placeholder"
-                            :sortKey="sortKey"
-                            :sortDirection="sortDirection"
-                            :updateSort="updateSort"
-                            :orgAuditLogs="orgAuditLogs"
-                            :orgInfo="orgInfo"
-                            :onRefetch="onRefetch"
-                            v-model:search="search"
-                            v-model:totalEntries="totalEntries"
-                            v-model:currentPage="currentPage"
-                            v-model:entriesPerPage="entriesPerPage"
-                            v-model:totalPages="totalPages"
-                        />
-                    </div>
-                    <div v-else>
-                        <div class="flex flex-row gap-2" style="font-size: 1.2em">
-                            <Icon
-                                class="icon user-icon"
-                                icon="solar:confounded-square-outline"
-                                style="font-size: 2.5rem; height: fit-content"
-                            ></Icon>
-                            <div>
-                                <div class="flex flex-col gap-5">
-                                    <div class="flex flex-col gap-2">
-                                        <div>
-                                            We failed to retrieve the organization's audit logs
-                                        </div>
-                                        <div style="font-size: 0.7em">
-                                            <div v-if="errorCode == APIErrors.EntityNotFound">
-                                                This organization does not exist.
-                                            </div>
-                                            <div v-if="errorCode == APIErrors.NotAuthorized">
-                                                You do not have permission to access the
-                                                organization's audit logs..
-                                            </div>
-                                            <div v-else>
-                                                You can try again, and if the error persits, then
-                                                please contact the webmaster.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex flex-row gap-2 items-center flex-wrap">
-                                        <Button
-                                            v-if="errorCode != APIErrors.NotAuthorized"
-                                            @click="fetchOrgAuditLogs()"
-                                        >
-                                            <template #text> Try again </template>
-                                        </Button>
-                                        <Button @click="router.push({ name: 'orgs' })">
-                                            <template #text> Go to orgs </template>
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div>
+                    This will be present in the next version of the platform
                 </div>
             </div>
         </div>
