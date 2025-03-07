@@ -1,8 +1,8 @@
+@use 'fonts/lato.scss' as lato;
+@use 'fonts/roboto.scss' as roboto;
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import 'fonts/lato.scss';
-@import 'fonts/roboto.scss';
 
 
 @layer base {

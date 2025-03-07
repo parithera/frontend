@@ -299,7 +299,7 @@ const emit = defineEmits<{
 </template>
 
 <style scoped lang="scss">
-@import '@/assets/colors.scss';
+@use '@/assets/colors.scss';
 
 .org-membership {
     border-radius: 15px;

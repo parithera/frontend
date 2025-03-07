@@ -56,7 +56,7 @@ defineExpose({
 </script>
 
 <style scoped lang="scss">
-@import '@/assets/colors.scss';
+@use '@/assets/colors.scss';
 
 .loading-wrapper-local {
     width: 100%;

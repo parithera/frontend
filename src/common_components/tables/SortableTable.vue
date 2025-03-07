@@ -77,7 +77,7 @@ async function updateSort(key: string | null) {
 </template>
 
 <style scoped lang="scss">
-@import '@/assets/colors.scss';
+@use '@/assets/colors.scss';
 
 .stylized_table :deep(tbody) > tr > td > div {
     padding-top: 5px;
