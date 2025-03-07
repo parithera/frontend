@@ -176,25 +176,6 @@ init();
                                 </CardHeader>
                                 <CardContent>
                                     <div class="grid grid-cols-2 gap-2">
-                                        <!-- <Button>
-                                            <RouterLink
-                                                class="integration-box-wrapper-iteme"
-                                                :to="{
-                                                    name: 'orgs',
-                                                    params: {
-                                                        action: 'edit',
-                                                        page: 'analyzers',
-                                                        orgId: orgId
-                                                    },
-                                                    query: {
-                                                        analyzerId: analyzer.id
-                                                    }
-                                                }"
-                                            >
-                                                Modify
-                                            </RouterLink>
-                                        </Button> -->
-
                                         <Dialog>
                                             <DialogTrigger>
                                                 <Button variant="destructive">Delete</Button>

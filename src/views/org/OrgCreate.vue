@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { BusinessLogicError } from '@/repositories/BaseRepository'
 import { OrgRepository } from '@/repositories/OrganizationRepository'
-import { AutoForm, AutoFormField } from '@/shadcn/ui/auto-form'
+import { AutoForm } from '@/shadcn/ui/auto-form'
 import { Button } from '@/shadcn/ui/button'
 import { toast } from '@/shadcn/ui/toast'
 import { useAuthStore } from '@/stores/auth'
-import { h } from 'vue'
 import { ValidationError } from 'yup'
 import * as z from 'zod'
 

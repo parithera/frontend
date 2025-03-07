@@ -13,7 +13,7 @@ import LoadingComponent from '@/common_components/LoadingComponent.vue';
 import { defineAsyncComponent } from 'vue';
 
 const UserAuthForm = defineAsyncComponent({
-    loader: () => import('./authentication/UserAuthForm.vue'),
+    loader: () => import('@/views/login/UserAuthForm.vue'),
     loadingComponent: LoadingComponent,
     // Delay before showing the loading component. Default: 200ms.
     delay: 200,

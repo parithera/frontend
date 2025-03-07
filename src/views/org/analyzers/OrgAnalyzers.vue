@@ -16,17 +16,6 @@ const OrgAnalyzersList = defineAsyncComponent({
     timeout: 3000
 });
 
-const OrgAnalyzerEdit = defineAsyncComponent({
-    loader: () => import('@/views/org/analyzers/OrgAnalyzerEdit.vue'),
-    loadingComponent: LoadingComponent,
-    // Delay before showing the loading component. Default: 200ms.
-    delay: 200,
-    errorComponent: ErrorComponent,
-    // The error component will be displayed if a timeout is
-    // provided and exceeded. Default: Infinity.
-    timeout: 3000
-});
-
 const OrgAnalyzerCreate = defineAsyncComponent({
     loader: () => import('@/views/org/analyzers/OrgAnalyzerCreate.vue'),
     loadingComponent: LoadingComponent,
@@ -51,6 +40,5 @@ defineProps<{
 </script>
 <template>
     <OrgAnalyzersList v-if="action == 'manage'" :page="page" :orgId="orgId" />
-    <OrgAnalyzerEdit v-else-if="action == 'edit'" :page="page" :orgId="orgId" />
     <OrgAnalyzerCreate v-else-if="action == 'add'" :page="page" :orgId="orgId" />
 </template>
