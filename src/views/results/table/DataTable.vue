@@ -131,7 +131,7 @@ watch(loading, ()=>{
             if (progress.value >= 100) {
                 clearInterval(interval);
             }
-        }, 1800); // Increment progress every 600ms to reach 100 in about 1 minute
+        }, 6000); // Increment progress every 600ms to reach 100 in about 1 minute
     } else {
         progress.value = 0; // Reset progress when loading is false
     }
