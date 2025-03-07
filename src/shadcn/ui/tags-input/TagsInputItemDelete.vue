@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/shadcn'
 import { X } from 'lucide-vue-next'
 import { TagsInputItemDelete, type TagsInputItemDeleteProps, useForwardProps } from 'radix-vue'
 import { computed, type HTMLAttributes } from 'vue'

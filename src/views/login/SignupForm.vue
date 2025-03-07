@@ -166,7 +166,7 @@ import { Icon } from '@iconify/vue';
 import { AuthRepository } from '@/repositories/AuthRepository';
 import { BusinessLogicError, ValidationError } from '@/repositories/BaseRepository';
 import { APIErrors } from '@/repositories/types/errors/ApiErrors';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/shadcn';
 import { Button, buttonVariants } from '@/shadcn/ui/button';
 import { useAuthStore } from '@/stores/auth';
 import { useForm } from 'vee-validate';
