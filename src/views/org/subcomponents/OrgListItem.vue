@@ -10,9 +10,9 @@ import { useAuthStore } from '@/stores/auth';
 import { BusinessLogicError } from '@/repositories/BaseRepository';
 import { APIErrors } from '@/repositories/types/errors/ApiErrors';
 import { errorToast, successToast } from '@/utils/toasts';
-import AlertButton from '@/common_components/buttons/AlertButton.vue';
 import NormalButton from '@/common_components/buttons/NormalButton.vue';
 import type { OrganizationMembership } from '@/repositories/types/entities/OrganizationMembership';
+import Button from '@/shadcn/ui/button/Button.vue';
 
 enum OrgAction {
     DELETE = 'delete',
@@ -313,7 +313,8 @@ function performOrgAction() {
             </div>
         </template>
         <template #buttons>
-            <AlertButton
+            <Button
+                variant="destructive"
                 @click="
                     performOrgAction();
                     orgActionModalRef.toggle();
@@ -327,7 +328,7 @@ function performOrgAction() {
                 </template>
                 <template v-if="orgAction == OrgAction.DELETE" #text> Delete </template>
                 <template v-else-if="orgAction == OrgAction.LEAVE" #text> Leave </template>
-            </AlertButton>
+            </Button>
             <NormalButton
                 @click="
                     orgActionId = '';

@@ -16,8 +16,8 @@ import CenteredModal from '@/common_components/CenteredModal.vue';
 import { APIErrors } from '@/repositories/types/errors/ApiErrors';
 import LoadingButton from '@/common_components/LoadingButton.vue';
 import { errorToast, successToast } from '@/utils/toasts';
-import AlertButton from '@/common_components/buttons/AlertButton.vue';
 import NormalButton from '@/common_components/buttons/NormalButton.vue';
+import Button from '@/shadcn/ui/button/Button.vue';
 
 enum ModalAction {
     REVOKE = 'REVOKE',
@@ -233,7 +233,8 @@ const emit = defineEmits<{
                         <div>Resend invitation</div>
                     </div>
                 </LoadingButton>
-                <AlertButton
+                <Button
+                    variant="destructive"
                     @click="openModalAction(ModalAction.REVOKE)"
                     v-if="
                         !invitation.created_by ||
@@ -245,7 +246,7 @@ const emit = defineEmits<{
                         <Icon icon="mdi:email-remove"></Icon>
                     </template>
                     <template #text> Revoke invitation </template>
-                </AlertButton>
+                </Button>
             </div>
         </td>
     </tr>
@@ -282,14 +283,14 @@ const emit = defineEmits<{
             </div>
         </template>
         <template #buttons>
-            <AlertButton @click="performModalAction()">
+            <Button variant="destructive" @click="performModalAction()">
                 <template #icon v-if="centeredModalAction == ModalAction.REVOKE">
                     <Icon icon="mdi:email-remove"></Icon>
                 </template>
                 <template #text v-if="centeredModalAction == ModalAction.REVOKE">
                     Revoke invitation
                 </template>
-            </AlertButton>
+            </Button>
             <NormalButton @click="centeredModalRef.toggle()">
                 <template #text> Cancel </template>
             </NormalButton>
