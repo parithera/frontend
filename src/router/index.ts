@@ -6,7 +6,6 @@ import { AuthenticatedUser } from '@/repositories/types/entities/AuthenticatedUs
 import { OrgRepository } from '@/repositories/OrganizationRepository';
 import { BusinessLogicError } from '@/repositories/BaseRepository';
 import { APIErrors } from '@/repositories/types/errors/ApiErrors';
-import { SocialProvider } from '@/repositories/types/entities/Integrations';
 import ProjectsView from '@/views/ProjectsView.vue';
 import ResultsView from '@/views/ResultsView.vue';
 import NotFoundView from '@/views/NotFoundView.vue';
@@ -15,11 +14,9 @@ import TermsView from '@/views/TermsView.vue';
 import LoginView from '@/views/LoginView.vue';
 import SignupView from '@/views/SignupView.vue';
 import SettingsView from '@/views/SettingsView.vue';
-import OAuthCallbackView from '@/views/OAuthCallbackView.vue';
 import PasswordResetRequestView from '@/views/PasswordResetRequestView.vue';
 import OrganizationView from '@/views/OrganizationView.vue';
 import DashboardView from '@/views/DashboardView.vue';
-import HelpView from '@/views/HelpView.vue';
 import EmailActionView from '@/views/EmailActionView.vue';
 import type { Organization } from '@/repositories/types/entities/Organization';
 import SamplesView from '@/views/SamplesView.vue';
@@ -64,11 +61,6 @@ const router = createRouter({
             component: LoginView
         },
         {
-            path: '/help',
-            name: 'help',
-            component: HelpView
-        },
-        {
             path: '/orgs/:action?/:page?/:orgId?/',
             name: 'orgs',
             component: OrganizationView,
@@ -96,22 +88,6 @@ const router = createRouter({
             name: 'settings',
             component: SettingsView,
             props: true
-        },
-        {
-            path: '/auth/gitlab/callback',
-            name: 'gitlabAuthCallback',
-            component: OAuthCallbackView,
-            props: {
-                provider: SocialProvider.GITLAB
-            }
-        },
-        {
-            path: '/auth/github/callback',
-            name: 'githubAuthCallback',
-            component: OAuthCallbackView,
-            props: {
-                provider: SocialProvider.GITHUB
-            }
         },
         {
             path: '/trial',
@@ -156,8 +132,6 @@ router.beforeEach(async (to) => {
         '/trial',
         '/terms',
         '/privacy',
-        '/auth/gitlab/callback',
-        '/auth/github/callback',
         '/email_action/reset_password',
         '/email_action/confirm_registration'
     ];
