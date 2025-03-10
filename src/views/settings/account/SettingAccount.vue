@@ -70,9 +70,9 @@ import DialogContent from '@/shadcn/ui/dialog/DialogContent.vue';
 import DialogHeader from '@/shadcn/ui/dialog/DialogHeader.vue';
 import DialogTitle from '@/shadcn/ui/dialog/DialogTitle.vue';
 import DialogDescription from '@/shadcn/ui/dialog/DialogDescription.vue';
-import UpdateInfoForm from './UpdateInfoForm.vue';
-import UpdatePasswordForm from './UpdatePasswordForm.vue';
-import DeleteUserForm from './DeleteUserForm.vue';
+import UpdateInfoForm from './forms/UpdateInfoForm.vue';
+import UpdatePasswordForm from './forms/UpdatePasswordForm.vue';
+import DeleteUserForm from './forms/DeleteUserForm.vue';
 
 const state = useStateStore();
 const userStore = useUserStore();
