@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { SocialProvider } from '@/repositories/types/entities/Integrations';
 import { useStateStore } from '@/stores/state';
 
 import ErrorComponent from '@/common_components/ErrorComponent.vue';
