@@ -90,7 +90,7 @@ function saveMultiQCReport() {
             <ViolinChart v-if="violin_and_scatter_plot_data && Object.keys(violin_and_scatter_plot_data).length > 0"
                 :umap_data="violin_and_scatter_plot_data['n_genes_by_counts']" :chart_id="2" x_title="n_genes_by_counts"
                 y_title="Variance ratio"></ViolinChart>
-                <div class="font-bolder">Number of Genes</div>
+            <div class="font-bolder">Number of Genes</div>
             <span class="text-sm text-center">The number of genes with at least 1 count in a cell. Calculated for all
                 cells.</span>
         </div>
@@ -116,8 +116,8 @@ function saveMultiQCReport() {
             <span class="text-sm text-center">Contribution of single PCs to the total variance in the data.</span>
         </div>
         <div class="flex flex-col items-center">
-            <ScatterChart v-if="umap_data && Object.keys(umap_data).length > 0"
-                chart_id="6" :umap_data="umap_data['data']" :color_by="'cluster'" x_title="UMAP1" y_title="UMAP2"></ScatterChart>
+            <ScatterChart v-if="umap_data && Object.keys(umap_data).length > 0" chart_id="6"
+                :umap_data="umap_data['data']" :color_by="'cluster'" x_title="UMAP1" y_title="UMAP2"></ScatterChart>
             <div class="font-bolder">Uniform Manifold Approximation and Projection (UMAP)</div>
             <span class="text-sm text-center">Dimensionality reduction in two dimensions for visualiztion with
                 UMAP.</span>

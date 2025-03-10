@@ -135,8 +135,7 @@ const expanded = ref<ExpandedState>({})
                 {{ table.getFilteredRowModel().rows.length }} row(s) selected.
             </div>
             <div class="flex gap-2">
-                <Button size="sm" v-if="table.getCanPreviousPage()"
-                    @click="table.previousPage()">
+                <Button size="sm" v-if="table.getCanPreviousPage()" @click="table.previousPage()">
                     Previous
                 </Button>
                 <Button size="sm" v-if="table.getCanNextPage()" @click="table.nextPage()">

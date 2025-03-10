@@ -36,7 +36,7 @@ export const columns: ColumnDef<Sample>[] = [
                 onClick: () => column.toggleSorting(column.getIsSorted() === 'asc'),
             }, () => ['Name', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
         },
-        cell: ({ row }) => h('div', {class: 'text-left pl-4'}, row.getValue('name') as string),
+        cell: ({ row }) => h('div', { class: 'text-left pl-4' }, row.getValue('name') as string),
     },
     {
         accessorKey: 'description',
@@ -47,7 +47,7 @@ export const columns: ColumnDef<Sample>[] = [
             }, () => ['Comment', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })])
         },
         cell: ({ row }) =>
-            h('div', {class: 'text-left pl-4'}, row.getValue('description') as string)
+            h('div', { class: 'text-left pl-4' }, row.getValue('description') as string)
     },
     {
         accessorKey: 'tags',
@@ -63,11 +63,11 @@ export const columns: ColumnDef<Sample>[] = [
 
             for (const tag of tags) {
                 badges.push(
-                    h(Badge, {variant: "secondary"}, tag)
+                    h(Badge, { variant: "secondary" }, tag)
                 )
             }
 
-            return h('div',{class: 'text-left pl-4 flex gap-2 flex-wrap'}, badges)
+            return h('div', { class: 'text-left pl-4 flex gap-2 flex-wrap' }, badges)
         },
     },
     {
@@ -80,7 +80,7 @@ export const columns: ColumnDef<Sample>[] = [
         },
         cell: ({ row }) => {
             const date = new Date(row.getValue('added_on'))
-            return h('div',{class: 'text-left pl-4'},moment(date).format('LL'))
+            return h('div', { class: 'text-left pl-4' }, moment(date).format('LL'))
         },
     },
     {
@@ -97,11 +97,11 @@ export const columns: ColumnDef<Sample>[] = [
                     RouterLink,
                     {
                         class: 'pl-4 text-primary',
-                        to:{
+                        to: {
                             name: 'samples',
                             params: { page: 'qc' },
-                            query: { 
-                                sampleId: row.original.id 
+                            query: {
+                                sampleId: row.original.id
                             }
                         }
                     },
@@ -121,10 +121,10 @@ export const columns: ColumnDef<Sample>[] = [
         cell: ({ row }) => {
             const sample = row.original
 
-            return h('div', {class: 'relative'}, h(DataTableDopDown, {
+            return h('div', { class: 'relative' }, h(DataTableDopDown, {
                 sample,
                 onExpand: row.toggleExpanded,
-            })) 
+            }))
         },
     },
 ]

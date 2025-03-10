@@ -31,7 +31,7 @@ async function deleteFile(file: ProjectFile) {
 }
 
 function filterName(name: string) {
-    name = name.replace('.fastq.gz','')
+    name = name.replace('.fastq.gz', '')
     if (name.length > 15) {
         return name.substring(0, 12) + '...';
     }
@@ -44,8 +44,7 @@ function filterName(name: string) {
     <UploadForm :sample_id="sample_id" v-model:files_uploaded="files_uploaded" :align="align"></UploadForm>
     <div v-if="files_uploaded.length > 0" class="flex flex-col gap-2 items-center">
         <span class="font-bold">File uploaded</span>
-        <div v-for="file in files_uploaded" :key="file.id"
-            class="flex w-full items-center gap-2 justify-between">
+        <div v-for="file in files_uploaded" :key="file.id" class="flex w-full items-center gap-2 justify-between">
             <Icon class="w-1/8" icon="tabler:file"></Icon>
             <span class="w-6/8 text-wrap break-words"> {{ filterName(file.name) }}</span>
             <Icon class="cursor-pointer w-1/8 text-destructive" icon="iconoir:trash" @click="deleteFile(file)"></Icon>

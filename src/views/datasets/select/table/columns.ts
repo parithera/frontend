@@ -66,12 +66,12 @@ export const columns: ColumnDef<Sample>[] = [
         accessorKey: 'import',
 
         header: ({ column }) => "",
-        cell: ({ row }) => h("span", {class: 'cursor-pointer text-primary'}, "Import"),
+        cell: ({ row }) => h("span", { class: 'cursor-pointer text-primary' }, "Import"),
     },
     {
         accessorKey: 'show',
 
         header: ({ column }) => "",
-        cell: ({ row }) => h('a',{class:"text-primary cursor-pointer", href: row.getValue('show') as string}, "Explore"),
+        cell: ({ row }) => h('a', { class: "text-primary cursor-pointer", href: row.getValue('show') as string }, "Explore"),
     },
 ]

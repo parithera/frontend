@@ -26,5 +26,5 @@ const ChatView = defineAsyncComponent({
 
 </script>
 <template>
-    <ChatView v-if="page =='results'"></ChatView>
+    <ChatView v-if="page == 'results'"></ChatView>
 </template>

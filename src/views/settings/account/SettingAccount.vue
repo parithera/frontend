@@ -1,3 +1,21 @@
+<script lang="ts" setup>
+import { useStateStore } from '@/stores/state';
+
+import InfoBoxRed from '@/common_components/info_box/InfoBoxRed.vue';
+import Dialog from '@/shadcn/ui/dialog/Dialog.vue';
+import DialogTrigger from '@/shadcn/ui/dialog/DialogTrigger.vue';
+import Button from '@/shadcn/ui/button/Button.vue';
+import DialogContent from '@/shadcn/ui/dialog/DialogContent.vue';
+import DialogHeader from '@/shadcn/ui/dialog/DialogHeader.vue';
+import DialogTitle from '@/shadcn/ui/dialog/DialogTitle.vue';
+import DialogDescription from '@/shadcn/ui/dialog/DialogDescription.vue';
+import UpdateInfoForm from './forms/UpdateInfoForm.vue';
+import UpdatePasswordForm from './forms/UpdatePasswordForm.vue';
+import DeleteUserForm from './forms/DeleteUserForm.vue';
+
+const state = useStateStore();
+state.menu = 'settingsAccount';
+</script>
 <template>
     <!-- Header -->
     <div class="flex gap-10 items-center">
@@ -58,26 +76,3 @@
         </div>
     </div>
 </template>
-<script lang="ts" setup>
-import { useStateStore } from '@/stores/state';
-
-import InfoBoxRed from '@/common_components/info_box/InfoBoxRed.vue';
-import { useUserStore } from '@/stores/user';
-import Dialog from '@/shadcn/ui/dialog/Dialog.vue';
-import DialogTrigger from '@/shadcn/ui/dialog/DialogTrigger.vue';
-import Button from '@/shadcn/ui/button/Button.vue';
-import DialogContent from '@/shadcn/ui/dialog/DialogContent.vue';
-import DialogHeader from '@/shadcn/ui/dialog/DialogHeader.vue';
-import DialogTitle from '@/shadcn/ui/dialog/DialogTitle.vue';
-import DialogDescription from '@/shadcn/ui/dialog/DialogDescription.vue';
-import UpdateInfoForm from './forms/UpdateInfoForm.vue';
-import UpdatePasswordForm from './forms/UpdatePasswordForm.vue';
-import DeleteUserForm from './forms/DeleteUserForm.vue';
-
-const state = useStateStore();
-const userStore = useUserStore();
-state.menu = 'settingsAccount';
-
-const user = userStore.user
-
-</script>

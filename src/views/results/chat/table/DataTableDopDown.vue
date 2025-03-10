@@ -1,14 +1,12 @@
 <script setup lang="ts">
 import { BusinessLogicError } from '@/repositories/BaseRepository';
 import { ProjectRepository } from '@/repositories/ProjectRepository';
-import type { Project } from '@/repositories/types/entities/Project';
 import router from '@/router';
 import { Button } from '@/shadcn/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/shadcn/ui/dropdown-menu'
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { Icon } from '@iconify/vue/dist/iconify.js';
-import { MoreHorizontal } from 'lucide-vue-next'
 
 defineProps<{
     project: {

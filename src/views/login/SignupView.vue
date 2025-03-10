@@ -24,5 +24,5 @@ state.publicPage = true;
 </script>
 
 <template>
-    <SignupForm/>
+    <SignupForm />
 </template>

@@ -98,8 +98,7 @@ function performOrgAction() {
 </script>
 <template>
     <div
-        class="flex flex-col gap-8 h-auto justify-between border border-gray-200 no-underline text-gray-600 bg-white rounded-lg p-5 w-fit flex-grow"
-    >
+        class="flex flex-col gap-8 h-auto justify-between border border-gray-200 no-underline text-gray-600 bg-white rounded-lg p-5 w-fit flex-grow">
         <div class="flex flex-row gap-3 items-center mb-2 w-full">
             <div class="flex flex-col w-full">
                 <div class="flex flex-row gap-1 justify-between w-full">
@@ -109,36 +108,26 @@ function performOrgAction() {
                                 {{ membership.organization.name }}
                             </div>
                             <div>
-                                <div
-                                    class="rounded-2xl px-2 py-1 bg-yellow text-white w-fit font-black text-sm"
-                                    v-if="membership.organization.role == MemberRole.OWNER"
-                                >
+                                <div class="rounded-2xl px-2 py-1 bg-yellow text-white w-fit font-black text-sm"
+                                    v-if="membership.organization.role == MemberRole.OWNER">
                                     Owner
                                 </div>
-                                <div
-                                    class="rounded-2xl px-2 py-1 bg-red text-white w-fit font-black text-sm"
-                                    v-if="membership.organization.role == MemberRole.ADMIN"
-                                >
+                                <div class="rounded-2xl px-2 py-1 bg-red text-white w-fit font-black text-sm"
+                                    v-if="membership.organization.role == MemberRole.ADMIN">
                                     Admin
                                 </div>
-                                <div
-                                    class="rounded-2xl px-2 py-1 bg-primary text-white w-fit font-black text-sm"
-                                    v-if="membership.organization.role == MemberRole.MODERATOR"
-                                >
+                                <div class="rounded-2xl px-2 py-1 bg-primary text-white w-fit font-black text-sm"
+                                    v-if="membership.organization.role == MemberRole.MODERATOR">
                                     Moderator
                                 </div>
-                                <div
-                                    class="rounded-2xl px-2 py-1 bg-green text-white w-fit font-black text-sm"
-                                    v-if="membership.organization.role == MemberRole.USER"
-                                >
+                                <div class="rounded-2xl px-2 py-1 bg-green text-white w-fit font-black text-sm"
+                                    v-if="membership.organization.role == MemberRole.USER">
                                     User
                                 </div>
                             </div>
-                            <div
-                                v-if="membership.organization.personal"
+                            <div v-if="membership.organization.personal"
                                 class="rounded-2xl px-2 py-1 bg-primary text-white w-fit font-black text-sm"
-                                title="A personal organization is a private org to which only you have access. Other people cannot be invited to join this type of organziation."
-                            >
+                                title="A personal organization is a private org to which only you have access. Other people cannot be invited to join this type of organziation.">
                                 Personal Org
                             </div>
                         </div>
@@ -156,31 +145,20 @@ function performOrgAction() {
                                 <div v-if="membership.organization.created_by">
                                     <div v-if="membership.organization.created_by.avatar_url">
                                         <!-- <Icon class="icon crown" icon="solar:crown-bold"></Icon> -->
-                                        <img
-                                            class="rounded-full w-9"
-                                            :src="membership.organization.created_by.avatar_url"
-                                        />
+                                        <img class="rounded-full w-9"
+                                            :src="membership.organization.created_by.avatar_url" />
                                     </div>
-                                    <div
-                                        v-if="!membership.organization.created_by.avatar_url"
-                                        class="bg-gray-500 rounded-full w-9 h-9 flex flex-row items-center justify-center"
-                                    >
+                                    <div v-if="!membership.organization.created_by.avatar_url"
+                                        class="bg-gray-500 rounded-full w-9 h-9 flex flex-row items-center justify-center">
                                         <!-- <Icon class="icon crown" icon="solar:crown-bold"></Icon> -->
-                                        <Icon
-                                            class="text-white text-2xl"
-                                            icon="solar:smile-circle-broken"
-                                        ></Icon>
+                                        <Icon class="text-white text-2xl" icon="solar:smile-circle-broken"></Icon>
                                     </div>
                                 </div>
                                 <div v-else>
                                     <div
-                                        class="bg-gray-500 rounded-full w-9 h-9 flex flex-row items-center justify-center"
-                                    >
+                                        class="bg-gray-500 rounded-full w-9 h-9 flex flex-row items-center justify-center">
                                         <!-- <Icon class="icon crown" icon="solar:crown-bold"></Icon> -->
-                                        <Icon
-                                            class="text-white text-2xl"
-                                            icon="solar:confounded-square-outline"
-                                        ></Icon>
+                                        <Icon class="text-white text-2xl" icon="solar:confounded-square-outline"></Icon>
                                     </div>
                                 </div>
                             </div>
@@ -197,16 +175,12 @@ function performOrgAction() {
                 <div>Joined on {{ moment(membership.organization.joined_on).format('LL') }}</div>
                 <div class="flex flex-row gap-2">
                     Number of members:
-                    <span
-                        class="px-1 py-3.5 rounded-lg text-sm font-medium text-gray-700"
-                        style="
+                    <span class="px-1 py-3.5 rounded-lg text-sm font-medium text-gray-700" style="
                             padding: 3px 12px;
                             background-color: rgb(240, 240, 240);
                             border-radius: 15px;
                             font-size: 0.8em;
-                        "
-                        >{{ membership.organization.organizationMemberships.length }}</span
-                    >
+                        ">{{ membership.organization.organizationMemberships.length }}</span>
                 </div>
                 <div>
                     {{ membership.organization.description }}
@@ -218,64 +192,45 @@ function performOrgAction() {
                         View members
                     </RouterLink>
                 </template> -->
-                <RouterLink
-                    :to="{
-                        name: 'orgs',
-                        params: {
-                            action: 'manage',
-                            page: 'main',
-                            orgId: membership.organization.id
-                        }
-                    }"
-                    class="flex-grow text-center border-0 bg-gray-200 cursor-pointer -ml-0.5 px-3 py-1.5 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-300 hover:text-gray-900"
-                >
+                <RouterLink :to="{
+                    name: 'orgs',
+                    params: {
+                        action: 'manage',
+                        page: 'main',
+                        orgId: membership.organization.id
+                    }
+                }"
+                    class="flex-grow text-center border-0 bg-gray-200 cursor-pointer -ml-0.5 px-3 py-1.5 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-300 hover:text-gray-900">
                     Manage organization
                 </RouterLink>
                 <div v-if="!membership.organization.personal">
-                    <div
-                        :id="'dot-menu-' + membership.organization.id"
+                    <div :id="'dot-menu-' + membership.organization.id"
                         class="no-underline border-0 bg-gray-200 cursor-pointer -ml-0.5 p-2 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-300 hover:text-gray-900"
-                        @click="optionsModalRef.toggle()"
-                    >
+                        @click="optionsModalRef.toggle()">
                         <Icon icon="bi:three-dots-vertical" />
                     </div>
-                    <PositionedModal
-                        ref="optionsModalRef"
-                        :tracker="'dot-menu-' + membership.organization.id"
-                        :position="'top-left'"
-                        :show-title-divider="false"
-                        :show-title="false"
-                        :show-sub-title="false"
-                        :padding="false"
-                        :margin-target="5"
-                    >
+                    <PositionedModal ref="optionsModalRef" :tracker="'dot-menu-' + membership.organization.id"
+                        :position="'top-left'" :show-title-divider="false" :show-title="false" :show-sub-title="false"
+                        :padding="false" :margin-target="5">
                         <template #content>
-                            <div
-                                class="max-h-96 overflow-y-auto flex flex-col text-sm font- whitespace-nowrap p-1"
-                            >
-                                <a
-                                    class="no-underline flex flex-row gap-2 items-center p-2 hover:bg-gray-200 rounded"
-                                    title="Leave organization"
-                                    @click="
+                            <div class="max-h-96 overflow-y-auto flex flex-col text-sm font- whitespace-nowrap p-1">
+                                <a class="no-underline flex flex-row gap-2 items-center p-2 hover:bg-gray-200 rounded"
+                                    title="Leave organization" @click="
                                         orgActionId = membership.organization.id;
-                                        orgAction = OrgAction.LEAVE;
-                                        optionsModalRef.toggle();
-                                        orgActionModalRef.toggle();
-                                    "
-                                >
+                                    orgAction = OrgAction.LEAVE;
+                                    optionsModalRef.toggle();
+                                    orgActionModalRef.toggle();
+                                    ">
                                     <Icon class="text-xl" icon="mingcute:exit-door-line"></Icon>
                                     Leave org
                                 </a>
-                                <div
-                                    class="no-underline flex flex-row gap-2 items-center p-2 hover:bg-gray-200 rounded"
-                                    title="Delete organization"
-                                    @click="
+                                <div class="no-underline flex flex-row gap-2 items-center p-2 hover:bg-gray-200 rounded"
+                                    title="Delete organization" @click="
                                         orgActionId = membership.organization.id;
-                                        orgAction = OrgAction.DELETE;
-                                        optionsModalRef.toggle();
-                                        orgActionModalRef.toggle();
-                                    "
-                                >
+                                    orgAction = OrgAction.DELETE;
+                                    optionsModalRef.toggle();
+                                    orgActionModalRef.toggle();
+                                    ">
                                     <Icon class="text-xl" icon="solar:trash-bin-trash-bold"></Icon>
                                     Delete org
                                 </div>
@@ -312,13 +267,10 @@ function performOrgAction() {
             </div>
         </template>
         <template #buttons>
-            <Button
-                variant="destructive"
-                @click="
-                    performOrgAction();
-                    orgActionModalRef.toggle();
-                "
-            >
+            <Button variant="destructive" @click="
+                performOrgAction();
+            orgActionModalRef.toggle();
+            ">
                 <template v-if="orgAction == OrgAction.DELETE" #icon>
                     <Icon class="icon" icon="solar:trash-bin-trash-bold"></Icon>
                 </template>
@@ -328,12 +280,10 @@ function performOrgAction() {
                 <template v-if="orgAction == OrgAction.DELETE" #text> Delete </template>
                 <template v-else-if="orgAction == OrgAction.LEAVE" #text> Leave </template>
             </Button>
-            <Button
-                @click="
-                    orgActionId = '';
-                    orgActionModalRef.toggle();
-                "
-            >
+            <Button @click="
+                orgActionId = '';
+            orgActionModalRef.toggle();
+            ">
                 <template #text> Cancel </template>
             </Button>
         </template>

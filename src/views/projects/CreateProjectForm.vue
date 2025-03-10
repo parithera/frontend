@@ -35,7 +35,7 @@ async function newProject() {
         orgId: userStore.defaultOrg?.id ?? ''
     });
 
-    router.push({name:'results', params:{page:'results', projectId: res.id}})
+    router.push({ name: 'results', params: { page: 'results', projectId: res.id } })
 }
 
 const submitForm = () => {
@@ -60,33 +60,18 @@ const submitForm = () => {
             <div class="grid gap-4 py-4">
                 <div class="grid grid-cols-4 items-center gap-4">
                     <Label for="name" class="text-right"> Name </Label>
-                    <Input
-                        id="name"
-                        placeholder="Breast cancer"
-                        class="col-span-3"
-                        v-model="new_project_name"
-                        @keyup.enter="submitForm"
-                    />
+                    <Input id="name" placeholder="Breast cancer" class="col-span-3" v-model="new_project_name"
+                        @keyup.enter="submitForm" />
                 </div>
                 <div class="grid grid-cols-4 items-center gap-4">
                     <Label for="description" class="text-right"> Description </Label>
-                    <Input
-                        id="description"
-                        placeholder="Breast cancer detection project."
-                        class="col-span-3"
-                        v-model="new_project_description"
-                        @keyup.enter="submitForm"
-                    />
+                    <Input id="description" placeholder="Breast cancer detection project." class="col-span-3"
+                        v-model="new_project_description" @keyup.enter="submitForm" />
                 </div>
             </div>
             <DialogFooter>
                 <DialogClose as-child>
-                    <Button
-                        class="rounded-full"
-                        id="submitButton"
-                        @click="newProject"
-                        type="submit"
-                    >
+                    <Button class="rounded-full" id="submitButton" @click="newProject" type="submit">
                         Create
                     </Button>
                 </DialogClose>

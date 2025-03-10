@@ -3,27 +3,22 @@ import { BusinessLogicError } from '@/repositories/BaseRepository';
 import { OrgRepository } from '@/repositories/OrganizationRepository';
 import {
     MemberRole,
-    TeamMember,
     type Organization,
     isMemberRoleGreaterThan
 } from '@/repositories/types/entities/Organization';
 import router from '@/router';
 import { useAuthStore } from '@/stores/auth';
-import { onMounted, ref, watch, type Ref } from 'vue';
+import { onMounted, ref, type Ref } from 'vue';
 import { useRoute } from 'vue-router';
 import OrgHeaderItem from '@/views/organizations/subcomponents/OrganizationHeaderItem.vue';
 import { APIErrors } from '@/repositories/types/errors/ApiErrors';
-import SearchBar from '@/common_components/SearchBar.vue';
 import { Icon } from '@iconify/vue';
-import Pagination from '@/common_components/PaginationComponent.vue';
-import { debounce } from '@/utils/searchUtils';
 import { SortDirection } from '@/repositories/types/PaginatedRequestOptions';
 import Button from '@/shadcn/ui/button/Button.vue';
 import type { OrganizationMembership } from '@/repositories/types/entities/OrganizationMembership';
 
 const orgRepo = new OrgRepository();
 const authStore = useAuthStore();
-const placeholder = 'Search by user email or handle';
 
 const search: Ref<string> = ref('');
 const loadingMembers: Ref<boolean> = ref(false);
@@ -114,7 +109,7 @@ function setOrgInfo(_orgInfo: Organization) {
             ">
                 <h2 class="text-2xl font-semibold mb-4">Related Actions</h2>
                 <div class="flex flex-row gap-4 flex-wrap items-stretch org-manage-items">
-                    <RouterLink :to="{ name: 'orgs', params: { orgId: orgId, page:'invites', action: 'add'  } }">
+                    <RouterLink :to="{ name: 'orgs', params: { orgId: orgId, page: 'invites', action: 'add' } }">
                         <Button>
                             Invite another User
                         </Button>

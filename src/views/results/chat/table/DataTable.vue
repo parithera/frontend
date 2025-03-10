@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="TData, TValue">
-import type { ColumnDef, SortingState, ColumnFiltersState, VisibilityState, ExpandedState, RowModel, Row } from '@tanstack/vue-table'
+import type { ColumnDef, SortingState, ColumnFiltersState, VisibilityState, ExpandedState, Row } from '@tanstack/vue-table'
 import {
     Table,
     TableBody,
@@ -83,7 +83,7 @@ const samples: ModelRef<Array<Sample>> = defineModel('samples', { required: true
 // Refs
 const selected_samples: Ref<Array<Sample>> = ref([])
 const loading: Ref<boolean> = ref(false)
-const progress: Ref<number> = ref (0)
+const progress: Ref<number> = ref(0)
 
 const linkSamplesStore = useLinkSamplesStore();
 const { response } = storeToRefs(linkSamplesStore);
@@ -122,7 +122,7 @@ watch(response, () => {
 })
 
 
-watch(loading, ()=>{
+watch(loading, () => {
     if (loading.value) {
         let currentProgress = 0;
         const interval = setInterval(() => {
@@ -141,7 +141,7 @@ watch(loading, ()=>{
 <template>
     <div v-if="loading" class="flex flex-col items-center space-y-3">
         <div class="text-2xl flex gap-2 items-center">
-            <Icon class="animate-spin" icon="tabler:loader-2"></Icon> 
+            <Icon class="animate-spin" icon="tabler:loader-2"></Icon>
             <span>Linking samples to project</span>
         </div>
         <div>Please wait</div>

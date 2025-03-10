@@ -73,7 +73,7 @@ function askFollowup(followup: string) {
     // (document.getElementById('chat_submit') as HTMLButtonElement).click()
 }
 
-const progress = computed(()=>{
+const progress = computed(() => {
     switch (props.response.status) {
         case 'starting':
             return 10
@@ -94,7 +94,8 @@ const progress = computed(()=>{
 </script>
 
 <template>
-    <div class="flex flex-col items-center" v-if="['starting', 'agent_chosen', 'llm_answer_received'].includes(response.status) && !response.text.includes('Hi, how can I help you today?')">
+    <div class="flex flex-col items-center"
+        v-if="['starting', 'agent_chosen', 'llm_answer_received'].includes(response.status) && !response.text.includes('Hi, how can I help you today?')">
         <Progress class="w-1/2" v-model="progress"></Progress>
     </div>
     <div v-else class="flex flex-col items-center gap-2">
@@ -156,21 +157,32 @@ const progress = computed(()=>{
             </div>
 
             <!-- PROGRESS -->
-             <div v-if="response.status != 'done' && !response.text.includes('Hi, how can I help you today?')" class="flex flex-col gpa-2 items-center w-1/2">
-                <span class="flex gap-2 items-center"><Icon class="animate-spin" icon="tabler:loader-2"></Icon> Executing your script</span>
+            <div v-if="response.status != 'done' && !response.text.includes('Hi, how can I help you today?')"
+                class="flex flex-col gpa-2 items-center w-1/2">
+                <span class="flex gap-2 items-center">
+                    <Icon class="animate-spin" icon="tabler:loader-2"></Icon> Executing your script
+                </span>
                 <Progress v-model="progress"></Progress>
-             </div>
+            </div>
 
             <!-- DATA -->
             <div v-if="response.json && Object.keys(response.json).length !== 0">
                 <!-- {{ response.json }} -->
-                  <ScatterChart v-if="response.json['type'] == 'umap'" :chart_id="props.id.toString()" :umap_data="response.json['data']" :color_by="'sample'" x_title="UMAP1" y_title="UMAP2"></ScatterChart>
-                  <ScatterChart v-else-if="response.json['type'] == 'tsne'" :chart_id="props.id.toString()" :umap_data="response.json['data']" :color_by="'sample'" x_title="tSNE1" y_title="tSNE2"></ScatterChart>
-                  <ScatterChart v-else-if="response.json['type'] == 'cluster' || response.json['type'] == 'leiden'" :chart_id="props.id.toString()" :umap_data="response.json['data']" :color_by="'cluster'" x_title="UMAP1" y_title="UMAP2"></ScatterChart>
-                  <div v-else-if="response.json['type'] == 'marker'" class="grid grid-cols-2 gap-y-10">
-                    <div v-for="gene in Object.keys(response.json['data']['umaps'])" class="flex flex-col items-center gap-2">
+                <ScatterChart v-if="response.json['type'] == 'umap'" :chart_id="props.id.toString()"
+                    :umap_data="response.json['data']" :color_by="'sample'" x_title="UMAP1" y_title="UMAP2">
+                </ScatterChart>
+                <ScatterChart v-else-if="response.json['type'] == 'tsne'" :chart_id="props.id.toString()"
+                    :umap_data="response.json['data']" :color_by="'sample'" x_title="tSNE1" y_title="tSNE2">
+                </ScatterChart>
+                <ScatterChart v-else-if="response.json['type'] == 'cluster' || response.json['type'] == 'leiden'"
+                    :chart_id="props.id.toString()" :umap_data="response.json['data']" :color_by="'cluster'"
+                    x_title="UMAP1" y_title="UMAP2"></ScatterChart>
+                <div v-else-if="response.json['type'] == 'marker'" class="grid grid-cols-2 gap-y-10">
+                    <div v-for="gene in Object.keys(response.json['data']['umaps'])"
+                        class="flex flex-col items-center gap-2">
                         <span>Expression level for : {{ gene }}</span>
-                        <ScatterChart :chart_id="props.id+gene" :umap_data="response.json['data']['umaps'][gene]" :color_by="'marker_expression'" x_title="UMAP1" y_title="UMAP2"></ScatterChart>
+                        <ScatterChart :chart_id="props.id + gene" :umap_data="response.json['data']['umaps'][gene]"
+                            :color_by="'marker_expression'" x_title="UMAP1" y_title="UMAP2"></ScatterChart>
                     </div>
                 </div>
             </div>

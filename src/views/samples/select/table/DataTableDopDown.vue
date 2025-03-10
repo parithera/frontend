@@ -7,7 +7,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { Icon } from '@iconify/vue/dist/iconify.js';
-import { MoreHorizontal } from 'lucide-vue-next'
 
 const props = defineProps<{
     sample: {
@@ -25,10 +24,6 @@ const sampleRepository: SampleRepository = new SampleRepository();
 defineEmits<{
     (e: 'expand'): void
 }>()
-
-function goToProject(project_id: string) {
-    router.push({ name: 'sample', params: { page: 'results', projectId: project_id } })
-}
 
 async function deleteSample(project_id: string) {
     try {
@@ -49,11 +44,6 @@ async function deleteSample(project_id: string) {
 
 <template>
     <div class="flex flex-col items-end">
-        <!-- <Button class="flex gap-2 items-center" variant="ghost" @click="goToProject(sample.id)">
-            <RouterLink :to="{ name: 'samples', params: { page: 'qc' }, query: { sampleId: sample.id } }">
-                🔎 Show QC
-            </RouterLink>
-        </Button> -->
         <DropdownMenu>
             <DropdownMenuTrigger as-child>
                 <Button class="flex gap-2 items-center" variant="ghost">
@@ -67,10 +57,6 @@ async function deleteSample(project_id: string) {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem @click="deleteSample(sample.id)">Delete sample</DropdownMenuItem>
-                <!-- <DropdownMenuItem @click="$emit('expand')">
-                    Expand
-                </DropdownMenuItem> -->
-                <!-- <DropdownMenuItem>Edit project</DropdownMenuItem> -->
             </DropdownMenuContent>
         </DropdownMenu>
     </div>

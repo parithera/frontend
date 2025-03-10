@@ -14,6 +14,6 @@ defineProps<{
 </script>
 
 <template>
-    <QualityControl v-if="page =='qc'"></QualityControl>
-    <SelectSample v-else/>
+    <QualityControl v-if="page == 'qc'"></QualityControl>
+    <SelectSample v-else />
 </template>

@@ -78,18 +78,9 @@ const isFiltered = computed(() => table.getState().columnFilters.length > 0)
             <Input class="max-w-sm" placeholder="Filter names..."
                 :model-value="table.getColumn('name')?.getFilterValue() as string"
                 @update:model-value=" table.getColumn('name')?.setFilterValue($event)" />
-            <DataTableFacetedFilter
-                v-if="table.getColumn('tags')"
-                :column="table.getColumn('tags')"
-                title="Tags"
-                :options="props.tags"
-            />
-            <Button
-                v-if="isFiltered"
-                variant="ghost"
-                class="h-8 px-2 lg:px-3"
-                @click="table.resetColumnFilters()"
-            >
+            <DataTableFacetedFilter v-if="table.getColumn('tags')" :column="table.getColumn('tags')" title="Tags"
+                :options="props.tags" />
+            <Button v-if="isFiltered" variant="ghost" class="h-8 px-2 lg:px-3" @click="table.resetColumnFilters()">
                 Reset
                 <Icon icon="ic:baseline-close"></Icon>
             </Button>
@@ -155,8 +146,7 @@ const isFiltered = computed(() => table.getState().columnFilters.length > 0)
                 {{ table.getFilteredRowModel().rows.length }} row(s) selected.
             </div>
             <div class="flex gap-2">
-                <Button size="sm" v-if="table.getCanPreviousPage()"
-                    @click="table.previousPage()">
+                <Button size="sm" v-if="table.getCanPreviousPage()" @click="table.previousPage()">
                     Previous
                 </Button>
                 <Button size="sm" v-if="table.getCanNextPage()" @click="table.nextPage()">

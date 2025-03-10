@@ -1,163 +1,3 @@
-<template>
-    <div>
-        <RouterLink
-            :to="{ name: 'login' }"
-            :class="
-                cn(
-                    buttonVariants({ variant: 'ghost' }),
-                    'absolute right-4 top-4 md:right-8 md:top-8'
-                )
-            "
-        >
-            <img src="@/imgs/logos/logo.svg" class="w-8" />
-            Sign In
-        </RouterLink>
-        <div>
-            <div class="mx-auto flex w-full flex-col justify-center space-y-6 py-20 sm:w-[350px]">
-                <img src="@/imgs/logos/logo.svg" class="w-20 self-center" />
-                <div class="flex flex-col space-y-2 text-center">
-                    <h1 class="text-2xl font-semibold tracking-tight">Sign Up</h1>
-                    <p class="text-sm text-muted-foreground">
-                        Welcome, please fill out the below information.
-                    </p>
-                </div>
-                <div :class="cn('grid gap-6', $attrs.class ?? '')">
-                    <!-- Content -->
-                    <Form
-                        class="flex flex-col gap-4"
-                        :validation-schema="formSchema"
-                        @submit="onSubmit"
-                        v-if="!loading"
-                    >
-                        <FormField v-slot="{ componentField }" name="email">
-                            <FormItem v-auto-animate>
-                                <FormLabel>Email*:</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        type="text"
-                                        placeholder="Enter your email"
-                                        v-bind="componentField"
-                                    />
-                                </FormControl>
-                                <!-- <FormDescription>
-                                This is your public display name.
-                                </FormDescription> -->
-                                <FormMessage />
-                            </FormItem>
-                        </FormField>
-                        <div class="flex flex-row gap-4">
-                            <FormField v-slot="{ componentField }" name="first_name">
-                                <FormItem v-auto-animate>
-                                    <FormLabel>First Name*:</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="text"
-                                            placeholder="Enter your first name"
-                                            v-bind="componentField"
-                                        />
-                                    </FormControl>
-                                    <!-- <FormDescription>
-                                    This is your public display name.
-                                    </FormDescription> -->
-                                    <FormMessage />
-                                </FormItem>
-                            </FormField>
-                            <FormField v-slot="{ componentField }" name="last_name">
-                                <FormItem v-auto-animate>
-                                    <FormLabel>Last Name*:</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="text"
-                                            placeholder="Enter your last name"
-                                            v-bind="componentField"
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            </FormField>
-                        </div>
-                        <FormField v-slot="{ componentField }" name="plainPassword">
-                            <FormItem v-auto-animate>
-                                <FormLabel>Password:</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        type="password"
-                                        placeholder="Enter your password"
-                                        v-bind="componentField"
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        </FormField>
-                        <FormField v-slot="{ componentField }" name="plainPasswordConfirm">
-                            <FormItem v-auto-animate>
-                                <FormLabel>Password Confirmation:</FormLabel>
-                                <FormControl>
-                                    <Input
-                                        type="password"
-                                        placeholder="Confirm your password"
-                                        v-bind="componentField"
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        </FormField>
-                        <FormField
-                            v-slot="{ value, handleChange }"
-                            type="checkbox"
-                            name="agreeTerms"
-                        >
-                            <FormItem
-                                class="flex flex-row items-start gap-x-3 space-y-0 rounded-md border p-4"
-                            >
-                                <FormControl>
-                                    <Checkbox :checked="value" @update:checked="handleChange" />
-                                </FormControl>
-                                <div class="space-y-1 leading-none">
-                                    <FormLabel>
-                                        Check to agree to our
-                                        <Button variant="link" class="h-4 p-0">
-                                            <RouterLink to="/terms">Terms of Service</RouterLink>
-                                        </Button>
-                                        and
-                                        <Button variant="link" class="h-4 p-0">
-                                            <RouterLink to="/privacy">Privacy Policy</RouterLink>
-                                        </Button>
-                                        .
-                                    </FormLabel>
-                                    <FormDescription>
-                                        * We collect these data to manage your access to the
-                                        platform. We use your email to send you information about
-                                        your account, and to send you information about our products
-                                        and services.
-                                    </FormDescription>
-                                    <FormMessage />
-                                </div>
-                            </FormItem>
-                        </FormField>
-                        <Button type="submit" class="w-full"> Register </Button>
-                    </Form>
-                    <div class="flex flex-col items-center" v-else>
-                        Creating your account
-                        <Icon icon="line-md:loading-twotone-loop" class="animate-spin"></Icon>
-                    </div>
-                </div>
-                <p class="px-8 text-center text-sm text-muted-foreground">
-                    By clicking continue, you agree to our
-                    <Button variant="link" class="h-4 p-0">
-                        <RouterLink to="/terms">Terms of Service</RouterLink>
-                    </Button>
-                    and
-                    <Button variant="link" class="h-4 p-0">
-                        <RouterLink to="/privacy">Privacy Policy</RouterLink>
-                    </Button>
-                    .
-                </p>
-            </div>
-        </div>
-    </div>
-</template>
-
 <script lang="ts" setup>
 import { RouterLink } from 'vue-router';
 import { ref, type Ref } from 'vue';
@@ -278,3 +118,130 @@ async function submit(values: any) {
     }
 }
 </script>
+<template>
+    <div>
+        <RouterLink :to="{ name: 'login' }" :class="cn(
+            buttonVariants({ variant: 'ghost' }),
+            'absolute right-4 top-4 md:right-8 md:top-8'
+        )
+            ">
+            <img src="@/imgs/logos/logo.svg" class="w-8" />
+            Sign In
+        </RouterLink>
+        <div>
+            <div class="mx-auto flex w-full flex-col justify-center space-y-6 py-20 sm:w-[350px]">
+                <img src="@/imgs/logos/logo.svg" class="w-20 self-center" />
+                <div class="flex flex-col space-y-2 text-center">
+                    <h1 class="text-2xl font-semibold tracking-tight">Sign Up</h1>
+                    <p class="text-sm text-muted-foreground">
+                        Welcome, please fill out the below information.
+                    </p>
+                </div>
+                <div :class="cn('grid gap-6', $attrs.class ?? '')">
+                    <!-- Content -->
+                    <Form class="flex flex-col gap-4" :validation-schema="formSchema" @submit="onSubmit"
+                        v-if="!loading">
+                        <FormField v-slot="{ componentField }" name="email">
+                            <FormItem v-auto-animate>
+                                <FormLabel>Email*:</FormLabel>
+                                <FormControl>
+                                    <Input type="text" placeholder="Enter your email" v-bind="componentField" />
+                                </FormControl>
+                                <!-- <FormDescription>
+                                This is your public display name.
+                                </FormDescription> -->
+                                <FormMessage />
+                            </FormItem>
+                        </FormField>
+                        <div class="flex flex-row gap-4">
+                            <FormField v-slot="{ componentField }" name="first_name">
+                                <FormItem v-auto-animate>
+                                    <FormLabel>First Name*:</FormLabel>
+                                    <FormControl>
+                                        <Input type="text" placeholder="Enter your first name"
+                                            v-bind="componentField" />
+                                    </FormControl>
+                                    <!-- <FormDescription>
+                                    This is your public display name.
+                                    </FormDescription> -->
+                                    <FormMessage />
+                                </FormItem>
+                            </FormField>
+                            <FormField v-slot="{ componentField }" name="last_name">
+                                <FormItem v-auto-animate>
+                                    <FormLabel>Last Name*:</FormLabel>
+                                    <FormControl>
+                                        <Input type="text" placeholder="Enter your last name" v-bind="componentField" />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            </FormField>
+                        </div>
+                        <FormField v-slot="{ componentField }" name="plainPassword">
+                            <FormItem v-auto-animate>
+                                <FormLabel>Password:</FormLabel>
+                                <FormControl>
+                                    <Input type="password" placeholder="Enter your password" v-bind="componentField" />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        </FormField>
+                        <FormField v-slot="{ componentField }" name="plainPasswordConfirm">
+                            <FormItem v-auto-animate>
+                                <FormLabel>Password Confirmation:</FormLabel>
+                                <FormControl>
+                                    <Input type="password" placeholder="Confirm your password"
+                                        v-bind="componentField" />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        </FormField>
+                        <FormField v-slot="{ value, handleChange }" type="checkbox" name="agreeTerms">
+                            <FormItem class="flex flex-row items-start gap-x-3 space-y-0 rounded-md border p-4">
+                                <FormControl>
+                                    <Checkbox :checked="value" @update:checked="handleChange" />
+                                </FormControl>
+                                <div class="space-y-1 leading-none">
+                                    <FormLabel>
+                                        Check to agree to our
+                                        <Button variant="link" class="h-4 p-0">
+                                            <RouterLink to="/terms">Terms of Service</RouterLink>
+                                        </Button>
+                                        and
+                                        <Button variant="link" class="h-4 p-0">
+                                            <RouterLink to="/privacy">Privacy Policy</RouterLink>
+                                        </Button>
+                                        .
+                                    </FormLabel>
+                                    <FormDescription>
+                                        * We collect these data to manage your access to the
+                                        platform. We use your email to send you information about
+                                        your account, and to send you information about our products
+                                        and services.
+                                    </FormDescription>
+                                    <FormMessage />
+                                </div>
+                            </FormItem>
+                        </FormField>
+                        <Button type="submit" class="w-full"> Register </Button>
+                    </Form>
+                    <div class="flex flex-col items-center" v-else>
+                        Creating your account
+                        <Icon icon="line-md:loading-twotone-loop" class="animate-spin"></Icon>
+                    </div>
+                </div>
+                <p class="px-8 text-center text-sm text-muted-foreground">
+                    By clicking continue, you agree to our
+                    <Button variant="link" class="h-4 p-0">
+                        <RouterLink to="/terms">Terms of Service</RouterLink>
+                    </Button>
+                    and
+                    <Button variant="link" class="h-4 p-0">
+                        <RouterLink to="/privacy">Privacy Policy</RouterLink>
+                    </Button>
+                    .
+                </p>
+            </div>
+        </div>
+    </div>
+</template>

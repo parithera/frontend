@@ -171,7 +171,7 @@ onMounted(async () => {
                                             <Avatar class="h-8 w-8">
                                                 <AvatarImage src="/avatars/01.png" alt="@shadcn" />
                                                 <AvatarFallback>{{ userStore.getUser?.first_name.charAt(0)
-                                                    }}{{
+                                                }}{{
                                                         userStore.getUser?.last_name.charAt(0)
                                                     }}</AvatarFallback>
                                             </Avatar>

@@ -34,10 +34,10 @@ const current = ref(0);
 const question = ref('');
 
 var words = [
-        'find vulnerabilities in my code?',
-        'make sure my code is secure?',
-        'make sure my code is compliant?'
-    ],
+    'find vulnerabilities in my code?',
+    'make sure my code is secure?',
+    'make sure my code is compliant?'
+],
     i = 0,
     offset = 0,
     len = words.length,
@@ -90,15 +90,11 @@ watchOnce(api, (api) => {
 
 <template>
     <div>
-        <RouterLink
-            :to="{ name: 'signup' }"
-            :class="
-                cn(
-                    buttonVariants({ variant: 'ghost' }),
-                    'absolute right-4 top-4 md:right-8 md:top-8'
-                )
-            "
-        >
+        <RouterLink :to="{ name: 'signup' }" :class="cn(
+            buttonVariants({ variant: 'ghost' }),
+            'absolute right-4 top-4 md:right-8 md:top-8'
+        )
+            ">
             <img src="@/imgs/logos/logo.svg" class="w-8" />
             Signup
         </RouterLink>

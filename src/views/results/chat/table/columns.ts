@@ -26,7 +26,7 @@ export const columns: ColumnDef<Sample>[] = [
     },
     {
         accessorKey: 'name',
-        
+
         header: ({ column }) => {
             return h(Button, {
                 variant: 'ghost',
@@ -50,7 +50,7 @@ export const columns: ColumnDef<Sample>[] = [
             const description = row.getValue('description') as string;
             return h('div', { class: 'text-right font-medium' }, description,)
         },
-    }, 
+    },
     {
         accessorKey: 'added_on',
         header: ({ column }) => {
@@ -62,7 +62,7 @@ export const columns: ColumnDef<Sample>[] = [
         cell: ({ row }) => {
             const date = new Date(row.getValue('added_on'))
             // const formatted = new Intl.DateTimeFormat(['en-US', 'fr-FR'], {}).format(date)
-            const formatted = moment(date).format('LL') 
+            const formatted = moment(date).format('LL')
             return h('div', { class: 'text-right font-medium' }, formatted)
         },
     },

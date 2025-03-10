@@ -87,20 +87,12 @@ fetch();
         <SearchBar v-model:searchKey="search" :placeholder="placeholder" />
 
         <div v-if="!loading">
-            <Pagination
-                v-model:page="currentPage"
-                v-model:nmbEntriesShowing="entriesPerPage"
-                v-model:nmbEntriesTotal="totalEntries"
-                v-model:totalPages="totalPages"
-            >
+            <Pagination v-model:page="currentPage" v-model:nmbEntriesShowing="entriesPerPage"
+                v-model:nmbEntriesTotal="totalEntries" v-model:totalPages="totalPages">
                 <template #content>
                     <div class="flex flex-row flex-wrap gap-4 text-grayTitle">
-                        <OrgListItem
-                            v-for="membership in memberships"
-                            :key="membership.organization.id"
-                            :membership="membership"
-                            @refresh="refresh()"
-                        ></OrgListItem>
+                        <OrgListItem v-for="membership in memberships" :key="membership.organization.id"
+                            :membership="membership" @refresh="refresh()"></OrgListItem>
                     </div>
                 </template>
             </Pagination>

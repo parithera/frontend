@@ -100,12 +100,7 @@ async function submit(values: any) {
 
 <template>
     <div :class="cn('grid gap-6', $attrs.class ?? '')">
-        <form
-            class="flex flex-col gap-4"
-            :validation-schema="formSchema"
-            @submit="onSubmit"
-            v-if="!loading"
-        >
+        <form class="flex flex-col gap-4" :validation-schema="formSchema" @submit="onSubmit" v-if="!loading">
             <FormField v-slot="{ componentField }" name="email">
                 <FormItem v-auto-animate>
                     <FormLabel>Email*:</FormLabel>
@@ -119,11 +114,7 @@ async function submit(values: any) {
                 <FormItem v-auto-animate>
                     <FormLabel>Password:</FormLabel>
                     <FormControl>
-                        <Input
-                            type="password"
-                            placeholder="Enter your password"
-                            v-bind="componentField"
-                        />
+                        <Input type="password" placeholder="Enter your password" v-bind="componentField" />
                     </FormControl>
                     <FormMessage />
                 </FormItem>

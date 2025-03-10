@@ -13,5 +13,5 @@ defineProps<{
 </script>
 
 <template>
-    <SelectProject/>
+    <SelectProject />
 </template>

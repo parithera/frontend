@@ -56,7 +56,7 @@ const onFileSubmit = handleSubmit(async (values) => {
             file_name = 'data.h5';
             file_type = "h5"
         }
-        
+
         const chunkSize = 1024 * 1024 * 10; // size of each chunk (10MB)
         let start = 0;
         let id = 0;
@@ -91,12 +91,12 @@ const onFileSubmit = handleSubmit(async (values) => {
             }).catch(err => {
                 console.error(err);
             })
-            .finally(()=>{
-                progress_preprocess.value = start/file.size * 100
-                progress_message.value = "Uploading file " + count_files + "/"+files.length
-                start += chunkSize;
-            });
-            id ++;
+                .finally(() => {
+                    progress_preprocess.value = start / file.size * 100
+                    progress_message.value = "Uploading file " + count_files + "/" + files.length
+                    start += chunkSize;
+                });
+            id++;
         }
         await fileRepository.upload({
             bearerToken: authStore.getToken ?? '',
@@ -143,13 +143,8 @@ const onFileSubmit = handleSubmit(async (values) => {
                     <FormControl>
                         <input
                             class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
-                            type="file"
-                            multiple
-                            accept=".gz, .h5"
-                            v-bind="componentField"
-                            ref="input"
-                            @input="setSelectionType"
-                        />
+                            type="file" multiple accept=".gz, .h5" v-bind="componentField" ref="input"
+                            @input="setSelectionType" />
                     </FormControl>
                     <FormDescription>
                         <span>Upload your gene sequencing file (.h5, .fastq.gz).</span>

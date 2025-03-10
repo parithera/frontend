@@ -62,7 +62,7 @@ async function newSample() {
 
 async function align() {
     let platform: string = "";
-    
+
     if (fastq) {
         platform = chemistry.value.includes("10x") ? "10x" : "hydrop";
     }
@@ -79,11 +79,11 @@ async function align() {
     });
 
     let files = [];
-    for (const file of files_uploaded.value){
+    for (const file of files_uploaded.value) {
         files.push(file.name)
     }
 
-    const group:Group = {
+    const group: Group = {
         name: "group",
         files: files
     }
@@ -111,7 +111,7 @@ async function align() {
                 },
                 scanpy: {
                     sample: sample_id.value,
-                    file_type: fastq? 'fastq' : 'h5'
+                    file_type: fastq ? 'fastq' : 'h5'
                 },
                 fastp: {
                     platform: platform,
@@ -240,7 +240,7 @@ async function align() {
                     Import FASTQs or H5 files for this sample.
                 </DialogDescription>
             </DialogHeader>
-            <UploadFile :sample_id="sample_id" v-model:files_uploaded="files_uploaded" :align="align"/>
+            <UploadFile :sample_id="sample_id" v-model:files_uploaded="files_uploaded" :align="align" />
             <DialogFooter>
                 <Button class="rounded-full" @click="step--">
                     Previous
