@@ -13,7 +13,7 @@ import { useUserStore } from '@/stores/user';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import { useForm } from 'vee-validate';
 import { useTemplateRef, watch, type ModelRef } from 'vue';
-import type { ChatContent } from '../results/types';
+import type { ChatContent } from '../results/chat/types';
 import { useChatStore } from '@/sockets/chat';
 import { storeToRefs } from 'pinia';
 

@@ -6,20 +6,21 @@ import { AuthenticatedUser } from '@/repositories/types/entities/AuthenticatedUs
 import { OrgRepository } from '@/repositories/OrganizationRepository';
 import { BusinessLogicError } from '@/repositories/BaseRepository';
 import { APIErrors } from '@/repositories/types/errors/ApiErrors';
-import ProjectsView from '@/views/ProjectsView.vue';
-import ResultsView from '@/views/ResultsView.vue';
-import NotFoundView from '@/views/NotFoundView.vue';
-import TermsView from '@/views/TermsView.vue';
-import LoginView from '@/views/LoginView.vue';
-import SignupView from '@/views/SignupView.vue';
-import SettingsView from '@/views/SettingsView.vue';
-import PasswordResetRequestView from '@/views/PasswordResetRequestView.vue';
-import OrganizationView from '@/views/OrganizationView.vue';
-import DashboardView from '@/views/DashboardView.vue';
-import EmailActionView from '@/views/EmailActionView.vue';
 import type { Organization } from '@/repositories/types/entities/Organization';
-import SamplesView from '@/views/SamplesView.vue';
-import DatasetsView from '@/views/DatasetsView.vue';
+
+const ProjectsView = () => import('@/views/projects/ProjectsView.vue');
+const ResultsView = () => import('@/views/results/ResultsView.vue');
+const NotFoundView = () => import('@/views/errors/NotFoundView.vue');
+const TermsView = () => import('@/views/terms/TermsView.vue');
+const LoginView = () => import('@/views/login/LoginView.vue');
+const SignupView = () => import('@/views/login/SignupView.vue');
+const SettingsView = () => import('@/views/settings/SettingsView.vue');
+const PasswordResetRequestView = () => import('@/views/login/PasswordResetRequestView.vue');
+const OrganizationView = () => import('@/views/organizations/OrganizationView.vue');
+const DashboardView = () => import('@/views/dashboard/DashboardView.vue');
+const EmailActionView = () => import('@/views/login/EmailActionView.vue');
+const SamplesView = () => import('@/views/samples/SamplesView.vue');
+const DatasetsView = () => import('@/views/datasets/DatasetsView.vue');
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
