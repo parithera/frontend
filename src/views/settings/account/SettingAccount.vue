@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useStateStore } from '@/stores/state';
 
-import InfoBoxRed from '@/common_components/info_box/InfoBoxRed.vue';
 import Dialog from '@/shadcn/ui/dialog/Dialog.vue';
 import DialogTrigger from '@/shadcn/ui/dialog/DialogTrigger.vue';
 import Button from '@/shadcn/ui/button/Button.vue';
@@ -12,6 +11,7 @@ import DialogDescription from '@/shadcn/ui/dialog/DialogDescription.vue';
 import UpdateInfoForm from './forms/UpdateInfoForm.vue';
 import UpdatePasswordForm from './forms/UpdatePasswordForm.vue';
 import DeleteUserForm from './forms/DeleteUserForm.vue';
+import { Alert, AlertDescription } from '@/shadcn/ui/alert';
 
 const state = useStateStore();
 state.menu = 'settingsAccount';
@@ -49,8 +49,8 @@ state.menu = 'settingsAccount';
                 Beware, deleting your account will delete all associated information as well, such
                 as uploaded projects, analyses results, organizations and license policies.
             </div>
-            <InfoBoxRed>
-                <template #content>
+            <Alert>
+                <AlertDescription>
                     <div>
                         Delete your account by clicking the button below. This action is
                         <u>not reversible</u>.
@@ -71,8 +71,8 @@ state.menu = 'settingsAccount';
                             </div>
                         </DialogContent>
                     </Dialog>
-                </template>
-            </InfoBoxRed>
+                </AlertDescription>
+            </Alert>
         </div>
     </div>
 </template>

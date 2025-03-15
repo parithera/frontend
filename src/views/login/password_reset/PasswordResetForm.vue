@@ -9,7 +9,7 @@ import { AuthRepository } from '@/views/login/auth.repository';
 import router from '@/router';
 import { Icon } from '@iconify/vue';
 import FormTextField from '@/common_components/forms/FormTextField.vue';
-import InfoBoxRed from '@/common_components/info_box/InfoBoxRed.vue';
+import { Alert, AlertDescription } from '@/shadcn/ui/alert';
 
 // Repositories
 const authRepository: AuthRepository = new AuthRepository();
@@ -115,8 +115,8 @@ onMounted(() => {
             </div>
 
             <div style="display: flex; flex-direction: column; row-gap: 2rem">
-                <InfoBoxRed v-if="error">
-                    <template #content>
+                <Alert v-if="error">
+                    <AlertDescription>
                         <div class="flex-row flex-row-05rem">
                             <Icon icon="material-symbols:error-outline" />
                             <div v-if="errorCode">
@@ -133,8 +133,8 @@ onMounted(() => {
                             </div>
                             <div v-else>An error occured during the processing of the request.</div>
                         </div>
-                    </template>
-                </InfoBoxRed>
+                    </AlertDescription>
+                </Alert>
 
                 <Form style="display: flex; flex-direction: column; row-gap: 1.5rem" name="password_reset_form"
                     :validation-schema="formValidationSchema" @submit="submit">

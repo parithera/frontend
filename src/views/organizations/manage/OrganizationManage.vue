@@ -11,8 +11,8 @@ import OrgHeaderItem from '@/views/organizations/subcomponents/OrganizationHeade
 import CenteredModal from '@/common_components/CenteredModal.vue';
 import FaqBox from '@/common_components/FaqBox.vue';
 import { errorToast, successToast } from '@/utils/toasts';
-import InfoBoxRed from '@/common_components/info_box/InfoBoxRed.vue';
 import Button from '@/shadcn/ui/button/Button.vue';
+import { Alert, AlertDescription } from '@/shadcn/ui/alert';
 
 const authStore = useAuthStore();
 
@@ -248,16 +248,16 @@ function setOrgInfo(_orgInfo: Organization) {
                 <div v-if="orgAction == OrgAction.LEAVE">
                     Are you sure you want to leave the organization?
                 </div>
-                <InfoBoxRed>
-                    <template #content>
+                <Alert>
+                    <AlertDescription>
                         <div class="flex flex-row gap-2 justify-between items-center">
                             <div>
                                 <Icon class="icon" icon="solar:danger-triangle-bold-duotone"></Icon>
                             </div>
                             <div>This action is permanent and cannot be reverted.</div>
                         </div>
-                    </template>
-                </InfoBoxRed>
+                    </AlertDescription>
+                </Alert>
             </div>
         </template>
         <template #buttons>
