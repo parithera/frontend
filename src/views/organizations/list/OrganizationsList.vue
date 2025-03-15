@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-import { BusinessLogicError } from '@/repositories/BaseRepository';
-import { OrgRepository } from '@/repositories/OrganizationRepository';
+import { BusinessLogicError } from '@/types/BaseRepository';
+import { OrgRepository } from '@/views/organizations/organization.repository';
 import { useAuthStore } from '@/stores/auth';
 import { ref, watch, type Ref } from 'vue';
 import { Icon } from '@iconify/vue';
 import SearchBar from '@/common_components/SearchBar.vue';
 import Pagination from '@/common_components/PaginationComponent.vue';
 import OrgListItem from '@/views/organizations/list/OrganizationListItem.vue';
-import type { OrganizationMembership } from '@/repositories/types/entities/OrganizationMembership';
+import type { OrganizationMembership } from '@/views/organizations/members/organization_membership.entity';
 import Button from '@/shadcn/ui/button/Button.vue';
 
 const search = ref('');

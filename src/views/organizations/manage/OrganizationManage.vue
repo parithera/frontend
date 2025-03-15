@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { BusinessLogicError } from '@/repositories/BaseRepository';
-import { OrgRepository } from '@/repositories/OrganizationRepository';
-import { MemberRole, type Organization } from '@/repositories/types/entities/Organization';
-import { APIErrors } from '@/repositories/types/errors/ApiErrors';
+import { BusinessLogicError } from '@/types/BaseRepository';
+import { OrgRepository } from '@/views/organizations/organization.repository';
+import { MemberRole, type Organization } from '@/views/organizations/organization.entity';
+import { APIErrors } from '@/types/ApiErrors';
 import router from '@/router';
 import { useAuthStore } from '@/stores/auth';
 import { ref, type Ref } from 'vue';

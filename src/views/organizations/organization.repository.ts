@@ -1,5 +1,5 @@
-import { Entity } from './types/entities/Entity';
-import { DataResponse } from './types/responses/DataResponse';
+import { Entity } from '../../types/BaseEntity';
+import { DataResponse } from '../../types/responses/DataResponse';
 import {
     BaseRepository,
     type AuthRepoMethodGetRequestOptions,
@@ -10,22 +10,22 @@ import {
     type SearchableRepoMethodRequestOptions,
     type SortableRepoMethodRequestOptions,
     type AuthRepoMethodEmptyDeleteRequestOptions
-} from './BaseRepository';
+} from '../../types/BaseRepository';
 import {
     Organization,
     OrganizationInfoForInvitee,
     OrganizationMetaData,
     TeamMember
-} from './types/entities/Organization';
-import { PaginatedResponse } from './types/responses/PaginatedResponse';
-import type { CreateOrg } from './types/postBodies/CreateOrg';
-import { CreatedResponse } from './types/responses/CreatedResponse';
-import { NoDataResponse } from './types/responses/NoDataResponse';
-import type { CreateInvite } from './types/postBodies/CreateInvite';
-import { Invitation } from './types/entities/Invitation';
-import type { JoinOrg } from './types/postBodies/JoinOrg';
-import { AuditLog } from './types/entities/AuditLog';
-import { OrganizationMembership } from './types/entities/OrganizationMembership';
+} from './organization.entity';
+import { PaginatedResponse } from '../../types/responses/PaginatedResponse';
+import type { CreateOrg } from './create/create_org.http';
+import { CreatedResponse } from '../../types/responses/CreatedResponse';
+import { NoDataResponse } from '../../types/responses/NoDataResponse';
+import type { CreateInvite } from './invites/create/create_invite.http';
+import { Invitation } from './invites/invitation.entity';
+import type { JoinOrg } from './invites/join/join_org.http';
+import { AuditLog } from './audit_logs/audit_log.entity';
+import { OrganizationMembership } from './members/organization_membership.entity';
 
 interface BaseOrgRequestOptions {
     orgId: string;

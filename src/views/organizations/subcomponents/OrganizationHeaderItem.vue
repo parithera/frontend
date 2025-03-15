@@ -1,15 +1,15 @@
 <script lang="ts" setup>
-import { MemberRole } from '@/repositories/types/entities/Organization';
+import { MemberRole } from '@/views/organizations/organization.entity';
 import { Icon } from '@iconify/vue';
 import moment from 'moment';
-import { type Organization } from '@/repositories/types/entities/Organization';
-import { OrgRepository } from '@/repositories/OrganizationRepository';
+import { type Organization } from '@/views/organizations/organization.entity';
+import { OrgRepository } from '@/views/organizations/organization.repository';
 import { useAuthStore } from '@/stores/auth';
 import { ref, type Ref } from 'vue';
 import BoxLoader from '@/common_components/BoxLoader.vue';
-import { APIErrors } from '@/repositories/types/errors/ApiErrors';
+import { APIErrors } from '@/types/ApiErrors';
 import router from '@/router';
-import { BusinessLogicError } from '@/repositories/BaseRepository';
+import { BusinessLogicError } from '@/types/BaseRepository';
 import Badge from '@/shadcn/ui/badge/Badge.vue';
 import Button from '@/shadcn/ui/button/Button.vue';
 

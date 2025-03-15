@@ -1,14 +1,14 @@
 <script lang="ts" setup>
-import { BusinessLogicError } from '@/repositories/BaseRepository';
-import { OrgRepository } from '@/repositories/OrganizationRepository';
-import { OrganizationInfoForInvitee, MemberRole } from '@/repositories/types/entities/Organization';
+import { BusinessLogicError } from '@/types/BaseRepository';
+import { OrgRepository } from '@/views/organizations/organization.repository';
+import { OrganizationInfoForInvitee, MemberRole } from '@/views/organizations/organization.entity';
 import router from '@/router';
 import { useAuthStore } from '@/stores/auth';
 import { onMounted, ref, type Ref } from 'vue';
 import moment from 'moment';
 import { Icon } from '@iconify/vue';
 import FaqBox from '@/common_components/FaqBox.vue';
-import { APIErrors } from '@/repositories/types/errors/ApiErrors';
+import { APIErrors } from '@/types/ApiErrors';
 import { successToast } from '@/utils/toasts';
 import Button from '@/shadcn/ui/button/Button.vue';
 

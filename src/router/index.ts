@@ -1,12 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { loadAuthStoreFromLocalStorage, useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
-import { AuthRepository } from '@/repositories/AuthRepository';
-import { AuthenticatedUser } from '@/repositories/types/entities/AuthenticatedUser';
-import { OrgRepository } from '@/repositories/OrganizationRepository';
-import { BusinessLogicError } from '@/repositories/BaseRepository';
-import { APIErrors } from '@/repositories/types/errors/ApiErrors';
-import type { Organization } from '@/repositories/types/entities/Organization';
+import { AuthRepository } from '@/views/login/auth.repository';
+import { AuthenticatedUser } from '@/views/login/authenticated_user.entity';
+import { OrgRepository } from '@/views/organizations/organization.repository';
+import { BusinessLogicError } from '@/types/BaseRepository';
+import { APIErrors } from '@/types/ApiErrors';
+import type { Organization } from '@/views/organizations/organization.entity';
 import ProjectsView from '@/views/projects/ProjectsView.vue';
 import ResultsView from '@/views/results/ResultsView.vue';
 import NotFoundView from '@/views/errors/NotFoundView.vue';

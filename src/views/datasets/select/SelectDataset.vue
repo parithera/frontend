@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { SampleRepository } from '@/repositories/SampleRepository';
+import { SampleRepository } from '@/views/samples/sample.repository';
 import DataTable from './table/DataTable.vue';
 import { columns } from './table/columns';
 import { ref, type Ref } from 'vue';
-import type { Sample } from '@/repositories/types/entities/Sample';
+import type { Sample } from '@/views/samples/sample.entity';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 

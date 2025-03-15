@@ -1,8 +1,8 @@
 import { useToast } from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
-import { APIErrors } from './types/errors/ApiErrors';
+import { APIErrors } from './ApiErrors';
 import router from '@/router';
-import type { UploadData } from './FileRepository';
+import type { UploadData } from '../views/projects/file.repository';
 
 /**
  * @class BaseRepository

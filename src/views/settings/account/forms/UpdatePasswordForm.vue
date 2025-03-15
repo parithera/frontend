@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { BusinessLogicError } from '@/repositories/BaseRepository';
+import { BusinessLogicError } from '@/types/BaseRepository';
 
 import { useStateStore } from '@/stores/state';
 import { useAuthStore } from '@/stores/auth';
@@ -23,7 +23,7 @@ import {
 } from '@/shadcn/ui/form';
 import { Input } from '@/shadcn/ui/input';
 import { useUserStore } from '@/stores/user';
-import { UserRepository } from '@/repositories/UserRepository';
+import { UserRepository } from '@/views/login/user.repository';
 import FormDescription from '@/shadcn/ui/form/FormDescription.vue';
 
 const userRepository: UserRepository = new UserRepository();

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { FileRepository } from '@/repositories/FileRepository';
-import { ProjectRepository } from '@/repositories/ProjectRepository';
-import type { Project } from '@/repositories/types/entities/Project';
-import type { ProjectFile } from '@/repositories/types/entities/ProjectFile';
+import { FileRepository } from '@/views/projects/file.repository';
+import { ProjectRepository } from '@/views/projects/project.repository';
+import type { Project } from '@/views/projects/project.entity';
+import type { ProjectFile } from '@/views/projects/project_file.entity';
 import Toaster from '@/shadcn/ui/toast/Toaster.vue';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';

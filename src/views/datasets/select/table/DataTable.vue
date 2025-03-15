@@ -29,10 +29,10 @@ import {
 import { Input } from '@/shadcn/ui/input'
 import { Button } from '@/shadcn/ui/button';
 import { ref } from 'vue';
-import type { Sample } from '@/repositories/types/entities/Sample'
+import type { Sample } from '@/views/samples/sample.entity'
 import { useAuthStore } from '@/stores/auth'
 import { useUserStore } from '@/stores/user'
-import { SampleRepository } from '@/repositories/SampleRepository'
+import { SampleRepository } from '@/views/samples/sample.repository'
 import { toast } from '@/shadcn/ui/toast'
 
 const authStore = useAuthStore();

@@ -8,8 +8,8 @@ const userStore = useUserStore();
 
 import DataTable from './table/DataTable.vue';
 import { columns } from './table/columns';
-import { SampleRepository } from '@/repositories/SampleRepository';
-import type { Sample } from '@/repositories/types/entities/Sample';
+import { SampleRepository } from '@/views/samples/sample.repository';
+import type { Sample } from '@/views/samples/sample.entity';
 import type { FilterOption } from './table/DataTableFacetedFilter.vue';
 
 // Repositories

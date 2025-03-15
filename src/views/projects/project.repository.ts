@@ -1,9 +1,9 @@
-import { Entity } from './types/entities/Entity';
-import { Project } from './types/entities/Project';
-import { CreatedResponse } from '@/repositories/types/responses/CreatedResponse';
-import { PaginatedResponse } from './types/responses/PaginatedResponse';
-import { NoDataResponse } from './types/responses/NoDataResponse';
-import { DataResponse } from './types/responses/DataResponse';
+import { Entity } from '../../types/BaseEntity';
+import { Project } from './project.entity';
+import { CreatedResponse } from '@/types/responses/CreatedResponse';
+import { PaginatedResponse } from '../../types/responses/PaginatedResponse';
+import { NoDataResponse } from '../../types/responses/NoDataResponse';
+import { DataResponse } from '../../types/responses/DataResponse';
 import {
     BaseRepository,
     type AuthRepoMethodPostRequestOptions,
@@ -13,11 +13,11 @@ import {
     type PaginatedRepoMethodRequestOptions,
     type SearchableRepoMethodRequestOptions,
     type SortableRepoMethodRequestOptions
-} from './BaseRepository';
-import type { CreateProject } from '@/repositories/types/postBodies/CreateProject';
-import type { CreateAnalysis } from './types/postBodies/CreateAnalysis';
-import type { Result } from './types/entities/Result';
-import type { Chat } from './types/entities/Chat';
+} from '../../types/BaseRepository';
+import type { CreateProject } from '@/views/projects/create_project.http';
+import type { CreateAnalysis } from './create_analysis.http';
+import type { Result } from '../results/result.entity';
+import type { Chat } from '../results/chat/chat.entity';
 
 export interface GetProjectsRequestOptions
     extends AuthRepoMethodGetRequestOptions,

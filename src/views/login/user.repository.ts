@@ -1,19 +1,19 @@
-import { Entity } from './types/entities/Entity';
-import { AuthenticatedUser } from './types/entities/AuthenticatedUser';
-import type { SocialSetupBody } from './types/postBodies/SocialSetup';
-import type { ConfirmRegistrationBody } from './types/postBodies/ConfirmRegistration';
-import type { UpdateDefaultOrgBody } from './types/postBodies/UpdateDefaultOrg';
-import type { PasswordPatchBody } from './types/postBodies/PasswordPatch';
-import type { PasswordDeleteBody } from './types/postBodies/PasswordDelete';
-import { CreatedResponse } from './types/responses/CreatedResponse';
-import type { DataResponse } from './types/responses/DataResponse';
-import { NoDataResponse } from './types/responses/NoDataResponse';
+import { Entity } from '../../types/BaseEntity';
+import { AuthenticatedUser } from './authenticated_user.entity';
+import type { SocialSetupBody } from './social_setup.http';
+import type { ConfirmRegistrationBody } from './confirm_registration.http';
+import type { UpdateDefaultOrgBody } from '../organizations/update_default_org.http';
+import type { PasswordPatchBody } from './password_patch.http';
+import type { PasswordDeleteBody } from './password_delete.http';
+import { CreatedResponse } from '../../types/responses/CreatedResponse';
+import type { DataResponse } from '../../types/responses/DataResponse';
+import { NoDataResponse } from '../../types/responses/NoDataResponse';
 import {
     BaseRepository,
     type AuthRepoMethodPostRequestOptions,
     type AuthRepoMethodPatchRequestOptions,
     type AuthRepoMethodDeleteRequestOptions
-} from './BaseRepository';
+} from '../../types/BaseRepository';
 
 export interface CompleteSocialAccountRequestOptions
     extends AuthRepoMethodPostRequestOptions<SocialSetupBody> {}

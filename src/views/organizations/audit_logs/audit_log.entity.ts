@@ -1,6 +1,6 @@
 import { IsDate, IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
 import { Type } from 'class-transformer';
-import { TeamMember } from './Organization';
+import { TeamMember } from '../organization.entity';
 
 export enum ActionSeverity {
     Critical = 3,

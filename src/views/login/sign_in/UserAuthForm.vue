@@ -6,11 +6,11 @@ import { useUserStore } from '@/stores/user';
 import { cn } from '@/utils/shadcn';
 
 import { Icon } from '@iconify/vue';
-import type { Token } from '@/repositories/types/entities/Token';
-import { AuthRepository } from '@/repositories/AuthRepository';
-import type { AuthenticatedUser } from '@/repositories/types/entities/AuthenticatedUser';
+import type { Token } from '@/views/login/token.entity';
+import { AuthRepository } from '@/views/login/auth.repository';
+import type { AuthenticatedUser } from '@/views/login/authenticated_user.entity';
 import router from '@/router';
-import { BusinessLogicError, ValidationError } from '@/repositories/BaseRepository';
+import { BusinessLogicError, ValidationError } from '@/types/BaseRepository';
 
 import { Button } from '@/shadcn/ui/button';
 

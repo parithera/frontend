@@ -29,7 +29,7 @@ import {
 import { Input } from '@/shadcn/ui/input'
 import { Button } from '@/shadcn/ui/button';
 import { ref, watch, type ModelRef, type Ref } from 'vue';
-import type { Sample } from '@/repositories/types/entities/Sample'
+import type { Sample } from '@/views/samples/sample.entity'
 import { useUserStore } from '@/stores/user'
 import { useAuthStore } from '@/stores/auth'
 import { ChevronDown } from 'lucide-vue-next'

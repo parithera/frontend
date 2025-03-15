@@ -1,4 +1,4 @@
-import type { MemberRole } from '../entities/Organization';
+import type { MemberRole } from '../../organization.entity';
 
 export interface CreateInvite {
     user_email: string;

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import router from '@/router';
-import { UserRepository } from '@/repositories/UserRepository';
+import { UserRepository } from '@/views/login/user.repository';
 
 const text = ref('Confirming registration...');
 const counter = ref(0);

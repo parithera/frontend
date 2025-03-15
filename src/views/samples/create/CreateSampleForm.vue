@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SampleRepository } from '@/repositories/SampleRepository';
+import { SampleRepository } from '@/views/samples/sample.repository';
 import Button from '@/shadcn/ui/button/Button.vue';
 import Dialog from '@/shadcn/ui/dialog/Dialog.vue';
 import DialogClose from '@/shadcn/ui/dialog/DialogClose.vue';
@@ -24,8 +24,8 @@ import SelectGroup from '@/shadcn/ui/select/SelectGroup.vue';
 import SelectItem from '@/shadcn/ui/select/SelectItem.vue';
 import router from '@/router';
 import type { Group } from '../types';
-import type { ProjectFile } from '@/repositories/types/entities/ProjectFile';
-import { AnalyzerRepository } from '@/repositories/AnalyzerRepository';
+import type { ProjectFile } from '@/views/projects/project_file.entity';
+import { AnalyzerRepository } from '@/views/analyzers/analyzer.repository';
 import Separator from '@/shadcn/ui/separator/Separator.vue';
 
 const authStore = useAuthStore();

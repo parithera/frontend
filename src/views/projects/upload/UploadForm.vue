@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { FileRepository } from '@/repositories/FileRepository';
-import type { Project } from '@/repositories/types/entities/Project';
+import { FileRepository } from '@/views/projects/file.repository';
+import type { Project } from '@/views/projects/project.entity';
 import Button from '@/shadcn/ui/button/Button.vue';
 import { FormField } from '@/shadcn/ui/form';
 import FormControl from '@/shadcn/ui/form/FormControl.vue';
@@ -14,7 +14,7 @@ import { computeHash } from '@/utils/crypto';
 import { useForm } from 'vee-validate';
 import Progress from '@/shadcn/ui/progress/Progress.vue';
 import { ref, useTemplateRef, type ModelRef, type Ref } from 'vue';
-import { ProjectFile } from '@/repositories/types/entities/ProjectFile';
+import { ProjectFile } from '@/views/projects/project_file.entity';
 
 
 // Repositories

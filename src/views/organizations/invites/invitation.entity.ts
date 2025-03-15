@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsDate, IsDefined, IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
-import { MemberRole, TeamMember } from './Organization';
+import { MemberRole, TeamMember } from '../organization.entity';
 
 export class Invitation {
     @IsNotEmpty()

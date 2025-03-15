@@ -1,21 +1,21 @@
 <script lang="ts" setup>
-import { BusinessLogicError } from '@/repositories/BaseRepository';
-import { OrgRepository } from '@/repositories/OrganizationRepository';
+import { BusinessLogicError } from '@/types/BaseRepository';
+import { OrgRepository } from '@/views/organizations/organization.repository';
 import {
     MemberRole,
     type Organization,
     isMemberRoleGreaterThan
-} from '@/repositories/types/entities/Organization';
+} from '@/views/organizations/organization.entity';
 import router from '@/router';
 import { useAuthStore } from '@/stores/auth';
 import { onMounted, ref, type Ref } from 'vue';
 import { useRoute } from 'vue-router';
 import OrgHeaderItem from '@/views/organizations/subcomponents/OrganizationHeaderItem.vue';
-import { APIErrors } from '@/repositories/types/errors/ApiErrors';
+import { APIErrors } from '@/types/ApiErrors';
 import { Icon } from '@iconify/vue';
-import { SortDirection } from '@/repositories/types/PaginatedRequestOptions';
+import { SortDirection } from '@/types/PaginatedRequestOptions';
 import Button from '@/shadcn/ui/button/Button.vue';
-import type { OrganizationMembership } from '@/repositories/types/entities/OrganizationMembership';
+import type { OrganizationMembership } from '@/views/organizations/members/organization_membership.entity';
 
 const orgRepo = new OrgRepository();
 const authStore = useAuthStore();

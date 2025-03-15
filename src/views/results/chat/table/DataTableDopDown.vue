@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { BusinessLogicError } from '@/repositories/BaseRepository';
-import { ProjectRepository } from '@/repositories/ProjectRepository';
+import { BusinessLogicError } from '@/types/BaseRepository';
+import { ProjectRepository } from '@/views/projects/project.repository';
 import router from '@/router';
 import { Button } from '@/shadcn/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/shadcn/ui/dropdown-menu'

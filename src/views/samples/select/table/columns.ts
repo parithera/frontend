@@ -5,7 +5,7 @@ import { ArrowUpDown } from 'lucide-vue-next'
 import Button from '@/shadcn/ui/button/Button.vue';
 import { Checkbox } from '@/shadcn/ui/checkbox'
 import moment from 'moment';
-import type { Sample } from '@/repositories/types/entities/Sample';
+import type { Sample } from '@/views/samples/sample.entity';
 import { RouterLink } from 'vue-router';
 import Badge from '@/shadcn/ui/badge/Badge.vue';
 

@@ -1,6 +1,6 @@
 import { plainToInstance, type ClassConstructor, instanceToPlain } from 'class-transformer';
 import { validateSync } from 'class-validator';
-import { MalformedResponse } from '../errors/ApiErrors';
+import { MalformedResponse } from './ApiErrors';
 
 export abstract class Entity {
     static unMarshal<T>(plain: T, classConstructor: ClassConstructor<T>, validate?: boolean): T {

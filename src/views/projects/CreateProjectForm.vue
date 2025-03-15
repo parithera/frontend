@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ProjectRepository } from '@/repositories/ProjectRepository';
+import { ProjectRepository } from '@/views/projects/project.repository';
 import router from '@/router';
 import Button from '@/shadcn/ui/button/Button.vue';
 import Dialog from '@/shadcn/ui/dialog/Dialog.vue';

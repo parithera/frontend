@@ -10,8 +10,8 @@ import {
     IsNumber,
     IsOptional
 } from 'class-validator';
-import type { Project } from './Project';
-import type { OrganizationMembership } from './OrganizationMembership';
+import type { Project } from '../projects/project.entity';
+import type { OrganizationMembership } from './members/organization_membership.entity';
 
 export class Organization {
     @IsNotEmpty()

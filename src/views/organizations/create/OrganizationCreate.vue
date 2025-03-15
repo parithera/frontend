@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { BusinessLogicError } from '@/repositories/BaseRepository'
-import { OrgRepository } from '@/repositories/OrganizationRepository'
+import { BusinessLogicError } from '@/types/BaseRepository'
+import { OrgRepository } from '@/views/organizations/organization.repository'
 import { AutoForm } from '@/shadcn/ui/auto-form'
 import { Button } from '@/shadcn/ui/button'
 import { toast } from '@/shadcn/ui/toast'

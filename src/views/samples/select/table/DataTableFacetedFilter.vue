@@ -16,7 +16,7 @@ import { computed } from 'vue'
 import { CheckIcon } from 'lucide-vue-next'
 import { Icon } from '@iconify/vue/dist/iconify.js'
 import Separator from '@/shadcn/ui/separator/Separator.vue'
-import type { Sample } from '@/repositories/types/entities/Sample'
+import type { Sample } from '@/views/samples/sample.entity'
 
 interface DataTableFacetedFilter {
   column?: Column<Sample, any>

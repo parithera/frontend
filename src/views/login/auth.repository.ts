@@ -1,22 +1,22 @@
-import { AuthenticatedUser } from './types/entities/AuthenticatedUser';
-import { Entity } from './types/entities/Entity';
-import type { AuthenticateBody } from './types/postBodies/Authenticate';
-import type { Oauth2FinalizeBody } from './types/postBodies/OAuth2Finalize';
-import type { PasswordResetBody } from './types/postBodies/PasswordReset';
-import type { PasswordResetRequestBody } from './types/postBodies/PasswordResetRequest';
-import type { RegisterBody } from './types/postBodies/Register';
-import { CreatedResponse } from './types/responses/CreatedResponse';
-import type { DataResponse } from './types/responses/DataResponse';
-import { NoDataResponse } from './types/responses/NoDataResponse';
-import { RefreshToken } from '@/repositories/types/entities/RefreshToken';
-import { Token } from '@/repositories/types/entities/Token';
+import { AuthenticatedUser } from './authenticated_user.entity';
+import { Entity } from '../../types/BaseEntity';
+import type { AuthenticateBody } from './authenticate.http';
+import type { Oauth2FinalizeBody } from './oauth2_finalize.http';
+import type { PasswordResetBody } from './password_reset.http';
+import type { PasswordResetRequestBody } from './password_reset_request.http';
+import type { RegisterBody } from './register.http';
+import { CreatedResponse } from '../../types/responses/CreatedResponse';
+import type { DataResponse } from '../../types/responses/DataResponse';
+import { NoDataResponse } from '../../types/responses/NoDataResponse';
+import { RefreshToken } from '@/views/login/refresh_token.entity';
+import { Token } from '@/views/login/token.entity';
 import {
     BaseRepository,
     type EmptyPostData,
     type RepoMethodPostRequestOptions,
     type AuthRepoMethodGetRequestOptions
-} from './BaseRepository';
-import type { RefreshTokenBody } from './types/postBodies/TokenRefresh';
+} from '../../types/BaseRepository';
+import type { RefreshTokenBody } from './token_refresh.http';
 
 export interface AuthenticateRequestOptions
     extends RepoMethodPostRequestOptions<AuthenticateBody> {}

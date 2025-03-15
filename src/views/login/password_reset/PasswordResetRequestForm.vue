@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 import { ref, type Ref } from 'vue';
 import * as yup from 'yup';
-import { APIErrors } from '@/repositories/types/errors/ApiErrors';
+import { APIErrors } from '@/types/ApiErrors';
 import { Form } from 'vee-validate';
 import LoadingSubmitButton from '@/common_components/LoadingSubmitButton.vue';
-import { BusinessLogicError, ValidationError } from '@/repositories/BaseRepository';
-import { AuthRepository } from '@/repositories/AuthRepository';
+import { BusinessLogicError, ValidationError } from '@/types/BaseRepository';
+import { AuthRepository } from '@/views/login/auth.repository';
 import { Icon } from '@iconify/vue';
 import FormTextField from '@/common_components/forms/FormTextField.vue';
 

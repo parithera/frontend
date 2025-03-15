@@ -1,5 +1,5 @@
-import { Entity } from './types/entities/Entity';
-import { CreatedResponse } from '@/repositories/types/responses/CreatedResponse';
+import { Entity } from '../../types/BaseEntity';
+import { CreatedResponse } from '@/types/responses/CreatedResponse';
 import {
     BaseRepository,
     type AuthRepoMethodEmptyDeleteRequestOptions,
@@ -9,14 +9,14 @@ import {
     type PaginatedRepoMethodRequestOptions,
     type SearchableRepoMethodRequestOptions,
     type SortableRepoMethodRequestOptions,
-} from './BaseRepository';
-import type { CreateSample } from './types/postBodies/CreateSample';
-import { PaginatedResponse } from './types/responses/PaginatedResponse';
-import type { Sample } from './types/entities/Sample';
-import type { UploadData, UploadRequestOptions } from './FileRepository';
-import { NoDataResponse } from './types/responses/NoDataResponse';
-import type { CreateAnalysis } from './types/postBodies/CreateAnalysis';
-import { DataResponse } from './types/responses/DataResponse';
+} from '../../types/BaseRepository';
+import type { CreateSample } from './create/create_sample.http';
+import { PaginatedResponse } from '../../types/responses/PaginatedResponse';
+import type { Sample } from './sample.entity';
+import type { UploadData, UploadRequestOptions } from '../projects/file.repository';
+import { NoDataResponse } from '../../types/responses/NoDataResponse';
+import type { CreateAnalysis } from '../projects/create_analysis.http';
+import { DataResponse } from '../../types/responses/DataResponse';
 
 export interface GetSamplesRequestOptions
     extends AuthRepoMethodGetRequestOptions,

@@ -1,11 +1,11 @@
-import type { Project } from '@/repositories/types/entities/Project'
+import type { Project } from '@/views/projects/project.entity'
 import type { ColumnDef } from '@tanstack/vue-table'
 import { h } from 'vue'
 import DataTableDopDown from './DataTableDopDown.vue';
 import { ArrowUpDown } from 'lucide-vue-next'
 import Button from '@/shadcn/ui/button/Button.vue';
 import { Checkbox } from '@/shadcn/ui/checkbox'
-import type { AuthenticatedUser } from '@/repositories/types/entities/AuthenticatedUser';
+import type { AuthenticatedUser } from '@/views/login/authenticated_user.entity';
 import moment from 'moment';
 import router from '@/router';
 

@@ -4,16 +4,16 @@ import {
     isMemberRoleGreaterThan,
     MemberRole,
     Organization
-} from '@/repositories/types/entities/Organization';
-import type { Invitation } from '@/repositories/types/entities/Invitation';
-import { OrgRepository } from '@/repositories/OrganizationRepository';
+} from '@/views/organizations/organization.entity';
+import type { Invitation } from '@/views/organizations/invites/invitation.entity';
+import { OrgRepository } from '@/views/organizations/organization.repository';
 import { useAuthStore } from '@/stores/auth';
-import { BusinessLogicError } from '@/repositories/BaseRepository';
+import { BusinessLogicError } from '@/types/BaseRepository';
 import moment from 'moment';
 import { Icon } from '@iconify/vue';
 import { useUserStore } from '@/stores/user';
 import CenteredModal from '@/common_components/CenteredModal.vue';
-import { APIErrors } from '@/repositories/types/errors/ApiErrors';
+import { APIErrors } from '@/types/ApiErrors';
 import LoadingButton from '@/common_components/LoadingButton.vue';
 import { errorToast, successToast } from '@/utils/toasts';
 import Button from '@/shadcn/ui/button/Button.vue';

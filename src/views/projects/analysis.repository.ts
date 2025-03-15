@@ -1,17 +1,17 @@
-import { Entity } from './types/entities/Entity';
+import { Entity } from '../../types/BaseEntity';
 import {
     BaseRepository,
     type AuthRepoMethodGetRequestOptions,
     type AuthRepoMethodPostRequestOptions,
     type EmptyPostData,
     type AuthRepoMethodEmptyDeleteRequestOptions
-} from './BaseRepository';
-import type { CreateAnalysis } from './types/postBodies/CreateAnalysis';
-import { CreatedResponse } from './types/responses/CreatedResponse';
-import { PaginatedResponse } from './types/responses/PaginatedResponse';
-import type { Analysis } from './types/entities/Analysis';
-import { DataResponse } from './types/responses/DataResponse';
-import { NoDataResponse } from './types/responses/NoDataResponse';
+} from '../../types/BaseRepository';
+import type { CreateAnalysis } from './create_analysis.http';
+import { CreatedResponse } from '../../types/responses/CreatedResponse';
+import { PaginatedResponse } from '../../types/responses/PaginatedResponse';
+import type { Analysis } from './analysis.entity';
+import { DataResponse } from '../../types/responses/DataResponse';
+import { NoDataResponse } from '../../types/responses/NoDataResponse';
 
 export interface GetAnalysesRequestOptions extends AuthRepoMethodGetRequestOptions {
     orgId: string;

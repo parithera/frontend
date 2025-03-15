@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { SampleRepository } from '@/repositories/SampleRepository';
-import type { Sample } from '@/repositories/types/entities/Sample';
+import { SampleRepository } from '@/views/samples/sample.repository';
+import type { Sample } from '@/views/samples/sample.entity';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { onMounted, ref, type ModelRef, type Ref } from 'vue';

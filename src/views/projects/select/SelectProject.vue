@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import type { Project } from '@/repositories/types/entities/Project';
+import type { Project } from '@/views/projects/project.entity';
 import { ref, type Ref } from 'vue';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
-import { ProjectRepository } from '@/repositories/ProjectRepository';
+import { ProjectRepository } from '@/views/projects/project.repository';
 
 const authStore = useAuthStore();
 const userStore = useUserStore();

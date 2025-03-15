@@ -1,6 +1,6 @@
-import { Entity } from './types/entities/Entity';
-import { BaseRepository, type AuthRepoMethodPostRequestOptions } from './BaseRepository';
-import { DataResponse } from './types/responses/DataResponse';
+import { Entity } from '../../../types/BaseEntity';
+import { BaseRepository, type AuthRepoMethodPostRequestOptions } from '../../../types/BaseRepository';
+import { DataResponse } from '../../../types/responses/DataResponse';
 
 export interface AskGPTRequestOptions extends AuthRepoMethodPostRequestOptions<AskGPT> {}
 

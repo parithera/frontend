@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Sample } from '@/repositories/types/entities/Sample';
+import type { Sample } from '@/views/samples/sample.entity';
 import Button from '@/shadcn/ui/button/Button.vue';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 

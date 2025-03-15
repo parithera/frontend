@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Project } from '@/repositories/types/entities/Project';
+import type { Project } from '@/views/projects/project.entity';
 import Button from '@/shadcn/ui/button/Button.vue';
 import { FormField } from '@/shadcn/ui/form';
 import FormControl from '@/shadcn/ui/form/FormControl.vue';

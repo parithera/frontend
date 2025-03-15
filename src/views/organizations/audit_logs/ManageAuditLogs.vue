@@ -3,18 +3,18 @@ import {
     isMemberRoleGreaterThan,
     MemberRole,
     type Organization
-} from '@/repositories/types/entities/Organization';
+} from '@/views/organizations/organization.entity';
 import router from '@/router';
 import { ref, watch, type Ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { debounce } from '@/utils/searchUtils';
-import type { AuditLog } from '@/repositories/types/entities/AuditLog';
-import { OrgRepository } from '@/repositories/OrganizationRepository';
+import type { AuditLog } from '@/views/organizations/audit_logs/audit_log.entity';
+import { OrgRepository } from '@/views/organizations/organization.repository';
 import { useAuthStore } from '@/stores/auth';
-import { BusinessLogicError } from '@/repositories/BaseRepository';
+import { BusinessLogicError } from '@/types/BaseRepository';
 import OrgHeaderItem from '@/views/organizations/subcomponents/OrganizationHeaderItem.vue';
 
-import { SortDirection } from '@/repositories/types/PaginatedRequestOptions';
+import { SortDirection } from '@/types/PaginatedRequestOptions';
 import Button from '@/shadcn/ui/button/Button.vue';
 
 const orgRepo = new OrgRepository();

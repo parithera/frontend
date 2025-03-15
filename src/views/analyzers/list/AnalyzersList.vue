@@ -3,16 +3,16 @@ import {
     isMemberRoleGreaterOrEqualTo,
     MemberRole,
     Organization
-} from '@/repositories/types/entities/Organization';
+} from '@/views/organizations/organization.entity';
 import router from '@/router';
 import { Icon } from '@iconify/vue';
 import { ref, type Ref } from 'vue';
 import OrgHeaderItem from '@/views/organizations/subcomponents/OrganizationHeaderItem.vue';
-import { AnalyzerRepository } from '@/repositories/AnalyzerRepository';
+import { AnalyzerRepository } from '../analyzer.repository';
 import { useAuthStore } from '@/stores/auth';
-import { BusinessLogicError } from '@/repositories/BaseRepository';
+import { BusinessLogicError } from '@/types/BaseRepository';
 import BoxLoader from '@/common_components/BoxLoader.vue';
-import type { Analyzer } from '@/repositories/types/entities/Analyzer';
+import type { Analyzer } from '@/views/analyzers/analyzer.entity';
 import Card from '@/shadcn/ui/card/Card.vue';
 import CardHeader from '@/shadcn/ui/card/CardHeader.vue';
 import CardTitle from '@/shadcn/ui/card/CardTitle.vue';

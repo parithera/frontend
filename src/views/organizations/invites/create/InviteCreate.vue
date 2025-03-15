@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import { BusinessLogicError, ValidationError } from '@/repositories/BaseRepository';
-import { OrgRepository } from '@/repositories/OrganizationRepository';
+import { BusinessLogicError, ValidationError } from '@/types/BaseRepository';
+import { OrgRepository } from '@/views/organizations/organization.repository';
 import {
     MemberRole,
     type Organization,
     isMemberRoleGreaterThan
-} from '@/repositories/types/entities/Organization';
+} from '@/views/organizations/organization.entity';
 import router from '@/router';
 import { useAuthStore } from '@/stores/auth';
 import { ref, type Ref } from 'vue';
 import OrgHeaderItem from '@/views/organizations/subcomponents/OrganizationHeaderItem.vue';
-import { APIErrors } from '@/repositories/types/errors/ApiErrors';
+import { APIErrors } from '@/types/ApiErrors';
 import { Icon } from '@iconify/vue';
 import FaqBox from '@/common_components/FaqBox.vue';
 import { errorToast, successToast } from '@/utils/toasts';

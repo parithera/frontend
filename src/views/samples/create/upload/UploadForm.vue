@@ -12,8 +12,8 @@ import { computeHash } from '@/utils/crypto';
 import { useForm } from 'vee-validate';
 import Progress from '@/shadcn/ui/progress/Progress.vue';
 import { ref, useTemplateRef, type ModelRef, type Ref } from 'vue';
-import { ProjectFile } from '@/repositories/types/entities/ProjectFile';
-import { SampleRepository } from '@/repositories/SampleRepository';
+import { ProjectFile } from '@/views/projects/project_file.entity';
+import { SampleRepository } from '@/views/samples/sample.repository';
 import Switch from '@/shadcn/ui/switch/Switch.vue';
 
 const props = defineProps<{

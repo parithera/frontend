@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsDate, IsDefined, IsEnum, IsNotEmpty, IsNumber, IsOptional } from 'class-validator';
-import { TeamMember } from './Organization';
+import { TeamMember } from '../organizations/organization.entity';
 
 export enum AnalysisStatus {
     REQUESTED = 'requested',

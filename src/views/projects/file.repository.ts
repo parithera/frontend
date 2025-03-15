@@ -1,11 +1,11 @@
-import { Entity } from './types/entities/Entity';
+import { Entity } from '../../types/BaseEntity';
 import {
     BaseRepository,
     type AuthRepoMethodEmptyDeleteRequestOptions,
     type EmptyPostData,
     type RepoMethodEmptyPatchRequestOptions
-} from './BaseRepository';
-import { NoDataResponse } from './types/responses/NoDataResponse';
+} from '../../types/BaseRepository';
+import { NoDataResponse } from '../../types/responses/NoDataResponse';
 
 export interface UploadRequestOptions extends RepoMethodEmptyPatchRequestOptions<UploadData> {
     projectId: string;

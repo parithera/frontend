@@ -3,14 +3,14 @@ import {
     isMemberRoleGreaterOrEqualTo,
     MemberRole,
     Organization
-} from '@/repositories/types/entities/Organization';
+} from '@/views/organizations/organization.entity';
 import router from '@/router';
 import { onMounted, ref, type Ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useUserStore } from '@/stores/user';
 import { useAuthStore } from '@/stores/auth';
-import { AnalyzerRepository } from '@/repositories/AnalyzerRepository';
-import { PluginRepository } from '@/repositories/PluginRepository';
+import { AnalyzerRepository } from '../analyzer.repository';
+import { PluginRepository } from '@/views/analyzers/create/plugin.repository';
 import OrgHeaderItem from '@/views/organizations/subcomponents/OrganizationHeaderItem.vue';
 import { Form } from 'vee-validate';
 import * as yup from 'yup';
@@ -19,8 +19,8 @@ import { storeToRefs } from 'pinia';
 import FormTextField from '@/common_components/forms/FormTextField.vue';
 import * as lite from 'litegraph.js';
 import 'litegraph.js/css/litegraph.css';
-import type { Plugin } from '@/repositories/types/entities/Plugin';
-import { BusinessLogicError } from '@/repositories/BaseRepository';
+import type { Plugin } from '@/views/analyzers/create/plugin.entity';
+import { BusinessLogicError } from '@/types/BaseRepository';
 import { createNode, getWidth, retrieveResult } from '@/utils/liteGraph';
 import Alert from '@/shadcn/ui/alert/Alert.vue';
 import { Terminal } from 'lucide-vue-next';

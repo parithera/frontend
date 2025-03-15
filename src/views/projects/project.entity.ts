@@ -1,8 +1,8 @@
 import { IsBoolean, IsDate, IsNotEmpty, IsOptional } from 'class-validator';
-import { Analysis } from './Analysis';
+import { Analysis } from './analysis.entity';
 import { Type } from 'class-transformer';
-import { TeamMember } from './Organization';
-import { ProjectFile } from './ProjectFile';
+import { TeamMember } from '../organizations/organization.entity';
+import { ProjectFile } from './project_file.entity';
 
 export class Project {
     @IsNotEmpty()

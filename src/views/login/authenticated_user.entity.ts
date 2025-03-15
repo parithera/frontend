@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsBoolean, IsDate, IsEnum, IsNotEmpty, IsOptional } from 'class-validator';
-import { Organization } from './Organization';
+import { Organization } from '../organizations/organization.entity';
 
 export class AuthenticatedUser {
     @IsNotEmpty()

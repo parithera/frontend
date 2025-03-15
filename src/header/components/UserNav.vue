@@ -21,10 +21,10 @@ import DialogTrigger from '@/shadcn/ui/dialog/DialogTrigger.vue';
 import DialogContent from '@/shadcn/ui/dialog/DialogContent.vue';
 import DialogDescription from '@/shadcn/ui/dialog/DialogDescription.vue';
 import DialogFooter from '@/shadcn/ui/dialog/DialogFooter.vue';
-import { NotificationRepository } from '@/repositories/NotificationRepository';
+import { NotificationRepository } from '@/header/notification.repository';
 import { ref, type Ref } from 'vue';
-import { BusinessLogicError } from '@/repositories/BaseRepository';
-import type { Notification } from '@/repositories/types/entities/Notification';
+import { BusinessLogicError } from '@/types/BaseRepository';
+import type { Notification } from '@/header/notification.entity';
 import DialogTitle from '@/shadcn/ui/dialog/DialogTitle.vue';
 
 const userStore = useUserStore();

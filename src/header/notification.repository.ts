@@ -1,14 +1,14 @@
-import { Entity } from './types/entities/Entity';
-import { PaginatedResponse } from './types/responses/PaginatedResponse';
+import { Entity } from '../types/BaseEntity';
+import { PaginatedResponse } from '../types/responses/PaginatedResponse';
 import {
     BaseRepository,
     type AuthRepoMethodEmptyDeleteRequestOptions,
     type AuthRepoMethodGetRequestOptions,
     type EmptyPostData
-} from './BaseRepository';
-import { DataResponse } from './types/responses/DataResponse';
-import { NoDataResponse } from './types/responses/NoDataResponse';
-import type { Notification } from './types/entities/Notification';
+} from '../types/BaseRepository';
+import { DataResponse } from '../types/responses/DataResponse';
+import { NoDataResponse } from '../types/responses/NoDataResponse';
+import type { Notification } from './notification.entity';
 
 export interface GetNotificationsRequestOptions extends AuthRepoMethodGetRequestOptions {
     page: number;

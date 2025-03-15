@@ -1,17 +1,17 @@
-import { Entity } from './types/entities/Entity';
-import { Analyzer } from './types/entities/Analyzer';
-import type { CreateAnalyzer } from './types/postBodies/CreateAnalyzer';
-import { PaginatedResponse } from './types/responses/PaginatedResponse';
+import { Entity } from '@/types/BaseEntity';
+import { Analyzer } from './analyzer.entity';
+import type { CreateAnalyzer } from '@/views/analyzers/create/create_analyzer.http';
+import { PaginatedResponse } from '@/types/responses/PaginatedResponse';
 import {
     BaseRepository,
     type AuthRepoMethodEmptyDeleteRequestOptions,
     type AuthRepoMethodGetRequestOptions,
     type AuthRepoMethodPostRequestOptions,
     type EmptyPostData
-} from './BaseRepository';
-import { CreatedResponse } from './types/responses/CreatedResponse';
-import { DataResponse } from './types/responses/DataResponse';
-import { NoDataResponse } from './types/responses/NoDataResponse';
+} from '@/types/BaseRepository';
+import { CreatedResponse } from '@/types/responses/CreatedResponse';
+import { DataResponse } from '@/types/responses/DataResponse';
+import { NoDataResponse } from '@/types/responses/NoDataResponse';
 
 export interface GetAnalyzersRequestOptions extends AuthRepoMethodGetRequestOptions {
     orgId: string;

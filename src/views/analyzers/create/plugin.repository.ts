@@ -1,7 +1,7 @@
-import { Entity } from './types/entities/Entity';
-import { PaginatedResponse } from './types/responses/PaginatedResponse';
-import { BaseRepository, type AuthRepoMethodGetRequestOptions } from './BaseRepository';
-import type { Plugin } from './types/entities/Plugin';
+import { Entity } from '../../../types/BaseEntity';
+import { PaginatedResponse } from '../../../types/responses/PaginatedResponse';
+import { BaseRepository, type AuthRepoMethodGetRequestOptions } from '../../../types/BaseRepository';
+import type { Plugin } from './plugin.entity';
 
 export interface GetPluginRequestOptions extends AuthRepoMethodGetRequestOptions {}
 

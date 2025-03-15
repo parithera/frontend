@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { FileRepository } from '@/repositories/FileRepository';
-import type { ProjectFile } from '@/repositories/types/entities/ProjectFile';
+import { FileRepository } from '@/views/projects/file.repository';
+import type { ProjectFile } from '@/views/projects/project_file.entity';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { type ModelRef } from 'vue';

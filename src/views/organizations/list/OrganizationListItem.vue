@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 import CenteredModal from '@/common_components/CenteredModal.vue';
-import { MemberRole } from '@/repositories/types/entities/Organization';
+import { MemberRole } from '@/views/organizations/organization.entity';
 import { Icon } from '@iconify/vue';
 import moment from 'moment';
 import PositionedModal from '@/common_components/PositionedModal.vue';
 import { ref, type Ref } from 'vue';
-import { OrgRepository } from '@/repositories/OrganizationRepository';
+import { OrgRepository } from '@/views/organizations/organization.repository';
 import { useAuthStore } from '@/stores/auth';
-import { BusinessLogicError } from '@/repositories/BaseRepository';
-import { APIErrors } from '@/repositories/types/errors/ApiErrors';
+import { BusinessLogicError } from '@/types/BaseRepository';
+import { APIErrors } from '@/types/ApiErrors';
 import { errorToast, successToast } from '@/utils/toasts';
-import type { OrganizationMembership } from '@/repositories/types/entities/OrganizationMembership';
+import type { OrganizationMembership } from '@/views/organizations/members/organization_membership.entity';
 import Button from '@/shadcn/ui/button/Button.vue';
 
 enum OrgAction {

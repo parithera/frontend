@@ -1,19 +1,19 @@
-import { Entity } from './types/entities/Entity';
+import { Entity } from '../../types/BaseEntity';
 import {
     BaseRepository,
     type AuthRepoMethodGetRequestOptions,
     type PaginatedRepoMethodRequestOptions,
     type SortableRepoMethodRequestOptions
-} from './BaseRepository';
-import { DataResponse } from './types/responses/DataResponse';
-import type { AnalysisStats, PatchingStats, SbomStats } from './types/entities/Stats';
-import { Dependency, type SbomGraph } from './types/entities/Graph';
-import { PaginatedResponse } from './types/responses/PaginatedResponse';
-import type { License } from './types/entities/License';
-import type { VulnerabilityMerged } from '@/repositories/types/entities/VulnStats';
-import type { PatchInfo, PatchOccurenceInfo, PatchedManifestData } from './types/entities/Patching';
-import type { VulnerabilityDetails } from './types/entities/VulnDetails';
-import { DependencyDetails } from './types/entities/SbomDetails';
+} from '../../types/BaseRepository';
+import { DataResponse } from '../../types/responses/DataResponse';
+import type { AnalysisStats, PatchingStats, SbomStats } from '../../types/entities/Stats.entity';
+import { Dependency, type SbomGraph } from '../../types/entities/Graph.entity';
+import { PaginatedResponse } from '../../types/responses/PaginatedResponse';
+import type { License } from '../../types/entities/License.entity';
+import type { VulnerabilityMerged } from '@/types/entities/VulnStats.entity';
+import type { PatchInfo, PatchOccurenceInfo, PatchedManifestData } from '../../types/entities/Patching.entity';
+import type { VulnerabilityDetails } from '../../types/entities/VulnDetails.entity';
+import { DependencyDetails } from '../../types/entities/SbomDetails.entity';
 
 export interface GetSbomStatsRequestOptions extends AuthRepoMethodGetRequestOptions {
     orgId: string;
