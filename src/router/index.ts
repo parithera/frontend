@@ -1,25 +1,25 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { loadAuthStoreFromLocalStorage, useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
-import { AuthRepository } from '@/repositories/AuthRepository';
-import { AuthenticatedUser } from '@/repositories/types/entities/AuthenticatedUser';
-import { OrgRepository } from '@/repositories/OrganizationRepository';
-import { BusinessLogicError } from '@/repositories/BaseRepository';
-import { APIErrors } from '@/repositories/types/errors/ApiErrors';
-import ProjectsView from '@/views/ProjectsView.vue';
-import ResultsView from '@/views/ResultsView.vue';
-import NotFoundView from '@/views/NotFoundView.vue';
-import TermsView from '@/views/TermsView.vue';
-import LoginView from '@/views/LoginView.vue';
-import SignupView from '@/views/SignupView.vue';
-import SettingsView from '@/views/SettingsView.vue';
-import PasswordResetRequestView from '@/views/PasswordResetRequestView.vue';
-import OrganizationView from '@/views/OrganizationView.vue';
-import DashboardView from '@/views/DashboardView.vue';
-import EmailActionView from '@/views/EmailActionView.vue';
-import type { Organization } from '@/repositories/types/entities/Organization';
-import SamplesView from '@/views/SamplesView.vue';
-import DatasetsView from '@/views/DatasetsView.vue';
+import { AuthRepository } from '@/views/login/auth.repository';
+import { AuthenticatedUser } from '@/views/login/authenticated_user.entity';
+import { OrgRepository } from '@/views/organizations/organization.repository';
+import { BusinessLogicError } from '@/types/BaseRepository';
+import { APIErrors } from '@/types/ApiErrors';
+import type { Organization } from '@/views/organizations/organization.entity';
+import ProjectsView from '@/views/projects/ProjectsView.vue';
+import ResultsView from '@/views/results/ResultsView.vue';
+import NotFoundView from '@/views/errors/NotFoundView.vue';
+import TermsView from '@/views/terms/TermsView.vue';
+import LoginView from '@/views/login/LoginView.vue';
+import SignupView from '@/views/login/SignupView.vue';
+import SettingsView from '@/views/settings/SettingsView.vue';
+import PasswordResetRequestView from '@/views/login/PasswordResetRequestView.vue';
+import OrganizationView from '@/views/organizations/OrganizationView.vue';
+import DashboardView from '@/views/dashboard/DashboardView.vue';
+import EmailActionView from '@/views/login/EmailActionView.vue';
+import SamplesView from '@/views/samples/SamplesView.vue';
+import DatasetsView from '@/views/datasets/DatasetsView.vue';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),

@@ -1,4 +1,4 @@
-import type { Group } from '@/views/results/types';
+import type { Group } from '@/views/results/chat/types';
 import { defineStore } from 'pinia';
 import { io, Socket } from 'socket.io-client';
 

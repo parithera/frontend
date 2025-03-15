@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Project } from '@/repositories/types/entities/Project';
+import type { Project } from '@/views/projects/project.entity';
 import Button from '@/shadcn/ui/button/Button.vue';
 import { FormField } from '@/shadcn/ui/form';
 import FormControl from '@/shadcn/ui/form/FormControl.vue';
@@ -13,7 +13,7 @@ import { useUserStore } from '@/stores/user';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import { useForm } from 'vee-validate';
 import { useTemplateRef, watch, type ModelRef } from 'vue';
-import type { ChatContent } from '../results/types';
+import type { ChatContent } from '../results/chat/types';
 import { useChatStore } from '@/sockets/chat';
 import { storeToRefs } from 'pinia';
 
@@ -91,21 +91,18 @@ const onSubmit = handleSubmit((values) => {
                 <!-- <FormLabel>Bio</FormLabel> -->
                 <FormControl>
                     <div class="relative flex items-center">
-                        <Input
-                            placeholder="Ask Ada anything..."
-                            class="resize-none rounded-full pl-2 py-7 box-border h-6 w-full"
-                            v-bind="componentField"
-                            type="text"
-                        ></Input>
+                        <Input placeholder="Ask Ada anything..."
+                            class="resize-none rounded-full pl-2 py-7 box-border h-6 w-full" v-bind="componentField"
+                            type="text"></Input>
                         <div class="absolute right-16 flex items-center gap-2">
                             <Switch id="advanced-mode" />
                             <Label for="advanced-mode">Advanced</Label>
                         </div>
 
                         <div class="absolute right-2 flex items-center gap-2">
-                            <Button class="w-10 h-10 rounded-full bg-secondary" type="submit"
-                                ><Icon class="text-primary -m-1" icon="bi:send-fill"></Icon
-                            ></Button>
+                            <Button class="w-10 h-10 rounded-full bg-secondary" type="submit">
+                                <Icon class="text-primary -m-1" icon="bi:send-fill"></Icon>
+                            </Button>
                         </div>
                     </div>
                 </FormControl>

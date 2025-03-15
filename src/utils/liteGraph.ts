@@ -1,4 +1,4 @@
-import type { Plugin } from '@/repositories/types/entities/Plugin';
+import type { Plugin } from '@/views/analyzers/create/plugin.entity';
 import * as lite from 'litegraph.js';
 import * as d3 from 'd3';
 import type { Ref } from 'vue';

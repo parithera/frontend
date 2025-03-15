@@ -1,5 +1,5 @@
-import type { AuthenticatedUser } from '@/repositories/types/entities/AuthenticatedUser';
-import type { Organization } from '@/repositories/types/entities/Organization';
+import type { AuthenticatedUser } from '@/views/login/authenticated_user.entity';
+import type { Organization } from '@/views/organizations/organization.entity';
 import { defineStore } from 'pinia';
 
 interface UserStoreState {
