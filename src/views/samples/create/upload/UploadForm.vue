@@ -29,8 +29,9 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 
 // Models
-const files_uploaded: ModelRef<Array<ProjectFile>> = defineModel('files_uploaded', {
-    required: true
+const files_uploaded: ModelRef<Array<ProjectFile>> = defineModel('filesUploaded', {
+    required: true,
+    type: Array<ProjectFile>
 });
 
 // Refs

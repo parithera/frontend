@@ -48,7 +48,7 @@ const onSubmit = form.handleSubmit((values) => {
 async function deleteAccount(password: string) {
     if (authStore.getAuthenticated && authStore.getToken) {
         try {
-            const res = await userRepository.deleteUser({
+            await userRepository.deleteUser({
                 userId: user?.id ?? '',
                 bearerToken: authStore.getToken,
                 handleBusinessErrors: true,

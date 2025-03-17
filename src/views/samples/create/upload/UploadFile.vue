@@ -7,7 +7,7 @@ import { type ModelRef } from 'vue';
 import UploadForm from './UploadForm.vue';
 
 const props = defineProps<{
-    sample_id: string;
+    sampleId: string;
     align: Function;
 }>();
 
@@ -27,7 +27,7 @@ async function deleteFile(file: ProjectFile) {
     await fileRepository.deleteFile({
         bearerToken: authStore.getToken ?? '',
         fileId: file.id,
-        projectId: props.sample_id,
+        projectId: props.sampleId,
         organizationId: userStore.getDefaultOrg?.id ?? ''
     });
 }
@@ -44,7 +44,7 @@ function filterName(name: string) {
 <template>
     <UploadForm
         v-model:files_uploaded="files_uploaded"
-        :sample_id="sample_id"
+        :sample-id="sampleId"
         :align="align"
     ></UploadForm>
     <div v-if="files_uploaded.length > 0" class="flex flex-col gap-2 items-center">

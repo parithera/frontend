@@ -34,8 +34,8 @@ const markdown = new MarkdownIt({
         if (lang && hljs.getLanguage(lang)) {
             try {
                 return hljs.highlight(str, { language: lang }).value;
-            } catch (__) {
-                console.log('error hljs');
+            } catch (error) {
+                console.log('error hljs', error);
             }
         }
 
@@ -217,6 +217,7 @@ const progress = computed(() => {
                 >
                     <div
                         v-for="gene in Object.keys(response.json['data']['umaps'])"
+                        :key="gene"
                         class="flex flex-col items-center gap-2"
                     >
                         <span>Expression level for : {{ gene }}</span>

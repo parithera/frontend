@@ -28,7 +28,7 @@ import {
 import { Input } from '@/shadcn/ui/input';
 import { Button } from '@/shadcn/ui/button';
 import { ref, watch, type ModelRef, type Ref } from 'vue';
-import type { Sample } from '@/views/samples/sample.entity';
+import { Sample } from '@/views/samples/sample.entity';
 import { useUserStore } from '@/stores/user';
 import { useAuthStore } from '@/stores/auth';
 import { ChevronDown } from 'lucide-vue-next';
@@ -91,7 +91,7 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 
 // Models
-const samples: ModelRef<Array<Sample>> = defineModel('samples', { required: true });
+const samples: ModelRef<Array<Sample>> = defineModel('samples', { required: true, type: Array<Sample> });
 
 // Refs
 const selected_samples: Ref<Array<Sample>> = ref([]);

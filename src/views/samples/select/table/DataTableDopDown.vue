@@ -32,7 +32,7 @@ defineEmits<{
     (e: 'expand'): void;
 }>();
 
-async function deleteSample(project_id: string) {
+async function deleteSample() {
     try {
         await sampleRepository.deleteSample({
             bearerToken: authStore.getToken ?? '',
@@ -61,7 +61,7 @@ async function deleteSample(project_id: string) {
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
                 <DropdownMenuItem> Edit </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem @click="deleteSample(sample.id)">Delete sample</DropdownMenuItem>
+                <DropdownMenuItem @click="deleteSample()">Delete sample</DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     </div>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { FileRepository } from '@/views/projects/file.repository';
-import type { Project } from '@/views/projects/project.entity';
+import { Project } from '@/views/projects/project.entity';
 import Button from '@/shadcn/ui/button/Button.vue';
 import { FormField } from '@/shadcn/ui/form';
 import FormControl from '@/shadcn/ui/form/FormControl.vue';
@@ -24,8 +24,8 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 
 // Models
-const selected_project: ModelRef<Project> = defineModel('selected_project', { required: true });
-const create_groups: ModelRef<boolean> = defineModel('create_groups', { required: true });
+const selected_project: ModelRef<Project> = defineModel('selected_project', { required: true, type: Project });
+const create_groups: ModelRef<boolean> = defineModel('create_groups', { required: true, type: Boolean });
 
 // Refs
 const progress_message: Ref<string> = ref('Uploading');
@@ -46,14 +46,12 @@ const { handleSubmit } = useForm({
 const onFileSubmit = handleSubmit(async (values) => {
     const files: Array<File> = values.file as Array<File>;
     let count_files = 0;
-    let file_type = 'fastq';
     for (const file of files) {
         // const type: string = values.type as string;
         let file_name = file.name;
 
         if (file.name.includes('.h5')) {
             file_name = 'data.h5';
-            file_type = 'h5';
         }
 
         const chunkSize = 1024 * 1024 * 10; // size of each chunk (10MB)

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { SampleRepository } from '@/views/samples/sample.repository';
-import type { Sample } from '@/views/samples/sample.entity';
+import { Sample } from '@/views/samples/sample.entity';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { onMounted, ref, type ModelRef, type Ref } from 'vue';
@@ -8,7 +8,7 @@ import DataTable from './table/DataTable.vue';
 import { columns } from './table/columns';
 
 defineProps<{
-    project_id: string;
+    projectId: string;
 }>();
 
 // Stores
@@ -19,7 +19,7 @@ const userStore = useUserStore();
 const samples_available: Ref<Array<Sample>> = ref([]);
 
 // Models
-const samples: ModelRef<Array<Sample>> = defineModel('samples', { required: true });
+const samples: ModelRef<Array<Sample>> = defineModel('samples', { required: true, type: Array<Sample> });
 
 // Repositories
 const sampleRepository: SampleRepository = new SampleRepository();
@@ -50,6 +50,6 @@ onMounted(async () => {
         v-model:samples="samples"
         :columns="columns"
         :data="samples_available"
-        :project_id="project_id"
+        :project_id="projectId"
     />
 </template>

@@ -116,7 +116,7 @@ async function getSamplesByProject(project_id: string) {
     const res = await sampleRepository.getSamplesByProjectId({
         bearerToken: authStore.getToken ?? '',
         orgId: userStore.defaultOrg?.id ?? '',
-        projectId: route.params.projectId as string,
+        projectId: project_id,
         pagination: {
             page: 0,
             entries_per_page: 0
