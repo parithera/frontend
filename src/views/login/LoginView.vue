@@ -41,9 +41,9 @@ const words = [
 let i = 0,
     offset = 0,
     forwards = true,
-    skip_count = 0
-    const len = words.length
-    const skip_delay = 30;
+    skip_count = 0;
+const len = words.length;
+const skip_delay = 30;
 const speed = 35;
 const wordflick = function () {
     setInterval(function () {

@@ -21,7 +21,10 @@ const props = defineProps<{
     selectedProject: Project;
 }>();
 
-const chat_content: ModelRef<ChatContent[]> = defineModel('chatContent', { required: true, type: Array<ChatContent> });
+const chat_content: ModelRef<ChatContent[]> = defineModel('chatContent', {
+    required: true,
+    type: Array<ChatContent>
+});
 
 // Stores
 const authStore = useAuthStore();

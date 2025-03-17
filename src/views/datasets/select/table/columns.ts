@@ -81,13 +81,13 @@ export const columns: ColumnDef<Sample>[] = [
     {
         accessorKey: 'import',
 
-        header: ({}) => '',
-        cell: ({}) => h('span', { class: 'cursor-pointer text-primary' }, 'Import')
+        header: () => '',
+        cell: () => h('span', { class: 'cursor-pointer text-primary' }, 'Import')
     },
     {
         accessorKey: 'show',
 
-        header: ({}) => '',
+        header: () => '',
         cell: ({ row }) =>
             h(
                 'a',

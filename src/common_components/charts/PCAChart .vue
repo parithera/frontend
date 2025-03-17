@@ -71,8 +71,7 @@ function drawChart() {
         .text(props.yTitle);
 
     // Add data
-    svg
-        .selectAll('texts')
+    svg.selectAll('texts')
         .data(props.umapData)
         .enter()
         .append('text')
@@ -88,8 +87,7 @@ function drawChart() {
         .style('display', 'none')
         .text((d, i) => 'PCA' + (i + 1) + ': ' + (d * 100).toFixed(2) + '%');
 
-    svg
-        .append('g')
+    svg.append('g')
         .selectAll('dot')
         .data(props.umapData)
         .join('circle')

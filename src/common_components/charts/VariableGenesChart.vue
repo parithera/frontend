@@ -79,8 +79,7 @@ function drawChart() {
     const color = d3.scaleOrdinal().domain(['false', 'true']).range(d3.schemeTableau10);
 
     // Add dots
-    svg
-        .append('g')
+    svg.append('g')
         .selectAll('dot')
         .data(props.data.means)
         .join('circle')

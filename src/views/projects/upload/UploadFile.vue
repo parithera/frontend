@@ -19,8 +19,14 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 
 // Models
-const selected_project: ModelRef<Project> = defineModel('selectedProject', { required: true, type: Project });
-const create_groups: ModelRef<boolean> = defineModel('createGroups', { required: true, type: Boolean });
+const selected_project: ModelRef<Project> = defineModel('selectedProject', {
+    required: true,
+    type: Project
+});
+const create_groups: ModelRef<boolean> = defineModel('createGroups', {
+    required: true,
+    type: Boolean
+});
 
 async function deleteFile(file: ProjectFile) {
     await fileRepository.deleteFile({
