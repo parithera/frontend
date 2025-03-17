@@ -33,11 +33,11 @@ const api = ref<CarouselApi>();
 const current = ref(0);
 const question = ref('');
 
-var words = [
-    'find vulnerabilities in my code?',
-    'make sure my code is secure?',
-    'make sure my code is compliant?'
-],
+let words = [
+        'find vulnerabilities in my code?',
+        'make sure my code is secure?',
+        'make sure my code is compliant?'
+    ],
     i = 0,
     offset = 0,
     len = words.length,
@@ -45,7 +45,7 @@ var words = [
     skip_count = 0,
     skip_delay = 30,
     speed = 35;
-var wordflick = function () {
+const wordflick = function () {
     setInterval(function () {
         if (forwards) {
             if (offset >= words[i].length) {
@@ -90,11 +90,15 @@ watchOnce(api, (api) => {
 
 <template>
     <div>
-        <RouterLink :to="{ name: 'signup' }" :class="cn(
-            buttonVariants({ variant: 'ghost' }),
-            'absolute right-4 top-4 md:right-8 md:top-8'
-        )
-            ">
+        <RouterLink
+            :to="{ name: 'signup' }"
+            :class="
+                cn(
+                    buttonVariants({ variant: 'ghost' }),
+                    'absolute right-4 top-4 md:right-8 md:top-8'
+                )
+            "
+        >
             <img src="@/imgs/logos/logo.svg" class="w-8" />
             Signup
         </RouterLink>

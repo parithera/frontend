@@ -11,7 +11,11 @@ import { Dependency, type SbomGraph } from '../../types/entities/Graph.entity';
 import { PaginatedResponse } from '../../types/responses/PaginatedResponse';
 import type { License } from '../../types/entities/License.entity';
 import type { VulnerabilityMerged } from '@/types/entities/VulnStats.entity';
-import type { PatchInfo, PatchOccurenceInfo, PatchedManifestData } from '../../types/entities/Patching.entity';
+import type {
+    PatchInfo,
+    PatchOccurenceInfo,
+    PatchedManifestData
+} from '../../types/entities/Patching.entity';
 import type { VulnerabilityDetails } from '../../types/entities/VulnDetails.entity';
 import { DependencyDetails } from '../../types/entities/SbomDetails.entity';
 

@@ -14,7 +14,7 @@ import { columns } from './table/columns';
 // Repositories
 const projectRepository: ProjectRepository = new ProjectRepository();
 
-const projects: Ref<Array<Project> | undefined> = ref()
+const projects: Ref<Array<Project> | undefined> = ref();
 
 async function getProjects() {
     const projects_retrieved = await projectRepository.getProjects({
@@ -41,6 +41,6 @@ getProjects();
 
 <template>
     <div class="flex flex-col gap-6 items-center justify-center mt-20">
-        <DataTable class="w-3/4" v-if="projects" :columns="columns" :data="projects" />
+        <DataTable v-if="projects" class="w-3/4" :columns="columns" :data="projects" />
     </div>
 </template>

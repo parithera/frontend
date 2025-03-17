@@ -120,7 +120,10 @@ onMounted(() => {
                         <div class="flex-row flex-row-05rem">
                             <Icon icon="material-symbols:error-outline" />
                             <div v-if="errorCode">
-                                <div v-if="errorCode == APIErrors.ValidationFailed" style="white-space: break-spaces">
+                                <div
+                                    v-if="errorCode == APIErrors.ValidationFailed"
+                                    style="white-space: break-spaces"
+                                >
                                     <!-- Note: this should never happen unless our client and server side validation are out of sync -->
                                     {{ validationError!.toMessage('Invalid form:') }}
                                 </div>
@@ -136,14 +139,26 @@ onMounted(() => {
                     </AlertDescription>
                 </Alert>
 
-                <Form style="display: flex; flex-direction: column; row-gap: 1.5rem" name="password_reset_form"
-                    :validation-schema="formValidationSchema" @submit="submit">
-                    <FormTextField v-model="formPassword" :placeholder="'Enter your new password'" :type="'password'"
-                        :name="'new_password'">
+                <Form
+                    style="display: flex; flex-direction: column; row-gap: 1.5rem"
+                    name="password_reset_form"
+                    :validation-schema="formValidationSchema"
+                    @submit="submit"
+                >
+                    <FormTextField
+                        v-model="formPassword"
+                        :placeholder="'Enter your new password'"
+                        :type="'password'"
+                        :name="'new_password'"
+                    >
                         <template #name>New password</template>
                     </FormTextField>
-                    <FormTextField v-model="formPasswordConfirmation" :placeholder="'Confirm your new password'"
-                        :type="'password'" :name="'new_password_comfirmation'">
+                    <FormTextField
+                        v-model="formPasswordConfirmation"
+                        :placeholder="'Confirm your new password'"
+                        :type="'password'"
+                        :name="'new_password_comfirmation'"
+                    >
                         <template #name>Confirm the new password</template>
                     </FormTextField>
 
@@ -159,28 +174,40 @@ onMounted(() => {
             <div class="flex-column flex-column-20">
                 <div>
                     <div class="title">Failed</div>
-                    <div class="subtitle" v-if="errorCode == APIErrors.PasswordResetTokenInvalidOrExpired">
+                    <div
+                        v-if="errorCode == APIErrors.PasswordResetTokenInvalidOrExpired"
+                        class="subtitle"
+                    >
                         Your password was
                         <span style="font-weight: 900; text-decoration: underline">not</span> reset
                         because the password reset has expired. Please request a new password reset
                         and click on the link in the email.<br /><br />
                         Note: the link in the email is only valid for 5 minutes.
                     </div>
-                    <div class="subtitle" v-else>
+                    <div v-else class="subtitle">
                         An error occured during the processing of the request.
                     </div>
                 </div>
-                <div style="
+                <div
+                    style="
                         display: flex;
                         flex-direction: row;
                         justify-content: space-between;
                         column-gap: 1rem;
-                    ">
-                    <RouterLink class="filled-button router-link-button" :to="{ name: 'recoveryRequest' }"
-                        style="width: 100%">
+                    "
+                >
+                    <RouterLink
+                        class="filled-button router-link-button"
+                        :to="{ name: 'recoveryRequest' }"
+                        style="width: 100%"
+                    >
                         Request a new password reset
                     </RouterLink>
-                    <RouterLink class="bordered-button router-link-button" :to="{ name: 'login' }" style="width: 100%">
+                    <RouterLink
+                        class="bordered-button router-link-button"
+                        :to="{ name: 'login' }"
+                        style="width: 100%"
+                    >
                         Back to login
                     </RouterLink>
                 </div>
@@ -193,13 +220,19 @@ onMounted(() => {
                 <div class="title">Success</div>
                 <div class="subtitle">Your password has been succesfully updated.</div>
             </div>
-            <div style="
+            <div
+                style="
                     display: flex;
                     flex-direction: row;
                     justify-content: space-between;
                     column-gap: 1rem;
-                ">
-                <RouterLink class="filled-button router-link-button" :to="{ name: 'login' }" style="width: 100%">
+                "
+            >
+                <RouterLink
+                    class="filled-button router-link-button"
+                    :to="{ name: 'login' }"
+                    style="width: 100%"
+                >
                     Back to login
                 </RouterLink>
             </div>

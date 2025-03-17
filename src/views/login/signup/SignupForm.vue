@@ -49,7 +49,7 @@ const formSchema = toTypedSchema(
         agreeTerms: z.boolean().default(false)
     })
 );
-let { handleSubmit } = useForm({
+const { handleSubmit } = useForm({
     validationSchema: formSchema
 });
 
@@ -120,11 +120,15 @@ async function submit(values: any) {
 </script>
 <template>
     <div>
-        <RouterLink :to="{ name: 'login' }" :class="cn(
-            buttonVariants({ variant: 'ghost' }),
-            'absolute right-4 top-4 md:right-8 md:top-8'
-        )
-            ">
+        <RouterLink
+            :to="{ name: 'login' }"
+            :class="
+                cn(
+                    buttonVariants({ variant: 'ghost' }),
+                    'absolute right-4 top-4 md:right-8 md:top-8'
+                )
+            "
+        >
             <img src="@/imgs/logos/logo.svg" class="w-8" />
             Sign In
         </RouterLink>
@@ -139,13 +143,21 @@ async function submit(values: any) {
                 </div>
                 <div :class="cn('grid gap-6', $attrs.class ?? '')">
                     <!-- Content -->
-                    <Form class="flex flex-col gap-4" :validation-schema="formSchema" @submit="onSubmit"
-                        v-if="!loading">
+                    <Form
+                        v-if="!loading"
+                        class="flex flex-col gap-4"
+                        :validation-schema="formSchema"
+                        @submit="onSubmit"
+                    >
                         <FormField v-slot="{ componentField }" name="email">
                             <FormItem v-auto-animate>
                                 <FormLabel>Email*:</FormLabel>
                                 <FormControl>
-                                    <Input type="text" placeholder="Enter your email" v-bind="componentField" />
+                                    <Input
+                                        type="text"
+                                        placeholder="Enter your email"
+                                        v-bind="componentField"
+                                    />
                                 </FormControl>
                                 <!-- <FormDescription>
                                 This is your public display name.
@@ -158,8 +170,11 @@ async function submit(values: any) {
                                 <FormItem v-auto-animate>
                                     <FormLabel>First Name*:</FormLabel>
                                     <FormControl>
-                                        <Input type="text" placeholder="Enter your first name"
-                                            v-bind="componentField" />
+                                        <Input
+                                            type="text"
+                                            placeholder="Enter your first name"
+                                            v-bind="componentField"
+                                        />
                                     </FormControl>
                                     <!-- <FormDescription>
                                     This is your public display name.
@@ -171,7 +186,11 @@ async function submit(values: any) {
                                 <FormItem v-auto-animate>
                                     <FormLabel>Last Name*:</FormLabel>
                                     <FormControl>
-                                        <Input type="text" placeholder="Enter your last name" v-bind="componentField" />
+                                        <Input
+                                            type="text"
+                                            placeholder="Enter your last name"
+                                            v-bind="componentField"
+                                        />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -181,7 +200,11 @@ async function submit(values: any) {
                             <FormItem v-auto-animate>
                                 <FormLabel>Password:</FormLabel>
                                 <FormControl>
-                                    <Input type="password" placeholder="Enter your password" v-bind="componentField" />
+                                    <Input
+                                        type="password"
+                                        placeholder="Enter your password"
+                                        v-bind="componentField"
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -190,14 +213,23 @@ async function submit(values: any) {
                             <FormItem v-auto-animate>
                                 <FormLabel>Password Confirmation:</FormLabel>
                                 <FormControl>
-                                    <Input type="password" placeholder="Confirm your password"
-                                        v-bind="componentField" />
+                                    <Input
+                                        type="password"
+                                        placeholder="Confirm your password"
+                                        v-bind="componentField"
+                                    />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         </FormField>
-                        <FormField v-slot="{ value, handleChange }" type="checkbox" name="agreeTerms">
-                            <FormItem class="flex flex-row items-start gap-x-3 space-y-0 rounded-md border p-4">
+                        <FormField
+                            v-slot="{ value, handleChange }"
+                            type="checkbox"
+                            name="agreeTerms"
+                        >
+                            <FormItem
+                                class="flex flex-row items-start gap-x-3 space-y-0 rounded-md border p-4"
+                            >
                                 <FormControl>
                                     <Checkbox :checked="value" @update:checked="handleChange" />
                                 </FormControl>
@@ -225,7 +257,7 @@ async function submit(values: any) {
                         </FormField>
                         <Button type="submit" class="w-full"> Register </Button>
                     </Form>
-                    <div class="flex flex-col items-center" v-else>
+                    <div v-else class="flex flex-col items-center">
                         Creating your account
                         <Icon icon="line-md:loading-twotone-loop" class="animate-spin"></Icon>
                     </div>

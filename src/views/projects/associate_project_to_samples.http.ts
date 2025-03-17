@@ -1,4 +1,4 @@
 export interface AssociateProjectToSamples {
-    samples: Array<String>
+    samples: Array<string>;
     projectId: string;
 }

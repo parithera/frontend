@@ -41,10 +41,10 @@ const chemistry: Ref<string> = ref('');
 const genome: Ref<string> = ref('');
 
 // Refs
-const step: Ref<number> = ref(0)
-const sample_id: Ref<string> = ref('')
-const fastq: Ref<boolean> = ref(true)
-const files_uploaded: Ref<Array<ProjectFile>> = ref([])
+const step: Ref<number> = ref(0);
+const sample_id: Ref<string> = ref('');
+const fastq: Ref<boolean> = ref(true);
+const files_uploaded: Ref<Array<ProjectFile>> = ref([]);
 
 async function newSample() {
     const res = await sampleRepository.createSample({
@@ -52,23 +52,23 @@ async function newSample() {
         data: {
             name: new_sample_name.value,
             description: new_sample_comment.value,
-            tags: new_sample_tags.value.replace(" ", "").split(',')
+            tags: new_sample_tags.value.replace(' ', '').split(',')
         },
         orgId: userStore.defaultOrg?.id ?? ''
     });
-    sample_id.value = res.id
+    sample_id.value = res.id;
     step.value++;
 }
 
 async function align() {
-    let platform: string = "";
+    let platform: string = '';
 
-    if (fastq) {
-        platform = chemistry.value.includes("10x") ? "10x" : "hydrop";
+    if (fastq.value) {
+        platform = chemistry.value.includes('10x') ? '10x' : 'hydrop';
     }
 
     let analyzer_name = 'fastq_initialization';
-    if (!fastq) {
+    if (!fastq.value) {
         analyzer_name = 'h5_initialization';
     }
 
@@ -78,15 +78,15 @@ async function align() {
         analyzer_name: analyzer_name
     });
 
-    let files = [];
+    const files = [];
     for (const file of files_uploaded.value) {
-        files.push(file.name)
+        files.push(file.name);
     }
 
     const group: Group = {
-        name: "group",
+        name: 'group',
         files: files
-    }
+    };
     await sampleRepository.createAnalysis({
         orgId: userStore.defaultOrg?.id ?? '',
         sampleId: sample_id.value,
@@ -100,7 +100,7 @@ async function align() {
                     type: analyzer_name
                 },
                 fastqc: {
-                    sample: sample_id.value,
+                    sample: sample_id.value
                 },
                 star: {
                     sample: sample_id.value,
@@ -111,21 +111,20 @@ async function align() {
                 },
                 scanpy: {
                     sample: sample_id.value,
-                    file_type: fastq ? 'fastq' : 'h5'
+                    file_type: fastq.value ? 'fastq' : 'h5'
                 },
                 fastp: {
                     platform: platform,
-                    sample: sample_id.value,
-                },
+                    sample: sample_id.value
+                }
             },
             branch: ' ', // This will be removed
             commit_hash: ' ' // This will be removed
         }
     });
 
-    router.go(0)
-};
-
+    router.go(0);
+}
 </script>
 
 <template>
@@ -147,23 +146,41 @@ async function align() {
             <div class="grid gap-4 py-4">
                 <div class="grid grid-cols-4 items-center gap-4">
                     <Label for="name" class="text-right"> Name </Label>
-                    <Input id="name" placeholder="Sample XYZ" class="col-span-3" v-model="new_sample_name" />
+                    <Input
+                        id="name"
+                        v-model="new_sample_name"
+                        placeholder="Sample XYZ"
+                        class="col-span-3"
+                    />
                 </div>
                 <div class="grid grid-cols-4 items-center gap-4">
                     <Label for="description" class="text-right"> Comment </Label>
-                    <Input id="description" placeholder="Your comment." class="col-span-3"
-                        v-model="new_sample_comment" />
+                    <Input
+                        id="description"
+                        v-model="new_sample_comment"
+                        placeholder="Your comment."
+                        class="col-span-3"
+                    />
                 </div>
                 <div class="grid grid-cols-4 items-center gap-4">
                     <Label for="tags" class="text-right"> Tags </Label>
-                    <Input id="tags" placeholder="Comma, separated, tags" class="col-span-3"
-                        v-model="new_sample_tags" />
+                    <Input
+                        id="tags"
+                        v-model="new_sample_tags"
+                        placeholder="Comma, separated, tags"
+                        class="col-span-3"
+                    />
                 </div>
                 <div class="grid grid-cols-4 items-center gap-4">
                     <Label for="file-type" class="text-right">File Type</Label>
                     <div class="flex gap-2 items-center justify-center text-xs col-span-3">
                         <span>H5</span>
-                        <Switch id="file-type" class="col-span-2" :checked="fastq" @update:checked="fastq = !fastq" />
+                        <Switch
+                            id="file-type"
+                            class="col-span-2"
+                            :checked="fastq"
+                            @update:checked="fastq = !fastq"
+                        />
                         <span>FASTQ</span>
                     </div>
                 </div>
@@ -176,9 +193,7 @@ async function align() {
                         <SelectContent>
                             <!-- https://kb.10xgenomics.com/hc/en-us/articles/115004506263-What-is-a-barcode-whitelist -->
                             <SelectGroup>
-                                <SelectItem value="hydrop">
-                                    HyDrop
-                                </SelectItem>
+                                <SelectItem value="hydrop"> HyDrop </SelectItem>
                                 <Separator></Separator>
                                 <SelectItem value="10x-3p-v1">
                                     Single Cell 3' v1 (2014)
@@ -214,9 +229,7 @@ async function align() {
                                 <SelectItem value="10x_GRCh38_human">
                                     Human GRCh38 10x (Recommended)
                                 </SelectItem>
-                                <SelectItem value="nih_GRCh38_human">
-                                    Human GRCh38 NIH
-                                </SelectItem>
+                                <SelectItem value="nih_GRCh38_human"> Human GRCh38 NIH </SelectItem>
                                 <SelectItem value="gencodegenes_GRCh38_human">
                                     Human GRCh38 GencodeGenes
                                 </SelectItem>
@@ -226,7 +239,7 @@ async function align() {
                 </div>
             </div>
             <DialogFooter>
-                <Button class="rounded-full" id="submitButton" @click="newSample" type="submit">
+                <Button id="submitButton" class="rounded-full" type="submit" @click="newSample">
                     Create
                 </Button>
             </DialogFooter>
@@ -236,22 +249,18 @@ async function align() {
         <DialogContent v-else-if="step == 1" class="sm:max-w-[425px]">
             <DialogHeader>
                 <DialogTitle>Upload your files</DialogTitle>
-                <DialogDescription>
-                    Import FASTQs or H5 files for this sample.
-                </DialogDescription>
+                <DialogDescription> Import FASTQs or H5 files for this sample. </DialogDescription>
             </DialogHeader>
-            <UploadFile :sample_id="sample_id" v-model:files_uploaded="files_uploaded" :align="align" />
+            <UploadFile
+                v-model:files_uploaded="files_uploaded"
+                :sample_id="sample_id"
+                :align="align"
+            />
             <DialogFooter>
-                <Button class="rounded-full" @click="step--">
-                    Previous
-                </Button>
+                <Button class="rounded-full" @click="step--"> Previous </Button>
                 <DialogClose as-child>
-                    <Button v-if="fastq" class="rounded-full" @click="align">
-                        Align
-                    </Button>
-                    <Button v-else class="rounded-full">
-                        Close
-                    </Button>
+                    <Button v-if="fastq" class="rounded-full" @click="align"> Align </Button>
+                    <Button v-else class="rounded-full"> Close </Button>
                 </DialogClose>
             </DialogFooter>
         </DialogContent>

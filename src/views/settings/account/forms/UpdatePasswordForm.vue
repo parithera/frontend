@@ -14,13 +14,7 @@ import * as z from 'zod';
 import { vAutoAnimate } from '@formkit/auto-animate/vue';
 
 import { Button } from '@/shadcn/ui/button';
-import {
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage
-} from '@/shadcn/ui/form';
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shadcn/ui/form';
 import { Input } from '@/shadcn/ui/input';
 import { useUserStore } from '@/stores/user';
 import { UserRepository } from '@/views/login/user.repository';
@@ -29,7 +23,7 @@ import FormDescription from '@/shadcn/ui/form/FormDescription.vue';
 const userRepository: UserRepository = new UserRepository();
 
 const userStore = useUserStore();
-const user = userStore.user
+const user = userStore.user;
 
 // UPDATE INFO FORM
 const formSchema = toTypedSchema(
@@ -41,12 +35,12 @@ const formSchema = toTypedSchema(
 );
 
 const form = useForm({
-    validationSchema: formSchema,
-})
+    validationSchema: formSchema
+});
 
 const onSubmit = form.handleSubmit((values) => {
     updatePassword(values.old_password, values.password, values.password_confirmation);
-})
+});
 
 /*****************************************************************************/
 /*                                  API Calls                                */
@@ -71,7 +65,7 @@ async function updatePassword(
             });
         } catch (err) {
             if (err instanceof BusinessLogicError) {
-                console.error(err)
+                console.error(err);
             }
         }
     }
@@ -83,7 +77,11 @@ async function updatePassword(
             <FormItem v-auto-animate>
                 <FormLabel>Old password</FormLabel>
                 <FormControl>
-                    <Input type="password" placeholder="Enter your old password" v-bind="componentField" />
+                    <Input
+                        type="password"
+                        placeholder="Enter your old password"
+                        v-bind="componentField"
+                    />
                 </FormControl>
                 <FormMessage />
             </FormItem>
@@ -92,7 +90,11 @@ async function updatePassword(
             <FormItem v-auto-animate>
                 <FormLabel>Password</FormLabel>
                 <FormControl>
-                    <Input type="password" placeholder="Enter your new password" v-bind="componentField" />
+                    <Input
+                        type="password"
+                        placeholder="Enter your new password"
+                        v-bind="componentField"
+                    />
                 </FormControl>
                 <FormDescription> Please use a strong password. </FormDescription>
                 <FormMessage />
@@ -102,7 +104,11 @@ async function updatePassword(
             <FormItem v-auto-animate>
                 <FormLabel>Password confirmation</FormLabel>
                 <FormControl>
-                    <Input type="password" placeholder="Confirm your new password" v-bind="componentField" />
+                    <Input
+                        type="password"
+                        placeholder="Confirm your new password"
+                        v-bind="componentField"
+                    />
                 </FormControl>
                 <FormMessage />
             </FormItem>

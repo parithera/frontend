@@ -24,8 +24,7 @@ state.menu = 'settingsAccount';
             <span>Account</span>
         </div>
         <div class="text-gray-500 font-medium">
-            Update your personal information, update your password or delete your
-            account.
+            Update your personal information, update your password or delete your account.
         </div>
     </div>
 

@@ -50,26 +50,25 @@ export const useQCStore = defineStore('connection', {
                 console.log('exception', data);
             });
 
-            this.socket?.on('qc:status',  (response: Response) => {
+            this.socket?.on('qc:status', (response: Response) => {
                 if (response.type == ResponseType.INFO) {
                     if (response.data.status == 'pca_variance_ratio') {
-                        this.pca_variance_ratio = response.data.content
+                        this.pca_variance_ratio = response.data.content;
                     } else if (response.data.status == 'violin_and_scatter_plot_data') {
-                        this.violin_and_scatter_plot_data = response.data.content
-                    } else if(response.data.status == 'highly_variable_genes_data') {
-                        this.highly_variable_genes_data = response.data.content as VariableChartData
+                        this.violin_and_scatter_plot_data = response.data.content;
+                    } else if (response.data.status == 'highly_variable_genes_data') {
+                        this.highly_variable_genes_data = response.data
+                            .content as VariableChartData;
                     } else if (response.data.status == 'umap_data') {
-                        this.umap_data = response.data.content
+                        this.umap_data = response.data.content;
                     }
                 }
             });
         },
 
-        fetchData(data: object) {            
+        fetchData(data: object) {
             this.socket?.emit('data', data, (response: Response) => {
-                if (
-                    response.type == ResponseType.SUCCESS
-                ) {
+                if (response.type == ResponseType.SUCCESS) {
                     this.socket?.disconnect();
                 }
             });

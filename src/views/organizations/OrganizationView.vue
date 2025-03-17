@@ -109,13 +109,36 @@ const props = defineProps<{
         <OrganizationCreate v-if="props.action == 'add' && !props.orgId" />
         <OrganizationsList v-else-if="props.action == 'list' && !props.orgId" />
 
-        <ManageAuditLogs v-if="props.page == 'logs' && props.orgId" :page="props.page" :orgId="props.orgId" />
-        <ManageMembers v-else-if="props.page == 'members' && props.orgId" :page="props.page" :orgId="props.orgId" />
-        <InviteCreate v-else-if="props.page == 'invites' && props.action == 'add' && props.orgId" :page="props.page"
-            :orgId="props.orgId" />
-        <ManageInvites v-else-if="props.page == 'invites' && props.orgId" :page="props.page" :orgId="props.orgId" />
-        <AnalyzersView v-else-if="props.page == 'analyzers' && props.orgId" :page="props.page" :orgId="props.orgId"
-            :action="props.action" />
-        <OrganizationManage v-else-if="props.page && props.orgId" :page="props.page" :orgId="props.orgId" />
+        <ManageAuditLogs
+            v-if="props.page == 'logs' && props.orgId"
+            :page="props.page"
+            :org-id="props.orgId"
+        />
+        <ManageMembers
+            v-else-if="props.page == 'members' && props.orgId"
+            :page="props.page"
+            :org-id="props.orgId"
+        />
+        <InviteCreate
+            v-else-if="props.page == 'invites' && props.action == 'add' && props.orgId"
+            :page="props.page"
+            :org-id="props.orgId"
+        />
+        <ManageInvites
+            v-else-if="props.page == 'invites' && props.orgId"
+            :page="props.page"
+            :org-id="props.orgId"
+        />
+        <AnalyzersView
+            v-else-if="props.page == 'analyzers' && props.orgId"
+            :page="props.page"
+            :org-id="props.orgId"
+            :action="props.action"
+        />
+        <OrganizationManage
+            v-else-if="props.page && props.orgId"
+            :page="props.page"
+            :org-id="props.orgId"
+        />
     </main>
 </template>

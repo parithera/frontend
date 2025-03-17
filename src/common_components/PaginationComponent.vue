@@ -4,7 +4,7 @@
             <slot name="content"></slot>
         </div>
 
-        <div class="flex flex-row gap-2" v-if="totalPages != 1">
+        <div v-if="totalPages != 1" class="flex flex-row gap-2">
             <Pagination
                 v-slot="{ page }"
                 :total="nmbEntriesTotal"

@@ -8,7 +8,7 @@ import DataTable from './table/DataTable.vue';
 import { columns } from './table/columns';
 
 defineProps<{
-    project_id: string
+    project_id: string;
 }>();
 
 // Stores
@@ -16,7 +16,7 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 
 // Refs
-const samples_available: Ref<Array<Sample>> = ref([])
+const samples_available: Ref<Array<Sample>> = ref([]);
 
 // Models
 const samples: ModelRef<Array<Sample>> = defineModel('samples', { required: true });
@@ -42,10 +42,14 @@ onMounted(async () => {
     });
 
     samples_available.value = res.data;
-})
-
+});
 </script>
 
 <template>
-    <DataTable :columns="columns" :data="samples_available" v-model:samples="samples" :project_id="project_id" />
+    <DataTable
+        v-model:samples="samples"
+        :columns="columns"
+        :data="samples_available"
+        :project_id="project_id"
+    />
 </template>

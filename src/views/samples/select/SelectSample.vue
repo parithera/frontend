@@ -15,8 +15,8 @@ import type { FilterOption } from './table/DataTableFacetedFilter.vue';
 // Repositories
 const sampleRepository: SampleRepository = new SampleRepository();
 
-const samples: Ref<Array<Sample> | undefined> = ref()
-const tags: Ref<Array<FilterOption>> = ref([])
+const samples: Ref<Array<Sample> | undefined> = ref();
+const tags: Ref<Array<FilterOption>> = ref([]);
 
 async function getSamples() {
     const samples_retrieved = await sampleRepository.getSamples({
@@ -42,9 +42,9 @@ async function getSamples() {
             const filter_tag: FilterOption = {
                 label: tag,
                 value: tag
-            }
+            };
             if (!tags.value.includes(filter_tag)) {
-                tags.value.push(filter_tag)
+                tags.value.push(filter_tag);
             }
         }
     }
@@ -55,7 +55,16 @@ getSamples();
 
 <template>
     <div class="flex flex-col gap-6 items-center justify-center mt-20">
-        <DataTable class="w-3/4" v-if="samples" :columns="columns" :data="samples"
-            :tags="Array.from(new Set(tags.map(tag => JSON.stringify(tag)))).map(str => JSON.parse(str))" />
+        <DataTable
+            v-if="samples"
+            class="w-3/4"
+            :columns="columns"
+            :data="samples"
+            :tags="
+                Array.from(new Set(tags.map((tag) => JSON.stringify(tag)))).map((str) =>
+                    JSON.parse(str)
+                )
+            "
+        />
     </div>
 </template>

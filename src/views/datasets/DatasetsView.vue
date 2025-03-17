@@ -9,7 +9,6 @@ state.page = 'datasets';
 defineProps<{
     page: string;
 }>();
-
 </script>
 
 <template>

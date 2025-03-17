@@ -2,7 +2,6 @@ import type { Group } from '@/views/results/chat/types';
 import { defineStore } from 'pinia';
 import { io, Socket } from 'socket.io-client';
 
-
 enum ResponseType {
     INFO = 'info',
     ERROR = 'error',
@@ -30,8 +29,8 @@ export const useLinkSamplesStore = defineStore('link_samples', {
     state: () => ({
         isConnected: false,
         socket: null as Socket | null,
-        response: null as Response | null,
-        }),
+        response: null as Response | null
+    }),
     getters: {
         getSocket(): Socket {
             return this.socket as Socket;
@@ -54,20 +53,19 @@ export const useLinkSamplesStore = defineStore('link_samples', {
                 console.log('exception', data);
             });
 
-            this.socket?.on('chat:status',  (response: Response) => {
+            this.socket?.on('chat:status', (response: Response) => {
                 if (response.type == ResponseType.INFO) {
                     this.response = response;
                 }
             });
         },
 
-        askChat(data: Request) {            
+        askChat(data: Request) {
             this.socket?.emit('link_samples', data, (response: Response) => {
                 if (response.type == ResponseType.SUCCESS) {
                     this.socket?.disconnect();
                     this.response = response;
-                }
-                else if (response.type == ResponseType.ERROR) this.socket?.disconnect();
+                } else if (response.type == ResponseType.ERROR) this.socket?.disconnect();
             });
         },
 

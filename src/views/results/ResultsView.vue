@@ -23,7 +23,6 @@ const ChatView = defineAsyncComponent({
     // provided and exceeded. Default: Infinity.
     timeout: 3000
 });
-
 </script>
 <template>
     <ChatView v-if="page == 'results'"></ChatView>

@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import { io, Socket } from 'socket.io-client';
 
-
 enum ResponseType {
     INFO = 'info',
     ERROR = 'error',
@@ -37,7 +36,7 @@ export const useChatStore = defineStore('chat', {
         socket: null as Socket | null,
         response: null as Response | null,
         request: ''
-        }),
+    }),
     getters: {
         getSocket(): Socket {
             return this.socket as Socket;
@@ -60,21 +59,20 @@ export const useChatStore = defineStore('chat', {
                 console.log('exception', data);
             });
 
-            this.socket?.on('chat:status',  (response: Response) => {
+            this.socket?.on('chat:status', (response: Response) => {
                 if (response.type == ResponseType.INFO) {
                     this.response = response;
                 }
             });
         },
 
-        askChat(data: Request) {            
-            this.request = data.request
+        askChat(data: Request) {
+            this.request = data.request;
             this.socket?.emit('chat', data, (response: Response) => {
                 if (response.type == ResponseType.SUCCESS) {
                     this.socket?.disconnect();
                     this.response = response;
-                }
-                else if (response.type == ResponseType.ERROR) this.socket?.disconnect();
+                } else if (response.type == ResponseType.ERROR) this.socket?.disconnect();
             });
         },
 

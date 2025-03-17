@@ -43,7 +43,6 @@ onMounted(() => {
     <div id="editorjs"></div>
 </template>
 
-
 <style lang="scss">
 h1.ce-header {
     font-size: xx-large;

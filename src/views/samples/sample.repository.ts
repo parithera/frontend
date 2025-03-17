@@ -8,7 +8,7 @@ import {
     type EmptyPostData,
     type PaginatedRepoMethodRequestOptions,
     type SearchableRepoMethodRequestOptions,
-    type SortableRepoMethodRequestOptions,
+    type SortableRepoMethodRequestOptions
 } from '../../types/BaseRepository';
 import type { CreateSample } from './create/create_sample.http';
 import { PaginatedResponse } from '../../types/responses/PaginatedResponse';
@@ -20,23 +20,22 @@ import { DataResponse } from '../../types/responses/DataResponse';
 
 export interface GetSamplesRequestOptions
     extends AuthRepoMethodGetRequestOptions,
-    PaginatedRepoMethodRequestOptions,
-    SearchableRepoMethodRequestOptions,
-    SortableRepoMethodRequestOptions {
+        PaginatedRepoMethodRequestOptions,
+        SearchableRepoMethodRequestOptions,
+        SortableRepoMethodRequestOptions {
     orgId: string;
 }
 
-export interface GetQCRequestOptions
-    extends AuthRepoMethodGetRequestOptions {
+export interface GetQCRequestOptions extends AuthRepoMethodGetRequestOptions {
     orgId: string;
     sampleId: string;
 }
 
 export interface GetSamplesByProjectRequestOptions
     extends AuthRepoMethodGetRequestOptions,
-    PaginatedRepoMethodRequestOptions,
-    SearchableRepoMethodRequestOptions,
-    SortableRepoMethodRequestOptions {
+        PaginatedRepoMethodRequestOptions,
+        SearchableRepoMethodRequestOptions,
+        SortableRepoMethodRequestOptions {
     orgId: string;
     projectId: string;
 }
@@ -55,7 +54,7 @@ export interface CreateSampleOptions extends AuthRepoMethodPostRequestOptions<Cr
     orgId: string;
 }
 
-export interface ImportPublicSampleOptions extends AuthRepoMethodGetRequestOptions{
+export interface ImportPublicSampleOptions extends AuthRepoMethodGetRequestOptions {
     orgId: string;
     sampleId: string;
 }
@@ -108,7 +107,9 @@ export class SampleRepository extends BaseRepository {
         return Entity.unMarshal<PaginatedResponse<Sample>>(response, PaginatedResponse<Sample>);
     }
 
-    async getSamplesByProjectId(options: GetSamplesByProjectRequestOptions): Promise<PaginatedResponse<Sample>> {
+    async getSamplesByProjectId(
+        options: GetSamplesByProjectRequestOptions
+    ): Promise<PaginatedResponse<Sample>> {
         const RELATIVE_URL = `/org/${options.orgId}/samples/byproject/${options.projectId}`;
 
         const response = await this.getRequest<PaginatedResponse<Sample>>({

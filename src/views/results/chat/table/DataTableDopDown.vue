@@ -2,17 +2,24 @@
 import { BusinessLogicError } from '@/types/BaseRepository';
 import { ProjectRepository } from '@/views/projects/project.repository';
 import router from '@/router';
-import { Button } from '@/shadcn/ui/button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/shadcn/ui/dropdown-menu'
+import { Button } from '@/shadcn/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from '@/shadcn/ui/dropdown-menu';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 
 defineProps<{
     project: {
-        id: string
-    }
-}>()
+        id: string;
+    };
+}>();
 
 // Stores
 const authStore = useAuthStore();
@@ -22,11 +29,11 @@ const userStore = useUserStore();
 const projectRepository: ProjectRepository = new ProjectRepository();
 
 defineEmits<{
-    (e: 'expand'): void
-}>()
+    (e: 'expand'): void;
+}>();
 
 function goToProject(project_id: string) {
-    router.push({ name: 'results', params: { page: 'results', projectId: project_id } })
+    router.push({ name: 'results', params: { page: 'results', projectId: project_id } });
 }
 
 async function deleteProject(project_id: string) {
@@ -42,7 +49,7 @@ async function deleteProject(project_id: string) {
             console.log(error);
         }
     }
-    router.go(0)
+    router.go(0);
 }
 </script>
 
@@ -59,14 +66,12 @@ async function deleteProject(project_id: string) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem @click="goToProject(project.id)">
-                    Open project
-                </DropdownMenuItem>
+                <DropdownMenuItem @click="goToProject(project.id)"> Open project </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem @click="deleteProject(project.id)">Delete project</DropdownMenuItem>
-                <DropdownMenuItem @click="$emit('expand')">
-                    Expand
-                </DropdownMenuItem>
+                <DropdownMenuItem @click="deleteProject(project.id)"
+                    >Delete project</DropdownMenuItem
+                >
+                <DropdownMenuItem @click="$emit('expand')"> Expand </DropdownMenuItem>
                 <!-- <DropdownMenuItem>Edit project</DropdownMenuItem> -->
             </DropdownMenuContent>
         </DropdownMenu>

@@ -2,17 +2,24 @@
 import { BusinessLogicError } from '@/types/BaseRepository';
 import { SampleRepository } from '@/views/samples/sample.repository';
 import router from '@/router';
-import { Button } from '@/shadcn/ui/button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/shadcn/ui/dropdown-menu'
+import { Button } from '@/shadcn/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger
+} from '@/shadcn/ui/dropdown-menu';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 
 const props = defineProps<{
     sample: {
-        id: string
-    }
-}>()
+        id: string;
+    };
+}>();
 
 // Stores
 const authStore = useAuthStore();
@@ -22,8 +29,8 @@ const userStore = useUserStore();
 const sampleRepository: SampleRepository = new SampleRepository();
 
 defineEmits<{
-    (e: 'expand'): void
-}>()
+    (e: 'expand'): void;
+}>();
 
 async function deleteSample(project_id: string) {
     try {
@@ -38,7 +45,7 @@ async function deleteSample(project_id: string) {
             console.log(error);
         }
     }
-    router.go(0)
+    router.go(0);
 }
 </script>
 
@@ -52,9 +59,7 @@ async function deleteSample(project_id: string) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem>
-                    Edit
-                </DropdownMenuItem>
+                <DropdownMenuItem> Edit </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem @click="deleteSample(sample.id)">Delete sample</DropdownMenuItem>
             </DropdownMenuContent>

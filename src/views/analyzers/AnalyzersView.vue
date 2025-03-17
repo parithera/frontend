@@ -33,6 +33,6 @@ defineProps<{
 </script>
 
 <template>
-    <AnalyzersList v-if="action === 'manage'" :page="page" :orgId="orgId" />
-    <AnalyzerCreate v-else-if="action === 'add'" :page="page" :orgId="orgId" />
+    <AnalyzersList v-if="action === 'manage'" :page="page" :org-id="orgId" />
+    <AnalyzerCreate v-else-if="action === 'add'" :page="page" :org-id="orgId" />
 </template>

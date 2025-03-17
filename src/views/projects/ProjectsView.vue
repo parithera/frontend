@@ -9,7 +9,6 @@ state.page = 'projects';
 defineProps<{
     page: string;
 }>();
-
 </script>
 
 <template>

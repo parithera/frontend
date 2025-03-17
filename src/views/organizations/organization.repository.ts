@@ -202,7 +202,10 @@ export class OrgRepository extends BaseRepository {
             response,
             PaginatedResponse<OrganizationMembership>
         );
-        paginatedResp.data = Entity.unMarshalMany<OrganizationMembership>(paginatedResp.data, OrganizationMembership);
+        paginatedResp.data = Entity.unMarshalMany<OrganizationMembership>(
+            paginatedResp.data,
+            OrganizationMembership
+        );
         return paginatedResp;
     }
 

@@ -11,7 +11,7 @@ function shortenName(name: string) {
     if (name.length > 8) {
         return name.substring(0, 6) + '...';
     }
-    return name
+    return name;
 }
 </script>
 
@@ -22,7 +22,10 @@ function shortenName(name: string) {
         <a v-if="sample.show != ''" :href="sample.show">
             <Button class="text-primary" variant="ghost">Explore</Button>
         </a>
-        <RouterLink v-else :to="{ name: 'samples', params: { page: 'qc' }, query: { sampleId: sample.id } }">
+        <RouterLink
+            v-else
+            :to="{ name: 'samples', params: { page: 'qc' }, query: { sampleId: sample.id } }"
+        >
             <Button class="text-primary" variant="ghost">Show QC</Button>
         </RouterLink>
     </div>

@@ -18,7 +18,7 @@ import Switch from '@/shadcn/ui/switch/Switch.vue';
 
 const props = defineProps<{
     sample_id: string;
-    align: Function
+    align: Function;
 }>();
 
 // Repositories
@@ -29,18 +29,20 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 
 // Models
-const files_uploaded: ModelRef<Array<ProjectFile>> = defineModel('files_uploaded', { required: true });
+const files_uploaded: ModelRef<Array<ProjectFile>> = defineModel('files_uploaded', {
+    required: true
+});
 
 // Refs
-const progress_message: Ref<string> = ref("Uploading")
-const progress_preprocess: Ref<number> = ref(0)
-const uploading: Ref<boolean> = ref(false)
+const progress_message: Ref<string> = ref('Uploading');
+const progress_preprocess: Ref<number> = ref(0);
+const uploading: Ref<boolean> = ref(false);
 
-const input = useTemplateRef('input')
-const selection_type: Ref<string> = ref("fastq")
+const input = useTemplateRef('input');
+const selection_type: Ref<string> = ref('fastq');
 
 function setSelectionType() {
-    selection_type.value = input.value?.value.includes('fastq') ? "fastq" : "h5"
+    selection_type.value = input.value?.value.includes('fastq') ? 'fastq' : 'h5';
 }
 
 const { handleSubmit } = useForm({
@@ -49,7 +51,7 @@ const { handleSubmit } = useForm({
 
 const onFileSubmit = handleSubmit(async (values) => {
     const files: Array<File> = values.file as Array<File>;
-    let count_files = 0
+    let count_files = 0;
     for (const file of files) {
         // const type: string = values.type as string;
         let file_name = file.name;
@@ -62,12 +64,12 @@ const onFileSubmit = handleSubmit(async (values) => {
         let start = 0;
         let id = 0;
 
-        progress_message.value = "Uploading file " + count_files + "/" + files.length
-        uploading.value = true
+        progress_message.value = 'Uploading file ' + count_files + '/' + files.length;
+        uploading.value = true;
         while (start < file.size) {
-            const fileBlob = file.slice(start, start + chunkSize)
+            const fileBlob = file.slice(start, start + chunkSize);
 
-            let hash = ""
+            let hash = '';
             try {
                 hash = await computeHash(fileBlob);
                 console.log('Computed Hash:', hash);
@@ -76,25 +78,27 @@ const onFileSubmit = handleSubmit(async (values) => {
                 console.error('Error during hash computation:', error);
             }
 
-            await sampleRepository.upload({
-                bearerToken: authStore.getToken ?? '',
-                data: {
-                    file: fileBlob,
-                    type: 'DATA',
-                    file_name: file_name,
-                    chunk: "true",
-                    id: id,
-                    hash: hash,
-                    last: "false"
-                },
-                projectId: props.sample_id,
-                organizationId: userStore.getDefaultOrg?.id ?? ''
-            }).catch(err => {
-                console.error(err);
-            })
+            await sampleRepository
+                .upload({
+                    bearerToken: authStore.getToken ?? '',
+                    data: {
+                        file: fileBlob,
+                        type: 'DATA',
+                        file_name: file_name,
+                        chunk: 'true',
+                        id: id,
+                        hash: hash,
+                        last: 'false'
+                    },
+                    projectId: props.sample_id,
+                    organizationId: userStore.getDefaultOrg?.id ?? ''
+                })
+                .catch((err) => {
+                    console.error(err);
+                })
                 .finally(() => {
-                    progress_preprocess.value = start / file.size * 100
-                    progress_message.value = "Uploading file " + count_files + "/" + files.length
+                    progress_preprocess.value = (start / file.size) * 100;
+                    progress_message.value = 'Uploading file ' + count_files + '/' + files.length;
                     start += chunkSize;
                 });
             id++;
@@ -105,20 +109,20 @@ const onFileSubmit = handleSubmit(async (values) => {
                 file: new Blob(),
                 type: 'DATA',
                 file_name: file_name,
-                chunk: "true",
+                chunk: 'true',
                 id: id,
-                hash: "",
-                last: "true"
+                hash: '',
+                last: 'true'
             },
             projectId: props.sample_id,
             organizationId: userStore.getDefaultOrg?.id ?? ''
-        })
+        });
         count_files += 1;
 
         const createdfile = new ProjectFile();
         createdfile.id = '';
         createdfile.name = file_name;
-        createdfile.type = "DATA"
+        createdfile.type = 'DATA';
         createdfile.added_on = new Date();
         files_uploaded.value.push(createdfile);
     }
@@ -130,9 +134,8 @@ const onFileSubmit = handleSubmit(async (values) => {
             title: 'File uploaded successfully!',
             description: 'Please wait while we preprocess the file...'
         });
-        props.align()
+        props.align();
     }
-
 });
 </script>
 
@@ -147,9 +150,14 @@ const onFileSubmit = handleSubmit(async (values) => {
                 <FormItem>
                     <FormControl>
                         <input
+                            v-bind="componentField"
+                            ref="input"
                             class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
-                            type="file" multiple accept=".gz, .h5" v-bind="componentField" ref="input"
-                            @input="setSelectionType" />
+                            type="file"
+                            multiple
+                            accept=".gz, .h5"
+                            @input="setSelectionType"
+                        />
                     </FormControl>
                     <FormDescription>
                         <span>Upload your gene sequencing file (.h5, .fastq.gz).</span>

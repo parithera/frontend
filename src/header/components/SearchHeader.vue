@@ -113,7 +113,12 @@ function handleOpenChange() {
             </CommandList>
         </CommandDialog>
         <Button variant="link">
-            <a class="flex gap-2 items-center" href="https://github.com/parithera/parithera-dev/issues/new?template=BLANK_ISSUE" target="_blank" rel="noopener noreferrer">
+            <a
+                class="flex gap-2 items-center"
+                href="https://github.com/parithera/parithera-dev/issues/new?template=BLANK_ISSUE"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
                 <Icon icon="ion:ticket-outline"></Icon>Report a problem
             </a>
         </Button>

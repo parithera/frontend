@@ -40,13 +40,13 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 
 // Refs
-const samples: Ref<Array<Sample>> = ref([])
+const samples: Ref<Array<Sample>> = ref([]);
 
 // Repositories
 const projectRepository: ProjectRepository = new ProjectRepository();
 const sampleRepository: SampleRepository = new SampleRepository();
 
-let chat_content: Ref<ChatContent[]> = ref([
+const chat_content: Ref<ChatContent[]> = ref([
     {
         request: '',
         text: 'Hi, how can I help you today?',
@@ -56,16 +56,16 @@ let chat_content: Ref<ChatContent[]> = ref([
         image: '',
         error: '',
         status: '',
-        agent: '',
+        agent: ''
     }
 ]);
 
 const selected_project: Ref<Project> = ref(new Project());
 const progress: Ref<number> = ref(10);
-const loading: Ref<boolean> = ref(false)
+const loading: Ref<boolean> = ref(false);
 
 watchEffect((cleanupFn) => {
-    let timer = setTimeout(() => (progress.value = 10), 500);
+    const timer = setTimeout(() => (progress.value = 10), 500);
     cleanupFn(() => clearTimeout(timer));
 });
 async function getProject(project_id: string) {
@@ -77,7 +77,7 @@ async function getProject(project_id: string) {
             orgId: userStore.defaultOrg?.id ?? ''
         });
 
-        selected_project.value = res.data
+        selected_project.value = res.data;
     } catch (error) {
         if (error instanceof BusinessLogicError) {
             await new Promise((resolve) => setTimeout(resolve, 5000));
@@ -104,7 +104,7 @@ async function getChatHistory(project_id: string) {
     } catch (error) {
         if (error instanceof BusinessLogicError) {
             if (error.error_code == 'EntityNotFound') {
-                console.log("No history");
+                console.log('No history');
             }
             await new Promise((resolve) => setTimeout(resolve, 5000));
         }
@@ -133,47 +133,69 @@ async function getSamplesByProject(project_id: string) {
     samples.value = res.data;
 }
 
-const route = useRoute()
+const route = useRoute();
 
 onMounted(async () => {
-    await getProject(route.params.projectId as string)
-    await getSamplesByProject(selected_project.value.id)
-    await getChatHistory(selected_project.value.id)
-})
+    await getProject(route.params.projectId as string);
+    await getSamplesByProject(selected_project.value.id);
+    await getChatHistory(selected_project.value.id);
+});
 </script>
 <template>
     <div class="flex">
-        <div class="flex flex-col gap-8 items-center max-w-60 p-6 py-8 h-[calc(100vh-4rem)] bg-secondary">
+        <div
+            class="flex flex-col gap-8 items-center max-w-60 p-6 py-8 h-[calc(100vh-4rem)] bg-secondary"
+        >
             <div class="flex flex-col gap-2 items-center">
                 <span class="text-primary">{{ selected_project.name }}</span>
                 <span> {{ moment(selected_project.added_on).format('LL') }}</span>
             </div>
             <div class="flex flex-col gap-2 items-center">
                 <span>Samples linked to this project:</span>
-                <SampleMenu v-for="sample in samples" :key="sample.id" :sample="sample"></SampleMenu>
+                <SampleMenu
+                    v-for="sample in samples"
+                    :key="sample.id"
+                    :sample="sample"
+                ></SampleMenu>
             </div>
         </div>
         <ResizablePanelGroup direction="horizontal">
-            <ResizablePanel class="h-[calc(100vh-4rem)] p-4 flex flex-col items-center justify-center"
-                :default-size="60">
-                <div v-if="samples.length == 0" class="w-full flex flex-col gap-2 items-center justify-center">
-                    <LinkSamplesToProject v-model:samples="samples" :project_id="selected_project.id" />
+            <ResizablePanel
+                class="h-[calc(100vh-4rem)] p-4 flex flex-col items-center justify-center"
+                :default-size="60"
+            >
+                <div
+                    v-if="samples.length == 0"
+                    class="w-full flex flex-col gap-2 items-center justify-center"
+                >
+                    <LinkSamplesToProject
+                        v-model:samples="samples"
+                        :project_id="selected_project.id"
+                    />
                 </div>
 
                 <ScrollArea v-else class="h-full w-full mb-16">
                     <div class="flex flex-col-reverse pb-20">
-                        <div class="border-l hover:border-primary pl-2 pt-4 flex flex-col gap-4"
-                            v-for="(chat_element, index) in chat_content" :key="index">
+                        <div
+                            v-for="(chat_element, index) in chat_content"
+                            :key="index"
+                            class="border-l hover:border-primary pl-2 pt-4 flex flex-col gap-4"
+                        >
                             <div v-if="chat_element.request != ''" class="flex flex-col gap-2">
                                 <div class="w-full flex justify-between">
                                     <div class="font-semibold flex gap-2 items-center">
-                                        <Button variant="ghost" class="relative h-8 w-8 rounded-full">
+                                        <Button
+                                            variant="ghost"
+                                            class="relative h-8 w-8 rounded-full"
+                                        >
                                             <Avatar class="h-8 w-8">
                                                 <AvatarImage src="/avatars/01.png" alt="@shadcn" />
-                                                <AvatarFallback>{{ userStore.getUser?.first_name.charAt(0)
-                                                }}{{
+                                                <AvatarFallback
+                                                    >{{ userStore.getUser?.first_name.charAt(0)
+                                                    }}{{
                                                         userStore.getUser?.last_name.charAt(0)
-                                                    }}</AvatarFallback>
+                                                    }}</AvatarFallback
+                                                >
                                             </Avatar>
                                         </Button>
                                         <div>You</div>
@@ -192,12 +214,15 @@ onMounted(async () => {
                                     </div>
                                 </div>
 
-                                <ResponseCard :response="chat_element" :id="index"></ResponseCard>
-                                <div class="pl-4 flex flex-col items-center" v-if="
-                                    chat_element.text.endsWith(
-                                        'Please wait while the script is running'
-                                    ) && chat_element.image == ''
-                                ">
+                                <ResponseCard :id="index" :response="chat_element"></ResponseCard>
+                                <div
+                                    v-if="
+                                        chat_element.text.endsWith(
+                                            'Please wait while the script is running'
+                                        ) && chat_element.image == ''
+                                    "
+                                    class="pl-4 flex flex-col items-center"
+                                >
                                     <Progress v-model="progress" class="w-3/5"></Progress>
                                 </div>
                             </div>
@@ -217,8 +242,13 @@ onMounted(async () => {
             </ResizablePanel>
         </ResizablePanelGroup>
     </div>
-    <RequestBar v-if="selected_project.id" :selected_project="selected_project" v-model:chat_content="chat_content"
-        v-model:loading="loading" v-model:progress="progress" />
+    <RequestBar
+        v-if="selected_project.id"
+        v-model:chat_content="chat_content"
+        v-model:loading="loading"
+        v-model:progress="progress"
+        :selected_project="selected_project"
+    />
 </template>
 
 <style lang="scss">

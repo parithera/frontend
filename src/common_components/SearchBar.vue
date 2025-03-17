@@ -4,9 +4,9 @@
     >
         <Icon class="w-4 h-4" icon="ion:search-outline" />
         <input
+            v-model="searchKey"
             type="text"
             class="appearance-none border-0 outline-none w-full bg-transparent m-0 text-sm"
-            v-model="searchKey"
             :placeholder="placeholder"
         />
     </span>

@@ -6,7 +6,7 @@ export interface Chat {
 export interface Message {
     request: string;
     code: string;
-    followup: string[]
+    followup: string[];
     text: string;
     json: object;
     image: string;

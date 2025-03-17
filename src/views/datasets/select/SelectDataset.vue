@@ -23,7 +23,7 @@ const userStore = useUserStore();
 // Repositories
 const sampleRepository: SampleRepository = new SampleRepository();
 
-const samples: Ref<Array<Sample>> = ref([])
+const samples: Ref<Array<Sample>> = ref([]);
 
 async function getSamples() {
     const samples_retrieved = await sampleRepository.getPublicSamples({
@@ -46,7 +46,6 @@ async function getSamples() {
 }
 
 getSamples();
-
 </script>
 
 <template>

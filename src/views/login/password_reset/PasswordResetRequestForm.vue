@@ -61,12 +61,10 @@ async function submit() {
 </script>
 <template>
     <div class="flex flex-col justify-center items-center my-20">
-        <div class="max-w-lg w-full flex flex-col" v-if="!success">
+        <div v-if="!success" class="max-w-lg w-full flex flex-col">
             <!-- Header -->
             <div class="flex gap-10 items-center">
-                <div class="text-2xl flex flex-row gap-2 items-center">
-                    Password Reset
-                </div>
+                <div class="text-2xl flex flex-row gap-2 items-center">Password Reset</div>
                 <div class="text-gray-500 font-medium">
                     To reset your password, enter your email below
                 </div>
@@ -79,8 +77,10 @@ async function submit() {
                             <div class="flex flex-row items-center gap-2">
                                 <Icon icon="material-symbols:error-outline" />
                                 <div v-if="errorCode">
-                                    <div v-if="errorCode == APIErrors.ValidationFailed"
-                                        style="white-space: break-spaces">
+                                    <div
+                                        v-if="errorCode == APIErrors.ValidationFailed"
+                                        style="white-space: break-spaces"
+                                    >
                                         <!-- Note: this should never happen unless our client and server side validation are out of sync -->
                                         {{ validationError!.toMessage('Invalid form:') }}
                                     </div>
@@ -96,14 +96,24 @@ async function submit() {
                     </div>
                 </div>
 
-                <Form class="flex flex-col gap-4" name="pasword_reset_request_form"
-                    :validation-schema="formValidationSchema" @submit="submit">
-                    <FormTextField v-model.trim="formEmail" :placeholder="'Enter your email'" :type="'email'"
-                        :name="'email'">
+                <Form
+                    class="flex flex-col gap-4"
+                    name="pasword_reset_request_form"
+                    :validation-schema="formValidationSchema"
+                    @submit="submit"
+                >
+                    <FormTextField
+                        v-model.trim="formEmail"
+                        :placeholder="'Enter your email'"
+                        :type="'email'"
+                        :name="'email'"
+                    >
                         <template #name>Email</template>
                     </FormTextField>
 
-                    <LoadingSubmitButton ref="loadingButtonRef">Request password reset</LoadingSubmitButton>
+                    <LoadingSubmitButton ref="loadingButtonRef"
+                        >Request password reset</LoadingSubmitButton
+                    >
                 </Form>
             </div>
         </div>
@@ -119,8 +129,11 @@ async function submit() {
                 </div>
             </div>
             <div class="flex flex-col justify-between gap-4">
-                <RouterLink class="rounded py-3 px-5 text-white shadow-md bg-primary hover:bg-primaryHovered"
-                    :to="{ name: 'login' }" style="width: 100%">
+                <RouterLink
+                    class="rounded py-3 px-5 text-white shadow-md bg-primary hover:bg-primaryHovered"
+                    :to="{ name: 'login' }"
+                    style="width: 100%"
+                >
                     Back to login
                 </RouterLink>
             </div>

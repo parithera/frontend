@@ -39,20 +39,29 @@ async function deleteFile(file: ProjectFile) {
 }
 
 function filterName(name: string) {
-    return name.replace(".fastq.gz", "")
+    return name.replace('.fastq.gz', '');
 }
-
 </script>
 
 <template>
-    <UploadForm v-model:selected_project="selected_project" v-model:create_groups="create_groups"></UploadForm>
+    <UploadForm
+        v-model:selected_project="selected_project"
+        v-model:create_groups="create_groups"
+    ></UploadForm>
     <div class="flex flex-col gap-2 items-center">
         <span class="font-bold">File uploaded</span>
-        <div v-for="file in selected_project.files" :key="file.id"
-            class="flex w-full items-center gap-2 justify-between">
+        <div
+            v-for="file in selected_project.files"
+            :key="file.id"
+            class="flex w-full items-center gap-2 justify-between"
+        >
             <Icon class="w-1/8" icon="tabler:file"></Icon>
             <span class="w-6/8 text-wrap break-words"> {{ filterName(file.name) }}</span>
-            <Icon class="cursor-pointer w-1/8 text-destructive" icon="iconoir:trash" @click="deleteFile(file)"></Icon>
+            <Icon
+                class="cursor-pointer w-1/8 text-destructive"
+                icon="iconoir:trash"
+                @click="deleteFile(file)"
+            ></Icon>
         </div>
     </div>
     <Toaster />

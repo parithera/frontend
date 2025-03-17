@@ -119,25 +119,34 @@ init();
 </script>
 <template>
     <div class="flex flex-col gap-8 org-audit-log-wrapper">
-        <OrgHeaderItem v-if="orgId" :org-id="orgId" @on-org-info="setOrgInfo($event)"></OrgHeaderItem>
+        <OrgHeaderItem
+            v-if="orgId"
+            :org-id="orgId"
+            @on-org-info="setOrgInfo($event)"
+        ></OrgHeaderItem>
         <div v-if="orgInfo" class="flex flex-col gap-8 p-12">
-            <div v-if="
-                (!orgInfo.personal && orgInfo.role == MemberRole.OWNER) ||
-                orgInfo.role == MemberRole.ADMIN ||
-                orgInfo.role == MemberRole.MODERATOR
-            ">
+            <div
+                v-if="
+                    (!orgInfo.personal && orgInfo.role == MemberRole.OWNER) ||
+                    orgInfo.role == MemberRole.ADMIN ||
+                    orgInfo.role == MemberRole.MODERATOR
+                "
+            >
                 <h2 class="text-2xl font-semibold">Related Actions</h2>
                 <div class="flex flex-row gap-4 flex-wrap items-stretch org-manage-items">
-                    <RouterLink :to="{ name: 'orgs', params: { orgId: orgId, page: 'members', action: 'manage' } }">
+                    <RouterLink
+                        :to="{
+                            name: 'orgs',
+                            params: { orgId: orgId, page: 'members', action: 'manage' }
+                        }"
+                    >
                         <Button>Manage organization members </Button>
                     </RouterLink>
                 </div>
             </div>
             <div>
                 <h2 class="text-2xl font-semibold">Audit logs</h2>
-                <div>
-                    This will be present in the next version of the platform
-                </div>
+                <div>This will be present in the next version of the platform</div>
             </div>
         </div>
     </div>

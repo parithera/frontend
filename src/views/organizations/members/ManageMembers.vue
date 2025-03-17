@@ -100,38 +100,53 @@ function setOrgInfo(_orgInfo: Organization) {
 </script>
 <template>
     <div class="flex flex-col gap-8 org-members-manage-wrapper">
-        <OrgHeaderItem v-if="orgId" :org-id="orgId" @on-org-info="setOrgInfo($event)"></OrgHeaderItem>
+        <OrgHeaderItem
+            v-if="orgId"
+            :org-id="orgId"
+            @on-org-info="setOrgInfo($event)"
+        ></OrgHeaderItem>
         <div v-if="orgInfo" class="flex flex-col gap-8 p-12">
-            <div v-if="
-                (!orgInfo.personal && orgInfo.role == MemberRole.OWNER) ||
-                orgInfo.role == MemberRole.ADMIN ||
-                orgInfo.role == MemberRole.MODERATOR
-            ">
+            <div
+                v-if="
+                    (!orgInfo.personal && orgInfo.role == MemberRole.OWNER) ||
+                    orgInfo.role == MemberRole.ADMIN ||
+                    orgInfo.role == MemberRole.MODERATOR
+                "
+            >
                 <h2 class="text-2xl font-semibold mb-4">Related Actions</h2>
                 <div class="flex flex-row gap-4 flex-wrap items-stretch org-manage-items">
-                    <RouterLink :to="{ name: 'orgs', params: { orgId: orgId, page: 'invites', action: 'add' } }">
-                        <Button>
-                            Invite another User
-                        </Button>
+                    <RouterLink
+                        :to="{
+                            name: 'orgs',
+                            params: { orgId: orgId, page: 'invites', action: 'add' }
+                        }"
+                    >
+                        <Button> Invite another User </Button>
                     </RouterLink>
-                    <RouterLink :to="{ name: 'orgs', params: { orgId: orgId, page: 'invites', action: 'manage' } }">
-                        <Button>
-                            Manage organization invites
-                        </Button>
+                    <RouterLink
+                        :to="{
+                            name: 'orgs',
+                            params: { orgId: orgId, page: 'invites', action: 'manage' }
+                        }"
+                    >
+                        <Button> Manage organization invites </Button>
                     </RouterLink>
                 </div>
             </div>
             <div>
                 <h2 class="text-2xl font-semibold mb-4">Member Management</h2>
-                <div class="flex flex-col gap-5 org-members-list-wrapper" v-if="!errorMembers">
+                <div v-if="!errorMembers" class="flex flex-col gap-5 org-members-list-wrapper">
                     <div v-for="member of orgMembers">
                         {{ member.user.first_name }} {{ member.user.last_name }}
                     </div>
                 </div>
                 <div v-else>
                     <div class="flex flex-row gap-2" style="font-size: 1.2em">
-                        <Icon class="icon user-icon" icon="solar:confounded-square-outline"
-                            style="font-size: 2.5rem; height: fit-content"></Icon>
+                        <Icon
+                            class="icon user-icon"
+                            icon="solar:confounded-square-outline"
+                            style="font-size: 2.5rem; height: fit-content"
+                        ></Icon>
                         <div>
                             <div class="flex flex-col gap-5">
                                 <div class="flex flex-col gap-2">
@@ -141,18 +156,20 @@ function setOrgInfo(_orgInfo: Organization) {
                                             This organization does not exist.
                                         </div>
                                         <div v-if="errorCodeMembers == APIErrors.NotAuthorized">
-                                            You do not have permission to access the
-                                            organization's members..
+                                            You do not have permission to access the organization's
+                                            members..
                                         </div>
                                         <div v-else>
-                                            You can try again, and if the error persits, then
-                                            please contact the webmaster.
+                                            You can try again, and if the error persits, then please
+                                            contact the webmaster.
                                         </div>
                                     </div>
                                 </div>
                                 <div class="flex flex-row gap-2 items-center flex-wrap">
-                                    <Button v-if="errorCodeMembers != APIErrors.NotAuthorized"
-                                        @click="fetchOrganizationMembers">
+                                    <Button
+                                        v-if="errorCodeMembers != APIErrors.NotAuthorized"
+                                        @click="fetchOrganizationMembers"
+                                    >
                                         Try again
                                     </Button>
                                     <Button @click="router.push({ name: 'orgs' })">
@@ -163,7 +180,6 @@ function setOrgInfo(_orgInfo: Organization) {
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

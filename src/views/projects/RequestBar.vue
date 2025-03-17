@@ -63,9 +63,9 @@ watch(response, () => {
         image: response.value?.data.image ?? '',
         error: response.value?.data.error ?? '',
         status: response.value?.data.status ?? 'starting',
-        agent: response.value?.data.agent ?? '',
+        agent: response.value?.data.agent ?? ''
     });
-})
+});
 
 const onSubmit = handleSubmit((values) => {
     chat_content.value.splice(0, 0, {
@@ -77,7 +77,7 @@ const onSubmit = handleSubmit((values) => {
         image: response.value?.data.image ?? '',
         error: response.value?.data.error ?? '',
         status: response.value?.data.status ?? 'starting',
-        agent: response.value?.data.agent ?? '',
+        agent: response.value?.data.agent ?? ''
     });
     askChat(values.request);
     requestInput.value?.setValue('');
@@ -91,9 +91,12 @@ const onSubmit = handleSubmit((values) => {
                 <!-- <FormLabel>Bio</FormLabel> -->
                 <FormControl>
                     <div class="relative flex items-center">
-                        <Input placeholder="Ask Ada anything..."
-                            class="resize-none rounded-full pl-2 py-7 box-border h-6 w-full" v-bind="componentField"
-                            type="text"></Input>
+                        <Input
+                            placeholder="Ask Ada anything..."
+                            class="resize-none rounded-full pl-2 py-7 box-border h-6 w-full"
+                            v-bind="componentField"
+                            type="text"
+                        ></Input>
                         <div class="absolute right-16 flex items-center gap-2">
                             <Switch id="advanced-mode" />
                             <Label for="advanced-mode">Advanced</Label>

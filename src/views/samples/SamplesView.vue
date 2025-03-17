@@ -10,7 +10,6 @@ state.page = 'samples';
 defineProps<{
     page: string;
 }>();
-
 </script>
 
 <template>

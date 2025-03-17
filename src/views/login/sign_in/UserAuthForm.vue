@@ -38,7 +38,7 @@ const formSchema = toTypedSchema(
         password: z.string().min(10).max(75)
     })
 );
-let { handleSubmit } = useForm({
+const { handleSubmit } = useForm({
     validationSchema: formSchema
 });
 
@@ -100,7 +100,12 @@ async function submit(values: any) {
 
 <template>
     <div :class="cn('grid gap-6', $attrs.class ?? '')">
-        <form class="flex flex-col gap-4" :validation-schema="formSchema" @submit="onSubmit" v-if="!loading">
+        <form
+            v-if="!loading"
+            class="flex flex-col gap-4"
+            :validation-schema="formSchema"
+            @submit="onSubmit"
+        >
             <FormField v-slot="{ componentField }" name="email">
                 <FormItem v-auto-animate>
                     <FormLabel>Email*:</FormLabel>
@@ -114,14 +119,18 @@ async function submit(values: any) {
                 <FormItem v-auto-animate>
                     <FormLabel>Password:</FormLabel>
                     <FormControl>
-                        <Input type="password" placeholder="Enter your password" v-bind="componentField" />
+                        <Input
+                            type="password"
+                            placeholder="Enter your password"
+                            v-bind="componentField"
+                        />
                     </FormControl>
                     <FormMessage />
                 </FormItem>
             </FormField>
             <Button type="submit" class="w-full"> Sign in </Button>
         </form>
-        <div class="flex flex-col items-center" v-else>
+        <div v-else class="flex flex-col items-center">
             Connecting <Icon icon="line-md:loading-twotone-loop" class="animate-spin"></Icon>
         </div>
     </div>

@@ -9,5 +9,5 @@ export type ChatContent = {
 
 export type Group = {
     name: string;
-    files: Array<string>
+    files: Array<string>;
 };
