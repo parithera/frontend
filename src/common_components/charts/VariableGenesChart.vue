@@ -10,9 +10,9 @@ export interface VariableChartData {
 
 const props = defineProps<{
     data: VariableChartData;
-    chart_id: number;
-    x_title: string;
-    y_title: string;
+    chartId: number;
+    xTitle: string;
+    yTitle: string;
 }>();
 
 function drawChart() {
@@ -25,7 +25,7 @@ function drawChart() {
 
     // append the svg object to the body of the page
     const svg = d3
-        .select('.chart_' + props.chart_id)
+        .select('.chart_' + props.chartId)
         .append('svg')
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
@@ -54,7 +54,7 @@ function drawChart() {
         .attr('text-anchor', 'middle')
         .attr('x', width / 2)
         .attr('y', height + 30)
-        .text(props.x_title);
+        .text(props.xTitle);
 
     // Add Y axis
     const y = d3.scaleLinear().domain([min_y_value, max_y_value]).range([height, 0]);
@@ -74,12 +74,12 @@ function drawChart() {
         .attr('x', -height / 2)
         .attr('dy', '.75em')
         .attr('transform', 'rotate(-90)')
-        .text(props.y_title);
+        .text(props.yTitle);
 
     const color = d3.scaleOrdinal().domain(['false', 'true']).range(d3.schemeTableau10);
 
     // Add dots
-    const dots = svg
+    svg
         .append('g')
         .selectAll('dot')
         .data(props.data.means)
@@ -106,5 +106,5 @@ onMounted(() => {
 </script>
 
 <template>
-    <div :class="'chart_' + chart_id"></div>
+    <div :class="'chart_' + chartId"></div>
 </template>

@@ -17,7 +17,7 @@ import { SampleRepository } from '@/views/samples/sample.repository';
 import Switch from '@/shadcn/ui/switch/Switch.vue';
 
 const props = defineProps<{
-    sample_id: string;
+    sampleId: string;
     align: Function;
 }>();
 
@@ -91,7 +91,7 @@ const onFileSubmit = handleSubmit(async (values) => {
                         hash: hash,
                         last: 'false'
                     },
-                    projectId: props.sample_id,
+                    projectId: props.sampleId,
                     organizationId: userStore.getDefaultOrg?.id ?? ''
                 })
                 .catch((err) => {
@@ -115,7 +115,7 @@ const onFileSubmit = handleSubmit(async (values) => {
                 hash: '',
                 last: 'true'
             },
-            projectId: props.sample_id,
+            projectId: props.sampleId,
             organizationId: userStore.getDefaultOrg?.id ?? ''
         });
         count_files += 1;

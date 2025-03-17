@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { FileRepository } from '@/views/projects/file.repository';
 import { ProjectRepository } from '@/views/projects/project.repository';
-import type { Project } from '@/views/projects/project.entity';
+import { Project } from '@/views/projects/project.entity';
 import type { ProjectFile } from '@/views/projects/project_file.entity';
 import Toaster from '@/shadcn/ui/toast/Toaster.vue';
 import { useAuthStore } from '@/stores/auth';
@@ -19,8 +19,8 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 
 // Models
-const selected_project: ModelRef<Project> = defineModel('selected_project', { required: true });
-const create_groups: ModelRef<boolean> = defineModel('create_groups', { required: true });
+const selected_project: ModelRef<Project> = defineModel('selectedProject', { required: true, type: Project });
+const create_groups: ModelRef<boolean> = defineModel('createGroups', { required: true, type: Boolean });
 
 async function deleteFile(file: ProjectFile) {
     await fileRepository.deleteFile({

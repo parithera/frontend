@@ -33,18 +33,18 @@ const api = ref<CarouselApi>();
 const current = ref(0);
 const question = ref('');
 
-let words = [
-        'find vulnerabilities in my code?',
-        'make sure my code is secure?',
-        'make sure my code is compliant?'
-    ],
-    i = 0,
+const words = [
+    'find vulnerabilities in my code?',
+    'make sure my code is secure?',
+    'make sure my code is compliant?'
+];
+let i = 0,
     offset = 0,
-    len = words.length,
     forwards = true,
-    skip_count = 0,
-    skip_delay = 30,
-    speed = 35;
+    skip_count = 0
+    const len = words.length
+    const skip_delay = 30;
+const speed = 35;
 const wordflick = function () {
     setInterval(function () {
         if (forwards) {

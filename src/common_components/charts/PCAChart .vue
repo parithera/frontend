@@ -3,10 +3,10 @@ import * as d3 from 'd3';
 import { onMounted } from 'vue';
 
 const props = defineProps<{
-    umap_data: Array<number>;
-    chart_id: number;
-    x_title: string;
-    y_title: string;
+    umapData: Array<number>;
+    chartId: number;
+    xTitle: string;
+    yTitle: string;
 }>();
 
 function drawChart() {
@@ -19,7 +19,7 @@ function drawChart() {
 
     // append the svg object to the body of the page
     const svg = d3
-        .select('.chart_' + props.chart_id)
+        .select('.chart_' + props.chartId)
         .append('svg')
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
@@ -29,8 +29,8 @@ function drawChart() {
     //Read the data
     const min_x_value = 0;
     const max_x_value = 50;
-    const min_y_value = Math.min(...props.umap_data);
-    const max_y_value = Math.max(...props.umap_data);
+    const min_y_value = Math.min(...props.umapData);
+    const max_y_value = Math.max(...props.umapData);
 
     // Add X axis
     const x = d3.scaleLinear().domain([min_x_value, max_x_value]).range([0, width]);
@@ -48,7 +48,7 @@ function drawChart() {
         .attr('text-anchor', 'middle')
         .attr('x', width / 2)
         .attr('y', height + 30)
-        .text(props.x_title);
+        .text(props.xTitle);
 
     // Add Y axis
     const y = d3.scaleLinear().domain([min_y_value, max_y_value]).range([height, 0]);
@@ -68,12 +68,12 @@ function drawChart() {
         .attr('x', -height / 2)
         .attr('dy', '.75em')
         .attr('transform', 'rotate(-90)')
-        .text(props.y_title);
+        .text(props.yTitle);
 
     // Add data
-    const texts = svg
+    svg
         .selectAll('texts')
-        .data(props.umap_data)
+        .data(props.umapData)
         .enter()
         .append('text')
         .attr('x', function (_, i) {
@@ -88,10 +88,10 @@ function drawChart() {
         .style('display', 'none')
         .text((d, i) => 'PCA' + (i + 1) + ': ' + (d * 100).toFixed(2) + '%');
 
-    const dots = svg
+    svg
         .append('g')
         .selectAll('dot')
-        .data(props.umap_data)
+        .data(props.umapData)
         .join('circle')
         .attr('cx', function (_, i) {
             return x(i);
@@ -116,5 +116,5 @@ onMounted(() => {
 </script>
 
 <template>
-    <div id="scatterChart" :class="'chart_' + chart_id"></div>
+    <div id="scatterChart" :class="'chart_' + chartId"></div>
 </template>

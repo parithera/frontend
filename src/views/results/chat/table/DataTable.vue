@@ -41,7 +41,7 @@ import { Icon } from '@iconify/vue/dist/iconify.js';
 const props = defineProps<{
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
-    project_id: string;
+    projectId: string;
 }>();
 
 const table = useVueTable({
@@ -91,7 +91,10 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 
 // Models
-const samples: ModelRef<Array<Sample>> = defineModel('samples', { required: true, type: Array<Sample> });
+const samples: ModelRef<Array<Sample>> = defineModel('samples', {
+    required: true,
+    type: Array<Sample>
+});
 
 // Refs
 const selected_samples: Ref<Array<Sample>> = ref([]);

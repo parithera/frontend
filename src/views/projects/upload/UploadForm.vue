@@ -24,8 +24,14 @@ const authStore = useAuthStore();
 const userStore = useUserStore();
 
 // Models
-const selected_project: ModelRef<Project> = defineModel('selected_project', { required: true, type: Project });
-const create_groups: ModelRef<boolean> = defineModel('create_groups', { required: true, type: Boolean });
+const selected_project: ModelRef<Project> = defineModel('selected_project', {
+    required: true,
+    type: Project
+});
+const create_groups: ModelRef<boolean> = defineModel('create_groups', {
+    required: true,
+    type: Boolean
+});
 
 // Refs
 const progress_message: Ref<string> = ref('Uploading');

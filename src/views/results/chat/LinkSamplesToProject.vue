@@ -19,7 +19,10 @@ const userStore = useUserStore();
 const samples_available: Ref<Array<Sample>> = ref([]);
 
 // Models
-const samples: ModelRef<Array<Sample>> = defineModel('samples', { required: true, type: Array<Sample> });
+const samples: ModelRef<Array<Sample>> = defineModel('samples', {
+    required: true,
+    type: Array<Sample>
+});
 
 // Repositories
 const sampleRepository: SampleRepository = new SampleRepository();
@@ -50,6 +53,6 @@ onMounted(async () => {
         v-model:samples="samples"
         :columns="columns"
         :data="samples_available"
-        :project_id="projectId"
+        :project-id="projectId"
     />
 </template>

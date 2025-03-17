@@ -7,7 +7,7 @@
 </template>
 <script lang="ts" setup>
 export interface Props {
-    dimensions: any;
+    dimensions?: any;
     static?: boolean;
 }
 

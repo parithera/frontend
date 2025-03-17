@@ -11,11 +11,11 @@ interface UMAPData {
 }
 
 const props = defineProps<{
-    umap_data: Array<UMAPData>;
-    chart_id: string;
-    color_by: string;
-    x_title: string;
-    y_title: string;
+    umapData: Array<UMAPData>;
+    chartId: string;
+    colorBy: string;
+    xTitle: string;
+    yTitle: string;
 }>();
 
 function drawChart() {
@@ -28,7 +28,7 @@ function drawChart() {
 
     // append the svg object to the body of the page
     const svg = d3
-        .select('.chart_' + props.chart_id)
+        .select('.chart_' + props.chartId)
         .append('svg')
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
@@ -36,10 +36,10 @@ function drawChart() {
         .attr('transform', `translate(${margin.left}, ${margin.top})`);
 
     //Read the data
-    const min_x_value = Math.min(...props.umap_data.map((item) => item.x));
-    const max_x_value = Math.max(...props.umap_data.map((item) => item.x));
-    const min_y_value = Math.min(...props.umap_data.map((item) => item.y));
-    const max_y_value = Math.max(...props.umap_data.map((item) => item.y));
+    const min_x_value = Math.min(...props.umapData.map((item) => item.x));
+    const max_x_value = Math.max(...props.umapData.map((item) => item.x));
+    const min_y_value = Math.min(...props.umapData.map((item) => item.y));
+    const max_y_value = Math.max(...props.umapData.map((item) => item.y));
 
     // Add X axis
     const x = d3.scaleLinear().domain([min_x_value, max_x_value]).range([0, width]);
@@ -57,7 +57,7 @@ function drawChart() {
         .attr('text-anchor', 'middle')
         .attr('x', width / 2)
         .attr('y', height + 30)
-        .text(props.x_title);
+        .text(props.xTitle);
 
     // Add Y axis
     const y = d3.scaleLinear().domain([min_y_value, max_y_value]).range([height, 0]);
@@ -77,25 +77,25 @@ function drawChart() {
         .attr('x', -height / 2)
         .attr('dy', '.75em')
         .attr('transform', 'rotate(-90)')
-        .text(props.y_title);
+        .text(props.yTitle);
 
     let colors: Array<string> = [];
-    if (props.color_by == 'sample') {
-        colors = [...new Set(props.umap_data.map((item) => item.sample))];
-    } else if (props.color_by == 'cluster') {
-        colors = [...new Set(props.umap_data.map((item) => item.cluster))];
+    if (props.colorBy == 'sample') {
+        colors = [...new Set(props.umapData.map((item) => item.sample))];
+    } else if (props.colorBy == 'cluster') {
+        colors = [...new Set(props.umapData.map((item) => item.cluster))];
     }
 
     const color = d3.scaleOrdinal().domain(colors).range(d3.schemeTableau10);
 
     let min_expression_level = 0;
     let max_expression_level = 10;
-    if (props.color_by == 'marker_expression') {
+    if (props.colorBy == 'marker_expression') {
         min_expression_level = Math.min(
-            ...props.umap_data.map((item) => item.marker_expression ?? 0)
+            ...props.umapData.map((item) => item.marker_expression ?? 0)
         );
         max_expression_level = Math.max(
-            ...props.umap_data.map((item) => item.marker_expression ?? 0)
+            ...props.umapData.map((item) => item.marker_expression ?? 0)
         );
         console.log('min', min_expression_level);
         console.log('max', max_expression_level);
@@ -109,7 +109,7 @@ function drawChart() {
     const dots = svg
         .append('g')
         .selectAll('dot')
-        .data(props.umap_data)
+        .data(props.umapData)
         .join('circle')
         .attr('cx', function (d) {
             return x(d.x);
@@ -119,22 +119,22 @@ function drawChart() {
         })
         .attr('r', 2.5)
         .attr('class', (d) => {
-            if (props.color_by == 'sample') {
+            if (props.colorBy == 'sample') {
                 return 'group_' + d.sample;
-            } else if (props.color_by == 'cluster') {
+            } else if (props.colorBy == 'cluster') {
                 return 'group_' + d.cluster;
-            } else if (props.color_by == 'marker_expression') {
+            } else if (props.colorBy == 'marker_expression') {
                 return 'group_' + d.marker_expression;
             } else {
                 return 'black';
             }
         })
         .style('fill', (d) => {
-            if (props.color_by == 'sample') {
+            if (props.colorBy == 'sample') {
                 return color(d.sample);
-            } else if (props.color_by == 'cluster') {
+            } else if (props.colorBy == 'cluster') {
                 return color(d.cluster);
-            } else if (props.color_by == 'marker_expression') {
+            } else if (props.colorBy == 'marker_expression') {
                 return linear_color(d.marker_expression ?? 0);
             } else {
                 return 'black';
@@ -149,11 +149,11 @@ function drawChart() {
         .attr('class', 'cursor-pointer')
         .attr('text-anchor', 'start')
         .attr('x', width + 50)
-        .attr('y', (d, i) => {
+        .attr('y', (_, i) => {
             return 15 + i * 20;
         })
         .text((d) => d)
-        .on('mouseover', function (d, i) {
+        .on('mouseover', function (_, i) {
             dots.style('opacity', (d) => {
                 if (d.sample == i || d.cluster == i) {
                     return '100%';
@@ -162,7 +162,7 @@ function drawChart() {
                 }
             });
         })
-        .on('mouseout', function (d, i) {
+        .on('mouseout', function () {
             dots.style('opacity', '100%');
         });
 
@@ -184,5 +184,5 @@ onMounted(() => {
 </script>
 
 <template>
-    <div :class="'chart_' + chart_id"></div>
+    <div :class="'chart_' + chartId"></div>
 </template>

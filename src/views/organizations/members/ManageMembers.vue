@@ -136,7 +136,7 @@ function setOrgInfo(_orgInfo: Organization) {
             <div>
                 <h2 class="text-2xl font-semibold mb-4">Member Management</h2>
                 <div v-if="!errorMembers" class="flex flex-col gap-5 org-members-list-wrapper">
-                    <div v-for="member of orgMembers">
+                    <div v-for="member of orgMembers" :key="member.user.id">
                         {{ member.user.first_name }} {{ member.user.last_name }}
                     </div>
                 </div>

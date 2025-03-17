@@ -18,10 +18,10 @@ import { useChatStore } from '@/sockets/chat';
 import { storeToRefs } from 'pinia';
 
 const props = defineProps<{
-    selected_project: Project;
+    selectedProject: Project;
 }>();
 
-const chat_content: ModelRef<ChatContent[]> = defineModel('chat_content', { required: true });
+const chat_content: ModelRef<ChatContent[]> = defineModel('chatContent', { required: true, type: Array<ChatContent> });
 
 // Stores
 const authStore = useAuthStore();
@@ -46,7 +46,7 @@ async function askChat(request: string) {
 
     chatStore.askChat({
         request: request,
-        projectId: props.selected_project.id,
+        projectId: props.selectedProject.id,
         userId: userStore.user?.id ?? '',
         organizationId: userStore.getDefaultOrg?.id ?? ''
     });

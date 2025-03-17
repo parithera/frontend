@@ -42,24 +42,6 @@ async function logout() {
     router.push('/login');
 }
 
-async function fetchNotifications() {
-    try {
-        const resp = await notificationRepository.getNotifications({
-            bearerToken: authStore.getToken as string,
-            handleBusinessErrors: true,
-            page: 0,
-            entries_per_page: 5
-        });
-        // console.log(resp);
-        notifications.value = resp.data;
-        total_notifications.value = resp.matching_count;
-    } catch (_err) {
-        if (_err instanceof BusinessLogicError) {
-            console.log(_err);
-        }
-    }
-}
-
 async function deleteNotification(notification_id: string) {
     try {
         await notificationRepository.deleteNotification({

@@ -3,10 +3,10 @@ import * as d3 from 'd3';
 import { onMounted } from 'vue';
 
 const props = defineProps<{
-    umap_data: Array<number>;
-    chart_id: number;
-    x_title: string;
-    y_title: string;
+    umapData: Array<number>;
+    chartId: number;
+    xTitle: string;
+    yTitle: string;
 }>();
 
 function drawChart() {
@@ -15,7 +15,7 @@ function drawChart() {
     const margin = { top: 10, right: 30, bottom: 30, left: 40 };
 
     const svg = d3
-        .select('.chart_' + props.chart_id)
+        .select('.chart_' + props.chartId)
         .append('svg')
         .attr('width', width + margin.left + margin.right)
         .attr('height', height + margin.top + margin.bottom)
@@ -24,15 +24,15 @@ function drawChart() {
 
     const y = d3
         .scaleLinear()
-        .domain([d3.min(props.umap_data), d3.max(props.umap_data)])
+        .domain([d3.min(props.umapData), d3.max(props.umapData)])
         .range([height, 0]);
 
-    const x = d3.scalePoint().range([0, width]).domain([props.x_title]);
+    const x = d3.scalePoint().range([0, width]).domain([props.xTitle]);
 
     // Updated: Use d3.bin instead of d3.histogram
     const bin = d3.bin().domain(y.domain()).thresholds(y.ticks(30));
 
-    const bins = bin(props.umap_data);
+    const bins = bin(props.umapData);
 
     // Calculate the maximum bin length for scaling
     const maxBinLength = d3.max(bins, (d) => d.length);
@@ -56,7 +56,7 @@ function drawChart() {
         .attr('stroke', 'hsl(var(--primary))')
         .attr('stroke-width', 1)
         .attr('d', area)
-        .attr('transform', `translate(${x(props.x_title)},0)`);
+        .attr('transform', `translate(${x(props.xTitle)},0)`);
 
     svg.append('g').call(d3.axisLeft(y));
 
@@ -70,5 +70,5 @@ onMounted(() => {
 </script>
 
 <template>
-    <div :class="'chart_' + chart_id"></div>
+    <div :class="'chart_' + chartId"></div>
 </template>
