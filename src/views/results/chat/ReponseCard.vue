@@ -13,7 +13,7 @@ import { Icon } from '@iconify/vue/dist/iconify.js';
 import MarkdownIt from 'markdown-it';
 import hljs from 'highlight.js';
 import { computed, ref, type Ref } from 'vue';
-import type { ChatContent } from './types';
+import type { ChatContent, JSONScatter, JSONUMAP } from './types';
 import FailedCard from './FailedCard.vue';
 import Separator from '@/shadcn/ui/separator/Separator.vue';
 import { Progress } from '@/shadcn/ui/progress';
@@ -185,48 +185,48 @@ const progress = computed(() => {
                 <!-- {{ response.json }} -->
                 <ScatterChart
                     v-if="response.json['type'] == 'umap'"
-                    :chartId="props.id.toString()"
-                    :umapData="response.json['data']"
-                    :colorBy="'sample'"
-                    xTitle="UMAP1"
-                    yTitle="UMAP2"
+                    :chart-id="props.id.toString()"
+                    :umap-data="(response.json as JSONUMAP).data"
+                    :color-by="'sample'"
+                    x-title="UMAP1"
+                    y-title="UMAP2"
                 >
                 </ScatterChart>
                 <ScatterChart
                     v-else-if="response.json['type'] == 'tsne'"
-                    :chartId="props.id.toString()"
-                    :umapData="response.json['data']"
-                    :colorBy="'sample'"
-                    xTitle="tSNE1"
-                    yTitle="tSNE2"
+                    :chart-id="props.id.toString()"
+                    :umap-data="(response.json as JSONUMAP).data"
+                    :color-by="'sample'"
+                    x-title="tSNE1"
+                    y-title="tSNE2"
                 >
                 </ScatterChart>
                 <ScatterChart
                     v-else-if="
                         response.json['type'] == 'cluster' || response.json['type'] == 'leiden'
                     "
-                    :chartId="props.id.toString()"
-                    :umapData="response.json['data']"
-                    :colorBy="'cluster'"
-                    xTitle="UMAP1"
-                    yTitle="UMAP2"
+                    :chart-id="props.id.toString()"
+                    :umap-data="(response.json as JSONUMAP).data"
+                    :color-by="'cluster'"
+                    x-title="UMAP1"
+                    y-title="UMAP2"
                 ></ScatterChart>
                 <div
                     v-else-if="response.json['type'] == 'marker'"
                     class="grid grid-cols-2 gap-y-10"
                 >
                     <div
-                        v-for="gene in Object.keys(response.json['data']['umaps'])"
+                        v-for="gene in Object.keys((response.json as JSONScatter).data.umaps)"
                         :key="gene"
                         class="flex flex-col items-center gap-2"
                     >
                         <span>Expression level for : {{ gene }}</span>
                         <ScatterChart
-                            :chartId="props.id + gene"
-                            :umapData="response.json['data']['umaps'][gene]"
-                            :colorBy="'marker_expression'"
-                            xTitle="UMAP1"
-                            yTitle="UMAP2"
+                            :chart-id="props.id + gene"
+                            :umap-data="(response.json as JSONScatter).data.umaps.gene"
+                            :color-by="'marker_expression'"
+                            x-title="UMAP1"
+                            y-title="UMAP2"
                         ></ScatterChart>
                     </div>
                 </div>

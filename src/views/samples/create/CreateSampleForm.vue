@@ -252,8 +252,8 @@ async function align() {
                 <DialogDescription> Import FASTQs or H5 files for this sample. </DialogDescription>
             </DialogHeader>
             <UploadFile
-                v-model:filesUploaded="files_uploaded"
-                :sampleId="sample_id"
+                v-model:files-uploaded="files_uploaded"
+                :sample-id="sample_id"
                 :align="align"
             />
             <DialogFooter>

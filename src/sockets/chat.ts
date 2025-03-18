@@ -1,3 +1,4 @@
+import type { JSONScatter, JSONUMAP } from '@/views/results/chat/types';
 import { defineStore } from 'pinia';
 import { io, Socket } from 'socket.io-client';
 
@@ -11,7 +12,7 @@ interface ResponseData {
     code: string;
     followup: Array<string>;
     text: string;
-    json: object;
+    json: JSONUMAP | JSONScatter;
     image: string;
     error: string;
     status: string;

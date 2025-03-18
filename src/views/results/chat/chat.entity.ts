@@ -1,3 +1,5 @@
+import type { JSONScatter, JSONUMAP } from './types';
+
 export interface Chat {
     id: string;
     messages: Message[];
@@ -8,7 +10,7 @@ export interface Message {
     code: string;
     followup: string[];
     text: string;
-    json: object;
+    json: JSONUMAP | JSONScatter;
     image: string;
     agent: string;
     error: string;

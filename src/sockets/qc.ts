@@ -1,5 +1,4 @@
 import type { UMAPData } from '@/common_components/charts/ScatterChart.vue';
-import type { VariableChartData } from '@/common_components/charts/VariableGenesChart.vue';
 import { defineStore } from 'pinia';
 import { io, Socket } from 'socket.io-client';
 
@@ -21,23 +20,23 @@ interface Response {
 }
 
 interface PCAVarianceRatio {
-    pca_variance_ratio: Array<number>
+    pca_variance_ratio: Array<number>;
 }
 
 interface ViolinAndScatterPlot {
-    n_genes_by_counts: Array<number>,
-    total_counts: Array<number>,
-    pct_counts_mt: Array<number>,
+    n_genes_by_counts: Array<number>;
+    total_counts: Array<number>;
+    pct_counts_mt: Array<number>;
 }
 
 interface HighlyVariableScatterPlot {
-    highly_variable: Array<boolean>
-    dispersions: Array<number>
-    means: Array<number>
+    highly_variable: Array<boolean>;
+    dispersions: Array<number>;
+    means: Array<number>;
 }
 
 interface UMAP {
-    data: Array<UMAPData>
+    data: Array<UMAPData>;
 }
 
 export const useQCStore = defineStore('connection', {
@@ -45,12 +44,12 @@ export const useQCStore = defineStore('connection', {
         isConnected: false,
         socket: null as Socket | null,
         pca_variance_ratio: {
-            pca_variance_ratio: [],
+            pca_variance_ratio: []
         } as PCAVarianceRatio,
         violin_and_scatter_plot_data: {
             n_genes_by_counts: [],
             total_counts: [],
-            pct_counts_mt: [],
+            pct_counts_mt: []
         } as ViolinAndScatterPlot,
         highly_variable_genes_data: {
             highly_variable: [],
@@ -58,7 +57,7 @@ export const useQCStore = defineStore('connection', {
             means: []
         } as HighlyVariableScatterPlot,
         umap_data: {
-            data: [],
+            data: []
         } as UMAP
     }),
     getters: {
@@ -88,7 +87,8 @@ export const useQCStore = defineStore('connection', {
                     if (response.data.status == 'pca_variance_ratio') {
                         this.pca_variance_ratio = response.data.content as PCAVarianceRatio;
                     } else if (response.data.status == 'violin_and_scatter_plot_data') {
-                        this.violin_and_scatter_plot_data = response.data.content as ViolinAndScatterPlot;
+                        this.violin_and_scatter_plot_data = response.data
+                            .content as ViolinAndScatterPlot;
                     } else if (response.data.status == 'highly_variable_genes_data') {
                         this.highly_variable_genes_data = response.data
                             .content as HighlyVariableScatterPlot;

@@ -86,7 +86,7 @@ function drawChart() {
         colors = [...new Set(props.umapData.map((item) => item.cluster))];
     }
 
-    const color = d3.scaleOrdinal().domain(colors).range(d3.schemeTableau10);
+    const color: Function = d3.scaleOrdinal().domain(colors).range(d3.schemeTableau10);
 
     let min_expression_level = 0;
     let max_expression_level = 10;
@@ -100,7 +100,7 @@ function drawChart() {
         console.log('min', min_expression_level);
         console.log('max', max_expression_level);
     }
-    const linear_color = d3.scaleLinear(
+    const linear_color: Function = d3.scaleLinear(
         [min_expression_level, max_expression_level],
         ['lightgrey', 'red']
     );

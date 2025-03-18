@@ -76,7 +76,7 @@ function drawChart() {
         .attr('transform', 'rotate(-90)')
         .text(props.yTitle);
 
-    const color = d3.scaleOrdinal().domain(['false', 'true']).range(d3.schemeTableau10);
+    const color: Function = d3.scaleOrdinal().domain(['false', 'true']).range(d3.schemeTableau10);
 
     // Add dots
     svg.append('g')
@@ -90,7 +90,7 @@ function drawChart() {
             return y(props.data.dispersions[i]);
         })
         .attr('r', 2.5)
-        .attr('class', (d, i) => {
+        .attr('class', (_, i) => {
             return 'group_' + i;
         })
         .style('fill', (_, i) => {

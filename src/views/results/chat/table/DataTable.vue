@@ -125,7 +125,7 @@ async function importSamplesToProject(selected_rows: Row<TData>[]) {
 
     linkSamplesStore.askChat({
         groups: groups,
-        projectId: props.project_id,
+        projectId: props.projectId,
         userId: userStore.user?.id ?? '',
         organizationId: userStore.getDefaultOrg?.id ?? ''
     });

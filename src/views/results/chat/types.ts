@@ -1,13 +1,29 @@
+import type { UMAPData } from '@/common_components/charts/ScatterChart.vue';
+
 export type ChatContent = {
     request: string;
     code: string;
     followup: Array<string>;
     text: string;
-    json: object;
+    json: JSONUMAP | JSONScatter;
     image: string;
     error: string;
     status: string;
     agent: string;
+};
+
+export type JSONUMAP = {
+    type: string;
+    data: Array<UMAPData>;
+};
+
+export type JSONScatter = {
+    type: string;
+    data: {
+        umaps: {
+            gene: Array<UMAPData>;
+        };
+    };
 };
 
 export type Group = {

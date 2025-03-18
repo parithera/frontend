@@ -43,8 +43,7 @@ watch(open, (v) => {
 
 function handleCommandSelect() {
     if (open.value) {
-        const highlighted = document.querySelectorAll('[data-highlighted=""]')[0];
-        console.log(highlighted.innerText);
+        const highlighted = document.querySelectorAll('[data-highlighted=""]')[0] as HTMLElement;
         open.value = false;
         if (highlighted.innerText === 'Dashboard') {
             router.push({ name: 'home' });

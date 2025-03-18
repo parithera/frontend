@@ -52,7 +52,10 @@ const chat_content: Ref<ChatContent[]> = ref([
         text: 'Hi, how can I help you today?',
         code: '',
         followup: [],
-        json: {},
+        json: {
+            type: '',
+            data: []
+        },
         image: '',
         error: '',
         status: '',
@@ -170,7 +173,7 @@ onMounted(async () => {
                 >
                     <LinkSamplesToProject
                         v-model:samples="samples"
-                        :project_id="selected_project.id"
+                        :project-id="selected_project.id"
                     />
                 </div>
 
@@ -244,10 +247,10 @@ onMounted(async () => {
     </div>
     <RequestBar
         v-if="selected_project.id"
-        v-model:chat_content="chat_content"
+        v-model:chat-content="chat_content"
         v-model:loading="loading"
         v-model:progress="progress"
-        :selected_project="selected_project"
+        :selected-project="selected_project"
     />
 </template>
 

@@ -15,10 +15,12 @@ async function init() {
         const searchParams = url.searchParams;
 
         await userRepository.confirmRegistration({
+            userId: '',
             data: {
                 token: searchParams.get('token') ?? '',
-                user_id_hash: searchParams.get('userid')
+                userIdHash: searchParams.get('userid') ?? ''
             },
+            bearerToken: '',
             handleBusinessErrors: true
         });
 

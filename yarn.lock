@@ -1951,7 +1951,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/d3@npm:7.4.3, @types/d3@npm:^7.4.0":
+"@types/d3@npm:^7.4.0, @types/d3@npm:^7.4.3":
   version: 7.4.3
   resolution: "@types/d3@npm:7.4.3"
   dependencies:
@@ -5493,7 +5493,7 @@ __metadata:
     "@popperjs/core": "npm:2.11.8"
     "@tanstack/vue-table": "npm:8.21.2"
     "@tsconfig/node18": "npm:18.2.4"
-    "@types/d3": "npm:7.4.3"
+    "@types/d3": "npm:^7.4.3"
     "@types/editorjs__header": "npm:2.6.3"
     "@types/jquery": "npm:3.5.32"
     "@types/jsdom": "npm:21.1.7"
