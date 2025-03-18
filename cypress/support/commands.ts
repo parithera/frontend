@@ -46,10 +46,21 @@ Cypress.Commands.add('login', () => {
     });
 })
 
+Cypress.Commands.add('login2', () => {
+  cy.fixture('user2.json').then((user) => {
+      cy.visit('/login')
+      cy.get('[name=email]').type(user.email)
+      cy.get('[name=password]').type(user.password)
+      cy.get('[type="submit"]').click()
+      cy.wait(250)
+  });
+})
+
 declare global {
     namespace Cypress {
       interface Chainable {
         login(): Chainable<void>
+        login2(): Chainable<void>
       }
     }
   }
