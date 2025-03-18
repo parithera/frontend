@@ -97,10 +97,10 @@ function saveMultiQCReport() {
                     violin_and_scatter_plot_data &&
                     Object.keys(violin_and_scatter_plot_data).length > 0
                 "
-                :umap_data="violin_and_scatter_plot_data['n_genes_by_counts']"
-                :chart_id="2"
-                x_title="n_genes_by_counts"
-                y_title="Variance ratio"
+                :umapData="violin_and_scatter_plot_data.n_genes_by_counts"
+                :chartId="2"
+                xTitle="n_genes_by_counts"
+                yTitle="Variance ratio"
             ></ViolinChart>
             <div class="font-bolder">Number of Genes</div>
             <span class="text-sm text-center"
@@ -114,10 +114,10 @@ function saveMultiQCReport() {
                     violin_and_scatter_plot_data &&
                     Object.keys(violin_and_scatter_plot_data).length > 0
                 "
-                :umap_data="violin_and_scatter_plot_data['total_counts']"
-                :chart_id="3"
-                x_title="total_counts"
-                y_title="Variance ratio"
+                :umapData="violin_and_scatter_plot_data.total_counts"
+                :chartId="3"
+                xTitle="total_counts"
+                yTitle="Variance ratio"
             ></ViolinChart>
             <div class="font-bolder">Total Counts</div>
             <span class="text-sm text-center">Total number of counts for a cell.</span>
@@ -128,10 +128,10 @@ function saveMultiQCReport() {
                     violin_and_scatter_plot_data &&
                     Object.keys(violin_and_scatter_plot_data).length > 0
                 "
-                :umap_data="violin_and_scatter_plot_data['pct_counts_mt']"
-                :chart_id="4"
-                x_title="pct_counts_mt"
-                y_title="Variance ratio"
+                :umapData="violin_and_scatter_plot_data.pct_counts_mt"
+                :chartId="4"
+                xTitle="pct_counts_mt"
+                yTitle="Variance ratio"
             ></ViolinChart>
             <div class="font-bolder">Pct Counts MT</div>
             <span class="text-sm text-center"
@@ -141,10 +141,10 @@ function saveMultiQCReport() {
         <div class="flex flex-col items-center">
             <PCAChart
                 v-if="pca_variance_ratio && Object.keys(pca_variance_ratio).length > 0"
-                :umap_data="pca_variance_ratio['pca_variance_ratio']"
-                :chart_id="1"
-                x_title="Ranking 50"
-                y_title="Variance ratio"
+                :umapData="pca_variance_ratio.pca_variance_ratio"
+                :chartId="1"
+                xTitle="Ranking 50"
+                yTitle="Variance ratio"
             ></PCAChart>
             <div class="font-bolder">Principal Component Analysis (PCA)</div>
             <span class="text-sm text-center"
@@ -154,11 +154,11 @@ function saveMultiQCReport() {
         <div class="flex flex-col items-center">
             <ScatterChart
                 v-if="umap_data && Object.keys(umap_data).length > 0"
-                chart_id="6"
-                :umap_data="umap_data['data']"
-                :color_by="'cluster'"
-                x_title="UMAP1"
-                y_title="UMAP2"
+                chartId="6"
+                :umapData="umap_data.data"
+                :colorBy="'cluster'"
+                xTitle="UMAP1"
+                yTitle="UMAP2"
             ></ScatterChart>
             <div class="font-bolder">Uniform Manifold Approximation and Projection (UMAP)</div>
             <span class="text-sm text-center"
@@ -171,9 +171,9 @@ function saveMultiQCReport() {
                     highly_variable_genes_data && Object.keys(highly_variable_genes_data).length > 0
                 "
                 :data="highly_variable_genes_data"
-                :chart_id="5"
-                x_title="mean expressions of genes"
-                y_title="dispersions of genes"
+                :chartId="5"
+                xTitle="mean expressions of genes"
+                yTitle="dispersions of genes"
             ></VariableGenesChart>
             <div class="font-bolder">Feature Selection (Normalized)</div>
             <span class="text-sm text-center"

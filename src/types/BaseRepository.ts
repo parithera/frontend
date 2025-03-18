@@ -443,7 +443,7 @@ export class BaseRepository {
         const formData = new FormData();
 
         const data: UploadData = options.data as object as UploadData;
-        formData.append('file', data.file, data.file.name);
+        formData.append('file', data.file, data.file_name);
         formData.append('type', data.type);
         formData.append('file_name', data.file_name);
         formData.append('chunk', data.chunk);

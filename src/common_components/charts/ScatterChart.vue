@@ -2,7 +2,7 @@
 import * as d3 from 'd3';
 import { onMounted } from 'vue';
 
-interface UMAPData {
+export interface UMAPData {
     x: number;
     y: number;
     cluster: string;

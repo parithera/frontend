@@ -185,31 +185,31 @@ const progress = computed(() => {
                 <!-- {{ response.json }} -->
                 <ScatterChart
                     v-if="response.json['type'] == 'umap'"
-                    :chart_id="props.id.toString()"
-                    :umap_data="response.json['data']"
-                    :color_by="'sample'"
-                    x_title="UMAP1"
-                    y_title="UMAP2"
+                    :chartId="props.id.toString()"
+                    :umapData="response.json['data']"
+                    :colorBy="'sample'"
+                    xTitle="UMAP1"
+                    yTitle="UMAP2"
                 >
                 </ScatterChart>
                 <ScatterChart
                     v-else-if="response.json['type'] == 'tsne'"
-                    :chart_id="props.id.toString()"
-                    :umap_data="response.json['data']"
-                    :color_by="'sample'"
-                    x_title="tSNE1"
-                    y_title="tSNE2"
+                    :chartId="props.id.toString()"
+                    :umapData="response.json['data']"
+                    :colorBy="'sample'"
+                    xTitle="tSNE1"
+                    yTitle="tSNE2"
                 >
                 </ScatterChart>
                 <ScatterChart
                     v-else-if="
                         response.json['type'] == 'cluster' || response.json['type'] == 'leiden'
                     "
-                    :chart_id="props.id.toString()"
-                    :umap_data="response.json['data']"
-                    :color_by="'cluster'"
-                    x_title="UMAP1"
-                    y_title="UMAP2"
+                    :chartId="props.id.toString()"
+                    :umapData="response.json['data']"
+                    :colorBy="'cluster'"
+                    xTitle="UMAP1"
+                    yTitle="UMAP2"
                 ></ScatterChart>
                 <div
                     v-else-if="response.json['type'] == 'marker'"
@@ -222,11 +222,11 @@ const progress = computed(() => {
                     >
                         <span>Expression level for : {{ gene }}</span>
                         <ScatterChart
-                            :chart_id="props.id + gene"
-                            :umap_data="response.json['data']['umaps'][gene]"
-                            :color_by="'marker_expression'"
-                            x_title="UMAP1"
-                            y_title="UMAP2"
+                            :chartId="props.id + gene"
+                            :umapData="response.json['data']['umaps'][gene]"
+                            :colorBy="'marker_expression'"
+                            xTitle="UMAP1"
+                            yTitle="UMAP2"
                         ></ScatterChart>
                     </div>
                 </div>

@@ -44,8 +44,8 @@ function filterName(name: string) {
 
 <template>
     <UploadForm
-        v-model:files_uploaded="files_uploaded"
-        :sample-id="sampleId"
+        v-model:filesUploaded="files_uploaded"
+        :sampleId="sampleId"
         :align="align"
     ></UploadForm>
     <div v-if="files_uploaded.length > 0" class="flex flex-col gap-2 items-center">
