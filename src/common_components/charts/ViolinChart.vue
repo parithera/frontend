@@ -24,18 +24,18 @@ function drawChart() {
 
     const y = d3
         .scaleLinear()
-        .domain([d3.min(props.umapData), d3.max(props.umapData)])
+        .domain([Math.min(...props.umapData), Math.max(...props.umapData)])
         .range([height, 0]);
 
     const x = d3.scalePoint().range([0, width]).domain([props.xTitle]);
 
     // Updated: Use d3.bin instead of d3.histogram
-    const bin = d3.bin().domain(y.domain()).thresholds(y.ticks(30));
+    const bin = d3.bin().domain((y.domain() as [number, number])).thresholds(y.ticks(30));
 
     const bins = bin(props.umapData);
 
     // Calculate the maximum bin length for scaling
-    const maxBinLength = d3.max(bins, (d) => d.length);
+    const maxBinLength = d3.max(bins, (d) => d.length) ?? 0;
 
     // Scale for the width of the violin
     const xNum = d3
