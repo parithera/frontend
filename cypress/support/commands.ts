@@ -42,7 +42,7 @@ Cypress.Commands.add('login', () => {
         cy.get('[name=email]').type(user.email)
         cy.get('[name=password]').type(user.password)
         cy.get('[type="submit"]').click()
-        cy.wait(1000)
+        cy.wait(250)
     });
 })
 

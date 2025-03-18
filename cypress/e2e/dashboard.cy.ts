@@ -10,7 +10,7 @@ describe('Dashboard page', () => {
 
   it('should have the correct page title', () => {
     cy.visit('/')
-    cy.get('h5').should('contain', 'Heads Up!')
+    cy.get('h5').should('contain', 'Heads up!')
   })
   
 })
