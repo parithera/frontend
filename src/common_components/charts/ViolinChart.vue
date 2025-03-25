@@ -30,7 +30,10 @@ function drawChart() {
     const x = d3.scalePoint().range([0, width]).domain([props.xTitle]);
 
     // Updated: Use d3.bin instead of d3.histogram
-    const bin = d3.bin().domain((y.domain() as [number, number])).thresholds(y.ticks(30));
+    const bin = d3
+        .bin()
+        .domain(y.domain() as [number, number])
+        .thresholds(y.ticks(30));
 
     const bins = bin(props.umapData);
 
