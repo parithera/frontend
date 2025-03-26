@@ -7,8 +7,6 @@ services:
     restart: always
     volumes:
       - ../../frontend:/app:rw
-    ports:
-      - 5173:5173
     deploy:
       resources:
         limits:
