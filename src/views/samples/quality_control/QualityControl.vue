@@ -93,10 +93,7 @@ function saveMultiQCReport() {
     <div class="grid grid-cols-3 gap-y-10 items-end mx-20 py-10">
         <div class="flex flex-col items-center">
             <ViolinChart
-                v-if="
-                    violin_and_scatter_plot_data &&
-                    Object.keys(violin_and_scatter_plot_data).length > 0
-                "
+                v-if="violin_and_scatter_plot_data.n_genes_by_counts.length > 0"
                 :umap-data="violin_and_scatter_plot_data.n_genes_by_counts"
                 :chart-id="2"
                 x-title="n_genes_by_counts"
@@ -110,10 +107,7 @@ function saveMultiQCReport() {
         </div>
         <div class="flex flex-col items-center">
             <ViolinChart
-                v-if="
-                    violin_and_scatter_plot_data &&
-                    Object.keys(violin_and_scatter_plot_data).length > 0
-                "
+                v-if="violin_and_scatter_plot_data.total_counts.length > 0"
                 :umap-data="violin_and_scatter_plot_data.total_counts"
                 :chart-id="3"
                 x-title="total_counts"
@@ -124,10 +118,7 @@ function saveMultiQCReport() {
         </div>
         <div class="flex flex-col items-center">
             <ViolinChart
-                v-if="
-                    violin_and_scatter_plot_data &&
-                    Object.keys(violin_and_scatter_plot_data).length > 0
-                "
+                v-if="violin_and_scatter_plot_data.pct_counts_mt.length > 0"
                 :umap-data="violin_and_scatter_plot_data.pct_counts_mt"
                 :chart-id="4"
                 x-title="pct_counts_mt"
@@ -140,7 +131,7 @@ function saveMultiQCReport() {
         </div>
         <div class="flex flex-col items-center">
             <PCAChart
-                v-if="pca_variance_ratio && Object.keys(pca_variance_ratio).length > 0"
+                v-if="pca_variance_ratio.pca_variance_ratio.length > 0"
                 :umap-data="pca_variance_ratio.pca_variance_ratio"
                 :chart-id="1"
                 x-title="Ranking 50"
@@ -153,7 +144,7 @@ function saveMultiQCReport() {
         </div>
         <div class="flex flex-col items-center">
             <ScatterChart
-                v-if="umap_data && Object.keys(umap_data).length > 0"
+                v-if="umap_data.data.length > 0"
                 chart-id="6"
                 :umap-data="umap_data.data"
                 :color-by="'cluster'"
@@ -167,9 +158,7 @@ function saveMultiQCReport() {
         </div>
         <div class="flex flex-col items-center">
             <VariableGenesChart
-                v-if="
-                    highly_variable_genes_data && Object.keys(highly_variable_genes_data).length > 0
-                "
+                v-if="highly_variable_genes_data.dispersions.length > 0"
                 :data="highly_variable_genes_data"
                 :chart-id="5"
                 x-title="mean expressions of genes"
