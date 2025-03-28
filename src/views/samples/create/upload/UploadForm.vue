@@ -59,7 +59,7 @@ const onFileSubmit = handleSubmit(async (values) => {
         let file_name = file.name;
 
         if (file.name.includes('.h5')) {
-            file_name = 'data.h5';
+            file_name = 'out.h5';
         }
 
         const chunkSize = 1024 * 1024 * 10; // size of each chunk (10MB)
