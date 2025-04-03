@@ -6,8 +6,6 @@ import FormControl from '@/shadcn/ui/form/FormControl.vue';
 import FormItem from '@/shadcn/ui/form/FormItem.vue';
 import FormMessage from '@/shadcn/ui/form/FormMessage.vue';
 import Input from '@/shadcn/ui/input/Input.vue';
-import Label from '@/shadcn/ui/label/Label.vue';
-import Switch from '@/shadcn/ui/switch/Switch.vue';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { Icon } from '@iconify/vue/dist/iconify.js';
@@ -100,10 +98,6 @@ const onSubmit = handleSubmit((values) => {
                             v-bind="componentField"
                             type="text"
                         ></Input>
-                        <div class="absolute right-16 flex items-center gap-2">
-                            <Switch id="advanced-mode" />
-                            <Label for="advanced-mode">Advanced</Label>
-                        </div>
 
                         <div class="absolute right-2 flex items-center gap-2">
                             <Button class="w-10 h-10 rounded-full bg-secondary" type="submit">
