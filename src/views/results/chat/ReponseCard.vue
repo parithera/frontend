@@ -286,7 +286,7 @@ const progress = computed(() => {
             </Button>
 
             <!-- FOLLOW-UP -->
-            <div v-if="response.followup.length" class="flex flex-col w-full pl-10 pr-4">
+            <!-- <div v-if="response.followup.length" class="flex flex-col w-full pl-10 pr-4">
                 <div class="pb-4 font-semibold">Follow-Up Questions</div>
                 <Separator></Separator>
                 <div
@@ -297,7 +297,7 @@ const progress = computed(() => {
                     <div class="cursor-pointer" @click="askFollowup(followup)">{{ followup }}</div>
                     <Separator></Separator>
                 </div>
-            </div>
+            </div> -->
         </template>
     </div>
 </template>
