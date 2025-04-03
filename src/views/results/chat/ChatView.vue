@@ -162,88 +162,65 @@ onMounted(async () => {
                 ></SampleMenu>
             </div>
         </div>
-        <ResizablePanelGroup direction="horizontal">
-            <ResizablePanel
-                class="h-[calc(100vh-4rem)] p-4 flex flex-col items-center justify-center"
-                :default-size="60"
-            >
+        <div
+            v-if="samples.length == 0"
+            class="w-full flex flex-col gap-2 items-center justify-center"
+        >
+            <LinkSamplesToProject v-model:samples="samples" :project-id="selected_project.id" />
+        </div>
+
+        <ScrollArea v-else class="h-full w-full mb-16">
+            <div class="flex flex-col-reverse pb-20">
                 <div
-                    v-if="samples.length == 0"
-                    class="w-full flex flex-col gap-2 items-center justify-center"
+                    v-for="(chat_element, index) in chat_content"
+                    :key="index"
+                    class="border-l hover:border-primary pl-2 pt-4 flex flex-col gap-4"
                 >
-                    <LinkSamplesToProject
-                        v-model:samples="samples"
-                        :project-id="selected_project.id"
-                    />
-                </div>
-
-                <ScrollArea v-else class="h-full w-full mb-16">
-                    <div class="flex flex-col-reverse pb-20">
-                        <div
-                            v-for="(chat_element, index) in chat_content"
-                            :key="index"
-                            class="border-l hover:border-primary pl-2 pt-4 flex flex-col gap-4"
-                        >
-                            <div v-if="chat_element.request != ''" class="flex flex-col gap-2">
-                                <div class="w-full flex justify-between">
-                                    <div class="font-semibold flex gap-2 items-center">
-                                        <Button
-                                            variant="ghost"
-                                            class="relative h-8 w-8 rounded-full"
+                    <div v-if="chat_element.request != ''" class="flex flex-col gap-2">
+                        <div class="w-full flex justify-between">
+                            <div class="font-semibold flex gap-2 items-center">
+                                <Button variant="ghost" class="relative h-8 w-8 rounded-full">
+                                    <Avatar class="h-8 w-8">
+                                        <AvatarImage src="/avatars/01.png" alt="@shadcn" />
+                                        <AvatarFallback
+                                            >{{ userStore.getUser?.first_name.charAt(0)
+                                            }}{{
+                                                userStore.getUser?.last_name.charAt(0)
+                                            }}</AvatarFallback
                                         >
-                                            <Avatar class="h-8 w-8">
-                                                <AvatarImage src="/avatars/01.png" alt="@shadcn" />
-                                                <AvatarFallback
-                                                    >{{ userStore.getUser?.first_name.charAt(0)
-                                                    }}{{
-                                                        userStore.getUser?.last_name.charAt(0)
-                                                    }}</AvatarFallback
-                                                >
-                                            </Avatar>
-                                        </Button>
-                                        <div>You</div>
-                                    </div>
-                                </div>
-
-                                <div class="pl-10">
-                                    <span>{{ chat_element.request }}</span>
-                                </div>
-                            </div>
-                            <div class="flex flex-col gap-2">
-                                <div class="w-full flex justify-between">
-                                    <div class="font-semibold flex gap-2 items-center">
-                                        <img src="@/imgs/logos/logo.svg" class="w-8 self-center" />
-                                        <div>Ada</div>
-                                    </div>
-                                </div>
-
-                                <ResponseCard :id="index" :response="chat_element"></ResponseCard>
-                                <div
-                                    v-if="
-                                        chat_element.text.endsWith(
-                                            'Please wait while the script is running'
-                                        ) && chat_element.image == ''
-                                    "
-                                    class="pl-4 flex flex-col items-center"
-                                >
-                                    <Progress v-model="progress" class="w-3/5"></Progress>
-                                </div>
+                                    </Avatar>
+                                </Button>
+                                <div>You</div>
                             </div>
                         </div>
+
+                        <div class="pl-10">
+                            <span>{{ chat_element.request }}</span>
+                        </div>
                     </div>
-                </ScrollArea>
-            </ResizablePanel>
-            <ResizableHandle with-handle />
-            <ResizablePanel class="p-2 m-4" :default-size="40">
-                <div class="flex item-center justify-between">
-                    <span class="text-lg">Write your report here:</span>
-                    <velt-presence></velt-presence>
+                    <div class="flex flex-col gap-2">
+                        <div class="w-full flex justify-between">
+                            <div class="font-semibold flex gap-2 items-center">
+                                <img src="@/imgs/logos/logo.svg" class="w-8 self-center" />
+                                <div>Ada</div>
+                            </div>
+                        </div>
+
+                        <ResponseCard :id="index" :response="chat_element"></ResponseCard>
+                        <div
+                            v-if="
+                                chat_element.text.endsWith(
+                                    'Please wait while the script is running'
+                                ) && chat_element.image == ''
+                            "
+                            class="pl-4 flex flex-col items-center"
+                        >
+                            <Progress v-model="progress" class="w-3/5"></Progress>
+                        </div>
+                    </div>
                 </div>
-                <ScrollArea class="h-[calc(100vh-13rem)] cursor-text">
-                    <ProjectEditor />
-                </ScrollArea>
-            </ResizablePanel>
-        </ResizablePanelGroup>
+            </div>
+        </ScrollArea>
     </div>
     <RequestBar
         v-if="selected_project.id"
