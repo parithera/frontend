@@ -22,7 +22,7 @@ async function getProjects() {
         orgId: userStore.defaultOrg?.id ?? '',
         pagination: {
             page: 0,
-            entries_per_page: 0
+            entries_per_page: 100
         },
         search: {
             searchKey: ''
