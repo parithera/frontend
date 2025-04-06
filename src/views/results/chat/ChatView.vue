@@ -169,7 +169,7 @@ onMounted(async () => {
             <LinkSamplesToProject v-model:samples="samples" :project-id="selected_project.id" />
         </div>
 
-        <ScrollArea v-else class="h-full w-full mb-16">
+        <ScrollArea v-else class="h-[calc(100vh-3rem)] w-full">
             <div class="flex flex-col-reverse pb-20">
                 <div
                     v-for="(chat_element, index) in chat_content"
