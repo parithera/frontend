@@ -2510,7 +2510,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vee-validate/zod@npm:^4.15.0":
+"@vee-validate/zod@npm:4.15.0":
   version: 4.15.0
   resolution: "@vee-validate/zod@npm:4.15.0"
   dependencies:
@@ -2944,6 +2944,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vueuse/core@npm:13.1.0":
+  version: 13.1.0
+  resolution: "@vueuse/core@npm:13.1.0"
+  dependencies:
+    "@types/web-bluetooth": "npm:^0.0.21"
+    "@vueuse/metadata": "npm:13.1.0"
+    "@vueuse/shared": "npm:13.1.0"
+  peerDependencies:
+    vue: ^3.5.0
+  checksum: 10/1de662afc7663693fc880498506964a37cfe86778c94ecff546ec6d45fe81ea482b628c86a23151bfb0c73c318cd9ffa2e984e15426a4a1c048647391c13861d
+  languageName: node
+  linkType: hard
+
 "@vueuse/core@npm:^10.11.0":
   version: 10.11.1
   resolution: "@vueuse/core@npm:10.11.1"
@@ -2965,19 +2978,6 @@ __metadata:
     "@vueuse/shared": "npm:12.8.2"
     vue: "npm:^3.5.13"
   checksum: 10/66af78b3164294dc08b83d9a254602cc03a84c2dd99691001719426fd06badd4b565dabd77e4cb2654214b13b49f5dc08bd71f823f928d8bb7d353f148a6fd40
-  languageName: node
-  linkType: hard
-
-"@vueuse/core@npm:^13.1.0":
-  version: 13.1.0
-  resolution: "@vueuse/core@npm:13.1.0"
-  dependencies:
-    "@types/web-bluetooth": "npm:^0.0.21"
-    "@vueuse/metadata": "npm:13.1.0"
-    "@vueuse/shared": "npm:13.1.0"
-  peerDependencies:
-    vue: ^3.5.0
-  checksum: 10/1de662afc7663693fc880498506964a37cfe86778c94ecff546ec6d45fe81ea482b628c86a23151bfb0c73c318cd9ffa2e984e15426a4a1c048647391c13861d
   languageName: node
   linkType: hard
 
@@ -4699,7 +4699,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"embla-carousel-vue@npm:^8.6.0":
+"embla-carousel-vue@npm:8.6.0":
   version: 8.6.0
   resolution: "embla-carousel-vue@npm:8.6.0"
   dependencies:
@@ -5584,13 +5584,13 @@ __metadata:
     "@types/validator": "npm:13.12.2"
     "@unovis/ts": "npm:1.5.1"
     "@unovis/vue": "npm:1.5.1"
-    "@vee-validate/zod": "npm:^4.15.0"
+    "@vee-validate/zod": "npm:4.15.0"
     "@veltdev/client": "npm:3.0.85"
     "@veltdev/types": "npm:3.0.85"
     "@vitejs/plugin-vue": "npm:5.2.3"
     "@vue/test-utils": "npm:2.4.6"
     "@vue/tsconfig": "npm:0.7.0"
-    "@vueuse/core": "npm:^13.1.0"
+    "@vueuse/core": "npm:13.1.0"
     autoprefixer: "npm:10.4.21"
     chart.js: "npm:4.4.8"
     class-transformer: "npm:0.5.1"
@@ -5602,7 +5602,7 @@ __metadata:
     date-fns: "npm:4.1.0"
     embla-carousel: "npm:8.5.2"
     embla-carousel-autoplay: "npm:8.5.2"
-    embla-carousel-vue: "npm:^8.6.0"
+    embla-carousel-vue: "npm:8.6.0"
     eslint: "npm:9.22.0"
     eslint-config-prettier: "npm:10.1.1"
     eslint-plugin-cypress: "npm:4.2.0"
@@ -5621,7 +5621,7 @@ __metadata:
     prettier: "npm:3.5.3"
     radix-vue: "npm:1.9.17"
     reflect-metadata: "npm:0.2.2"
-    reka-ui: "npm:^2.2.0"
+    reka-ui: "npm:2.2.0"
     sass: "npm:1.85.1"
     socket.io-client: "npm:4.8.1"
     start-server-and-test: "npm:2.0.11"
@@ -5632,7 +5632,7 @@ __metadata:
     typescript-eslint: "npm:8.26.1"
     v-calendar: "npm:3.1.2"
     validator: "npm:13.12.0"
-    vee-validate: "npm:^4.15.0"
+    vee-validate: "npm:4.15.0"
     vite: "npm:6.2.2"
     vite-plugin-environment: "npm:1.1.3"
     vite-plugin-vue-devtools: "npm:7.7.2"
@@ -8288,7 +8288,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reka-ui@npm:^2.2.0":
+"reka-ui@npm:2.2.0":
   version: 2.2.0
   resolution: "reka-ui@npm:2.2.0"
   dependencies:
@@ -9763,7 +9763,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vee-validate@npm:4.15.0, vee-validate@npm:^4.15.0":
+"vee-validate@npm:4.15.0":
   version: 4.15.0
   resolution: "vee-validate@npm:4.15.0"
   dependencies:
