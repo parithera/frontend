@@ -14,7 +14,7 @@ import {
 } from '@/shadcn/ui/command';
 
 import { Popover, PopoverContent, PopoverTrigger } from '@/shadcn/ui/popover';
-import { cn } from '@/utils/shadcn';
+import { cn } from '@/shadcn/lib/utils';
 
 import { computed } from 'vue';
 import { CheckIcon } from 'lucide-vue-next';

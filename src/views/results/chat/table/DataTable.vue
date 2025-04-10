@@ -18,7 +18,7 @@ import {
     getExpandedRowModel,
     useVueTable
 } from '@tanstack/vue-table';
-import { valueUpdater } from '@/utils/shadcn';
+import { valueUpdater } from '@/shadcn/lib/utils';
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
