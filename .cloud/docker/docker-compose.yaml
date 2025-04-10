@@ -7,6 +7,11 @@ services:
     restart: always
     volumes:
       - ../../frontend:/app:rw
+    healthcheck:
+        test: wget --no-verbose --tries=1 --spider 'http://localhost:5173' || exit 1
+        interval: 10s
+        timeout: 10s
+        retries: 5
     deploy:
       resources:
         limits:
