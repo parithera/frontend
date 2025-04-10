@@ -5,7 +5,7 @@ import router from '@/router';
 import { Icon } from '@iconify/vue';
 import { AuthRepository } from '@/views/login/auth.repository';
 import { BusinessLogicError, ValidationError } from '@/types/BaseRepository';
-import { cn } from '@/utils/shadcn';
+import { cn } from '@/shadcn/lib/utils';
 import { Button, buttonVariants } from '@/shadcn/ui/button';
 import { useAuthStore } from '@/stores/auth';
 import { useForm } from 'vee-validate';

@@ -1,14 +1,21 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from 'vue';
-import { cn } from '@/utils/shadcn';
+import type { HTMLAttributes } from 'vue'
+import { cn } from '@/shadcn/lib/utils'
 
 const props = defineProps<{
-    class?: HTMLAttributes['class'];
-}>();
+  class?: HTMLAttributes['class']
+}>()
 </script>
 
 <template>
-    <div :class="cn('rounded-lg border bg-card text-card-foreground shadow-sm', props.class)">
-        <slot />
-    </div>
+  <div
+    :class="
+      cn(
+        'rounded-lg border bg-card text-card-foreground shadow-sm',
+        props.class,
+      )
+    "
+  >
+    <slot />
+  </div>
 </template>
