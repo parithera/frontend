@@ -4,6 +4,7 @@ import {
     BaseRepository,
     type AuthRepoMethodEmptyDeleteRequestOptions,
     type AuthRepoMethodGetRequestOptions,
+    type AuthRepoMethodPatchRequestOptions,
     type AuthRepoMethodPostRequestOptions,
     type EmptyPostData,
     type PaginatedRepoMethodRequestOptions,
@@ -52,6 +53,11 @@ export interface DeleteProjectOptions extends AuthRepoMethodEmptyDeleteRequestOp
 
 export interface CreateSampleOptions extends AuthRepoMethodPostRequestOptions<CreateSample> {
     orgId: string;
+}
+
+export interface PatchSampleOptions extends AuthRepoMethodPatchRequestOptions<CreateSample> {
+    orgId: string;
+    sampleId: string;
 }
 
 export interface ImportPublicSampleOptions extends AuthRepoMethodGetRequestOptions {
@@ -148,6 +154,21 @@ export class SampleRepository extends BaseRepository {
         const RELATIVE_URL = `/org/${options.orgId}/samples`;
 
         const response = await this.postRequest<CreatedResponse, CreateSample>({
+            bearerToken: options.bearerToken,
+            data: options.data,
+            url: this.buildUrl(RELATIVE_URL),
+            handleBusinessErrors: options.handleBusinessErrors,
+            handleHTTPErrors: options.handleHTTPErrors,
+            handleOtherErrors: options.handleOtherErrors
+        });
+
+        return Entity.unMarshal<CreatedResponse>(response, CreatedResponse);
+    }
+
+    async updateSample(options: PatchSampleOptions): Promise<CreatedResponse> {
+        const RELATIVE_URL = `/org/${options.orgId}/samples/${options.sampleId}`;
+
+        const response = await this.patchRequest<CreatedResponse, CreateSample>({
             bearerToken: options.bearerToken,
             data: options.data,
             url: this.buildUrl(RELATIVE_URL),
