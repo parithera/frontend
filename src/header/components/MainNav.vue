@@ -6,13 +6,13 @@ const state = useStateStore();
 
 <template>
     <nav :class="cn('flex items-center space-x-4 lg:space-x-6', $attrs.class ?? '')">
-        <RouterLink
+        <!-- <RouterLink
             :to="{ name: 'home', params: {}, query: {} }"
             class="text-sm font-medium transition-colors hover:text-primary"
             :class="{ 'text-muted-foreground': state.page != 'dashboard' && state.page != 'home' }"
         >
             Dashboard
-        </RouterLink>
+        </RouterLink> -->
         <RouterLink
             :to="{ name: 'samples', params: {}, query: {} }"
             class="text-sm font-medium transition-colors hover:text-primary"
@@ -25,7 +25,7 @@ const state = useStateStore();
             class="text-sm font-medium transition-colors hover:text-primary"
             :class="{ 'text-muted-foreground': state.page != 'projects' }"
         >
-            Projects
+            Analyses
         </RouterLink>
         <RouterLink
             :to="{ name: 'datasets', params: {}, query: {} }"

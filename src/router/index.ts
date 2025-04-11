@@ -16,7 +16,6 @@ import SignupView from '@/views/login/SignupView.vue';
 import SettingsView from '@/views/settings/SettingsView.vue';
 import PasswordResetRequestView from '@/views/login/PasswordResetRequestView.vue';
 import OrganizationView from '@/views/organizations/OrganizationView.vue';
-import DashboardView from '@/views/dashboard/DashboardView.vue';
 import EmailActionView from '@/views/login/EmailActionView.vue';
 import SamplesView from '@/views/samples/SamplesView.vue';
 import DatasetsView from '@/views/datasets/DatasetsView.vue';
@@ -27,7 +26,7 @@ const router = createRouter({
         {
             path: '/',
             name: 'home',
-            component: DashboardView,
+            component: SamplesView,
             props: true
         },
         {
