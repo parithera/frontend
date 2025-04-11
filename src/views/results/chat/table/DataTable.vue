@@ -157,13 +157,13 @@ watch(loading, () => {
     <div v-if="loading" class="flex flex-col items-center space-y-3">
         <div class="text-2xl flex gap-2 items-center">
             <Icon class="animate-spin" icon="tabler:loader-2"></Icon>
-            <span>Linking samples to project</span>
+            <span>Linking samples to analysis</span>
         </div>
         <div>Please wait</div>
         <Progress v-model="progress"></Progress>
     </div>
     <div v-else class="flex flex-col gap-4">
-        <div class="text-2xl">Select samples to use in this project</div>
+        <div class="text-2xl">Select samples to analyze</div>
         <div class="flex items-center gap-2">
             <Input
                 class="max-w-sm"

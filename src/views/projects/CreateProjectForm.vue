@@ -46,14 +46,14 @@ const submitForm = () => {
     <Dialog ref="dialog">
         <DialogTrigger as-child>
             <Button class="flex items-center gap-2 rounded-full text-primary" variant="ghost">
-                + New project
+                + New analysis
             </Button>
         </DialogTrigger>
         <DialogContent class="sm:max-w-[425px]">
             <DialogHeader>
-                <DialogTitle>Create a new project</DialogTitle>
+                <DialogTitle>Create a new analysis</DialogTitle>
                 <DialogDescription>
-                    Name your project and give it an optional description.
+                    Name your analysis and give it an optional description.
                 </DialogDescription>
             </DialogHeader>
             <div class="grid gap-4 py-4">
