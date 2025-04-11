@@ -43,7 +43,7 @@ export const columns: ColumnDef<Sample>[] = [
         cell: ({ row }) => h('div', { class: 'text-left pl-4' }, row.getValue('name') as string)
     },
     {
-        accessorKey: 'comment',
+        accessorKey: 'description',
         header: ({ column }) => {
             return h(
                 Button,

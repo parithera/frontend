@@ -231,7 +231,10 @@ async function submit(values: any) {
                                 class="flex flex-row items-start gap-x-3 space-y-0 rounded-md border p-4"
                             >
                                 <FormControl>
-                                    <Checkbox :model-value="value" @update:model-value="handleChange" />
+                                    <Checkbox
+                                        :model-value="value"
+                                        @update:model-value="handleChange"
+                                    />
                                 </FormControl>
                                 <div class="space-y-1 leading-none">
                                     <FormLabel>

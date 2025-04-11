@@ -14,10 +14,15 @@ import {
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
 import { Icon } from '@iconify/vue/dist/iconify.js';
+import DropDownEdit from './DropDownEdit.vue';
+import { Dialog, DialogTrigger } from '@/shadcn/ui/dialog';
 
 const props = defineProps<{
     sample: {
         id: string;
+        name: string;
+        description: string;
+        tags: string[];
     };
 }>();
 
@@ -51,18 +56,23 @@ async function deleteSample() {
 
 <template>
     <div class="flex flex-col items-end">
-        <DropdownMenu>
-            <DropdownMenuTrigger as-child>
-                <Button class="flex gap-2 items-center" variant="ghost">
-                    <Icon icon="tabler:dots"></Icon> More
-                </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem> Edit </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem @click="deleteSample()">Delete sample</DropdownMenuItem>
-            </DropdownMenuContent>
-        </DropdownMenu>
+        <Dialog>
+            <DropdownMenu>
+                <DropdownMenuTrigger as-child>
+                    <Button class="flex gap-2 items-center" variant="ghost">
+                        <Icon icon="tabler:dots"></Icon> More
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                    <DropdownMenuItem>
+                        <DialogTrigger> Edit Profile </DialogTrigger>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem @click="deleteSample()">Delete sample</DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+            <DropDownEdit :sample="props.sample" />
+        </Dialog>
     </div>
 </template>
