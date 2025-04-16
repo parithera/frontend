@@ -13,6 +13,8 @@ export class Sample {
     @IsNotEmpty()
     description!: string;
 
+    type!: string;
+
     @IsNotEmpty()
     tags!: string[];
 
