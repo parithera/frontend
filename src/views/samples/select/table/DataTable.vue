@@ -108,7 +108,7 @@ const isFiltered = computed(() => table.getState().columnFilters.length > 0);
                 Reset
                 <Icon icon="ic:baseline-close"></Icon>
             </Button>
-            <!-- <DropdownMenu>
+            <DropdownMenu>
                 <DropdownMenuTrigger as-child>
                     <Button variant="outline" class="ml-auto">
                         Columns
@@ -129,10 +129,11 @@ const isFiltered = computed(() => table.getState().columnFilters.length > 0);
                             }
                         "
                     >
-                        {{ column.id }}
+                            <span v-if="column.id == 'description'">Comment</span>
+                            <span v-else>{{ column.id }}</span>
                     </DropdownMenuCheckboxItem>
                 </DropdownMenuContent>
-            </DropdownMenu> -->
+            </DropdownMenu>
         </div>
         <div class="border rounded-md">
             <Table>
