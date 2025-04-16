@@ -155,7 +155,7 @@ const isFiltered = computed(() => table.getState().columnFilters.length > 0);
                             <TableRow :data-state="row.getIsSelected() ? 'selected' : undefined">
                                 <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
                                     <FlexRender
-                                        v-if="cell.column.id != 'qc' || (cell.column.id == 'qc' && row.getValue('type') != 'h5')"
+                                        v-if="cell.column.id != 'qc' || (cell.column.id == 'qc' && row.getValue('type') == 'fastq')"
                                         :render="cell.column.columnDef.cell"
                                         :props="cell.getContext()"
                                     />
