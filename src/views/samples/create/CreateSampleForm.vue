@@ -178,8 +178,8 @@ async function align() {
                         <Switch
                             id="file-type"
                             class="col-span-2"
-                            :checked="fastq"
-                            @update:checked="fastq = !fastq"
+                            :model-value="fastq"
+                            @update:model-value="fastq = !fastq"
                         />
                         <span>FASTQ</span>
                     </div>

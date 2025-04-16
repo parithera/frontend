@@ -122,8 +122,8 @@ const isFiltered = computed(() => table.getState().columnFilters.length > 0);
                             .filter((column) => column.getCanHide())"
                         :key="column.id"
                         class="capitalize"
-                        :checked="column.getIsVisible()"
-                        @update:checked="
+                        :model-value="column.getIsVisible()"
+                        @update:model-value="
                             (value) => {
                                 column.toggleVisibility(!!value);
                             }
