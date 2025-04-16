@@ -97,6 +97,23 @@ export const columns: ColumnDef<Sample>[] = [
             return h('div', { class: 'text-left pl-4' }, moment(date).format('LL'));
         }
     },
+
+    {
+        accessorKey: 'type',
+        header: ({ column }) => {
+            return h(
+                Button,
+                {
+                    variant: 'ghost',
+                    onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
+                },
+                () => ['Type', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
+            );
+        },
+        cell: ({ row }) => {
+            return h('div', { class: 'text-left pl-4' }, row.getValue('type'));
+        }
+    },
     {
         accessorKey: 'qc',
         header: ({ column }) => {
