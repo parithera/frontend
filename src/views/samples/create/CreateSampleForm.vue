@@ -52,7 +52,8 @@ async function newSample() {
         data: {
             name: new_sample_name.value,
             description: new_sample_comment.value,
-            tags: new_sample_tags.value.replace(' ', '').split(',')
+            tags: new_sample_tags.value.replace(' ', '').split(','),
+            type: fastq.value ? 'fastq':'h5'
         },
         orgId: userStore.defaultOrg?.id ?? ''
     });
