@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { WithClassAsProps } from './interface'
+import { ArrowLeft } from 'lucide-vue-next'
 import { cn } from '@/shadcn/lib/utils'
 import { Button } from '@/shadcn/ui/button'
-import { ArrowLeft } from 'lucide-vue-next'
 import { useCarousel } from './useCarousel'
 
 const props = defineProps<WithClassAsProps>()

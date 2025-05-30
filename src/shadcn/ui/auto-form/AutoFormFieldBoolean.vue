@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { FieldProps } from './interface'
+import { computed } from 'vue'
 import { Checkbox } from '@/shadcn/ui/checkbox'
 import { FormControl, FormDescription, FormField, FormItem, FormMessage } from '@/shadcn/ui/form'
 import { Switch } from '@/shadcn/ui/switch'
-import { computed } from 'vue'
 import AutoFormLabel from './AutoFormLabel.vue'
 import { beautifyObjectName, maybeBooleanishToBoolean } from './utils'
 

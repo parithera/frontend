@@ -1,19 +1,15 @@
 <script setup lang="ts">
 import type { ListboxItemEmits, ListboxItemProps } from 'reka-ui'
-import { cn } from '@/shadcn/lib/utils'
-import { useCurrentElement } from '@vueuse/core'
+import { reactiveOmit, useCurrentElement } from '@vueuse/core'
 import { ListboxItem, useForwardPropsEmits, useId } from 'reka-ui'
 import { computed, type HTMLAttributes, onMounted, onUnmounted, ref } from 'vue'
+import { cn } from '@/shadcn/lib/utils'
 import { useCommand, useCommandGroup } from '.'
 
 const props = defineProps<ListboxItemProps & { class?: HTMLAttributes['class'] }>()
 const emits = defineEmits<ListboxItemEmits>()
 
-const delegatedProps = computed(() => {
-  const { class: _, ...delegated } = props
-
-  return delegated
-})
+const delegatedProps = reactiveOmit(props, 'class')
 
 const forwarded = useForwardPropsEmits(delegatedProps, emits)
 
@@ -23,18 +19,18 @@ const groupContext = useCommandGroup()
 
 const isRender = computed(() => {
   if (!filterState.search) {
-    return true;
+    return true
   }
   else {
     const filteredCurrentItem = filterState.filtered.items.get(id)
     // If the filtered items is undefined means not in the all times map yet
     // Do the first render to add into the map
     if (filteredCurrentItem === undefined) {
-      return true;
+      return true
     }
 
     // Check with filter
-    return filteredCurrentItem > 0;
+    return filteredCurrentItem > 0
   }
 })
 
@@ -45,7 +41,7 @@ onMounted(() => {
     return
 
   // textValue to perform filter
-  allItems.value.set(id, currentElement.value.textContent ?? props.value.toString())
+  allItems.value.set(id, currentElement.value.textContent ?? props?.value!.toString())
 
   const groupId = groupContext?.id
   if (groupId) {
