@@ -52,7 +52,8 @@ async function newSample() {
         data: {
             name: new_sample_name.value,
             description: new_sample_comment.value,
-            tags: new_sample_tags.value.replace(' ', '').split(',')
+            tags: new_sample_tags.value.replace(' ', '').split(','),
+            type: fastq.value ? 'fastq':'h5'
         },
         orgId: userStore.defaultOrg?.id ?? ''
     });
@@ -178,8 +179,8 @@ async function align() {
                         <Switch
                             id="file-type"
                             class="col-span-2"
-                            :checked="fastq"
-                            @update:checked="fastq = !fastq"
+                            :model-value="fastq"
+                            @update:model-value="fastq = !fastq"
                         />
                         <span>FASTQ</span>
                     </div>

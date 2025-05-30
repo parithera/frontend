@@ -108,7 +108,7 @@ const isFiltered = computed(() => table.getState().columnFilters.length > 0);
                 Reset
                 <Icon icon="ic:baseline-close"></Icon>
             </Button>
-            <!-- <DropdownMenu>
+            <DropdownMenu>
                 <DropdownMenuTrigger as-child>
                     <Button variant="outline" class="ml-auto">
                         Columns
@@ -122,17 +122,18 @@ const isFiltered = computed(() => table.getState().columnFilters.length > 0);
                             .filter((column) => column.getCanHide())"
                         :key="column.id"
                         class="capitalize"
-                        :checked="column.getIsVisible()"
-                        @update:checked="
+                        :model-value="column.getIsVisible()"
+                        @update:model-value="
                             (value) => {
                                 column.toggleVisibility(!!value);
                             }
                         "
                     >
-                        {{ column.id }}
+                            <span v-if="column.id == 'description'">Comment</span>
+                            <span v-else>{{ column.id }}</span>
                     </DropdownMenuCheckboxItem>
                 </DropdownMenuContent>
-            </DropdownMenu> -->
+            </DropdownMenu>
         </div>
         <div class="border rounded-md">
             <Table>
@@ -154,6 +155,7 @@ const isFiltered = computed(() => table.getState().columnFilters.length > 0);
                             <TableRow :data-state="row.getIsSelected() ? 'selected' : undefined">
                                 <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
                                     <FlexRender
+                                        v-if="cell.column.id != 'qc' || (cell.column.id == 'qc' && row.getValue('type') == 'fastq')"
                                         :render="cell.column.columnDef.cell"
                                         :props="cell.getContext()"
                                     />
