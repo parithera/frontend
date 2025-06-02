@@ -242,7 +242,7 @@ const progress = computed(() => {
                     ></FailedCard>
                     <img
                         v-else-if="response.image != ''"
-                        class="cursor-pointer w-1/2 hover:scale-105 hover:translate-y-2 transition duration-300 ease-in-out"
+                        class="cursor-pointer w-1/3 hover:scale-105 hover:translate-y-2 transition duration-300 ease-in-out"
                         :src="'data:image/png;base64,' + response.image.trim()"
                     />
                     <div v-if="response.image != ''" class="flex items-center gap-2">
