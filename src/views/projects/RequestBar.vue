@@ -94,7 +94,7 @@ const onSubmit = handleSubmit((values) => {
                     <div class="relative flex items-center">
                         <Input
                             placeholder="Ask Ada anything..."
-                            class="resize-none rounded-full pl-2 py-7 box-border h-6 w-full"
+                            class="resize-none rounded-full pl-2 py-7 box-border h-6 w-full bg-white"
                             v-bind="componentField"
                             type="text"
                         ></Input>
