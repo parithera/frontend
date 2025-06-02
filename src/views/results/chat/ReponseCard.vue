@@ -113,7 +113,7 @@ const progress = computed(() => {
             <div v-if="response.text != ''" class="self-start">
                 <ScrollArea>
                     <div
-                        class="overflow-x-scroll pl-10 pb-3 markdown"
+                        class="overflow-x-scroll px-10 pb-3 markdown"
                         v-html="markdown.render(response.text)"
                     ></div>
                     <ScrollBar orientation="horizontal" />
