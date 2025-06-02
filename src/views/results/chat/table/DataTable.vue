@@ -59,7 +59,8 @@ const table = useVueTable({
     onSortingChange: (updaterOrValue) => valueUpdater(updaterOrValue, sorting),
     onColumnFiltersChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnFilters),
     onColumnVisibilityChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnVisibility),
-    onRowSelectionChange: (updaterOrValue) => valueUpdater(updaterOrValue, rowSelection),
+    onRowSelectionChange: (updaterOrValue) => { console.log(rowSelection);
+     ;return valueUpdater(updaterOrValue, rowSelection)},
     onExpandedChange: (updaterOrValue) => valueUpdater(updaterOrValue, expanded),
     state: {
         get sorting() {
@@ -105,6 +106,8 @@ const linkSamplesStore = useLinkSamplesStore();
 const { response } = storeToRefs(linkSamplesStore);
 
 async function importSamplesToProject(selected_rows: Row<TData>[]) {
+    console.error(selected_rows);
+    
     loading.value = true;
     linkSamplesStore.$reset();
     linkSamplesStore.createSocket(authStore.getToken ?? '');
@@ -240,8 +243,12 @@ watch(loading, () => {
                 </TableBody>
             </Table>
         </div>
-        <Button @click="importSamplesToProject(table.getSelectedRowModel().flatRows)"
-            >Import</Button
-        >
+        <Button @click="importSamplesToProject(table.getSelectedRowModel().flatRows)">
+            Import
+        </Button>
+        <div class="flex-1 text-sm text-muted-foreground">
+            {{ table.getFilteredSelectedRowModel().rows.length }} of
+            {{ table.getFilteredRowModel().rows.length }} row(s) selected.
+        </div>
     </div>
 </template>

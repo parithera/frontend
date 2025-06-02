@@ -15,13 +15,13 @@ export const columns: ColumnDef<Project>[] = [
         header: ({ table }) =>
             h(Checkbox, {
                 checked: table.getIsAllPageRowsSelected(),
-                'onUpdate:checked': (value: boolean) => table.toggleAllPageRowsSelected(!!value),
+                'onUpdate:modelValue': (value: boolean) => table.toggleAllPageRowsSelected(!!value),
                 ariaLabel: 'Select all'
             }),
         cell: ({ row }) =>
             h(Checkbox, {
                 checked: row.getIsSelected(),
-                'onUpdate:checked': (value: boolean) => row.toggleSelected(!!value),
+                'onUpdate:modelValue': (value: boolean) => row.toggleSelected(!!value),
                 ariaLabel: 'Select row'
             }),
         enableSorting: false,
