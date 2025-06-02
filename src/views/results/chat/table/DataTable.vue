@@ -59,8 +59,10 @@ const table = useVueTable({
     onSortingChange: (updaterOrValue) => valueUpdater(updaterOrValue, sorting),
     onColumnFiltersChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnFilters),
     onColumnVisibilityChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnVisibility),
-    onRowSelectionChange: (updaterOrValue) => { console.log(rowSelection);
-     ;return valueUpdater(updaterOrValue, rowSelection)},
+    onRowSelectionChange: (updaterOrValue) => {
+        console.log(rowSelection);
+        return valueUpdater(updaterOrValue, rowSelection);
+    },
     onExpandedChange: (updaterOrValue) => valueUpdater(updaterOrValue, expanded),
     state: {
         get sorting() {
@@ -107,7 +109,7 @@ const { response } = storeToRefs(linkSamplesStore);
 
 async function importSamplesToProject(selected_rows: Row<TData>[]) {
     console.error(selected_rows);
-    
+
     loading.value = true;
     linkSamplesStore.$reset();
     linkSamplesStore.createSocket(authStore.getToken ?? '');

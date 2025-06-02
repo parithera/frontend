@@ -1,13 +1,6 @@
 <script setup lang="ts">
 import { Button } from '@/shadcn/ui/button';
-import {
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger
-} from '@/shadcn/ui/dialog';
+import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/shadcn/ui/dialog';
 import DialogFooter from '@/shadcn/ui/dialog/DialogFooter.vue';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/shadcn/ui/form';
 import { Input } from '@/shadcn/ui/input';
@@ -16,7 +9,6 @@ import { z } from 'zod';
 import { SampleRepository } from '../../sample.repository';
 import { useUserStore } from '@/stores/user';
 import { useAuthStore } from '@/stores/auth';
-import type { CreateSample } from '../../create/create_sample.http';
 import router from '@/router';
 
 const authStore = useAuthStore();

@@ -15,7 +15,6 @@ import hljs from 'highlight.js';
 import { computed, ref, type Ref } from 'vue';
 import type { ChatContent, JSONScatter, JSONUMAP } from './types';
 import FailedCard from './FailedCard.vue';
-import Separator from '@/shadcn/ui/separator/Separator.vue';
 import { Progress } from '@/shadcn/ui/progress';
 import ScatterChart from '@/common_components/charts/ScatterChart.vue';
 
@@ -68,10 +67,10 @@ async function copyImage() {
     icon_image.value = 'tabler:check';
 }
 
-function askFollowup(followup: string) {
-    (document.getElementById('chat_bar') as HTMLInputElement).value = followup;
-    // (document.getElementById('chat_submit') as HTMLButtonElement).click()
-}
+// function askFollowup(followup: string) {
+//     (document.getElementById('chat_bar') as HTMLInputElement).value = followup;
+//     // (document.getElementById('chat_submit') as HTMLButtonElement).click()
+// }
 
 const progress = computed(() => {
     switch (props.response.status) {

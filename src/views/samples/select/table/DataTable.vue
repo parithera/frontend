@@ -129,8 +129,8 @@ const isFiltered = computed(() => table.getState().columnFilters.length > 0);
                             }
                         "
                     >
-                            <span v-if="column.id == 'description'">Comment</span>
-                            <span v-else>{{ column.id }}</span>
+                        <span v-if="column.id == 'description'">Comment</span>
+                        <span v-else>{{ column.id }}</span>
                     </DropdownMenuCheckboxItem>
                 </DropdownMenuContent>
             </DropdownMenu>
@@ -155,7 +155,11 @@ const isFiltered = computed(() => table.getState().columnFilters.length > 0);
                             <TableRow :data-state="row.getIsSelected() ? 'selected' : undefined">
                                 <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
                                     <FlexRender
-                                        v-if="cell.column.id != 'qc' || (cell.column.id == 'qc' && row.getValue('type') == 'fastq')"
+                                        v-if="
+                                            cell.column.id != 'qc' ||
+                                            (cell.column.id == 'qc' &&
+                                                row.getValue('type') == 'fastq')
+                                        "
                                         :render="cell.column.columnDef.cell"
                                         :props="cell.getContext()"
                                     />

@@ -51,7 +51,7 @@ import {
     PaginationItem,
     PaginationLast,
     PaginationNext,
-    PaginationPrevious,
+    PaginationPrevious
 } from '@/shadcn/ui/pagination';
 
 import { Button } from '@/shadcn/ui/button';

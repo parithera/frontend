@@ -18,8 +18,10 @@ export const columns: ColumnDef<Sample>[] = [
         cell: ({ row }) =>
             h(Checkbox, {
                 checked: row.getIsSelected(),
-                'onUpdate:modelValue': (value: boolean) => { console.log(row);
-                 ;return row.toggleSelected(!!value)},
+                'onUpdate:modelValue': (value: boolean) => {
+                    console.log(row);
+                    return row.toggleSelected(!!value);
+                },
                 ariaLabel: 'Select row'
             }),
         enableSorting: false,
