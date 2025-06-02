@@ -141,10 +141,8 @@ onMounted(async () => {
 });
 </script>
 <template>
-    <div class="flex">
-        <div
-            class="flex flex-col gap-8 items-center max-w-60 p-6 py-8 h-[calc(100vh-4rem)] bg-secondary"
-        >
+    <div class="flex h-[calc(100vh-3rem)]">
+        <div class="flex flex-col gap-8 items-center max-w-60 p-6 py-8 bg-secondary">
             <div class="flex flex-col gap-2 items-center">
                 <span class="text-primary">{{ selected_project.name }}</span>
                 <span> {{ moment(selected_project.added_on).format('LL') }}</span>
@@ -165,8 +163,8 @@ onMounted(async () => {
             <LinkSamplesToProject v-model:samples="samples" :project-id="selected_project.id" />
         </div>
 
-        <ScrollArea v-else class="h-[calc(100vh-3rem)] w-full">
-            <div class="flex flex-col-reverse pb-20">
+        <ScrollArea v-else class="w-full">
+            <div class="flex flex-col-reverse pb-24">
                 <div
                     v-for="(chat_element, index) in chat_content"
                     :key="index"

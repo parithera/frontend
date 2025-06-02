@@ -66,10 +66,12 @@ async function deleteProject(project_id: string) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem @click="goToProject(project.id)"> Open project </DropdownMenuItem>
+                <DropdownMenuItem @click="goToProject(project.id)">
+                    Open analysis
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem @click="deleteProject(project.id)"
-                    >Delete project</DropdownMenuItem
+                    >Delete analysis</DropdownMenuItem
                 >
                 <DropdownMenuItem @click="$emit('expand')"> Expand </DropdownMenuItem>
                 <!-- <DropdownMenuItem>Edit project</DropdownMenuItem> -->
