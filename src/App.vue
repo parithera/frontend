@@ -24,7 +24,7 @@ const route = useRoute();
 </script>
 
 <template>
-    <HeaderComponent v-if="authStore.getAuthenticated" class="h-12"></HeaderComponent>
+    <HeaderComponent v-if="authStore.getAuthenticated"></HeaderComponent>
     <RouterView :key="route.fullPath" />
     <Toaster />
 </template>
