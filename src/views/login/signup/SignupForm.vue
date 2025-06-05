@@ -101,7 +101,8 @@ async function submit(values: any) {
         });
         toast({
             title: 'Account successfully created',
-            description: 'Please check your email to verify your account'
+            description: 'Please sign in with your account'
+            // description: 'Please check your email to verify your account'
         });
         router.push({ name: 'login' });
     } catch (_err) {
