@@ -142,15 +142,6 @@ export const columns: ColumnDef<Sample>[] = [
                     },
                     'Show QC'
                 );
-            } else {
-                return h(
-                    'a',
-                    {
-                        class: 'pl-4 text-primary cursor-pointer',
-                        href: row.original.show
-                    },
-                    'Explore'
-                );
             }
         }
     },
