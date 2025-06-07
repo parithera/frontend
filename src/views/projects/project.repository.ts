@@ -12,7 +12,8 @@ import {
     type AuthRepoMethodEmptyDeleteRequestOptions,
     type PaginatedRepoMethodRequestOptions,
     type SearchableRepoMethodRequestOptions,
-    type SortableRepoMethodRequestOptions
+    type SortableRepoMethodRequestOptions,
+    type AuthRepoMethodPatchRequestOptions
 } from '../../types/BaseRepository';
 import type { CreateProject } from '@/views/projects/create_project.http';
 import type { CreateAnalysis } from './create_analysis.http';
@@ -57,6 +58,11 @@ export interface DeleteProjectOptions extends AuthRepoMethodEmptyDeleteRequestOp
 
 export interface CreateProjectOptions extends AuthRepoMethodPostRequestOptions<CreateProject> {
     orgId: string;
+}
+
+export interface PatchProjectOptions extends AuthRepoMethodPatchRequestOptions<CreateProject> {
+    orgId: string;
+    projectId: string;
 }
 
 export enum ProjectsSortInterface {
@@ -215,6 +221,21 @@ export class ProjectRepository extends BaseRepository {
         const RELATIVE_URL = `/org/${options.orgId}/projects`;
 
         const response = await this.postRequest<CreatedResponse, CreateProject>({
+            bearerToken: options.bearerToken,
+            data: options.data,
+            url: this.buildUrl(RELATIVE_URL),
+            handleBusinessErrors: options.handleBusinessErrors,
+            handleHTTPErrors: options.handleHTTPErrors,
+            handleOtherErrors: options.handleOtherErrors
+        });
+
+        return Entity.unMarshal<CreatedResponse>(response, CreatedResponse);
+    }
+
+    async updateProject(options: PatchProjectOptions): Promise<CreatedResponse> {
+        const RELATIVE_URL = `/org/${options.orgId}/projects/${options.projectId}`;
+
+        const response = await this.patchRequest<CreatedResponse, CreateProject>({
             bearerToken: options.bearerToken,
             data: options.data,
             url: this.buildUrl(RELATIVE_URL),

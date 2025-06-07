@@ -29,6 +29,8 @@ import { Button } from '@/shadcn/ui/button';
 import { ref } from 'vue';
 import CreateProjectForm from '@/views/projects/CreateProjectForm.vue';
 import { ChevronDown } from 'lucide-vue-next';
+import { Dialog, DialogTrigger } from '@/shadcn/ui/dialog';
+import DropDownEdit from './DropDownEdit.vue';
 
 const props = defineProps<{
     columns: ColumnDef<TData, TValue>[];
@@ -131,20 +133,30 @@ const expanded = ref<ExpandedState>({});
                 <TableBody>
                     <template v-if="table.getRowModel().rows?.length">
                         <template v-for="row in table.getRowModel().rows" :key="row.id">
-                            <TableRow :data-state="row.getIsSelected() ? 'selected' : undefined">
-                                <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
-                                    <FlexRender
-                                        :render="cell.column.columnDef.cell"
-                                        :props="cell.getContext()"
-                                    />
-                                </TableCell>
-                            </TableRow>
-                            <TableRow v-if="row.getIsExpanded()">
-                                <TableCell :colspan="row.getAllCells().length">
-                                    Name: {{ row.getValue('name') }} Added by:
-                                    {{ row.getValue('added_on') }}
-                                </TableCell>
-                            </TableRow>
+                            <Dialog>
+                                <DialogTrigger as-child>
+                                    <TableRow
+                                        :data-state="row.getIsSelected() ? 'selected' : undefined"
+                                    >
+                                        <TableCell
+                                            v-for="cell in row.getVisibleCells()"
+                                            :key="cell.id"
+                                        >
+                                            <FlexRender
+                                                :render="cell.column.columnDef.cell"
+                                                :props="cell.getContext()"
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                    <TableRow v-if="row.getIsExpanded()">
+                                        <TableCell :colspan="row.getAllCells().length">
+                                            Name: {{ row.getValue('name') }} Added by:
+                                            {{ row.getValue('added_on') }}
+                                        </TableCell>
+                                    </TableRow>
+                                </DialogTrigger>
+                                <DropDownEdit :project="row.original" />
+                            </Dialog>
                         </template>
                     </template>
                     <template v-else>
