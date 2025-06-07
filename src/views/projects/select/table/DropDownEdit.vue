@@ -33,8 +33,6 @@ const formSchema = toTypedSchema(
 );
 
 async function onSubmit(values: any) {
-    console.error(values);
-
     try {
         await projectRepository.updateProject({
             orgId: userStore.defaultOrg?.id ?? '',
@@ -42,8 +40,8 @@ async function onSubmit(values: any) {
             bearerToken: authStore.getToken ?? '',
             handleBusinessErrors: true,
             data: {
-                name: props.project.name,
-                description: props.project.description
+                name: values.name,
+                description: values.description
             }
         });
     } catch (error) {
@@ -79,14 +77,14 @@ async function onSubmit(values: any) {
                         <FormMessage />
                     </FormItem>
                 </FormField>
-                <FormField v-slot="{ componentField }" name="comment">
+                <FormField v-slot="{ componentField }" name="description">
                     <FormItem>
-                        <FormLabel>Comment</FormLabel>
+                        <FormLabel>Description</FormLabel>
                         <FormControl>
                             <Input
                                 type="text"
                                 :default-value="project.description"
-                                placeholder="comment"
+                                placeholder="description"
                                 v-bind="componentField"
                             />
                         </FormControl>
