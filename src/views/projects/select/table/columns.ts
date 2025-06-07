@@ -108,7 +108,7 @@ export const columns: ColumnDef<Project>[] = [
                     variant: 'ghost',
                     onClick: () => column.toggleSorting(column.getIsSorted() === 'asc')
                 },
-                () => ['Chat', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
+                () => ['Analysis', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })]
             );
         },
         cell: ({ row }) => {
