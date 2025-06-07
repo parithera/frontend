@@ -31,6 +31,8 @@ import CreateSampleForm from '@/views/samples/create/CreateSampleForm.vue';
 import DataTableFacetedFilter, { type FilterOption } from './DataTableFacetedFilter.vue';
 import { ChevronDown } from 'lucide-vue-next';
 import { Icon } from '@iconify/vue/dist/iconify.js';
+import { Dialog, DialogTrigger } from '@/shadcn/ui/dialog';
+import DropDownEdit from './DropDownEdit.vue';
 
 const props = defineProps<{
     columns: ColumnDef<TData, TValue>[];
@@ -76,7 +78,10 @@ const table = useVueTable({
 
 const sorting = ref<SortingState>([]);
 const columnFilters = ref<ColumnFiltersState>([]);
-const columnVisibility = ref<VisibilityState>({});
+const columnVisibility = ref<VisibilityState>({
+    qc: false,
+    type: false
+});
 const rowSelection = ref({});
 const expanded = ref<ExpandedState>({});
 
@@ -152,19 +157,29 @@ const isFiltered = computed(() => table.getState().columnFilters.length > 0);
                 <TableBody>
                     <template v-if="table.getRowModel().rows?.length">
                         <template v-for="row in table.getRowModel().rows" :key="row.id">
-                            <TableRow :data-state="row.getIsSelected() ? 'selected' : undefined">
-                                <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
-                                    <FlexRender
-                                        v-if="
-                                            cell.column.id != 'qc' ||
-                                            (cell.column.id == 'qc' &&
-                                                row.getValue('type') == 'fastq')
-                                        "
-                                        :render="cell.column.columnDef.cell"
-                                        :props="cell.getContext()"
-                                    />
-                                </TableCell>
-                            </TableRow>
+                            <Dialog>
+                                <DialogTrigger as-child>
+                                    <TableRow
+                                        :data-state="row.getIsSelected() ? 'selected' : undefined"
+                                    >
+                                        <TableCell
+                                            v-for="cell in row.getVisibleCells()"
+                                            :key="cell.id"
+                                        >
+                                            <FlexRender
+                                                v-if="
+                                                    cell.column.id != 'qc' ||
+                                                    (cell.column.id == 'qc' &&
+                                                        row.getValue('type') == 'fastq')
+                                                "
+                                                :render="cell.column.columnDef.cell"
+                                                :props="cell.getContext()"
+                                            />
+                                        </TableCell>
+                                    </TableRow>
+                                </DialogTrigger>
+                                <DropDownEdit :sample="row.original" />
+                            </Dialog>
                             <TableRow v-if="row.getIsExpanded()">
                                 <TableCell :colspan="row.getAllCells().length">
                                     Name: {{ row.getValue('name') }} Added by:

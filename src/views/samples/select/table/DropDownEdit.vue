@@ -22,6 +22,7 @@ const props = defineProps<{
         id: string;
         name: string;
         description: string;
+        type: string;
         tags: string[];
     };
 }>();
@@ -46,7 +47,8 @@ async function onSubmit(values: any) {
             data: {
                 name: values.name ?? props.sample.name,
                 description: values.description ?? props.sample.description,
-                tags: values.tags ? values.tags.replace(' ', '').split(',') : props.sample.tags
+                tags: values.tags ? values.tags.replace(' ', '').split(',') : props.sample.tags,
+                type: props.sample.type
             }
         });
     } catch (error) {
@@ -82,14 +84,14 @@ async function onSubmit(values: any) {
                         <FormMessage />
                     </FormItem>
                 </FormField>
-                <FormField v-slot="{ componentField }" name="description">
+                <FormField v-slot="{ componentField }" name="comment">
                     <FormItem>
-                        <FormLabel>Description</FormLabel>
+                        <FormLabel>Comment</FormLabel>
                         <FormControl>
                             <Input
                                 type="text"
                                 :default-value="sample.description"
-                                placeholder="description"
+                                placeholder="comment"
                                 v-bind="componentField"
                             />
                         </FormControl>

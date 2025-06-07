@@ -1,32 +1,31 @@
 import type { ColumnDef } from '@tanstack/vue-table';
 import { h, type VNode } from 'vue';
-import DataTableDopDown from './DataTableDopDown.vue';
+import DataTableDropDown from './DataTableDropDown.vue';
 import { ArrowUpDown } from 'lucide-vue-next';
 import Button from '@/shadcn/ui/button/Button.vue';
-import { Checkbox } from '@/shadcn/ui/checkbox';
 import moment from 'moment';
 import type { Sample } from '@/views/samples/sample.entity';
 import { RouterLink } from 'vue-router';
 import Badge from '@/shadcn/ui/badge/Badge.vue';
 
 export const columns: ColumnDef<Sample>[] = [
-    {
-        id: 'select',
-        header: ({ table }) =>
-            h(Checkbox, {
-                checked: table.getIsAllPageRowsSelected(),
-                'onUpdate:modelValue': (value: boolean) => table.toggleAllPageRowsSelected(!!value),
-                ariaLabel: 'Select all'
-            }),
-        cell: ({ row }) =>
-            h(Checkbox, {
-                checked: row.getIsSelected(),
-                'onUpdate:modelValue': (value: boolean) => row.toggleSelected(!!value),
-                ariaLabel: 'Select row'
-            }),
-        enableSorting: false,
-        enableHiding: false
-    },
+    // {
+    //     id: 'select',
+    //     header: ({ table }) =>
+    //         h(Checkbox, {
+    //             checked: table.getIsAllPageRowsSelected(),
+    //             'onUpdate:modelValue': (value: boolean) => table.toggleAllPageRowsSelected(!!value),
+    //             ariaLabel: 'Select all'
+    //         }),
+    //     cell: ({ row }) =>
+    //         h(Checkbox, {
+    //             checked: row.getIsSelected(),
+    //             'onUpdate:modelValue': (value: boolean) => row.toggleSelected(!!value),
+    //             ariaLabel: 'Select row'
+    //         }),
+    //     enableSorting: false,
+    //     enableHiding: false
+    // },
     {
         accessorKey: 'name',
 
@@ -155,7 +154,7 @@ export const columns: ColumnDef<Sample>[] = [
             return h(
                 'div',
                 { class: 'relative' },
-                h(DataTableDopDown, {
+                h(DataTableDropDown, {
                     sample,
                     onExpand: row.toggleExpanded
                 })

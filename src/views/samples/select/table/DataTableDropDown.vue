@@ -66,7 +66,7 @@ async function deleteSample() {
                 <DropdownMenuContent align="end">
                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuItem>
-                        <DialogTrigger> Edit Profile </DialogTrigger>
+                        <DialogTrigger> Edit Sample </DialogTrigger>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem @click="deleteSample()">Delete sample</DropdownMenuItem>
