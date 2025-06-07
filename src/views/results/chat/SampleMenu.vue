@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { Sample } from '@/views/samples/sample.entity';
 import Button from '@/shadcn/ui/button/Button.vue';
-import { Icon } from '@iconify/vue/dist/iconify.js';
 import { Tooltip, TooltipProvider, TooltipTrigger } from '@/shadcn/ui/tooltip';
 import TooltipContent from '@/shadcn/ui/tooltip/TooltipContent.vue';
 
@@ -19,7 +18,6 @@ function shortenName(name: string) {
 
 <template>
     <div class="flex gap-2 flex-wrap items-center justify-center">
-        <Icon class="w-2" icon="tabler:circle-filled"></Icon>
         <TooltipProvider>
             <Tooltip>
                 <TooltipTrigger as-child>
