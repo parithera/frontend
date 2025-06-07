@@ -2,14 +2,16 @@
 import type { Sample } from '@/views/samples/sample.entity';
 import Button from '@/shadcn/ui/button/Button.vue';
 import { Icon } from '@iconify/vue/dist/iconify.js';
+import { Tooltip, TooltipProvider, TooltipTrigger } from '@/shadcn/ui/tooltip';
+import TooltipContent from '@/shadcn/ui/tooltip/TooltipContent.vue';
 
 defineProps<{
     sample: Sample;
 }>();
 
 function shortenName(name: string) {
-    if (name.length > 8) {
-        return name.substring(0, 6) + '...';
+    if (name.length > 20) {
+        return name.substring(0, 16) + '...';
     }
     return name;
 }
@@ -17,10 +19,20 @@ function shortenName(name: string) {
 
 <template>
     <div class="flex gap-2 flex-wrap items-center justify-center">
-        <Icon width="0.5rem" icon="tabler:circle-filled"></Icon>
-        {{ shortenName(sample.name) }}
+        <Icon class="w-2" icon="tabler:circle-filled"></Icon>
+        <TooltipProvider>
+            <Tooltip>
+                <TooltipTrigger as-child>
+                    <span class="cursor-pointer">{{ shortenName(sample.name) }}</span>
+                </TooltipTrigger>
+                <TooltipContent>
+                    <p>{{ sample.name }}</p>
+                </TooltipContent>
+            </Tooltip>
+        </TooltipProvider>
+
         <a v-if="sample.show != ''" :href="sample.show">
-            <Button class="text-primary" variant="ghost">Explore</Button>
+            <!-- <Button class="text-primary" variant="ghost">Explore</Button> -->
         </a>
         <RouterLink
             v-else
