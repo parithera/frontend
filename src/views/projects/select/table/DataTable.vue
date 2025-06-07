@@ -136,6 +136,7 @@ const expanded = ref<ExpandedState>({});
                             <Dialog>
                                 <DialogTrigger as-child>
                                     <TableRow
+                                        class="cursor-pointer"
                                         :data-state="row.getIsSelected() ? 'selected' : undefined"
                                     >
                                         <TableCell

@@ -160,6 +160,7 @@ const isFiltered = computed(() => table.getState().columnFilters.length > 0);
                             <Dialog>
                                 <DialogTrigger as-child>
                                     <TableRow
+                                        class="cursor-pointer"
                                         :data-state="row.getIsSelected() ? 'selected' : undefined"
                                     >
                                         <TableCell
