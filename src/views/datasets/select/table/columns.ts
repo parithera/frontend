@@ -83,16 +83,16 @@ export const columns: ColumnDef<Sample>[] = [
 
         header: () => '',
         cell: () => h('span', { class: 'cursor-pointer text-primary' }, 'Import')
-    },
-    {
-        accessorKey: 'show',
-
-        header: () => '',
-        cell: ({ row }) =>
-            h(
-                'a',
-                { class: 'text-primary cursor-pointer', href: row.getValue('show') as string },
-                'Explore'
-            )
     }
+    // {
+    //     accessorKey: 'show',
+
+    //     header: () => '',
+    //     cell: ({ row }) =>
+    //         h(
+    //             'a',
+    //             { class: 'text-primary cursor-pointer', href: row.getValue('show') as string },
+    //             'Explore'
+    //         )
+    // }
 ];
