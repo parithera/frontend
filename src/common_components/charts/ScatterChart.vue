@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+import { Button } from '@/shadcn/ui/button';
+import { Tooltip, TooltipProvider, TooltipTrigger } from '@/shadcn/ui/tooltip';
+import TooltipContent from '@/shadcn/ui/tooltip/TooltipContent.vue';
+import { Icon } from '@iconify/vue/dist/iconify.js';
 import * as d3 from 'd3';
 import { onMounted } from 'vue';
 
@@ -49,7 +53,7 @@ function drawChart() {
         .attr('y1', 0)
         .attr('x2', -axis_margin)
         .attr('y2', height + axis_margin)
-        .style('stroke', 'hsl(var(--primary))')
+        .style('stroke', 'hsl(191 89% 18%)')
         .style('stroke-width', 1);
 
     svg.append('text')
@@ -67,7 +71,7 @@ function drawChart() {
         .attr('y1', height + axis_margin)
         .attr('x2', width)
         .attr('y2', height + axis_margin)
-        .style('stroke', 'hsl(var(--primary))')
+        .style('stroke', 'hsl(191 89% 18%)')
         .style('stroke-width', 1);
 
     svg.append('text')
@@ -180,9 +184,59 @@ function drawChart() {
 
 onMounted(() => {
     drawChart();
+
+    document.getElementById('download')?.addEventListener('click', function () {
+        // Replace chartId with the actual value or variable
+        const chartId = props.chartId;
+        const chartDiv = document.querySelector('.chart_' + chartId);
+        if (!chartDiv) {
+            alert('Chart not found!');
+            return;
+        }
+        const svg = chartDiv.querySelector('svg');
+        if (!svg) {
+            alert('SVG not found in chart!');
+            return;
+        }
+        const serializer = new XMLSerializer();
+        let source = serializer.serializeToString(svg);
+
+        // Ensure SVG namespace is present
+        if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
+            source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
+        }
+        if (!source.match(/^<svg[^>]+"http\:\/\/www\.w3\.org\/1999\/xlink"/)) {
+            source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
+        }
+
+        const url = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(source);
+
+        const downloadLink = document.createElement('a');
+        downloadLink.href = url;
+        downloadLink.download = 'graph.svg';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    });
 });
 </script>
 
 <template>
     <div :class="'chart_' + chartId"></div>
+    <!-- <button id="download">Download SVG</button> -->
+    <div class="flex justify-center gap-2 pt-4">
+        <Button id="download" class="rounded-full" variant="ghost" size="sm">
+            <TooltipProvider>
+                <Tooltip>
+                    <TooltipTrigger class="flex items-center gap-2">
+                        <Icon icon="octicon:download-24"></Icon>
+                    </TooltipTrigger>
+                    <TooltipContent>Download</TooltipContent>
+                </Tooltip>
+            </TooltipProvider>
+        </Button>
+        <!-- <Button class="rounded-full" variant="ghost" size="sm">
+             <Icon icon="tabler:dots"></Icon>
+         </Button> -->
+    </div>
 </template>
