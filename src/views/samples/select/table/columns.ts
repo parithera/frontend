@@ -77,6 +77,12 @@ export const columns: ColumnDef<Sample>[] = [
             }
 
             return h('div', { class: 'text-left pl-4 flex gap-2 flex-wrap' }, badges);
+        },
+        filterFn: (row, columnId, filterValue) => {
+            for (const filter of filterValue) {
+                if ((row.getValue(columnId) as Array<string>).includes(filter)) return true;
+            }
+            return false;
         }
     },
     {

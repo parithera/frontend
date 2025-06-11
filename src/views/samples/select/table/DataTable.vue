@@ -57,6 +57,7 @@ const table = useVueTable({
     onColumnVisibilityChange: (updaterOrValue) => valueUpdater(updaterOrValue, columnVisibility),
     onRowSelectionChange: (updaterOrValue) => valueUpdater(updaterOrValue, rowSelection),
     onExpandedChange: (updaterOrValue) => valueUpdater(updaterOrValue, expanded),
+    filterFns: {}, // Don't remove, this is needed to filter tags
     state: {
         get sorting() {
             return sorting.value;
