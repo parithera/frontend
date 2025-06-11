@@ -260,7 +260,7 @@ const progress = computed(() => {
                         </Button>
                     </div>
                 </DialogTrigger>
-                <DialogContent class="max-w-[90dvw] max-h-[90dvh] flex justify-center">
+                <DialogContent class="max-w-[90vw] h-[90dvh] flex justify-center">
                     <img class="object-contain" :src="'data:image/png;base64,' + response.image" />
                 </DialogContent>
             </Dialog>
