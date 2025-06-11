@@ -185,7 +185,7 @@ function drawChart() {
 onMounted(() => {
     drawChart();
 
-    document.getElementById('download')?.addEventListener('click', function () {
+    document.getElementById('download_' + props.chartId)?.addEventListener('click', function () {
         // Replace chartId with the actual value or variable
         const chartId = props.chartId;
         const chartDiv = document.querySelector('.chart_' + chartId);
@@ -202,10 +202,10 @@ onMounted(() => {
         let source = serializer.serializeToString(svg);
 
         // Ensure SVG namespace is present
-        if (!source.match(/^<svg[^>]+xmlns="http\:\/\/www\.w3\.org\/2000\/svg"/)) {
+        if (!source.match(/^<svg[^>]+xmlns="http:\/\/www\.w3\.org\/2000\/svg"/)) {
             source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
         }
-        if (!source.match(/^<svg[^>]+"http\:\/\/www\.w3\.org\/1999\/xlink"/)) {
+        if (!source.match(/^<svg[^>]+"http:\/\/www\.w3\.org\/1999\/xlink"/)) {
             source = source.replace(/^<svg/, '<svg xmlns:xlink="http://www.w3.org/1999/xlink"');
         }
 
@@ -223,9 +223,8 @@ onMounted(() => {
 
 <template>
     <div :class="'chart_' + chartId"></div>
-    <!-- <button id="download">Download SVG</button> -->
     <div class="flex justify-center gap-2 pt-4">
-        <Button id="download" class="rounded-full" variant="ghost" size="sm">
+        <Button :id="'download_' + chartId" class="rounded-full" variant="ghost" size="sm">
             <TooltipProvider>
                 <Tooltip>
                     <TooltipTrigger class="flex items-center gap-2">

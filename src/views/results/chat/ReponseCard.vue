@@ -280,9 +280,9 @@ onUpdated(async () => {
                                 </Tooltip>
                             </TooltipProvider>
                         </Button>
-                        <Button class="rounded-full" variant="ghost" size="sm">
+                        <!-- <Button class="rounded-full" variant="ghost" size="sm">
                             <Icon icon="tabler:dots"></Icon>
-                        </Button>
+                        </Button> -->
                     </div>
                 </DialogTrigger>
                 <DialogContent class="max-w-[90vw] h-[90dvh] flex justify-center">
