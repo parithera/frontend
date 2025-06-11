@@ -155,7 +155,7 @@ fetch();
                     role="combobox"
                     aria-expanded="open"
                     aria-label="Select an organization"
-                    :class="cn('w-[200px] justify-between', $attrs.class ?? '')"
+                    :class="cn('w-fit justify-between', $attrs.class ?? '')"
                 >
                     <Avatar class="mr-2 h-5 w-5">
                         <AvatarImage
