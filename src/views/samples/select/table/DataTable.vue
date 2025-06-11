@@ -158,15 +158,16 @@ const isFiltered = computed(() => table.getState().columnFilters.length > 0);
                     <template v-if="table.getRowModel().rows?.length">
                         <template v-for="row in table.getRowModel().rows" :key="row.id">
                             <Dialog>
-                                <DialogTrigger as-child>
-                                    <TableRow
-                                        class="cursor-pointer"
-                                        :data-state="row.getIsSelected() ? 'selected' : undefined"
-                                    >
-                                        <TableCell
-                                            v-for="cell in row.getVisibleCells()"
-                                            :key="cell.id"
-                                        >
+                                <TableRow
+                                    :data-state="row.getIsSelected() ? 'selected' : undefined"
+                                >
+                                    <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
+                                        <FlexRender
+                                            v-if="cell.column.id == 'actions'"
+                                            :render="cell.column.columnDef.cell"
+                                            :props="cell.getContext()"
+                                        />
+                                        <DialogTrigger v-else class="cursor-pointer" as-child>
                                             <FlexRender
                                                 v-if="
                                                     cell.column.id != 'qc' ||
@@ -176,9 +177,9 @@ const isFiltered = computed(() => table.getState().columnFilters.length > 0);
                                                 :render="cell.column.columnDef.cell"
                                                 :props="cell.getContext()"
                                             />
-                                        </TableCell>
-                                    </TableRow>
-                                </DialogTrigger>
+                                        </DialogTrigger>
+                                    </TableCell>
+                                </TableRow>
                                 <DropDownEdit :sample="row.original" />
                             </Dialog>
                             <TableRow v-if="row.getIsExpanded()">

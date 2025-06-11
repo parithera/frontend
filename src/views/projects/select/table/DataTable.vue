@@ -134,28 +134,29 @@ const expanded = ref<ExpandedState>({});
                     <template v-if="table.getRowModel().rows?.length">
                         <template v-for="row in table.getRowModel().rows" :key="row.id">
                             <Dialog>
-                                <DialogTrigger as-child>
-                                    <TableRow
-                                        class="cursor-pointer"
-                                        :data-state="row.getIsSelected() ? 'selected' : undefined"
-                                    >
-                                        <TableCell
-                                            v-for="cell in row.getVisibleCells()"
-                                            :key="cell.id"
-                                        >
+                                <TableRow
+                                    :data-state="row.getIsSelected() ? 'selected' : undefined"
+                                >
+                                    <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
+                                        <FlexRender
+                                            v-if="cell.column.id == 'actions' || cell.column.id == 'chat'"
+                                            :render="cell.column.columnDef.cell"
+                                            :props="cell.getContext()"
+                                        />
+                                        <DialogTrigger v-else class="cursor-pointer" as-child>
                                             <FlexRender
                                                 :render="cell.column.columnDef.cell"
                                                 :props="cell.getContext()"
                                             />
-                                        </TableCell>
-                                    </TableRow>
-                                    <TableRow v-if="row.getIsExpanded()">
-                                        <TableCell :colspan="row.getAllCells().length">
-                                            Name: {{ row.getValue('name') }} Added by:
-                                            {{ row.getValue('added_on') }}
-                                        </TableCell>
-                                    </TableRow>
-                                </DialogTrigger>
+                                        </DialogTrigger>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow v-if="row.getIsExpanded()">
+                                    <TableCell :colspan="row.getAllCells().length">
+                                        Name: {{ row.getValue('name') }} Added by:
+                                        {{ row.getValue('added_on') }}
+                                    </TableCell>
+                                </TableRow>
                                 <DropDownEdit :project="row.original" />
                             </Dialog>
                         </template>
