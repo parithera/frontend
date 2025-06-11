@@ -12,7 +12,7 @@ import Button from '@/shadcn/ui/button/Button.vue';
 import { Icon } from '@iconify/vue/dist/iconify.js';
 import MarkdownIt from 'markdown-it';
 import hljs from 'highlight.js';
-import { computed, ref, type Ref } from 'vue';
+import { computed, onUpdated, ref, type Ref } from 'vue';
 import type { ChatContent, JSONScatter, JSONUMAP } from './types';
 import FailedCard from './FailedCard.vue';
 import { Progress } from '@/shadcn/ui/progress';
@@ -88,6 +88,16 @@ const progress = computed(() => {
             return 90;
         default:
             return 0;
+    }
+});
+
+onUpdated(async () => {
+    const scrollAreaViewport = document.querySelector('[data-reka-scroll-area-viewport]');
+    if (scrollAreaViewport) {
+        // You can now work with the element
+        scrollAreaViewport.scrollTop = scrollAreaViewport.scrollHeight;
+    } else {
+        console.error('Scroll area viewport not found');
     }
 });
 </script>
