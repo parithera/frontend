@@ -139,7 +139,10 @@ const expanded = ref<ExpandedState>({});
                                 >
                                     <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id">
                                         <FlexRender
-                                            v-if="cell.column.id == 'actions' || cell.column.id == 'chat'"
+                                            v-if="
+                                                cell.column.id == 'actions' ||
+                                                cell.column.id == 'chat'
+                                            "
                                             :render="cell.column.columnDef.cell"
                                             :props="cell.getContext()"
                                         />
