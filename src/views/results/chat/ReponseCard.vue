@@ -55,27 +55,25 @@ markdown.renderer.rules.link_open = function (tokens, idx, options, env, self) {
 };
 
 const icon: Ref<string> = ref('octicon:paste-24');
-const icon_image: Ref<string> = ref('octicon:paste-24');
+const icon_image: Ref<string> = ref('octicon:download-24');
 const code_visible: Ref<boolean> = ref(false);
 
 function copy() {
     navigator.clipboard.writeText(props.response.text);
     icon.value = 'tabler:check';
 }
-async function copyImage() {
-    const makeImagePromise = async () => {
-        const fetchedImageData = await fetch('data:image/png;base64,' + props.response.image);
-        return await fetchedImageData.blob();
-    };
-    try {
-        navigator.clipboard.write([
-            new ClipboardItem({
-                'image/png': makeImagePromise()
-            })
-        ]);
-    } catch (error) {
-        console.error(error);
-    }
+async function downloadImage() {
+    const blob = await fetch('data:image/png;base64,' + props.response.image).then((response) =>
+        response.blob()
+    );
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'image.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
     icon_image.value = 'tabler:check';
 }
 
@@ -267,13 +265,18 @@ onUpdated(async () => {
                         :src="'data:image/png;base64,' + response.image.trim()"
                     />
                     <div v-if="response.image != ''" class="flex items-center gap-2">
-                        <Button class="rounded-full" variant="ghost" size="sm" @click="copyImage">
+                        <Button
+                            class="rounded-full"
+                            variant="ghost"
+                            size="sm"
+                            @click="downloadImage"
+                        >
                             <TooltipProvider>
                                 <Tooltip>
                                     <TooltipTrigger class="flex items-center gap-2">
                                         <Icon :icon="icon_image"></Icon>
                                     </TooltipTrigger>
-                                    <TooltipContent>Copy</TooltipContent>
+                                    <TooltipContent>Download</TooltipContent>
                                 </Tooltip>
                             </TooltipProvider>
                         </Button>
@@ -288,12 +291,9 @@ onUpdated(async () => {
             </Dialog>
 
             <!-- CODE -->
-            <Button
-                v-if="response.code != ''"
-                variant="link"
-                @click="code_visible = !code_visible"
-                >{{ code_visible ? 'Hide Code' : 'Show Code' }}</Button
-            >
+            <Button v-if="response.code != ''" variant="link" @click="code_visible = !code_visible">
+                {{ code_visible ? 'Hide Code' : 'Show Code' }}
+            </Button>
             <ScrollArea v-if="response.code != '' && code_visible" class="w-full">
                 <div v-html="markdown.render('```python' + response.code + '```')"></div>
                 <ScrollBar orientation="horizontal" />
