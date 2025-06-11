@@ -41,6 +41,18 @@ const markdown = new MarkdownIt({
         return ''; // use external default escaping
     }
 });
+const defaultRender =
+    markdown.renderer.rules.link_open ||
+    function (tokens, idx, options, env, self) {
+        return self.renderToken(tokens, idx, options);
+    };
+markdown.renderer.rules.link_open = function (tokens, idx, options, env, self) {
+    // Add target="_blank" to all links
+    tokens[idx].attrPush(['target', '_blank']);
+    // Optionally, add rel="noopener noreferrer" for security
+    tokens[idx].attrPush(['rel', 'noopener noreferrer']);
+    return defaultRender(tokens, idx, options, env, self);
+};
 
 const icon: Ref<string> = ref('octicon:paste-24');
 const icon_image: Ref<string> = ref('octicon:paste-24');
