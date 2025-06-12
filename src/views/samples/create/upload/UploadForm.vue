@@ -69,7 +69,11 @@ const onFileSubmit = handleSubmit(async (values) => {
         progress_message.value = 'Uploading file ' + count_files + '/' + files.length;
         uploading.value = true;
         while (start < file.size) {
-            const fileBlob = file.slice(start, Math.min(start + chunkSize, file.size));
+            let fileBlob = file.slice(start, start + chunkSize);
+            if (file.size < chunkSize) {
+                console.log("size smaller");
+                fileBlob = file
+            } 
 
             let hash = '';
             try {
