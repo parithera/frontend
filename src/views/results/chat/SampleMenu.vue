@@ -33,7 +33,7 @@ function shortenName(name: string) {
             <!-- <Button class="text-primary" variant="ghost">Explore</Button> -->
         </a>
         <RouterLink
-            v-else
+            v-else-if="sample.type == 'fastq'"
             :to="{ name: 'samples', params: { page: 'qc' }, query: { sampleId: sample.id } }"
         >
             <Button class="text-primary" variant="ghost">Show QC</Button>
