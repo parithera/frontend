@@ -54,93 +54,118 @@ const { handleSubmit } = useForm({
 const onFileSubmit = handleSubmit(async (values) => {
     const files: Array<File> = values.file as Array<File>;
     let count_files = 0;
-    for (const file of files) {
-        // const type: string = values.type as string;
-        let file_name = file.name;
+    uploading.value = true;
 
-        if (file.name.includes('.h5')) {
-            file_name = 'out.h5';
-        }
+    try {
+        for (const file of files) {
+            let file_name = file.name;
 
-        const chunkSize = 1024 * 1024 * 10; // size of each chunk (10MB)
-        let start = 0;
-        let id = 0;
-
-        progress_message.value = 'Uploading file ' + count_files + '/' + files.length;
-        uploading.value = true;
-        while (start < file.size) {
-            let fileBlob = file.slice(start, start + chunkSize);
-            if (file.size < chunkSize) {
-                console.log("size smaller");
-                fileBlob = file
-            } 
-
-            let hash = '';
-            try {
-                hash = await computeHash(fileBlob);
-                console.log('Computed Hash:', hash);
-                // Use `hash` as needed here
-            } catch (error) {
-                console.error('Error during hash computation:', error);
+            // Only rename if your backend requires 'out.h5' for .h5 files
+            if (file.name.includes('.h5')) {
+                file_name = 'out.h5';
             }
 
-            await sampleRepository
-                .upload({
-                    bearerToken: authStore.getToken ?? '',
-                    data: {
-                        file: fileBlob,
-                        type: 'DATA',
-                        file_name: file_name,
-                        chunk: 'true',
-                        id: id,
-                        hash: hash,
-                        last: 'false'
-                    },
-                    projectId: props.sampleId,
-                    organizationId: userStore.getDefaultOrg?.id ?? ''
-                })
-                .catch((err) => {
-                    console.error(err);
-                })
-                .finally(() => {
-                    progress_preprocess.value = (start / file.size) * 100;
-                    progress_message.value = 'Uploading file ' + count_files + '/' + files.length;
+            const chunkSize = 1024 * 1024 * 10; // 10MB
+            let start = 0;
+            let id = 0;
+            const maxRetries = 5;
+
+            progress_message.value = `Uploading file ${count_files + 1}/${files.length}`;
+
+            while (start < file.size) {
+                const fileBlob = file.slice(start, Math.min(start + chunkSize, file.size));
+
+                let hash = '';
+                try {
+                    hash = await computeHash(fileBlob);
+                } catch (error) {
+                    console.error('Error during hash computation:', error);
+                    // Continue without hash, or handle as needed
+                }
+
+                let retryCount = 0;
+                let uploadSuccess = false;
+
+                while (retryCount < maxRetries && !uploadSuccess) {
+                    try {
+                        const res = await sampleRepository.upload({
+                            bearerToken: authStore.getToken ?? '',
+                            data: {
+                                file: fileBlob,
+                                type: 'DATA',
+                                file_name: file_name,
+                                chunk: 'true',
+                                id: id,
+                                hash: hash,
+                                last: start + chunkSize >= file.size ? 'true' : 'false'
+                            },
+                            projectId: props.sampleId,
+                            organizationId: userStore.getDefaultOrg?.id ?? ''
+                        });
+
+                        if (res.status_code != 200) {
+                            retryCount++;
+                            console.error(
+                                `Upload failed for chunk ${id}, attempt ${retryCount}:`,
+                                err
+                            );
+                            await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait one second
+                            if (retryCount >= maxRetries) {
+                                throw new Error(
+                                    `Failed to upload chunk ${id} of file ${file_name} after ${maxRetries} attempts: ${err.message}`
+                                );
+                            }
+                        } else {
+                            uploadSuccess = true;
+                        }
+                    } catch (err) {
+                        retryCount++;
+                        console.error(`Upload failed for chunk ${id}, attempt ${retryCount}:`, err);
+                        await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait one second
+                        if (retryCount >= maxRetries) {
+                            throw new Error(
+                                `Failed to upload chunk ${id} of file ${file_name} after ${maxRetries} attempts: ${err.message}`
+                            );
+                        }
+                    }
+                }
+
+                if (uploadSuccess) {
+                    // Update progress to the end of the current chunk
+                    progress_preprocess.value =
+                        (Math.min(start + chunkSize, file.size) / file.size) * 100;
                     start += chunkSize;
-                });
-            id++;
+                    id++;
+                }
+            }
+
+            count_files += 1;
+
+            const createdfile = new ProjectFile();
+            createdfile.id = '';
+            createdfile.name = file_name;
+            createdfile.type = 'DATA';
+            createdfile.added_on = new Date();
+            files_uploaded.value.push(createdfile);
+            await new Promise((resolve) => setTimeout(resolve, 5000)); // Wait one second
         }
-        await sampleRepository.upload({
-            bearerToken: authStore.getToken ?? '',
-            data: {
-                file: new Blob(),
-                type: 'DATA',
-                file_name: file_name,
-                chunk: 'true',
-                id: id,
-                hash: '',
-                last: 'true'
-            },
-            projectId: props.sampleId,
-            organizationId: userStore.getDefaultOrg?.id ?? ''
-        });
-        count_files += 1;
 
-        const createdfile = new ProjectFile();
-        createdfile.id = '';
-        createdfile.name = file_name;
-        createdfile.type = 'DATA';
-        createdfile.added_on = new Date();
-        files_uploaded.value.push(createdfile);
-    }
+        uploading.value = false;
 
-    uploading.value = false;
-
-    if (values.align) {
+        if (values.align) {
+            toast({
+                title: 'File uploaded successfully!',
+                description: 'Please wait while we preprocess the file...'
+            });
+            props.align();
+        }
+    } catch (error) {
+        uploading.value = false;
         toast({
-            title: 'File uploaded successfully!',
-            description: 'Please wait while we preprocess the file...'
+            title: 'Upload failed',
+            description: error.message || 'An error occurred during upload.'
         });
-        props.align();
+        console.error('Upload error:', error);
     }
 });
 </script>
