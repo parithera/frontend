@@ -8,7 +8,7 @@ import FormMessage from '@/shadcn/ui/form/FormMessage.vue';
 import Input from '@/shadcn/ui/input/Input.vue';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
-import { Icon } from '@iconify/vue/dist/iconify.js';
+import { Icon } from '@iconify/vue';
 import { useForm } from 'vee-validate';
 import { useTemplateRef, watch, type ModelRef } from 'vue';
 import type { ChatContent } from '../results/chat/types';

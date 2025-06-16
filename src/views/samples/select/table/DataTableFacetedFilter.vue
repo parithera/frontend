@@ -18,7 +18,7 @@ import { cn } from '@/shadcn/lib/utils';
 
 import { computed } from 'vue';
 import { CheckIcon } from 'lucide-vue-next';
-import { Icon } from '@iconify/vue/dist/iconify.js';
+import { Icon } from '@iconify/vue';
 import Separator from '@/shadcn/ui/separator/Separator.vue';
 import type { Sample } from '@/views/samples/sample.entity';
 

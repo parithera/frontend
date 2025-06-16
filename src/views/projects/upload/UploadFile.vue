@@ -6,7 +6,7 @@ import type { ProjectFile } from '@/views/projects/project_file.entity';
 import Toaster from '@/shadcn/ui/toast/Toaster.vue';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
-import { Icon } from '@iconify/vue/dist/iconify.js';
+import { Icon } from '@iconify/vue';
 import { type ModelRef } from 'vue';
 import UploadForm from './upload/UploadForm.vue';
 

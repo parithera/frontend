@@ -6,7 +6,7 @@ import { useUserStore } from '@/stores/user';
 import { useRoute, useRouter } from 'vue-router';
 import { onMounted, ref, type Ref } from 'vue';
 import { SampleRepository } from '@/views/samples/sample.repository';
-import { Icon } from '@iconify/vue/dist/iconify.js';
+import { Icon } from '@iconify/vue';
 import pako from 'pako';
 import Button from '@/shadcn/ui/button/Button.vue';
 import PCAChart from '@/common_components/charts/PCAChart .vue';

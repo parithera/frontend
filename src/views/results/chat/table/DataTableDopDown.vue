@@ -13,7 +13,7 @@ import {
 } from '@/shadcn/ui/dropdown-menu';
 import { useAuthStore } from '@/stores/auth';
 import { useUserStore } from '@/stores/user';
-import { Icon } from '@iconify/vue/dist/iconify.js';
+import { Icon } from '@iconify/vue';
 
 defineProps<{
     project: {

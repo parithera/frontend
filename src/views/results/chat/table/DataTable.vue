@@ -36,7 +36,7 @@ import { useLinkSamplesStore } from '@/sockets/link_samples';
 import { storeToRefs } from 'pinia';
 import type { Group } from '../types';
 import Progress from '@/shadcn/ui/progress/Progress.vue';
-import { Icon } from '@iconify/vue/dist/iconify.js';
+import { Icon } from '@iconify/vue';
 
 const props = defineProps<{
     columns: ColumnDef<TData, TValue>[];

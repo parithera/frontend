@@ -30,7 +30,7 @@ import { computed, ref } from 'vue';
 import CreateSampleForm from '@/views/samples/create/CreateSampleForm.vue';
 import DataTableFacetedFilter, { type FilterOption } from './DataTableFacetedFilter.vue';
 import { ChevronDown } from 'lucide-vue-next';
-import { Icon } from '@iconify/vue/dist/iconify.js';
+import { Icon } from '@iconify/vue';
 import { Dialog, DialogTrigger } from '@/shadcn/ui/dialog';
 import DropDownEdit from './DropDownEdit.vue';
 

@@ -2,7 +2,7 @@
 import { Button } from '@/shadcn/ui/button';
 import { Tooltip, TooltipProvider, TooltipTrigger } from '@/shadcn/ui/tooltip';
 import TooltipContent from '@/shadcn/ui/tooltip/TooltipContent.vue';
-import { Icon } from '@iconify/vue/dist/iconify.js';
+import { Icon } from '@iconify/vue';
 import * as d3 from 'd3';
 import { onMounted } from 'vue';
 

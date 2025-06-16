@@ -9,7 +9,7 @@ import Dialog from '@/shadcn/ui/dialog/Dialog.vue';
 import DialogTrigger from '@/shadcn/ui/dialog/DialogTrigger.vue';
 import DialogContent from '@/shadcn/ui/dialog/DialogContent.vue';
 import Button from '@/shadcn/ui/button/Button.vue';
-import { Icon } from '@iconify/vue/dist/iconify.js';
+import { Icon } from '@iconify/vue';
 import MarkdownIt from 'markdown-it';
 import hljs from 'highlight.js';
 import { computed, onUpdated, ref, type Ref } from 'vue';

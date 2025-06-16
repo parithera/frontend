@@ -15,7 +15,7 @@ import { ref, useTemplateRef, type ModelRef, type Ref } from 'vue';
 import { ProjectFile } from '@/views/projects/project_file.entity';
 import { SampleRepository } from '@/views/samples/sample.repository';
 import Switch from '@/shadcn/ui/switch/Switch.vue';
-import { Icon } from '@iconify/vue/dist/iconify.js';
+import { Icon } from '@iconify/vue';
 
 const props = defineProps<{
     sampleId: string;
